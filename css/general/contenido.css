@@ -1,0 +1,140 @@
+#contenido{
+	padding-bottom: 0;
+}
+
+#contenido .contenedor{
+	display: flex;/*con esta propiedad los dos bloques tienen el mismo alto de background*/
+	flex-wrap: wrap;/*para que no fluyan en la misma línea */
+}
+
+#contenido p{
+	padding: 16px 0 0 0;
+}
+
+#contenido img {
+	width: 100%;
+	height: auto;
+	max-width: 100%;
+	max-height: 350px;
+	border: 0.7px rgba(51,51,51,0.6);
+}
+
+#contenido .marco-foto{
+	background: #fcffff;
+}
+
+.boton-contenido {
+    width: 100%;
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 8px 2px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 40px;
+    border: 2px solid #008CBA;
+}
+
+.boton-contenido:hover {
+    background-color: #fff;
+    color: black;
+    border: 2px solid #008CBA;
+}
+/*..................Slideshow........................*/
+.mySlides img{
+  width: 100%;
+}
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  color: #fff !important;/*color: inherit en archivo reboot*/
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0, 140, 186, 0.7);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 14px;
+  padding: 5px 9px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  text-shadow: 0 0 15px white;/*sombra en el texto*/
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+
+@media only screen and (min-width: 903px) {
+  #contenido p{
+      padding: 16px 0 30px 0;/*para ajustar los botones al slideshow*/
+  }
+}
+
+
+
+
+
+    

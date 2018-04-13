@@ -1,0 +1,12 @@
+.agenda{
+	position: static;
+	background: #fff;
+	text-align: center;
+	margin: 15px;
+	padding: 15px;
+}
+
+.agenda img{
+	width: 500px;
+	height: 100%;
+}

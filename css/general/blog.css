@@ -1,0 +1,270 @@
+#blog{
+	padding: 0 15px 15px 15px;
+}
+
+#blog h2, h3, h4, h5, h6 {
+	padding: 15px 15px 0 15px;
+}
+
+#blog .contenedor{
+	margin-bottom: 15px;
+}
+
+#blog .marco-foto{
+	position: relative;
+    margin-bottom: 15px;
+}
+
+#blog .blog-cabecera{
+	width: 100%;
+	margin-bottom: 15px;
+    /* margin: 0 15px 0 15px; */
+    padding-bottom: 5px;
+    /* width: 60%; */
+}
+
+#blog .blog-contenido h1{	
+	margin: 0 15px 0 15px;
+    padding-bottom: 5px;
+    width: 60%;
+}
+
+#blog .blog-contenido h2{
+    text-align: center;
+    width: 60%;
+    margin: auto;
+}
+
+#blog .blog-contenido h4{
+	color: grey;
+	margin: 0 15px 0 15px;
+    padding-bottom: 5px;
+}
+
+#blog .blog-contenido .alternar-noticia-1 h2{
+    font-style: italic;
+    padding-bottom: 15px;
+}
+
+.blog-enlace{
+	border-bottom:  solid #008cba;
+}
+
+#blog button{
+	background: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding-top: 10px;
+}
+
+#blog .alternar-noticia-1{
+	background: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding-top: 10px;
+    display: table;
+}
+
+#blog .alternar-noticia-2{
+	background: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding-top: 10px;
+    display: table;
+}
+
+#blog button:hover{
+	color: #008cba;
+}
+
+#blog a:hover{
+	color: #008cba;
+}
+
+#blog .radius{
+	border-radius: 7px !important;/*archivo reboot lo lleva implicito*/
+}
+
+#blog .blog-contenido .izq h4{
+	padding-top: 5px;
+}
+
+#blog .blog-contenido .der h4{
+	padding-top: 5px;
+}
+
+#blog .izq{
+	float: left;
+}
+
+#blog .der {
+	float: right;
+}
+
+
+/*.......................noticias........................*/
+#blog .dep-noticia{
+	float: right;
+	width: 100%;
+	border-bottom: 2px solid grey;
+	margin-bottom: 15px;
+	padding-top: 15px;
+	}
+
+.dep-noticia h4{
+	padding: 15px 0px 5px 0px;
+	float: left;
+	margin: 0;
+	width: 100%;
+}
+/*.......................noticia1........................*/
+.noticia-1{
+	display: none;
+	background: #fcffff;
+	padding: 15px 15px 0 15px;
+}
+
+#blog .noticia-1 img{
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    padding-top: 15px;
+}
+
+#blog .der img{
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+}
+
+#blog .reloj{
+  color: #008cba;
+}
+#blog .dep-noticia .reloj span{
+	margin-bottom: 10px !important;
+}
+
+.noticia-1 p{  
+    line-height: 1.333333334;
+    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+#blog .noticia-1 h4{
+    margin: 0px;
+    padding:0px;
+}
+
+#blog .noticia1-img{
+	width: 100%;
+	position: relative;
+  	float: left;
+}
+
+/*.......................noticia2........................*/
+.noticia-2{
+	display: none;
+    padding: 15px;
+    background: #fcffff;
+}
+
+#blog .noticia-2 p {
+	text-align: justify;
+}
+
+#blog .titulo h2{
+	justify-content: center;
+	margin-bottom: 10px !important;
+}
+/*.......................media queri........................*/
+@media (max-width: 600px){
+	#blog .blog-contenido h2 {
+    text-align: center;
+    margin: auto;
+	width: 100%;
+	}
+
+	#blog .titulo h3{
+		width: 100%;
+		text-align: center;
+		padding-bottom: 5px;
+	}
+}
+
+@media (min-width: 600px){
+
+	#blog .dep-noticia{
+	float: right;
+	width: 50%;
+	border-bottom: 2px solid grey;
+	margin-bottom: 15px;
+	padding-top: 27px;
+	}
+
+	#blog .noticia-1 img{
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    /*padding: 15px 15px 0 0;*/
+    padding-top: 15px;
+	}
+
+	#blog .noticia-1{
+	    width: 100%;
+	    height: auto;
+	    max-width: 100%;
+	    padding: 15px 15px 0 15px;
+	    /* padding-top: 15px; */
+	    margin: auto;
+	}
+
+	#blog .columnas{/*es importante especificar absolutamente*/
+	-webkit-column-count: 3 !important; /* Chrome, Safari, Opera */
+    -moz-column-count: 3 !important; /* Firefox */
+    column-count: 3;
+    width: 100%;
+	}
+
+	#blog .noticia1 .noticia1-img img{
+    height: auto;
+    max-width: 50%;
+    padding: 16px 15px 15px 0;
+    
+	}
+
+	#blog .noticia1-img{
+		width: 50%;
+    	position: relative;
+    	float: left;
+   		padding: 15px 15px 15px 0;
+	}
+
+	
+
+	#blog .noticia-1 p {
+	text-align: inherit;
+	}
+
+	#blog .titulo h2{
+		width: 100%;
+		text-align: center;
+		padding-bottom: 5px;
+	}
+}
+
+#blog .blog-cabecera{
+	background-color: #008CBA;
+    color: white;
+    overflow: hidden;/*se usa entes de flotar*/
+    height: 55px;
+    padding: 15px 15px 0 15px;
+    border-radius: 30px 30px 0 0;
+}
+
+
+
+
