@@ -17,6 +17,7 @@
 
     <?php include "Comun/footer.inc"; ?>
 
+      
     <script src="../js/slideslow.js"></script>
     <script src="../js/menu.js"></script>
     <script src="../js/muestra-blog.js"></script>
