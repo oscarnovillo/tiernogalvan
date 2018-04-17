@@ -1,34 +1,12 @@
 {# empty Twig template #}
-<!DOCTYPE html>
-<html lang="es">
+{% extends "index.html.twig" %}
 
-    {% include "comun/head.inc" %}
-
-    <body>
-        <header>
-
-            {% include "comun/nav.inc" %}
-
-        </header>
-        <main>
-
-            {% include "comun/header.inc" %}
-            TESTING
-
-            {% for user in usuarios %}
-                <li>test {{ user.email }}</li>
-                {% endfor %}
-
-        </main>
-
-        {% include "comun/footer.inc"%}
+{% block content %}
 
 
-        <script src="/js/slideslow.js"></script>
-        <script src="/js/menu.js"></script>
-        <script src="/js/muestra-blog.js"></script>
-        <script src="/js/modal.js"></script>
-        <script src="/js/contador.js"></script>
+    TESTING
 
-    </body>
-</html>
+    {% for user in usuarios %}
+        <li>test {{ user.email }}</li>
+        {% endfor %}
+    {% endblock %}

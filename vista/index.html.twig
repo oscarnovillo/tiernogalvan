@@ -12,7 +12,11 @@
     <main>
 
         {% include "comun/header.inc" %}
-        {% include "inicio/cuerpo.inc" %}
+        
+        {% block content %}
+            {% include "inicio/cuerpo.inc" %}
+        {% endblock %}
+        
     </main>
 
     {% include "comun/footer.inc"%}
