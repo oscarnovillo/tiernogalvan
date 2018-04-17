@@ -1,28 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php
+// Este es el front Controller, se mira la url y los parametros y se llama al controller oportuno.
 
-  <?php include "Comun/head.inc"; ?>
-  
-  <body>
-    <header>
+require_once 'vendor/autoload.php';
 
-        <?php include "Comun/nav.inc"; ?>
-         
-    </header>
-    <main>
+use utils\TwigViewer;
+use utils\Constantes;
+use utils\ConstantesPaginas;
 
-        <?php include "Comun/header.inc"; 
-              include "Inicio/cuerpo.inc";?>
-    </main>
+if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
+{
+    $controller = $_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER];
+    switch ($controller)
+    {
+        case Constantes::TEST_CONTROLLER:
+            
+            break;
+    }
+}
+else
+{
+    //con esto se pinta una pagina de twig
+    TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+}
 
-    <?php include "Comun/footer.inc"; ?>
 
-      
-    <script src="../js/slideslow.js"></script>
-    <script src="../js/menu.js"></script>
-    <script src="../js/muestra-blog.js"></script>
-    <script src="../js/modal.js"></script>
-    <script src="../js/contador.js"></script>
-
-  </body>
-</html>

@@ -1,0 +1,19 @@
+{
+    "name": "vendor/php-tierno-galvan",
+    "description": "Description of project PhpTiernoGalvan.",
+    "authors": [
+        {
+            "name": "user",
+            "email": "your@email.here"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+             "": "src/"
+        }
+    },
+    "require": {
+        "twig/twig": "v2.4.4"      
+    }
+   
+}
