@@ -10,6 +10,7 @@ namespace controllers;
 
 use utils\Constantes;
 use utils\ConstantesPaginas;
+use servicios\test\TestServicios;
 
 /**
  * Description of TestController
@@ -22,10 +23,13 @@ class TestController {
 
     public function index() {
         $page = ConstantesPaginas::TEST_INDEX;
+       
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $controller = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
             switch ($controller) {
                 case Constantes::TEST_CONTROLLER:
+                    $testServicios = new TestServicios();
+                    $testServicios->getAllUsuarios();
                     $page = ConstantesPaginas::TEST_PAGE;
                     break;
             }
