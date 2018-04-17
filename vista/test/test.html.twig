@@ -2,28 +2,33 @@
 <!DOCTYPE html>
 <html lang="es">
 
-  {% include "comun/head.inc" %}
-  
-  <body>
-    <header>
+    {% include "comun/head.inc" %}
 
-        {% include "comun/nav.inc" %}
-         
-    </header>
-    <main>
+    <body>
+        <header>
 
-        {% include "comun/header.inc" %}
-        TESTING
-    </main>
+            {% include "comun/nav.inc" %}
 
-    {% include "comun/footer.inc"%}
+        </header>
+        <main>
 
-      
-    <script src="/js/slideslow.js"></script>
-    <script src="/js/menu.js"></script>
-    <script src="/js/muestra-blog.js"></script>
-    <script src="/js/modal.js"></script>
-    <script src="/js/contador.js"></script>
+            {% include "comun/header.inc" %}
+            TESTING
 
-  </body>
+            {% for user in usuarios %}
+                <li>test {{ user.email }}</li>
+                {% endfor %}
+
+        </main>
+
+        {% include "comun/footer.inc"%}
+
+
+        <script src="/js/slideslow.js"></script>
+        <script src="/js/menu.js"></script>
+        <script src="/js/muestra-blog.js"></script>
+        <script src="/js/modal.js"></script>
+        <script src="/js/contador.js"></script>
+
+    </body>
 </html>

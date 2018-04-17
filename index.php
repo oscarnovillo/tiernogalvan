@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use utils\TwigViewer;
 use utils\Constantes;
 use utils\ConstantesPaginas;
+use controllers\TestController;
 
 
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
@@ -13,7 +14,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
     switch ($controller)
     {
         case Constantes::TEST_CONTROLLER:
-            
+            $controller = new TestController();
+            $controller->index();
         break;
     }
 }

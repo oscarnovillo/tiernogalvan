@@ -5,19 +5,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-namespace utils;
-
+namespace utils\test;
 /**
- * Description of ConstantesPaginas
+ * Description of ConstantesTest
  *
- * @author user
+ * @author oscar
  */
-class ConstantesPaginas {
+class ConstantesTest {
     //put your code here
+    const ACTION_PARAMETER = "test";
     
-    const INDEX = "index.html";
+    const TEST_PAGE = "test/test.html";
     
-    
-
+    const TEST_INDEX = "test/index.html";
 }

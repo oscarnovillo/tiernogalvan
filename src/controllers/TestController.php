@@ -9,8 +9,9 @@
 namespace controllers;
 
 use utils\Constantes;
-use utils\ConstantesPaginas;
+use utils\test\ConstantesTest;
 use servicios\test\TestServicios;
+use utils\TwigViewer;
 
 /**
  * Description of TestController
@@ -22,21 +23,23 @@ class TestController {
     //put your code here
 
     public function index() {
-        $page = ConstantesPaginas::TEST_INDEX;
+        
+        $page = ConstantesTest::TEST_INDEX;
+        $parameters = array();
        
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
-            $controller = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
-            switch ($controller) {
-                case Constantes::TEST_CONTROLLER:
+            $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
+            switch ($action) {
+                case ConstantesTest::ACTION_PARAMETER:
                     $testServicios = new TestServicios();
-                    $testServicios->getAllUsuarios();
-                    $page = ConstantesPaginas::TEST_PAGE;
+                    $parameters["usuarios"] = $testServicios->getAllUsuarios();
+                    $page = ConstantesTest::TEST_PAGE;
                     break;
             }
         }
 
         //con esto se pinta una pagina de twig
-        TwigViewer::getInstance()->viewPage(ConstantesPaginas::TEST_INDEX);
+        TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 
 }
