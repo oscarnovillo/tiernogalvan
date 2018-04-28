@@ -3,8 +3,24 @@
 
 {% block content %}
 
-
-    TESTING
+    <table id="table_id" class="display">
+        <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+        </tbody>
+    </table>
 
     {% for user in usuarios %}
         <li>test {{ user.email }}</li>
@@ -12,8 +28,9 @@
 {% endblock %}
 
 {% block styles %}
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 {% endblock %}
 {% block scripts %}
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="/js/maintenance/crud.js"></script>
 {% endblock %}
