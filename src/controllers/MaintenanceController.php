@@ -12,8 +12,8 @@ class MaintenanceController {
     {
         $page = ConstantesMaintenance::MAINTENANCE_CRUD;
         $parameters = array();
-        $testServicios = new MaintenanceServicios();
-        $parameters["incidencias"] = $testServicios->getAllIncidencias();
+        $maintenanceServicios = new MaintenanceServicios();
+        $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
 
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }

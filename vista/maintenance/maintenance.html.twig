@@ -3,7 +3,7 @@
 
 {% block content %}
     <button type="button" class="center-button boton-contenido col-4">Agregar incidencia</button>
-    <table id="myTable" class="display">
+    <table id="myTable" class="display" data-stripe-classes="[]">
         <thead>
         <tr>
             <th>Incidencia</th>
@@ -15,20 +15,22 @@
         </thead>
         <tbody>
         {% for incidencia in incidencias %}
-            <tr>
+            <tr class="estado-{{ incidencia.estado }}">
                 <td>{{ incidencia.nombre }}</td>
                 <td>{{ incidencia.estado }}</td>
                 <td>{{ incidencia.mensaje_estado }}</td>
                 <td>Informática</td>
                 <td>
-                    <div class="dropdown">
-                        <button class="boton-contenido">Marcar como...</button>
-                        <div class="dropdown-content">
-                            <a href="#">Completado</a>
-                            <a href="#">En proceso</a>
-                            <a href="#">Sin empezar</a>
+                    {% if incidencia.estado != "completado" %}
+                        <div class="dropdown">
+                            <button class="boton-contenido">Marcar como...</button>
+                            <div class="dropdown-content">
+                                <a href="#">Completado</a>
+                                <a href="#">En proceso</a>
+                                <a href="#">Sin empezar</a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

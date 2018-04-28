@@ -63,3 +63,18 @@ button.center-button {
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+.estado-proceso > td {
+    background-color: #80bdff !important;
+    color: white
+}
+
+.estado-completado > td {
+    background-color: #3e8e41 !important;
+    color: white
+}
+
+.estado-sinempezar > td {
+    background-color: #dc3545 !important;
+    color: white
+}
