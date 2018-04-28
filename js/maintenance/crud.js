@@ -1,3 +1,6 @@
 $(document).ready(function () {
-    $('#myTable').DataTable();
+    $('#myTable').DataTable({
+        "lengthChange": false,
+        "pagingType": "numbers"
+    });
 });
