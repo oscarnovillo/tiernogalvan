@@ -8,5 +8,12 @@
 
     {% for user in usuarios %}
         <li>test {{ user.email }}</li>
-        {% endfor %}
-    {% endblock %}
+    {% endfor %}
+{% endblock %}
+
+{% block styles %}
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+{% block scripts %}
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+{% endblock %}
