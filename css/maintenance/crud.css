@@ -1,7 +1,20 @@
 .dataTables_wrapper {
-    padding: 0px 10px 0px 10px
+    padding: 0 10px 20px 10px;
+    text-align: center;
 }
 
+th.sorting, th.sorting_asc, th.sorting_desc {
+    text-align: center;
+}
+
+button.center-button {
+
+    display: block;
+    float: none;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 1.5em;
+}
 /* Style The Dropdown Button */
 .dropbtn {
     background-color: #4CAF50;
