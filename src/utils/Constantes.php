@@ -20,4 +20,5 @@ class Constantes {
     const PARAMETER_NAME_ACTION = "a";
     
     const TEST_CONTROLLER = "test";
+    const MAINTENANCE_CONTROLLER = "maintenance";
 }

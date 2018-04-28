@@ -1,0 +1,12 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block content %}
+
+
+    TESTING
+
+    {% for user in usuarios %}
+        <li>test {{ user.email }}</li>
+        {% endfor %}
+    {% endblock %}

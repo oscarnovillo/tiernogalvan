@@ -6,6 +6,7 @@ use utils\TwigViewer;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use controllers\TestController;
+use controllers\MaintenanceController;
 
 
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
@@ -16,7 +17,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::TEST_CONTROLLER:
             $controller = new TestController();
             $controller->index();
-        break;
+            break;
+        case Constantes::MAINTENANCE_CONTROLLER:
+            $controller = new MaintenanceController();
+            $controller->index();
+            break;
     }
 }
 else
