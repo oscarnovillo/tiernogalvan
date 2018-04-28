@@ -2,11 +2,11 @@
 // Este es el front Controller, se mira la url y los parametros y se llama al controller oportuno.
 require_once 'vendor/autoload.php';
 
-use utils\TwigViewer;
+use controllers\MaintenanceController;
+use controllers\TestController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
-use controllers\TestController;
-use controllers\MaintenanceController;
+use utils\TwigViewer;
 
 
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
@@ -20,7 +20,7 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             break;
         case Constantes::MAINTENANCE_CONTROLLER:
             $controller = new MaintenanceController();
-            $controller->index();
+            $controller->crud();
             break;
     }
 }

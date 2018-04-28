@@ -14,28 +14,29 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Limpiar los váteres</td>
-            <td>Erasto</td>
-            <td>Sin limpiar</td>
-            <td>Informática</td>
-            <td>
-                <div class="dropdown">
-                    <button class="boton-contenido">Marcar como...</button>
-                    <div class="dropdown-content">
-                        <a href="#">Completado</a>
-                        <a href="#">En proceso</a>
-                        <a href="#">Sin empezar</a>
+        {% for incidencia in incidencias %}
+            <tr>
+                <td>{{ incidencia.nombre }}</td>
+                <td>{{ incidencia.estado }}</td>
+                <td>{{ incidencia.mensaje_estado }}</td>
+                <td>Informática</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="boton-contenido">Marcar como...</button>
+                        <div class="dropdown-content">
+                            <a href="#">Completado</a>
+                            <a href="#">En proceso</a>
+                            <a href="#">Sin empezar</a>
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% endfor %}
+
         </tbody>
     </table>
 
-    {% for user in usuarios %}
-        <li>test {{ user.email }}</li>
-    {% endfor %}
+
 {% endblock %}
 
 {% block styles %}
