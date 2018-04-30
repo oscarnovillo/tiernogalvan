@@ -14,7 +14,10 @@ class MaintenanceController {
         $parameters = array();
         $maintenanceServicios = new MaintenanceServicios();
         $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
+        //TODO: actualizar permisos para que se vean las cosas por permisos
+        $parameters["permiso"] = "PROFESOR";
 
+        //TODO: meter el solicitado por con las claves foraneas entre usuarixs
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 

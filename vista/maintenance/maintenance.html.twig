@@ -17,11 +17,11 @@
         {% for incidencia in incidencias %}
             <tr class="estado-{{ incidencia.estado }}">
                 <td>{{ incidencia.nombre }}</td>
+                <td>SOLICITANRTE AQUI</td>
                 <td>{{ incidencia.estado }}</td>
-                <td>{{ incidencia.mensaje_estado }}</td>
                 <td>Informática</td>
                 <td>
-                    {% if incidencia.estado != "completado" %}
+                    {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
                         <div class="dropdown">
                             <button class="boton-contenido">Marcar como...</button>
                             <div class="dropdown-content">
@@ -30,6 +30,9 @@
                                 <a href="#">Sin empezar</a>
                             </div>
                         </div>
+                    {% endif %}
+                    {% if permiso == "PROFESOR" %}
+                        <button class="boton-contenido">Ver estados</button>
                     {% endif %}
                 </td>
             </tr>
