@@ -5,4 +5,4 @@ Commit - Ricardo
 Danigut estuvo aquí
 La magia de Miguel
 Andrei jodió por aqui
-Erasto os saluda
+Erasto os saluda a todos
