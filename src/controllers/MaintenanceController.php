@@ -42,7 +42,7 @@ class MaintenanceController
                             $parameters["alert"]["message"] = "El estado indicado no es válido.";
                         } else {
                             $success = $maintenanceServicios->setEstadoIncidenciaById($incidencia->id, $nuevoEstado);
-                            if ($success) {
+                            if (!$success) {
                                 $parameters["alert"]["type"] = "warning";
                                 $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
                             } else {
@@ -54,25 +54,24 @@ class MaintenanceController
                     break;
                 case ConstantesMaintenance::ACTION_INSERT:
                     if ($rango === "ADMIN") {
-                        $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
-                        $nuevoEstado = $_REQUEST[ConstantesMaintenance::PARAM_STATUS];
-                        if (!$incidencia) {
+                        $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
+                        $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
+                        //TODO: coger usuario real de la sesión
+                        $usuario = 1;
+                        if (!$departamento) {
                             $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
-                        } else if ($incidencia->estado === "completado") {
+                            $parameters["alert"]["message"] = "El departamento indicado no es válido.";
+                        } else if ($incidencia == null || $incidencia == "") {
                             $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "La incidencia ya estaba completada y su estado no puede ser cambiado.";
-                        } else if (!$utils->isValidStatus($nuevoEstado)) {
-                            $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "El estado indicado no es válido.";
+                            $parameters["alert"]["message"] = "Debes indicar una incidencia.";
                         } else {
-                            $success = $maintenanceServicios->setEstadoIncidenciaById($incidencia->id, $nuevoEstado);
-                            if ($success) {
+                            $success = $maintenanceServicios->addIncidencia($incidencia, $departamento, $usuario);
+                            if (!$success) {
                                 $parameters["alert"]["type"] = "warning";
                                 $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
                             } else {
                                 $parameters["alert"]["type"] = "success";
-                                $parameters["alert"]["message"] = "Estado actualizado correctamente.";
+                                $parameters["alert"]["message"] = "Incidencia agregada correctamente.";
                             }
                         }
                     }
@@ -82,14 +81,12 @@ class MaintenanceController
 
         /* Ahora pintar la tabla y demás */
         $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
+        $parameters["departamentos"] = $maintenanceServicios->getAllDepartamentos();
         $parameters["permiso"] = $rango;
         $parameters["param"]["action"] = Constantes::PARAMETER_NAME_ACTION;
         $parameters["param"]["mark_as"] = ConstantesMaintenance::ACTION_MARK;
         $parameters["param"]["status"] = ConstantesMaintenance::PARAM_STATUS;
         $parameters["param"]["id"] = ConstantesMaintenance::PARAM_ID;
-
-        //TODO: meter el solicitado por con las claves foraneas entre usuarixs
-        //TODO: probar para profe y para admin
         TwigViewer::getInstance()->viewPage($page, $parameters);
     }
 

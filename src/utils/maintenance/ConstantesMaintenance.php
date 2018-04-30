@@ -8,4 +8,6 @@ class ConstantesMaintenance {
     const PARAM_STATUS = "status";
     const PARAM_ID = "id";
     const ACTION_INSERT = "insert";
+    const PARAM_DESCRIPTION = "incidencia";
+    const PARAM_DEPARTAMENTO = "departamento";
 }
