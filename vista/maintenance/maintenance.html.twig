@@ -6,46 +6,49 @@
     <table id="incidencias" class="display" data-stripe-classes="[]">
         <thead>
         <tr>
+            <th></th>
             <th>Incidencia</th>
             <th>Solicitado por</th>
             <th>Estado</th>
             <th>Departamento</th>
-            <th>{% if permiso == "PROFESOR" %}Mensaje{% endif %}</th>
+            {% if permiso == "ADMIN" %}
+                <th></th>{% endif %}
         </tr>
         </thead>
         <tbody>
         {% for incidencia in incidencias %}
             <tr class="estado-{{ incidencia.estado }}">
+                <td>{{ incidencia.fecha }}</td>
                 <td>{{ incidencia.nombre }}</td>
-                <td>SOLICITANRTE AQUI</td>
+                <td>{{ incidencia.solicitado_por }}</td>
                 <td>
-                    {% switch incidencia.estado %}
-                    {% case "proceso" %}
-                        En proceso.
-                    {% case "completado" %}
-                        Completado.
-                    {% case "sinempezar" %}
-                        Sin empezar.
-                    {% default %}
-                        Desconocido.
-                    {% endswitch %}
+                    {% if incidencia.estado == "proceso" %}
+                        <img src="/img/maintenance/process.png"/> En proceso.
+                    {% elseif incidencia.estado == "completado" %}
+                        <img src="/img/maintenance/complete.png"/> Completado.
+                    {% elseif incidencia.estado == "sinempezar" %}
+                        <img src="/img/maintenance/alarm.png"/> Sin empezar.
+                    {% else %}
+                        <img src="/img/maintenance/unknown.png"/> Desconocido.
+                    {% endif %}
                 </td>
-                <td>Informática</td>
-                <td>
+                <td>{{ incidencia.departamento }}</td>
+                {% if permiso == "ADMIN" %}
+                    <td>
                     {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
                         <div class="dropdown">
                             <button class="boton-contenido">Marcar como...</button>
                             <div class="dropdown-content">
-                                <a href="#">Completado</a>
-                                <a href="#">En proceso</a>
-                                <a href="#">Sin empezar</a>
+                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=completado">Completado</a>
+                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=proceso">En
+                                    proceso</a>
+                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=sinempezar">Sin
+                                    empezar</a>
                             </div>
                         </div>
                     {% endif %}
-                    {% if permiso == "PROFESOR" %}
-                        {{ incidencia.mensaje }}
-                    {% endif %}
-                </td>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
 

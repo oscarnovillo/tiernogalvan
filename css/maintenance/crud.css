@@ -65,7 +65,7 @@ button.center-button {
 }
 
 .estado-proceso > td {
-    background-color: #d39e00 !important;
+    background-color: #3399ff !important;
     color: white
 }
 
@@ -77,4 +77,10 @@ button.center-button {
 .estado-sinempezar > td {
     background-color: #dc3545 !important;
     color: white
+}
+
+table .boton-contenido {
+    background-color: white;
+    color: dimgray;
+    border-color: whitesmoke;
 }

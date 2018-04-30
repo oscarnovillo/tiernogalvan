@@ -6,6 +6,14 @@ $(document).ready(function () {
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
         },
         "asStripClasses": [],
-        "responsive": true
+        "responsive": true,
+        "columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+        ],
+        "order": [[ 0, "desc" ]]
     });
 });
