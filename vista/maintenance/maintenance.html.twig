@@ -1,9 +1,9 @@
-{# empty Twig template #}
 {% extends "index.html.twig" %}
 
 {% block content %}
-    <button type="button" class="center-button boton-contenido col-4">Agregar incidencia</button>
-    <table id="myTable" class="display" data-stripe-classes="[]">
+    <button id="btnAgregarIncidencia" type="button" class="center-button boton-contenido col-4">Agregar incidencia
+    </button>
+    <table id="incidencias" class="display" data-stripe-classes="[]">
         <thead>
         <tr>
             <th>Incidencia</th>
@@ -41,6 +41,23 @@
         </tbody>
     </table>
 
+    <div id="agregarIncidencia" class="modal">
+
+        <<!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-modal">&times;</span>
+                <h2>Agregar incidencia</h2>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+            </div>
+            <div class="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -48,9 +65,11 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
     <link rel="stylesheet" href="/css/maintenance/crud.css">
+    <link rel="stylesheet" href="/css/maintenance/modales.css">
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
     <script src="/js/maintenance/crud.js"></script>
+    <script src="/js/maintenance/modales.js"></script>
 {% endblock %}

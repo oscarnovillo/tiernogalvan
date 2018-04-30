@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#myTable').DataTable({
+    $('#incidencias').DataTable({
         "lengthChange": false,
         "pagingType": "numbers",
         "language": {
