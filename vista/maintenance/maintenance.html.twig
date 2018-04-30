@@ -1,6 +1,12 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
+    {% if alert %}
+        <div class="alert {{ alert.type }}">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{ alert.message }}
+        </div>
+    {% endif %}
     <button id="btnAgregarIncidencia" type="button" class="center-button boton-contenido col-4">Agregar incidencia
     </button>
     <table id="incidencias" class="display" data-stripe-classes="[]">
@@ -21,7 +27,7 @@
                 <td>{{ incidencia.fecha }}</td>
                 <td>{{ incidencia.nombre }}</td>
                 <td>{{ incidencia.solicitado_por }}</td>
-                <td>
+                <td data-order="{{ incidencia.estado }}">
                     {% if incidencia.estado == "proceso" %}
                         <img src="/img/maintenance/process.png"/> En proceso.
                     {% elseif incidencia.estado == "completado" %}
@@ -39,10 +45,10 @@
                         <div class="dropdown">
                             <button class="boton-contenido">Marcar como...</button>
                             <div class="dropdown-content">
-                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=completado">Completado</a>
-                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=proceso">En
+                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
+                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
                                     proceso</a>
-                                <a href="/index.php?c=maintenance&{{ action }}={{ mark_as }}&id={{ incidencia.id }}&status=sinempezar">Sin
+                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
                                     empezar</a>
                             </div>
                         </div>
@@ -56,19 +62,26 @@
     </table>
 
     <div id="agregarIncidencia" class="modal">
-
-        <<!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close-modal">&times;</span>
                 <h2>Agregar incidencia</h2>
             </div>
             <div class="modal-body">
-                <p>Some text in the Modal Body</p>
-                <p>Some other text...</p>
-            </div>
-            <div class="modal-footer">
-                <h3>Modal Footer</h3>
+                <form action="index.php">
+                    <input type="hidden" name="c" value="maintenance">
+                    <input type="hidden" name="a" value="insert">
+                    <label for="incidencia">Incidencia</label>
+                    <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia">
+                    <label for="departamento">Departamento</label>
+                    <select id="departamento" name="departamento">
+                        <option disabled selected>Selecciona un departamento...</option>
+                        {% for departamento in departamentos %}
+                            <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Enviar incidencia">
+                </form>
             </div>
         </div>
     </div>
@@ -80,10 +93,12 @@
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
     <link rel="stylesheet" href="/css/maintenance/crud.css">
     <link rel="stylesheet" href="/css/maintenance/modales.css">
+    <link rel="stylesheet" href="/css/maintenance/alerts.css">
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
     <script src="/js/maintenance/crud.js"></script>
     <script src="/js/maintenance/modales.js"></script>
+    <script src="/js/maintenance/alerts.js"></script>
 {% endblock %}

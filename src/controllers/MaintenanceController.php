@@ -1,13 +1,17 @@
 <?php
-
 namespace controllers;
+
+error_reporting(0);
+ini_set('display_errors', 0);
 
 use servicios\maintenance\MaintenanceServicios;
 use utils\Constantes;
 use utils\maintenance\ConstantesMaintenance;
+use utils\maintenance\Utils;
 use utils\TwigViewer;
 
-class MaintenanceController {
+class MaintenanceController
+{
 
     public function crud()
     {
@@ -17,26 +21,76 @@ class MaintenanceController {
         $page = ConstantesMaintenance::MAINTENANCE_CRUD;
         $parameters = array();
         $maintenanceServicios = new MaintenanceServicios();
-        $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
-        $parameters["permiso"] = $rango;
-        $parameters["action"] = Constantes::PARAMETER_NAME_ACTION;
-        $parameters["mark_as"] = ConstantesMaintenance::ACTION_MARK;
 
+        /* Ver operaciones primero */
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
-            if ($rango === "ADMIN") {
-                switch ($action) {
-                    case ConstantesMaintenance::ACTION_MARK:
-                        echo "marcar aqui";
-                        die();
-                        break;
-                }
+            $utils = new Utils();
+            switch ($action) {
+                case ConstantesMaintenance::ACTION_MARK:
+                    if ($rango === "ADMIN") {
+                        $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
+                        $nuevoEstado = $_REQUEST[ConstantesMaintenance::PARAM_STATUS];
+                        if (!$incidencia) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
+                        } else if ($incidencia->estado === "completado") {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia ya estaba completada y su estado no puede ser cambiado.";
+                        } else if (!$utils->isValidStatus($nuevoEstado)) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "El estado indicado no es válido.";
+                        } else {
+                            $success = $maintenanceServicios->setEstadoIncidenciaById($incidencia->id, $nuevoEstado);
+                            if ($success) {
+                                $parameters["alert"]["type"] = "warning";
+                                $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
+                            } else {
+                                $parameters["alert"]["type"] = "success";
+                                $parameters["alert"]["message"] = "Estado actualizado correctamente.";
+                            }
+                        }
+                    }
+                    break;
+                case ConstantesMaintenance::ACTION_INSERT:
+                    if ($rango === "ADMIN") {
+                        $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
+                        $nuevoEstado = $_REQUEST[ConstantesMaintenance::PARAM_STATUS];
+                        if (!$incidencia) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
+                        } else if ($incidencia->estado === "completado") {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia ya estaba completada y su estado no puede ser cambiado.";
+                        } else if (!$utils->isValidStatus($nuevoEstado)) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "El estado indicado no es válido.";
+                        } else {
+                            $success = $maintenanceServicios->setEstadoIncidenciaById($incidencia->id, $nuevoEstado);
+                            if ($success) {
+                                $parameters["alert"]["type"] = "warning";
+                                $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
+                            } else {
+                                $parameters["alert"]["type"] = "success";
+                                $parameters["alert"]["message"] = "Estado actualizado correctamente.";
+                            }
+                        }
+                    }
+                    break;
             }
         }
 
+        /* Ahora pintar la tabla y demás */
+        $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
+        $parameters["permiso"] = $rango;
+        $parameters["param"]["action"] = Constantes::PARAMETER_NAME_ACTION;
+        $parameters["param"]["mark_as"] = ConstantesMaintenance::ACTION_MARK;
+        $parameters["param"]["status"] = ConstantesMaintenance::PARAM_STATUS;
+        $parameters["param"]["id"] = ConstantesMaintenance::PARAM_ID;
+
         //TODO: meter el solicitado por con las claves foraneas entre usuarixs
         //TODO: probar para profe y para admin
-        TwigViewer::getInstance()->viewPage($page,$parameters);
+        TwigViewer::getInstance()->viewPage($page, $parameters);
     }
 
 }
