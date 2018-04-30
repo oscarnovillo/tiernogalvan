@@ -2,6 +2,7 @@
 // Este es el front Controller, se mira la url y los parametros y se llama al controller oportuno.
 require_once 'vendor/autoload.php';
 
+use controllers\BolsaTrabajoController;
 use controllers\MaintenanceController;
 use controllers\TestController;
 use utils\Constantes;
@@ -21,6 +22,10 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::MAINTENANCE_CONTROLLER:
             $controller = new MaintenanceController();
             $controller->crud();
+            break;
+        case Constantes::BOLSA_TRABAJO_CONTROLLER:
+            $controller = new BolsaTrabajoController();
+            $controller->crearOferta();
             break;
     }
 }

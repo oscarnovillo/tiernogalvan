@@ -14,10 +14,12 @@ namespace utils;
  * @author user
  */
 class ConstantesPaginas {
-    //put your code here
-    
+
+    /**
+     * Páginas HTML
+     */
     const INDEX = "index.html";
-    
+    const CREAR_OFERTA_PAGE ="bolsaTrabajo/crear-oferta-trabajo.html";
     
 
 }

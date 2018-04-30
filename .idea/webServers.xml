@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b7463211-fba3-4817-8665-2d712446cb37" name="tierno" url="http://192.168.1.161/dev">
+        <fileTransfer host="192.168.1.161" port="21" rootFolder="/var/www/html/dev">
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
