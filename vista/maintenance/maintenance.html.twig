@@ -10,7 +10,7 @@
             <th>Solicitado por</th>
             <th>Estado</th>
             <th>Departamento</th>
-            <th></th>
+            <th>{% if permiso == "PROFESOR" %}Mensaje{% endif %}</th>
         </tr>
         </thead>
         <tbody>
@@ -18,7 +18,18 @@
             <tr class="estado-{{ incidencia.estado }}">
                 <td>{{ incidencia.nombre }}</td>
                 <td>SOLICITANRTE AQUI</td>
-                <td>{{ incidencia.estado }}</td>
+                <td>
+                    {% switch incidencia.estado %}
+                    {% case "proceso" %}
+                        En proceso.
+                    {% case "completado" %}
+                        Completado.
+                    {% case "sinempezar" %}
+                        Sin empezar.
+                    {% default %}
+                        Desconocido.
+                    {% endswitch %}
+                </td>
                 <td>Informática</td>
                 <td>
                     {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
@@ -32,7 +43,7 @@
                         </div>
                     {% endif %}
                     {% if permiso == "PROFESOR" %}
-                        <button class="boton-contenido">Ver estados</button>
+                        {{ incidencia.mensaje }}
                     {% endif %}
                 </td>
             </tr>
