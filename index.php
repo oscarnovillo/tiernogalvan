@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use controllers\BolsaTrabajoController;
 use controllers\MaintenanceController;
 use controllers\TestController;
+use controllers\VentaLibrosController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
@@ -26,6 +27,10 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
             $controller->crearOferta();
+            break;
+        case Constantes::VENTA_LIBROS_CONTROLLER:
+            $controller = new VentaLibrosController();
+            $controller->ventas();
             break;
     }
 }

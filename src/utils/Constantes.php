@@ -19,4 +19,5 @@ class Constantes {
     const TEST_CONTROLLER = "test";
     const MAINTENANCE_CONTROLLER = "maintenance";
     const BOLSA_TRABAJO_CONTROLLER ="bolsa_trabajo";
+    const VENTA_LIBROS_CONTROLLER = "venta_libros";
 }
