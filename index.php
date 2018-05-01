@@ -25,7 +25,7 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             break;
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
-            $controller->crearOferta();
+            $controller->bolsaTrabajoMain();
             break;
     }
 }

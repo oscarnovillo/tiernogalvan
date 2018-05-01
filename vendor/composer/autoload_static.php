@@ -8,6 +8,7 @@ class ComposerStaticInit6e460d03df96b4866b64079089d5e1ee
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '094883ee9da9e6fabd95b86a5ef61b72' => __DIR__ . '/..' . '/latitude/latitude/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,6 +19,15 @@ class ComposerStaticInit6e460d03df96b4866b64079089d5e1ee
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Translation\\' => 30,
+        ),
+        'R' => 
+        array (
+            'Respect\\Validation\\' => 19,
+        ),
+        'L' => 
+        array (
+            'Latitude\\QueryBuilder\\' => 22,
         ),
     );
 
@@ -30,10 +40,23 @@ class ComposerStaticInit6e460d03df96b4866b64079089d5e1ee
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
+        'Symfony\\Component\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/translation',
+        ),
+        'Respect\\Validation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/respect/validation/library',
+        ),
+        'Latitude\\QueryBuilder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/latitude/latitude/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
         0 => __DIR__ . '/../..' . '/src',
+        1 => __DIR__ . '/..' . '/nesbot/carbon/src',
     );
 
     public static $prefixesPsr0 = array (

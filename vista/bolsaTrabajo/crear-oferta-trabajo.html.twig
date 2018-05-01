@@ -6,41 +6,105 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <form class="">
+                    <form class="" id="form_crear_oferta">
                         <h1 class="">Creación Oferta de trabajo</h1>
                         <p class="">Rellena los siguientes campos, para crear una nueva oferta de trabajo
-                            <br> </p>
-                        <div class="form-group"> <label>Título de la oferta</label>
-                            <input type="text" class="form-control" placeholder="Oferta de Trabajo"> <small class="form-text text-muted">Describe en pocas palabras, lo que estas ofreciendo</small> </div>
-                        <div class="form-group"> <label>Descripción</label> <small class="form-text text-muted">Cuentanos en que consiste el trabajo</small> <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea> </div>
-                        <div class="form-group"> <label>Requisitos</label> <small class="form-text text-muted">Cuentanos un poco las habilidades necesarias que necesita el futuro candidato</small> <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea> </div>
-                        <div class="form-group"> <label>Ciclo de Formación Profesional</label> <select class="form-control" id="exampleFormControlSelect2" multiple="">
+                            <br></p>
+                        <div class="form-group">
+                            <label>Título de la oferta</label>
+                            <input type="text" class="form-control" placeholder="Oferta de Trabajo" name="titulo_oferta"
+                                   required="required">
+                            <small class="form-text text-muted">Describe en pocas palabras, lo que estas ofreciendo
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <small class="form-text text-muted">Cuentanos en que consiste el trabajo</small>
+                            <textarea class="form-control" rows="4" name="descripcion_oferta"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Requisitos</label>
+                            <small class="form-text text-muted">Cuentanos un poco las habilidades necesarias que
+                                necesita el
+                                futuro candidato
+                            </small>
+                            <textarea class="form-control" rows="4" name="requisitos_oferta"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Ciclo de Formación Profesional</label>
+                            <select class="form-control" multiple="" required="required" name="fp_oferta">
                                 <option></option>
                                 <option>DAW - Desarrollo de Aplicaciones Web</option>
-                                <option>ASIR  - </option>
+                                <option>ASIR -</option>
                                 <option>4</option>
                                 <option>5</option>
-                            </select> <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se ajuste a tu medida. Para selección múltiple presiona [Ctrl] y los ciclos que desees</small> </div>
-                        <div class="form-group"> <label>Nombre de la Empresa</label>
-                            <input type="text" class="form-control" placeholder="MiEmpresa SL"> <small class="form-text text-muted">Queremos saber quien ofrece el empleo</small> </div>
-                        <div class="form-group"> <label>web/información adicional</label>
-                            <input type="text" class="form-control" placeholder="www.mi-empresa.es"> <small class="form-text text-muted">Tienes una web? Quieres ofrecer más información? Has publicado esta oferta en otras plataformas? Dejanos el enlace</small> </div>
-                        <div class="form-group"> <label>E-mail</label>
-                            <input type="email" class="form-control" placeholder="contacto@mi-empresa.es"> <small class="form-text text-muted">Nuestros usuari@s estan interesados, escribe un e-mail donde contactarte.&nbsp;</small> </div>
-                        <div class="form-group"> <label>Teléfono</label>
-                            <input type="text" class="form-control" placeholder="91123456"> <small class="form-text text-muted">O si lo prefieres, puedes dejarnos un número de telefono</small> </div>
-                        <div class="form-group"> <label>Vacantes</label>
-                            <input type="text" class="form-control" placeholder="10"> <small class="form-text text-muted">Cuántos puestos de empleo, quieres ofrecer </small> </div>
-                        <div class="form-group"> <label>Salario</label>
-                            <input type="text" class="form-control" placeholder="1000"> <small class="form-text text-muted">Cuál es el sueldo mensual, que quieres mostrar</small> </div>
-                        <div class="form-group"> <label>Localización</label>
-                            <input type="text" class="form-control" placeholder="Madrid"> <small class="form-text text-muted">Dónde esta el centro de trabajo? Dinos la ciudad, barrio, calle o lugar apróximado</small> </div>
-                        <div class="form-group"> <label>Caducidad</label>
-                            <input type="date" class="form-control" placeholder="20/01/2025"> <small class="form-text text-muted">Danos un plazo, hasta cuando deseas mostrar esta oferta en nuestra plataforma?</small> </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                            </select>
+                            <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
+                                ajuste a
+                                tu medida. Para selección múltiple presiona [Ctrl] y los ciclos que desees
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre de la Empresa</label>
+                            <input type="text" class="form-control" placeholder="MiEmpresa SL" name="empresa_oferta">
+                            <small class="form-text text-muted">Queremos saber quien ofrece el empleo</small>
+                        </div>
+                        <div class="form-group">
+                            <label>web/información adicional</label>
+                            <input type="text" class="form-control" placeholder="www.mi-empresa.es" name="web_oferta">
+                            <small class="form-text text-muted">Tienes una web? Quieres ofrecer más información? Has
+                                publicado esta oferta en otras plataformas? Dejanos el enlace
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" class="form-control" placeholder="contacto@mi-empresa.es"
+                                   name="email_oferta">
+                            <small class="form-text text-muted">Nuestros usuari@s estan interesados, escribe un e-mail
+                                donde
+                                contactarte.&nbsp;
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="text" class="form-control" placeholder="91123456" name="telefono_oferta">
+                            <small class="form-text text-muted">O si lo prefieres, puedes dejarnos un número de telefono
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Vacantes</label>
+                            <input type="text" class="form-control" placeholder="10" name="vacante_oferta">
+                            <small class="form-text text-muted">Cuántos puestos de empleo, quieres ofrecer</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Salario</label>
+                            <input type="text" class="form-control" placeholder="1000" name="salario_oferta">
+                            <small class="form-text text-muted">Cuál es el sueldo mensual, que quieres mostrar</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Localización</label>
+                            <input type="text" class="form-control" placeholder="Madrid" name="localizacion_oferta">
+                            <small class="form-text text-muted">Dónde esta el centro de trabajo? Dinos la ciudad,
+                                barrio,
+                                calle o lugar apróximado
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>Caducidad</label>
+                            <input type="date" class="form-control" placeholder="20/01/2025" name="caducidad_oferta"
+                                   required="required">
+                            <small class="form-text text-muted">Danos un plazo, hasta cuando deseas mostrar esta oferta
+                                en
+                                nuestra plataforma?
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-25 p-1">Crear Oferta</button>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <p class="lead">Lead paragraph </p>
+                    <p class="">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -48,11 +112,20 @@
 
 {% endblock %}
 
-{%  block scripts %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+{% block scripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
     <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <script src="js/bolsaTrabajo/crear_oferta.js"></script>
 
 {% endblock %}
