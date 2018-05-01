@@ -17,8 +17,7 @@
             <th>Solicitado por</th>
             <th>Estado</th>
             <th>Departamento</th>
-            {% if permiso == "ADMIN" %}
-                <th></th>{% endif %}
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +51,8 @@
                                     empezar</a>
                             </div>
                         </div>
+                    {% elseif incidencia.estado == "completado"  %}
+                        Completado por: {{ incidencia.completado_por }}
                     {% endif %}
                     </td>
                 {% endif %}

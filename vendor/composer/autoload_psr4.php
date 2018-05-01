@@ -8,8 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
-    'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
-    'Latitude\\QueryBuilder\\' => array($vendorDir . '/latitude/latitude/src'),
-    '' => array($baseDir . '/src', $vendorDir . '/nesbot/carbon/src'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    '' => array($baseDir . '/src'),
 );
