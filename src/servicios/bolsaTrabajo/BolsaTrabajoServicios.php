@@ -9,12 +9,24 @@
 namespace servicios\bolsaTrabajo;
 
 
+use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use Respect\Validation\Validator as v;
 use Carbon\Carbon;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 
 class BolsaTrabajoServicios
 {
+    public function insertNuevaOferta($oferta)
+    {
+        $dao = new BolsaTrabajoDAO();
+       return $dao->insertOfertaDB($oferta);
+    }
+public function verOferta($idOferta)
+    {
+        $dao = new BolsaTrabajoDAO();
+       return $dao->verOfertaDB($idOferta);
+    }
+
     public function tratarParametrosNuevaOferta($json)
     {
         return $this->validarOferta($json);
@@ -30,7 +42,7 @@ class BolsaTrabajoServicios
             ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(10, 50)))
             ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(10, 80)))
             ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(10, 85)))
-            ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(10, 15)))
+            ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
             ->attribute(ConstantesBolsaTrabajo::SALARIO_OFERTA, v::optional(v::floatVal()))//no funciona con Coma
             ->attribute(ConstantesBolsaTrabajo::CADUCIDAD_OFERTA, v::date('Y-m-d')->between(Carbon::now(), Carbon::now()->addMonth(3)));

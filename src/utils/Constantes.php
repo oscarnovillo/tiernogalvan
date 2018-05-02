@@ -23,17 +23,5 @@ class Constantes
     const VENTA_LIBROS_CONTROLLER = "venta_libros";
 
 
-    /**
-     * Actions
-     */
-
-    /**
-     * Bolsa de Trabajo
-     */
-    const CREAR_OFERTA_TRABAJO = "crear_oferta";
-    const VER_OFERTA_TRABAJO = "ver_oferta";
-    const TAREA = "tarea";
-    const NUEVA_OFERTA = "nueva_oferta";
-    const INSERT = "insert";
 
 }

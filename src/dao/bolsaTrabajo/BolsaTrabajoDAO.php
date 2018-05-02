@@ -16,7 +16,7 @@ use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 class BolsaTrabajoDAO
 {
     //TODO - temporal hasta tener una base de datos real
-    public function insertOferta($oferta)
+    public function insertOfertaDB($oferta)
     {
         $factory = new QueryFactory(new CommonEngine());
         $query = $factory
@@ -34,8 +34,16 @@ class BolsaTrabajoDAO
                 , ConstantesBolsaTrabajo::CADUCIDAD_OFERTA => $oferta->caducidad_oferta
             ])
             ->compile();
-        echo $query->sql();
-        var_dump($query->params());
+        //echo $query->sql();
+        // var_dump($query->params());
+        //Tiene que devolver el objeto con ID
+        return true;
+    }
+
+    //contruir llamada
+    public function verOfertaDB($idOferta)
+    {
+        return true;
 
     }
 }//fin clase
