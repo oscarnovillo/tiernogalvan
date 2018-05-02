@@ -1,4 +1,5 @@
 <?php
+
 namespace controllers;
 
 error_reporting(0);
@@ -8,6 +9,7 @@ use servicios\maintenance\MaintenanceServicios;
 use utils\Constantes;
 use utils\maintenance\ConstantesMaintenance;
 use utils\maintenance\Utils;
+use utils\Mailer;
 use utils\TwigViewer;
 
 class MaintenanceController
@@ -26,6 +28,7 @@ class MaintenanceController
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
             $utils = new Utils();
+            $mailer = new Mailer();
             switch ($action) {
                 case ConstantesMaintenance::ACTION_MARK:
                     if ($rango === "ADMIN") {
@@ -53,26 +56,26 @@ class MaintenanceController
                     }
                     break;
                 case ConstantesMaintenance::ACTION_INSERT:
-                    if ($rango === "ADMIN") {
-                        $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
-                        $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
-                        //TODO: coger usuario real de la sesión
-                        $usuario = 1;
-                        if (!$departamento) {
-                            $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "El departamento indicado no es válido.";
-                        } else if ($incidencia == null || $incidencia == "") {
-                            $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "Debes indicar una incidencia.";
+                    $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
+                    $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
+                    //TODO: coger usuario real de la sesión
+                    //TODO: poner bien a quien mandar el email, y se tiene que enviar a todos los del departamento/admins
+                    $mailer->sendMail("EMAIL_RECIPIENTE", "NOMBRE_RECIPIENTE", "Insertada nueva incidencia", "Motivo de la incidencia: ".$incidencia);
+                    $usuario = 1;
+                    if (!$departamento) {
+                        $parameters["alert"]["type"] = "error";
+                        $parameters["alert"]["message"] = "El departamento indicado no es válido.";
+                    } else if ($incidencia == null || $incidencia == "") {
+                        $parameters["alert"]["type"] = "error";
+                        $parameters["alert"]["message"] = "Debes indicar una incidencia.";
+                    } else {
+                        $success = $maintenanceServicios->addIncidencia($incidencia, $departamento, $usuario);
+                        if (!$success) {
+                            $parameters["alert"]["type"] = "warning";
+                            $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
                         } else {
-                            $success = $maintenanceServicios->addIncidencia($incidencia, $departamento, $usuario);
-                            if (!$success) {
-                                $parameters["alert"]["type"] = "warning";
-                                $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
-                            } else {
-                                $parameters["alert"]["type"] = "success";
-                                $parameters["alert"]["message"] = "Incidencia agregada correctamente.";
-                            }
+                            $parameters["alert"]["type"] = "success";
+                            $parameters["alert"]["message"] = "Incidencia agregada correctamente.";
                         }
                     }
                     break;
