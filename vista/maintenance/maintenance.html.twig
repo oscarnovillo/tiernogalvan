@@ -28,13 +28,13 @@
                 <td>{{ incidencia.solicitado_por }}</td>
                 <td data-order="{{ incidencia.estado }}">
                     {% if incidencia.estado == "proceso" %}
-                        <img src="/img/maintenance/process.png"/> En proceso.
+                        <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
                     {% elseif incidencia.estado == "completado" %}
-                        <img src="/img/maintenance/complete.png"/> Completado.
+                        <img alt="Completado." src="/img/maintenance/complete.png"/> Completado.
                     {% elseif incidencia.estado == "sinempezar" %}
-                        <img src="/img/maintenance/alarm.png"/> Sin empezar.
+                        <img alt="Sin empezar." src="/img/maintenance/alarm.png"/> Sin empezar.
                     {% else %}
-                        <img src="/img/maintenance/unknown.png"/> Desconocido.
+                        <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
                     {% endif %}
                 </td>
                 <td>{{ incidencia.departamento }}</td>
