@@ -20,6 +20,7 @@ class ConstantesPaginas {
      */
     const INDEX = "index.html";
     const CREAR_OFERTA_PAGE ="bolsaTrabajo/crear-oferta-trabajo.html";
-    
+    const VER_OFERTA_PAGE ="bolsaTrabajo/ver-oferta-trabajo.html";
+
 
 }

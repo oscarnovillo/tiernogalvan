@@ -17,8 +17,7 @@
             <th>Solicitado por</th>
             <th>Estado</th>
             <th>Departamento</th>
-            {% if permiso == "ADMIN" %}
-                <th></th>{% endif %}
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -29,13 +28,13 @@
                 <td>{{ incidencia.solicitado_por }}</td>
                 <td data-order="{{ incidencia.estado }}">
                     {% if incidencia.estado == "proceso" %}
-                        <img src="/img/maintenance/process.png"/> En proceso.
+                        <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
                     {% elseif incidencia.estado == "completado" %}
-                        <img src="/img/maintenance/complete.png"/> Completado.
+                        <img alt="Completado." src="/img/maintenance/complete.png"/> Completado.
                     {% elseif incidencia.estado == "sinempezar" %}
-                        <img src="/img/maintenance/alarm.png"/> Sin empezar.
+                        <img alt="Sin empezar." src="/img/maintenance/alarm.png"/> Sin empezar.
                     {% else %}
-                        <img src="/img/maintenance/unknown.png"/> Desconocido.
+                        <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
                     {% endif %}
                 </td>
                 <td>{{ incidencia.departamento }}</td>
@@ -52,6 +51,8 @@
                                     empezar</a>
                             </div>
                         </div>
+                    {% elseif incidencia.estado == "completado" %}
+                        Completado por: {{ incidencia.completado_por }}
                     {% endif %}
                     </td>
                 {% endif %}
@@ -87,7 +88,7 @@
     </div>
 
 {% endblock %}
-
+<!-- Bloque de estilos, se añadirán al final de los bases -->
 {% block styles %}
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
@@ -95,6 +96,7 @@
     <link rel="stylesheet" href="/css/maintenance/modales.css">
     <link rel="stylesheet" href="/css/maintenance/alerts.css">
 {% endblock %}
+<!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
 {% block scripts %}
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
