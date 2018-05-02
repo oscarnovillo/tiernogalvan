@@ -1,0 +1,30 @@
+.cuerpo{
+    padding: 15px 15px 0px 15px;
+}
+
+.contenido{
+    padding: 15px;
+    max-width: 980px;
+    background-color: white;
+    margin: auto;
+}
+
+.contenido select{
+    margin: 15px 12px 0 15px;
+}
+
+#publicar{
+    cursor: pointer;
+}
+
+#cont_form{
+    display: none;
+}
+
+#form_public{
+    text-align: center;
+}
+
+#form_public .boton-contenido{
+    max-width: 200px;
+}

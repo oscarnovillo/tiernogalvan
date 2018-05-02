@@ -2,10 +2,46 @@
 
 {% block content %}
     
-    <div>
-        <h1>
-            xDD
-        </h1>
+    <div class="cuerpo">
+        <div class="contenido">
+            <h1 id="publicar">Publica tu libro</h1>
+            <div id="form_public" class="row">
+                <div id="cont_form">
+                    <form>
+                        <div class="col-12 col-sm-6 col-lg-4"><span>Titulo</span><input type="text"></div>
+                        <div class="col-12 col-sm-6 col-lg-4"><span>ISBN</span><input type="text"></div>
+                        <div class="col-12 col-sm-6 col-lg-4"><span>Precio</span><input type="text"></div>
+                        <div class="col-12 col-sm-6 col-lg-4"><span>Asignatura</span>
+                        <select>
+                            <option value="matematicas">Matemáticas</option>
+                            <option value="lengua">Lengua</option>
+                            <option value="fol">FOL</option>
+                            <option value="sociales">C. sociales</option>
+                        </select></div>
+                        <div class="col-12 col-sm-12 col-lg-4"><span>Curso</span>
+                        <select>
+                            <option value="3eso">4º ESO</option>
+                            <option value="1bach">1º BACH</option>
+                            <option value="2bach">2º BACH</option>
+                            <option value="1daw">1º DAW</option>
+                            <option value="2daw">2º DAW</option>
+                        </select></div>
+                        <div class="col-12">
+                            <input type="submit" value="Publicar" class="boton-contenido">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     
+{% endblock %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/ventas/ventas.css">
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/ventas/ventas.js"></script>
 {% endblock %}

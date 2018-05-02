@@ -22,6 +22,17 @@ class VentaLibrosController {
     public function ventas(){
         $page = ConstantesVentas::VENTAS_PAGE;
         $parameters = array();
+        
+        if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
+            $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
+            
+            switch ($action) {
+                case "prueba":
+                    $parameters['prueba3'] = "prueba 1 :D";
+                    $parameters['prueba2'] = "prueba 2 xD";
+                    break;
+            }
+        }
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 }
