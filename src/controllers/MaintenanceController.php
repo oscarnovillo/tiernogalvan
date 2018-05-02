@@ -59,6 +59,8 @@ class MaintenanceController
                     $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
                     $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
                     //TODO: coger usuario real de la sesión
+                    //TODO: poner bien a quien mandar el email, y se tiene que enviar a todos los del departamento/admins
+                    $mailer->sendMail("EMAIL_RECIPIENTE", "NOMBRE_RECIPIENTE", "Insertada nueva incidencia", "Motivo de la incidencia: ".$incidencia);
                     $usuario = 1;
                     if (!$departamento) {
                         $parameters["alert"]["type"] = "error";

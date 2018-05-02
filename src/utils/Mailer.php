@@ -9,7 +9,7 @@ class Mailer
 {
 
     //TODO: poner servidor de email
-    public function sendMail()
+    public function sendMail($reciperEmail, $reciperName, $subject, $content)
     {
         $mail = new PHPMailer(true);
         try {
@@ -22,16 +22,16 @@ class Mailer
             $mail->Port = 587;
 
             $mail->setFrom('contacto@iestiernogalvan.es', 'IES Enrique Tierno Galván');
-            $mail->addAddress('destinatario@algo.es', 'Nombre del destinatario');
+            $mail->addAddress($reciperEmail, $reciperName);
             $mail->addReplyTo('contacto@iestiernogalvan.es', 'Information');
             $mail->addCC('contacto@iestiernogalvan.es');
             $mail->addBCC('contacto@iestiernogalvan.es');
 
             //Content
             $mail->isHTML(true);
-            $mail->Subject = 'Here is the subject';
-            $mail->Body = 'This is the HTML message body <b>in bold!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $mail->Subject = $subject;
+            $mail->Body = $content;
+            $mail->AltBody = $content;
 
             $mail->send();
         } catch (Exception $e) {

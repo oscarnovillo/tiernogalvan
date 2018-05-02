@@ -4,7 +4,7 @@
     <list default="true" id="30b28a44-5c84-4669-8e1a-c4b3eaea7369" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/MaintenanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/MaintenanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vista/maintenance/maintenance.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/vista/maintenance/maintenance.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/Mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Mailer.php" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/vendor/composer/" />
     <ignored path="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring/" />
@@ -33,11 +33,20 @@
       <file leaf-file-name="MaintenanceController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controllers/MaintenanceController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="68" column="28" lean-forward="true" selection-start-line="68" selection-start-column="28" selection-end-line="68" selection-end-column="28" />
+            <state relative-caret-position="629">
+              <caret line="62" column="148" selection-start-line="62" selection-start-column="148" selection-end-line="62" selection-end-column="148" />
               <folding>
                 <element signature="e#81#128#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mailer.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/Mailer.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -70,8 +79,8 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/src/controllers/BolsaTrabajoController.php" />
         <option value="$PROJECT_DIR$/vista/bolsaTrabajo/crear-oferta-trabajo.html.twig" />
-        <option value="$PROJECT_DIR$/src/utils/Mailer.php" />
         <option value="$PROJECT_DIR$/vista/maintenance/maintenance.html.twig" />
+        <option value="$PROJECT_DIR$/src/utils/Mailer.php" />
         <option value="$PROJECT_DIR$/src/controllers/MaintenanceController.php" />
       </list>
     </option>
@@ -267,7 +276,7 @@
       <workItem from="1525119170272" duration="1677000" />
       <workItem from="1525130039408" duration="2248000" />
       <workItem from="1525214169520" duration="3546000" />
-      <workItem from="1525220507778" duration="778000" />
+      <workItem from="1525220507778" duration="1660000" />
     </task>
     <task id="LOCAL-00001" summary="Instalado mailer">
       <created>1525215999102</created>
@@ -297,11 +306,18 @@
       <option name="project" value="LOCAL" />
       <updated>1525220381811</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fix para subir incidencias">
+      <created>1525222055537</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1525222055537</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19824000" />
+    <option name="totallyTimeSpent" value="20706000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -342,7 +358,8 @@
     <MESSAGE value="Agregada clase mailer" />
     <MESSAGE value="Clase mailer mejorada." />
     <MESSAGE value="Agregada documentación&#10;Agregada opción de quién ha resuelto la incidencia." />
-    <option name="LAST_COMMIT_MESSAGE" value="Agregada documentación&#10;Agregada opción de quién ha resuelto la incidencia." />
+    <MESSAGE value="Fix para subir incidencias" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix para subir incidencias" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,13 +702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/Mailer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vista/maintenance/maintenance.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
@@ -699,10 +709,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/Mailer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/controllers/MaintenanceController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="68" column="28" lean-forward="true" selection-start-line="68" selection-start-column="28" selection-end-line="68" selection-end-column="28" />
+        <state relative-caret-position="629">
+          <caret line="62" column="148" selection-start-line="62" selection-start-column="148" selection-end-line="62" selection-end-column="148" />
           <folding>
             <element signature="e#81#128#0#PHP" expanded="true" />
           </folding>
