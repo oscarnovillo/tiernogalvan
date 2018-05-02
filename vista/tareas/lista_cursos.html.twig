@@ -1,0 +1,25 @@
+{% extends "index.html.twig" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/tareas/tareas.css">
+{% endblock %}
+
+{% block content %}
+    <div class="cuerpo">
+        <div class="contenido">
+            <h1 class="tareas_title">Tareas para alumnos</h1>
+            <p>Seleccione un curso para mostrar las tareas correspondientes.</p>
+
+            <ul>
+                {% for curso in cursos %}
+                    <li><a href="/index.php?c=tareas&a={{ action_ver_curso }}&id_curso={{ curso.id_curso }}">{{ curso.nombre_curso }}</a></li>
+                    {% endfor %}
+            </ul>
+            
+            <p>(Actualmente se está utilizando un DAO simulado, no conecto aún a la BBDD)</p>
+            <p>(Sólo he hecho que se visualicen, queda por hacer que si entra un usuario profesor pueda hacer CRUD de las tareas y que un administrador pueda añadir cursos)</p>
+        </div>
+    </div>
+{% endblock %}
+
+

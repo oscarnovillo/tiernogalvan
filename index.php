@@ -6,6 +6,7 @@ use controllers\BolsaTrabajoController;
 use controllers\MaintenanceController;
 use controllers\TestController;
 use controllers\VentaLibrosController;
+use controllers\TareasController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
@@ -31,6 +32,10 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();
             $controller->ventas();
+            break;
+        case Constantes::TAREAS_CONTROLLER:
+            $controller = new TareasController();
+            $controller->tareas();
             break;
     }
 }
