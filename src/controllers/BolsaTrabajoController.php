@@ -102,7 +102,7 @@ class BolsaTrabajoController
 
         $page = ConstantesPaginas::VER_OFERTA_PAGE;
         //para enviar tiene que ser array, pero esto creando un objeto, busca solución o mira en documentación twig
-        TwigViewer::getInstance()->viewPage($page);
+        TwigViewer::getInstance()->viewPage($page,(array)$ofertaDB);
 
     }
 
@@ -129,6 +129,9 @@ class BolsaTrabajoController
         $newOfertaDB2->salario = $faker->randomNumber(4);
         $newOfertaDB2->localizacion = $faker->city;
         $newOfertaDB2->caducidad = $faker->date('Y-m-d');
+        $newOfertaDB2->creacion = $faker->date('Y-m-d');
+        $fpTargets = [$faker->name,$faker->name,$faker->name];
+        $newOfertaDB2->fpTargets = $fpTargets;
 
         return $newOfertaDB2;
     }
