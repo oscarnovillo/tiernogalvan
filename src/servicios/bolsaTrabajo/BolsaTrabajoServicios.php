@@ -19,12 +19,13 @@ class BolsaTrabajoServicios
     public function insertNuevaOferta($oferta)
     {
         $dao = new BolsaTrabajoDAO();
-       return $dao->insertOfertaDB($oferta);
+        return $dao->insertOfertaDB($oferta);
     }
-public function verOferta($idOferta)
+
+    public function verOferta($idOferta)
     {
         $dao = new BolsaTrabajoDAO();
-       return $dao->verOfertaDB($idOferta);
+        return $dao->verOfertaDB($idOferta);
     }
 
     public function tratarParametrosNuevaOferta($json)
@@ -65,5 +66,11 @@ public function verOferta($idOferta)
             }
         }
         return $isValid;
+    }
+
+    public function misOfertas($idOwner)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getOfertasByIdOwner($idOwner);
     }
 }

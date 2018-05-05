@@ -46,4 +46,10 @@ class BolsaTrabajoDAO
         return true;
 
     }
+
+    //construir query
+    public function getOfertasByIdOwner($idOwner)
+    {
+        return true;
+    }
 }//fin clase

@@ -8,15 +8,13 @@
 
 namespace controllers;
 
-
-use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use Faker\Factory;
+use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
-use Respect\Validation\Validator as v;
 
 
 class BolsaTrabajoController
@@ -50,7 +48,17 @@ class BolsaTrabajoController
                 case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
-                        $this->verOferta($idOferta);
+                        $respnseJson = filter_input(INPUT_GET, ConstantesBolsaTrabajo::RESPONSE_JSON);
+                        $this->verOferta($idOferta, (isset($respnseJson)) ? $respnseJson : false);
+                    } else {
+                        $this->irAlIndex();
+                    }
+
+                    break;
+                case ConstantesBolsaTrabajo::MIS_OFERTAS_TRABAJO:
+                    $idOwnerOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OWNER_OFERTA);
+                    if (v::numeric()->validate($idOwnerOferta)) {
+                        $this->misOferta($idOwnerOferta);
                     } else {
                         $this->irAlIndex();
                     }
@@ -93,16 +101,33 @@ class BolsaTrabajoController
     }
 
     //TODO - Construir funcionalidad
-    public function verOferta($idOferta)
+    public function verOferta($idOferta, $responseJson)
     {
         $servicios = new BolsaTrabajoServicios();
         //Comprobar que devuelve - pendiente
         $ofertaDB = $servicios->verOferta($idOferta);
         $ofertaDB = $this->generarOferta();
 
-        $page = ConstantesPaginas::VER_OFERTA_PAGE;
-        //para enviar tiene que ser array, pero esto creando un objeto, busca solución o mira en documentación twig
-        TwigViewer::getInstance()->viewPage($page,(array)$ofertaDB);
+        if ($responseJson == true) {
+            echo json_encode($ofertaDB);
+        } else {
+            $page = ConstantesPaginas::VER_OFERTA_PAGE;
+            TwigViewer::getInstance()->viewPage($page, (array)$ofertaDB);
+        }
+
+
+    }
+
+    public function misOferta($idOwner)
+    {
+        $servicios = new BolsaTrabajoServicios();
+        //Comprobar que devuelve - pendiente
+        $misOfertasDB = $servicios->misOfertas($idOwner);
+        $misOfertasDB = $this->generarMisOfertas();
+        $ofertasVista = (object)[];
+        $ofertasVista->misOfertas = $misOfertasDB;
+        $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
+        TwigViewer::getInstance()->viewPage($page, (array)$ofertasVista);
 
     }
 
@@ -130,9 +155,25 @@ class BolsaTrabajoController
         $newOfertaDB2->localizacion = $faker->city;
         $newOfertaDB2->caducidad = $faker->date('Y-m-d');
         $newOfertaDB2->creacion = $faker->date('Y-m-d');
-        $fpTargets = [$faker->name,$faker->name,$faker->name];
+        $fpTargets = [$faker->name, $faker->name, $faker->name];
         $newOfertaDB2->fpTargets = $fpTargets;
 
         return $newOfertaDB2;
     }
-}
+
+    public function generarMisOfertas()
+    {
+        $misOfertillas = [];
+        $miOfertaFaker = (object)[];
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 10; $i++) {
+            $miOfertaFaker->idOferta = $faker->randomDigit;
+            $miOfertaFaker->titulo = $faker->realText(80);
+
+            array_push($misOfertillas, $miOfertaFaker);
+        }
+
+        return $misOfertillas;
+    }
+}//fin clase
