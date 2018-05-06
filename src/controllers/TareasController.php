@@ -12,56 +12,75 @@ class TareasController {
     public function tareas() {
         
         /*
-         * TODO:
+         * VER TAREAS DE ALUMNOS
+         * 
+         * Objetivos:
          * 
          * Si no hay parámetros puestos:
-         * Mostrar un listado con todos los cursos disponibles.
-         * (select * from cursos)
-         * (cursos tiene id_curso, nombre_curso)
+         * -> Mostrar un listado con todos los cursos disponibles.
          * 
-         * Si hay parámetros puestos (acción: ver 1º DAW)
-         * Mostrar las tareas de ese curso
-         * (select * from tareas when curso=<número>)
-         * (tareas tiene id_tarea, id_curso, descripcion, asignatura, fecha)
+         * Al hacer click en un curso si eres alumno
+         * -> Mostrar las tareas de dicho curso
          * 
-         * Si eres profesor: opciones de CRUD
+         * Al hacer click en un curso si eres profesor:
+         * -> Opciones de CRUD de las tareas de dicho curso
          * 
-         *   
-
+         * Si eres administrador:
+         * -> Crear curso nuevo. ¿Editar y borrar también?
         */
         
         
         $parameters = array();
         
+        //Obtener lista de cursos (opción por defecto si no encuentra los parámetros adecuados)
+        $page = ConstantesTareas::MOSTRAR_CURSOS_PAGE;
         
+        $tareasServicios = new TareasServicios();
+        $parameters["cursos"] = $tareasServicios->getAllCursos();
+
+        $parameters["action_ver_curso"] = ConstantesTareas::ACTION_VER_CURSO;
+        $parameters["action_editar_curso"] = ConstantesTareas::ACTION_EDITAR_CURSO;
+
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
             
             switch ($action) {
+                /* Ver las tareas de un curso */
                 case ConstantesTareas::ACTION_VER_CURSO:
-                    //¿Qué curso quieres listar?
+                    //¿Qué curso? -> Comprobar segundo parámetro
                     if (isset($_REQUEST[ConstantesTareas::ACTION_ID_CURSO])) {
                         $curso = $_REQUEST[ConstantesTareas::ACTION_ID_CURSO];
                         
                         $tareasServicios = new TareasServicios();
                         $parameters["tareas"] = $tareasServicios->getAllTareasFromCurso($curso);
-                        
                         $parameters["nombre_curso"] = $tareasServicios->getNombreCurso($curso);
-                        $page = ConstantesTareas::TAREAS_CURSO_PAGE;   
+                        
+                        $page = ConstantesTareas::VER_TAREAS_PAGE;   
+                    }
+                    break;
+                /* Editar las tareas de un curso */
+                case ConstantesTareas::ACTION_EDITAR_CURSO:
+                    //¿Qué curso? -> Comprobar segundo parámetro
+                    if (isset($_REQUEST[ConstantesTareas::ACTION_ID_CURSO])) {
+                        $curso = $_REQUEST[ConstantesTareas::ACTION_ID_CURSO];
+                        
+                        $tareasServicios = new TareasServicios();
+                        $parameters["tareas"] = $tareasServicios->getAllTareasFromCurso($curso);
+                        $parameters["nombre_curso"] = $tareasServicios->getNombreCurso($curso);
+                        $parameters["asignaturas"] = $tareasServicios->getAsignaturasCurso($curso);
+
+                        $parameters["editar_campo_ok"] = ConstantesTareas::EDITAR_CAMPO_OK;  
+                        $parameters["editar_campo_cancelar"] = ConstantesTareas::EDITAR_CAMPO_CANCELAR;  
+                        $parameters["editar_campo_ok_tooltip"] = ConstantesTareas::EDITAR_CAMPO_OK_TOOLTIP;  
+                        $parameters["editar_campo_cancelar_tooltip"] = ConstantesTareas::EDITAR_CAMPO_CANCELAR_TOOLTIP; 
+                        
+                        $page = ConstantesTareas::EDITAR_TAREAS_PAGE;   
                     }
                     break;
             }
-        } else {
-            //Obtener lista de cursos
-            $page = ConstantesTareas::MOSTRAR_CURSOS_PAGE;
-            $tareasServicios = new TareasServicios();
-            $parameters["cursos"] = $tareasServicios->getAllCursos();
-            
-            $parameters["action_ver_curso"] = ConstantesTareas::ACTION_VER_CURSO;
         }
-      
-        
-        //con esto se pinta una pagina de twig
+
+        //Pintar una pagina de twig
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 

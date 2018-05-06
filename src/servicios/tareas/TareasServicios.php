@@ -20,4 +20,8 @@ class TareasServicios {
         return $dao->getNombreCurso($curso);
     }
 
+    public function getAsignaturasCurso($curso) {
+        $dao = new TareasDAO();
+        return $dao->getAsignaturasCurso($curso);
+    }
 }

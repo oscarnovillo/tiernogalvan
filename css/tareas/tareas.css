@@ -20,11 +20,52 @@
 }
 
 .tareas_table th{
+    background-color: #008cba;
+    color: #ffffff;
     text-align:center;
     padding:0px;
 }
 
 .tareas_table td{
-    text-align:center;
-    padding:0px
+    /*text-align:center;*/
+    padding:0.5em;
+    color:black;
 }
+
+.tareas_table input {
+    margin: 1em 0em;
+}
+
+.mensaje_ok{
+    background-color: lightgreen;
+}
+
+.mensaje_aviso{
+    background-color: lightyellow;
+}
+
+.mensaje_error{
+    background-color: lightcoral;
+}
+
+.no_existe{
+    font-style: italic;
+    text-align: center;
+}
+
+.btn_campo{
+    text-align: center;
+}
+
+.btn_campo button{
+    padding:0em 0.25em;
+}
+
+
+
+/* Flexbox Example 
+**************************************************************************/
+.flexbox { display: flex; }
+.flexbox .stretch { flex: 1; }
+.flexbox .normal { flex: 0; margin: 0 0 0 1rem; }
+.flexbox input { width: 100%; }
