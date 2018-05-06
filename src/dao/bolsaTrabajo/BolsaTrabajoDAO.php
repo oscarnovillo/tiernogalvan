@@ -52,4 +52,9 @@ class BolsaTrabajoDAO
     {
         return true;
     }
+
+    public function getFpTitulosByIdOferta($idOferta)
+    {
+        return true;
+    }
 }//fin clase

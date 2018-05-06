@@ -32,6 +32,7 @@ class ConstantesBolsaTrabajo
     const CREAR_OFERTA_TRABAJO = "crear_oferta";
     const VER_OFERTA_TRABAJO = "ver_oferta";
     const MIS_OFERTAS_TRABAJO = "mis_ofertas";
+    const REQUEST_OPERATION_TRABAJO = "request_operation";
 
     /**
      * Acciones secundarias
@@ -41,9 +42,11 @@ class ConstantesBolsaTrabajo
     const RESPONSE_JSON = "response_json";
     const ID_OWNER_OFERTA = "id_owner";
     const NUEVA_OFERTA = "nueva_oferta";
+    const OPERACION = "operacion";
 
     /**
      * tareas
      */
     const INSERT = "insert";
+    const OFERTA_FP_CODES = "oferta_fp_codes";
 }

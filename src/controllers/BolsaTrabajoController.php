@@ -65,9 +65,30 @@ class BolsaTrabajoController
 
                     break;
 
+                case ConstantesBolsaTrabajo::REQUEST_OPERATION_TRABAJO;
+                    $operacion = filter_input(INPUT_GET, ConstantesBolsaTrabajo::OPERACION);
+
+                    switch ($operacion) {
+                        case ConstantesBolsaTrabajo::OFERTA_FP_CODES;
+                            $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
+
+                            if (v::numeric()->validate($idOferta)) {
+                                $servicios = new BolsaTrabajoServicios();
+                                $titulos = $servicios->getOfertaFpTitulo($idOferta);//temporal hasta tener base de datos
+                                $titulos = $this->generarTitulos();
+                                echo json_encode($titulos);
+                            }
+
+                            break;
+                    }
+
+
+                    break;
+
             }
         } else {
-            $page = ConstantesPaginas::INDEX;
+            $page = ConstantesPaginas::BOLSA_TRABAJO_PAGE;
+            //enviar ofertas de trabajo a la vista principal
             TwigViewer::getInstance()->viewPage($page);
 
         }
@@ -176,4 +197,21 @@ class BolsaTrabajoController
 
         return $misOfertillas;
     }
+
+    public function generarTitulos()
+    {
+        $misTitulos = [];
+        $misTitulosFPFaker = (object)[];
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 4; $i++) {
+            $misTitulosFPFaker->idFp = $faker->randomDigit;
+            $misTitulosFPFaker->nombreFp = $faker->realText(50);
+
+            array_push($misTitulos, $misTitulosFPFaker);
+        }
+
+        return $misTitulos;
+    }
+
 }//fin clase
