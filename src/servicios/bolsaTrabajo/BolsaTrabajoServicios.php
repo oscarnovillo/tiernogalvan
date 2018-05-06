@@ -28,6 +28,13 @@ class BolsaTrabajoServicios
         return $dao->verOfertaDB($idOferta);
     }
 
+    public function getOfertaFpTitulo($idOferta)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getFpTitulosByIdOferta($idOferta);
+    }
+
+
     public function tratarParametrosNuevaOferta($json)
     {
         return $this->validarOferta($json);
