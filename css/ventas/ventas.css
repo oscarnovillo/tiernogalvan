@@ -2,6 +2,15 @@
     padding: 15px 15px 0px 15px;
 }
 
+@media only screen and (max-width: 346px) {
+    .cuerpo{
+        padding: 0px;
+    }
+    .contenido{
+        padding: 0px;
+    }
+}
+
 .contenido{
     padding: 15px;
     max-width: 980px;
@@ -27,4 +36,9 @@
 
 #form_public .boton-contenido{
     max-width: 200px;
+}
+
+#error_form{
+    display: none;
+    color: indianred;
 }

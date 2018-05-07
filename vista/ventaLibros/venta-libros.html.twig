@@ -1,31 +1,58 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    
     <div class="cuerpo">
         <div class="contenido">
+                    
+            {% if mensaje != null %}
+                <h2 id="mensaje">{{ mensaje }}</h2>
+            {% endif %}
+
             <h1 id="publicar">Publica tu libro</h1>
             <div id="form_public" class="row">
                 <div id="cont_form">
-                    <form>
-                        <div class="col-12 col-sm-6 col-lg-4"><span>Titulo</span><input type="text"></div>
-                        <div class="col-12 col-sm-6 col-lg-4"><span>ISBN</span><input type="text"></div>
-                        <div class="col-12 col-sm-6 col-lg-4"><span>Precio</span><input type="text"></div>
-                        <div class="col-12 col-sm-6 col-lg-4"><span>Asignatura</span>
-                        <select>
-                            <option value="matematicas">Matemáticas</option>
-                            <option value="lengua">Lengua</option>
-                            <option value="fol">FOL</option>
-                            <option value="sociales">C. sociales</option>
-                        </select></div>
-                        <div class="col-12 col-sm-12 col-lg-4"><span>Curso</span>
-                        <select>
-                            <option value="3eso">4º ESO</option>
-                            <option value="1bach">1º BACH</option>
-                            <option value="2bach">2º BACH</option>
-                            <option value="1daw">1º DAW</option>
-                            <option value="2daw">2º DAW</option>
-                        </select></div>
+                    <span id="error_form"></span>
+                    <br>
+                    <form action="index.php" method="post" id="form_venta" onsubmit="return validar(this)">
+                        <input type="hidden" name="c" value="venta_libros">
+                        <input type="hidden" name="a" value="add_libro">
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Titulo</span>
+                            <input type="text" id="titulo" name="titulo" placeholder="Titulo" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>ISBN</span>
+                            <input type="text" id="isbn" name="isbn" placeholder="123-1-12-123456-1" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Precio</span>
+                            <input type="text" id="precio" name="precio" placeholder="0,00" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Asignatura</span>
+                            <select id="asignatura" name="asignatura" required>
+                                <option value="Matemáticas">Matemáticas</option>
+                                <option value="Lengua">Lengua</option>
+                                <option value="FOL">FOL</option>
+                                <option value="C. sociales">C. sociales</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 col-sm-12 col-lg-4">
+                            <span>Curso</span>
+                            <select id="curso" name="curso" required>
+                                <option value="4 ESO">4º ESO</option>
+                                <option value="1 BACH">1º BACH</option>
+                                <option value="2 BACH">2º BACH</option>
+                                <option value="1 DAW">1º DAW</option>
+                                <option value="2 DAW">2º DAW</option>
+                            </select>
+                        </div>
+                        
                         <div class="col-12">
                             <input type="submit" value="Publicar" class="boton-contenido">
                         </div>
