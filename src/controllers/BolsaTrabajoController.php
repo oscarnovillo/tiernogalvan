@@ -84,6 +84,14 @@ class BolsaTrabajoController
 
 
                     break;
+                case ConstantesBolsaTrabajo::MI_PERFIL_TRABAJO:
+                    $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
+                    if (v::numeric()->validate($idPerfil)) {
+                        $this->miPerfil($idPerfil);
+                    } else {
+                        $this->irAlIndex();
+                    }
+                    break;
 
             }
         } else {
@@ -149,6 +157,19 @@ class BolsaTrabajoController
         $ofertasVista->misOfertas = $misOfertasDB;
         $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
         TwigViewer::getInstance()->viewPage($page, (array)$ofertasVista);
+
+    }
+
+    public function miPerfil($idPerfil)
+    {
+        $servicios = new BolsaTrabajoServicios();
+        //Comprobar que devuelve - pendiente
+        $miPerfilDB = $servicios->miPerfil($idPerfil);
+        /*$miPerfilDB = $this->generarMisOfertas();
+        $ofertasVista = (object)[];
+        $ofertasVista->misOfertas = $miPerfilDB;*/
+        $page = ConstantesPaginas::MI_PERFIL_PAGE;
+        TwigViewer::getInstance()->viewPage($page);
 
     }
 

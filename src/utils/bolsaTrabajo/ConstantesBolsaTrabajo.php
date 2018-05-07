@@ -32,6 +32,7 @@ class ConstantesBolsaTrabajo
     const CREAR_OFERTA_TRABAJO = "crear_oferta";
     const VER_OFERTA_TRABAJO = "ver_oferta";
     const MIS_OFERTAS_TRABAJO = "mis_ofertas";
+    const MI_PERFIL_TRABAJO = "mi_perfil";
     const REQUEST_OPERATION_TRABAJO = "request_operation";
 
     /**
@@ -43,6 +44,7 @@ class ConstantesBolsaTrabajo
     const ID_OWNER_OFERTA = "id_owner";
     const NUEVA_OFERTA = "nueva_oferta";
     const OPERACION = "operacion";
+    const ID_PERFIL_PERSONA = "id_perfil";
 
     /**
      * tareas

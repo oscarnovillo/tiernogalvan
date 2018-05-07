@@ -23,6 +23,7 @@ class ConstantesPaginas {
     const CREAR_OFERTA_PAGE ="bolsaTrabajo/crear-oferta-trabajo.html";
     const VER_OFERTA_PAGE ="bolsaTrabajo/ver-oferta-trabajo.html";
     const MIS_OFERTAS_PAGE ="bolsaTrabajo/mis-ofertas-trabajo.html";
+    const MI_PERFIL_PAGE ="bolsaTrabajo/mi-perfil-persona.html";
 
 
 }

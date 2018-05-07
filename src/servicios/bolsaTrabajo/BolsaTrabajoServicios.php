@@ -80,4 +80,9 @@ class BolsaTrabajoServicios
         $dao = new BolsaTrabajoDAO();
         return $dao->getOfertasByIdOwner($idOwner);
     }
+
+    public function miPerfil($idPerfil)
+    {
+        return true;
+    }
 }

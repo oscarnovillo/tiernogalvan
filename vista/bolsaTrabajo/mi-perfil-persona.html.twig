@@ -1,0 +1,60 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block content %}
+    <div id="build_modal"></div>
+    <div class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="display-4">Datos Personales</h1>
+                    <h1 class="" id="nombre_persona">Alisteria Pendragon</h1>
+                    <p class="lead">Ciclos Formativos:</p>
+                    <ul class="">
+                        <li>One</li>
+                    </ul>
+                    <p class="lead">Información</p>
+                    <p class="" id="comentario_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit.</p>
+                    <p class="lead">Experiencia</p>
+                    <p class="" id="experiencia_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing
+                        elit.</p>
+                    <p class="lead">Perfíl Externo</p>
+                    <a class="nav-link" href="#" id="perfil_externo_persona">Linkedin perfil</a>
+                    <p class="lead">Enlaces de Interés</p>
+                    <a class="nav-link" href="#" id="enlace_persona">Perfíl Github</a>
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid d-block float-right rounded" src="https://i.imgur.com/dqZvAQ4.jpg" width="50%"
+                         height="auto" id="foto_persona">
+                    <p class="lead">Buscando Trabajo</p>
+                    <p class="text-primary" id="busca_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
+                        adipiscing elit.</p>
+                    <p class="lead">Interesado en Ofertas</p>
+                    <p class="text-primary" id="interesado_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
+                        adipiscing elit.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+
+
+
+    <script src="js/bolsaTrabajo/mis_ofertas.js"></script>
+
+{% endblock %}
