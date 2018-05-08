@@ -13,5 +13,7 @@ class Config {
     const DB_USER_NAME = "oscarnovillo";
     const DB_PASSWORD = "c557ef";
     const DB_DATABASE = "clasesdaw";
+    
+    const PASS_LOGIN = "passAlumnos";
 
 }
