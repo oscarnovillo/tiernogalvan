@@ -1,7 +1,7 @@
 # tiernogalvan
 
 
-**Esto va en negrita **
+**Esto va en negrita**
 
 proyecto fin de curso daw
 Commit - Ricardo
