@@ -92,6 +92,15 @@ class BolsaTrabajoController
                         $this->irAlIndex();
                     }
                     break;
+                case ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO:
+                    //añadir campo foto y arreglar form radios
+                    $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
+                    if (v::numeric()->validate($idPerfil)) {
+                        $this->editarPerfil($idPerfil);
+                    } else {
+                        $this->irAlIndex();
+                    }
+                    break;
 
             }
         } else {
@@ -169,6 +178,19 @@ class BolsaTrabajoController
         $ofertasVista = (object)[];
         $ofertasVista->misOfertas = $miPerfilDB;*/
         $page = ConstantesPaginas::MI_PERFIL_PAGE;
+        TwigViewer::getInstance()->viewPage($page);
+
+    }
+
+    public function editarPerfil($idPerfil)
+    {
+        $servicios = new BolsaTrabajoServicios();
+        //Comprobar que devuelve - pendiente
+        $miPerfilDB = $servicios->miPerfil($idPerfil);
+        /*$miPerfilDB = $this->generarMisOfertas();
+        $ofertasVista = (object)[];
+        $ofertasVista->misOfertas = $miPerfilDB;*/
+        $page = ConstantesPaginas::EDITAR_PERFIL_PAGE;
         TwigViewer::getInstance()->viewPage($page);
 
     }

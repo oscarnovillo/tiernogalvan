@@ -33,6 +33,7 @@ class ConstantesBolsaTrabajo
     const VER_OFERTA_TRABAJO = "ver_oferta";
     const MIS_OFERTAS_TRABAJO = "mis_ofertas";
     const MI_PERFIL_TRABAJO = "mi_perfil";
+    const EDITAR_PERFIL_TRABAJO = "editar_perfil";
     const REQUEST_OPERATION_TRABAJO = "request_operation";
 
     /**

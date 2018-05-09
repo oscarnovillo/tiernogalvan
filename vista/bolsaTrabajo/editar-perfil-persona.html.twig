@@ -1,0 +1,127 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block content %}
+    <div id="build_modal"></div>
+    <div class="py-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card-body p-5 border rounded">
+                        <h3 class="pb-3">Editar Perfil</h3>
+                        <form action="https://formspree.io/YOUREMAILHERE">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input class="form-control" placeholder="Tu nombre, por favor"></div>
+                            <div class="form-group">
+                                <label>Apellidos</label>
+                                <input class="form-control" placeholder="Tus Apellidos, por favor"></div>
+                            <div class="form-group">
+                                <label>Ciclos Formativos Cursados</label>
+                                <select class="form-control" multiple="" required="required" name="fp_oferta">
+                                    <option></option>
+                                    <option value="DAW - Desarrollo de Aplicaciones Web">DAW - Desarrollo de
+                                        Aplicaciones Web
+                                    </option>
+                                    Tenemos distintos ciclos, seleciona el que mejor se ajuste a tu medida. Para
+                                    selección múltiple presiona [Ctrl] y los ciclos que desees
+                                    <option value="ASIR -">ASIR -</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
+                                    ajuste a tu medida. Para selección múltiple presiona [Ctrl] y los ciclos que desees
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label>Información Personal</label>
+                                <small class="form-text text-muted">Cuentanos un poco sobre tu formación previa y
+                                    explica tus habilidades destacables que pueden ser relevantes para conseguir un
+                                    empleo.
+                                </small>
+                                <textarea class="form-control" rows="4" name="informacion_persona"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Experiencia</label>
+                                <small class="form-text text-muted">Has trabajado antes? o tienes experiencia de algun
+                                    tipo en el hábito laboral? Plásmalo aquí.
+                                </small>
+                                <textarea class="form-control" rows="4" name="informacion_persona"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Perfil Externo</label>
+                                <input class="form-control" placeholder="Linkedin, Infojobs.....">
+                                <small class="form-text text-muted">Tienes un perfil en otra plataforma de empleo más
+                                    completa? deja constancia de ello.&nbsp;
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label>Enlace de Interés</label>
+                                <input class="form-control" placeholder="tu web personal....">
+                                <small class="form-text text-muted">Tienes algo en la web para destacar? deja el link a
+                                    tu web &nbsp;o sitio a señalar.&nbsp;
+                                </small>
+                            </div>
+                            <button type="submit" class="btn mt-2 btn-outline-dark">Guardar Perfil&nbsp;
+                                <br></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-body p-3">
+                        <h3 class="pb-3">Configuraciones adicionales</h3>
+                        <form action="https://formspree.io/YOUREMAILHERE">
+                            <div class="form-group">
+                                <label>Estás buscando trabajo?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios"
+                                           id="exampleRadios1" value="option1" checked="">
+                                    <label class="form-check-label" for="exampleRadios1"> Si </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios"
+                                           id="exampleRadios2" value="option2">
+                                    <label class="form-check-label" for="exampleRadios2"> No </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Quieres recibir ofertas de trabajo por E-mail?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios"
+                                           id="exampleRadios1" value="option1" checked="">
+                                    <label class="form-check-label" for="exampleRadios1"> Si </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios"
+                                           id="exampleRadios2" value="option2">
+                                    <label class="form-check-label" for="exampleRadios2"> No </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn mt-2 btn-outline-dark">Guardar Configuraciones</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+
+
+
+    <script src="js/bolsaTrabajo/mis_ofertas.js"></script>
+
+{% endblock %}
