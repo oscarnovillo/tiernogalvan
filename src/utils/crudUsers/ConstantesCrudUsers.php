@@ -17,4 +17,7 @@ class ConstantesCrudUsers {
     
     
     const CRUD_PAGE = "";
+    
+    
+    const PARAM_PASS = "pass";
 }

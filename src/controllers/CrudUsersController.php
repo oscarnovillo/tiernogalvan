@@ -18,6 +18,7 @@ class CrudUsersController {
     public function crud(){
         
         $page = ConstantesCrudUsers::CRUD_PAGE;
+        $usersSevicios = new UsersServicios();
         $parameters = array();
         
         $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
@@ -25,7 +26,18 @@ class CrudUsersController {
         if (isset($action)) {
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
+                    
+                    $user = new \stdClass;
+                    
+                    $user->pass = $_REQUEST[ConstantesVentas::PARAM_PASS];
+                    $user->nick = $_REQUEST[ConstantesVentas::PARAM_NICK];
+                    
+                    $userChecked = $usersSevicios->getUser($user);
+                    
+                    if (isset($userChecked)) {
+                        
 
+                    }
                     break;
                 
                 case ConstantesCrudUsers::UPDATE_USER:

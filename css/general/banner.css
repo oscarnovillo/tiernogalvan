@@ -1,9 +1,10 @@
 #banner{
-	/*position:relative;*/
-	background-image: url("../../img/banner2.jpg");
-	background-repeat: no-repeat;/*no se repite u ocupa todo el ancho la misma imagen*/
+    /*position:relative;*/
+    background-image: url("../../img/banner2.jpg");
+    background-repeat: no-repeat;/*no se repite u ocupa todo el ancho la misma imagen*/
     background-size: 100% 100%;
     font-family: 'Merriweather', serif;
+    color:black;
 }
 
 #banner .anagrama img {

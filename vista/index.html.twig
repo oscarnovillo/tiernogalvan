@@ -5,14 +5,19 @@
     {% block styles %}{% endblock %}
 </head>
 <body>
-<header>
-{% include "comun/header.inc" %}
-    
+<header id="header">
+
+    {% include "comun/header.inc" %}
 
 </header>
-<main>
 
+<nav>
+        
     {% include "comun/nav.inc" %}
+    
+</nav>
+    
+<main>
 
     {% block content %}
         {% include "inicio/cuerpo.inc" %}
