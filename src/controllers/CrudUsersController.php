@@ -27,7 +27,7 @@ class CrudUsersController {
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
                     
-                    $user = new \stdClass;
+                    $user = new $user();
                     
                     $user->pass = $_REQUEST[ConstantesVentas::PARAM_PASS];
                     $user->nick = $_REQUEST[ConstantesVentas::PARAM_NICK];
