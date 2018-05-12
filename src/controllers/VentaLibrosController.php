@@ -54,6 +54,10 @@ class VentaLibrosController {
                     break;
             }
         }
+        $misVentas = $ventasSevicios->getMisVentas(2);
+        if($misVentas != null){
+            $parameters['misVentas'] = $misVentas;
+        }
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 }

@@ -39,4 +39,30 @@ class VentasDAO {
         $db->disconnect();
         return $insertado;
     }
+    
+    public function getAllVentas(){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $ventas = $conn->prepare("SELECT * FROM venta_libros WHERE estado != 'reservado'");
+        $ventas->setFetchMode(PDO::FETCH_ASSOC);
+        $ventas->execute();
+        
+        $db->disconnect();
+        return $ventas;
+    }
+    
+    public function getMisVentas($id){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $stmt = $conn->prepare("SELECT * FROM venta_libros WHERE id_vendedor = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        
+        $mis_ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        $db->disconnect();
+        return $mis_ventas;
+    }
 }

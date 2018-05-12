@@ -4,6 +4,29 @@
     <div class="cuerpo">
         <div class="contenido">
                     
+            {% if misVentas != null %}
+                <table>
+                    <tr>
+                        <th><span>Titulo</span></th>
+                        <th><span>ISBN</span></th>
+                        <th><span>Precio</span></th>
+                        <th><span>Asignatura</span></th>
+                        <th><span>Curso</span></th>
+                    </tr>
+                    {% for venta in misVentas %}
+                        <tr>
+                            <td>{{ venta.titulo }}</td>
+                            <td>{{ venta.isbn }}</td>
+                            <td>{{ venta.precio }}</td>
+                            <td>{{ venta.asignatura }}</td>
+                            <td>{{ venta.curso }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h1>No tienes libros a la venta</h1>
+            {% endif %}
+            
             {% if mensaje != null %}
                 <h2 id="mensaje">{{ mensaje }}</h2>
             {% endif %}

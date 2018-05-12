@@ -22,4 +22,14 @@ class VentasServicios {
         $dao = new VentasDAO();
         return $dao->addVenta($venta);
     }
+    
+    public function getAllVentas(){
+        $dao = new VentasDAO();
+        return $dao->getAllVentas();
+    }
+    
+    public function getMisVentas($id){
+        $dao = new VentasDAO();
+        return $dao->getMisVentas($id);
+    }
 }
