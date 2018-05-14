@@ -29,7 +29,7 @@ class CrudUsersController {
             $user = new Users();
                     
             $user->pass = $_REQUEST[ConstantesVentas::PARAM_PASS];
-            $user->nick = $_REQUEST[ConstantesVentas::PARAM_NICK];
+            $user->nombre = $_REQUEST[ConstantesVentas::PARAM_NICK];
             //etc etc
             
             switch ($action) {
@@ -50,11 +50,35 @@ class CrudUsersController {
                     break;
                 
                 case ConstantesCrudUsers::UPDATE_USER:
-                    $userChecked = $usersSevicios->updateUser($user);
+                    $userChecked = $usersSevicios->getUser($user);
+                    
+                    if($userChecked){
+                        $userChecked = $usersSevicios->updateUser($user);
+                        
+                        if($userChecked){
+                            $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_YES;
+                        }else{
+                            $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_ERROR;
+                        }
+                    }else{
+                        $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_NO;
+                    }
                     break;
-                
+                   
                 case ConstantesCrudUsers::DELETE_USER:
-                    $userChecked = $usersSevicios->deleteUser($user);
+                    $userChecked = $usersSevicios->getUser($user);
+                    
+                    if(!$userChecked){
+                        $userChecked = $usersSevicios->deleteUser($user);
+                        
+                        if($userChecked){
+                            $parameters['mensaje'] = ConstantesCrudUsers::DELETE_YES;
+                        }else{
+                            $parameters['mensaje'] = ConstantesCrudUsers::DELETE_ERROR;
+                        }
+                    }else{
+                        $parameters['mensaje'] = ConstantesCrudUsers::DELETE_NO;
+                    }
                     break;
 
             }
