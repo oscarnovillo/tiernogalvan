@@ -9,9 +9,9 @@
 namespace servicios\bolsaTrabajo;
 
 
+use Carbon\Carbon;
 use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use Respect\Validation\Validator as v;
-use Carbon\Carbon;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 
 class BolsaTrabajoServicios
@@ -40,16 +40,22 @@ class BolsaTrabajoServicios
         return $this->validarOferta($json);
     }
 
+    public function getEstudiosCentro()
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getEstudiosCentroDB();
+    }
+
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;
         $validador = v::attribute(ConstantesBolsaTrabajo::TITULO_OFERTA, v::stringType()->length(10, 200))
             ->attribute(ConstantesBolsaTrabajo::DESCRIPCION_OFERTA, v::stringType()->length(10, 1000))
-            ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 750))
+            ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
             ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::stringType()->length(10, 80)))
-            ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(10, 50)))
+            ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(10, 60)))
             ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(10, 80)))
-            ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(10, 85)))
+            ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(3, 85)))
             ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
             ->attribute(ConstantesBolsaTrabajo::SALARIO_OFERTA, v::optional(v::floatVal()))//no funciona con Coma

@@ -9,48 +9,199 @@
 namespace dao\bolsaTrabajo;
 
 
-use Latitude\QueryBuilder\Engine\CommonEngine;
+use dao\DBConnection;
+use function Latitude\QueryBuilder\alias;
+use Latitude\QueryBuilder\Engine\MySqlEngine;
+use function Latitude\QueryBuilder\on;
 use Latitude\QueryBuilder\QueryFactory;
-use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
+use model\EstudiosCentroTrabajo;
+use model\OfertaTrabajo;
+use utils\bolsaTrabajo\ConstantesBD;
+use function Latitude\QueryBuilder\field;
+
 
 class BolsaTrabajoDAO
 {
-    //TODO - temporal hasta tener una base de datos real
+
     public function insertOfertaDB($oferta)
     {
-        $factory = new QueryFactory(new CommonEngine());
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
         $query = $factory
-            ->insert('OfertaTrabajo', [
-                ConstantesBolsaTrabajo::TITULO_OFERTA => $oferta->titulo_oferta
-                , ConstantesBolsaTrabajo::DESCRIPCION_OFERTA => $oferta->descripcion_oferta
-                , ConstantesBolsaTrabajo::EMPRESA_OFERTA => $oferta->empresa_oferta
-                , ConstantesBolsaTrabajo::WEB_OFERTA => $oferta->web_oferta
-                , ConstantesBolsaTrabajo::EMAIL_OFERTA => $oferta->email_oferta
-                , ConstantesBolsaTrabajo::TELEFONO_OFERTA => $oferta->telefono_oferta
-                , ConstantesBolsaTrabajo::REQUISITOS_OFERTA => $oferta->requisitos_oferta
-                , ConstantesBolsaTrabajo::VACANTE_OFERTA => $oferta->vacante_oferta
-                , ConstantesBolsaTrabajo::SALARIO_OFERTA => $oferta->salario_oferta
-                , ConstantesBolsaTrabajo::LOCALIZACION_OFERTA => $oferta->localizacion_oferta
-                , ConstantesBolsaTrabajo::CADUCIDAD_OFERTA => $oferta->caducidad_oferta
+            ->insert(ConstantesBD::TABLA_OFERTA, [
+                ConstantesBD::ID_OFERTA => null,
+                ConstantesBD::TITULO => $oferta->titulo_oferta
+                , ConstantesBD::DESCRIPCION => $oferta->descripcion_oferta
+                , ConstantesBD::EMPRESA => $oferta->empresa_oferta
+                , ConstantesBD::WEB => $oferta->web_oferta
+                , ConstantesBD::EMAIL => $oferta->email_oferta
+                , ConstantesBD::TELEFONO => $oferta->telefono_oferta
+                , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
+                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::SALARIO => $oferta->salario_oferta
+                , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
+                , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
+                , ConstantesBD::ID_USER => $oferta->id_user_oferta
             ])
             ->compile();
-        //echo $query->sql();
-        // var_dump($query->params());
-        //Tiene que devolver el objeto con ID
-        return true;
+
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+            //insert en la tabla oferta de trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+            $oferta->id_oferta = $db->lastInsertId();
+
+            //insert tabla oferta Estudios
+
+            //$factory = new QueryFactory(new MySqlEngine());
+
+            /*$arrayMap = [];
+            foreach ($oferta->fp_oferta as $codeFp) {
+                $arrayMap[ConstantesBD::ID_OFERTA] = $oferta->id_oferta;
+                $arrayMap[ConstantesBD::ID_ESTUDIO] = $codeFp;
+            }
+                        $query2 = $factory
+                            ->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                            ->map($arrayMap)->compile();*/
+
+            $query2 = $factory->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                ->columns(ConstantesBD::ID_OFERTA, ConstantesBD::ID_ESTUDIO);
+            foreach ($oferta->fp_oferta as $codeFp) {
+                $query2->values($oferta->id_oferta, $codeFp);
+            }
+            $query2->compile();
+            $stmt = $db->prepare($query2->sql($engine));
+            $stmt->execute($query2->params($engine));
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $oferta;
     }
 
-    //contruir llamada
+
     public function verOfertaDB($idOferta)
     {
-        return true;
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::ID_OFERTA)->eq($idOferta))
+            ->compile();
 
+        $dbConnection = null;
+        $oferta = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Oferta de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $oferta = $stmt->fetchObject(OfertaTrabajo::class);
+
+            //recuperar titulos para la oferta
+            $EstudiosTabla = "ESTUDIOS";
+            $OfertaTabla = "OFERTAS";
+            $query2 = $factory
+                ->select($EstudiosTabla . "." . ConstantesBD::TITULO)
+                ->from(alias(ConstantesBD::TABLA_ESTUDIOS_CENTRO, $EstudiosTabla))
+                ->join(alias(ConstantesBD::TABLA_OFERTA_ESTUDIOS, $OfertaTabla)
+                    , on($EstudiosTabla . "." . ConstantesBD::ID_FP, $OfertaTabla . "." . ConstantesBD::ID_ESTUDIO))
+                ->where(field($OfertaTabla . "." . ConstantesBD::ID_OFERTA)->eq($oferta->ID_OFERTA))
+                ->compile();
+
+            $stmt = $db->prepare($query2->sql());
+            $stmt->execute($query2->params());
+            $estudiosOferta = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $oferta->FPTARGETS = $estudiosOferta;
+
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $oferta;
+    }
+
+    /***
+     * Recupera un array con la id y el nombre del Ciclo formativo del centro de estudios
+     * @return array
+     */
+    public function getEstudiosCentroDB()
+    {
+        $factory = new QueryFactory(new MySqlEngine());
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_ESTUDIOS_CENTRO)
+            ->compile();
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute();
+            $estudios = $stmt->fetchAll(\PDO::FETCH_CLASS, EstudiosCentroTrabajo::class);
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $estudios;
     }
 
     //construir query
     public function getOfertasByIdOwner($idOwner)
     {
-        return true;
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::ID_USER)->eq($idOwner))
+            ->compile();
+
+        $dbConnection = null;
+        $ofertasDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS,OfertaTrabajo::class);
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $ofertasDB;
     }
 
     public function getFpTitulosByIdOferta($idOferta)

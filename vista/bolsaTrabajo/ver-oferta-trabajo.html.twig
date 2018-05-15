@@ -7,34 +7,34 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 border border-info border border-info rounded">
-                    <h2 id="titulo_oferta" contenteditable="false">{{ titulo }}</h2>
+                    <h2 id="titulo_oferta" contenteditable="false">{{ TITULO }}</h2>
                     <h5 class="text-secondary">Descripción</h5>
-                    <p class="border border-info rounded" id="descripcion_oferta">{{ descripcion }}</p>
+                    <p class="border border-info rounded" id="descripcion_oferta">{{ DESCRIPCION }}</p>
                     <h5 class="text-secondary">Requisitos</h5>
-                    <p class="border border-info rounded" id="requisitos_oferta">{{ requisitos }}</p>
+                    <p class="border border-info rounded" id="requisitos_oferta">{{ REQUISITOS }}</p>
                     <h5 class="text-secondary">Ciclos Compatibles con la oferta</h5>
                     <ul class="">
-                        {% for fp in fpTargets %}
-                            <li class="border border-info rounded" id="fp_oferta"> {{ fp }} </li>
+                        {% for fp in FPTARGETS %}
+                            <li class="border border-info rounded" id="fp_oferta"> {{ fp.TITULO }} </li>
                         {% endfor %}
 
                     </ul>
                     <h5 class="text-secondary">Empresa Responsable</h5>
-                    <p class="border border-info rounded" id="empresa_oferta">{{ empresa }}</p>
+                    <p class="border border-info rounded" id="empresa_oferta">{{ EMPRESA }}</p>
                     <h5 class="text-secondary">Web del anunciante/Enlace con información relevante</h5>
-                    <p class="border border-info rounded" id="web_oferta">{{ web }}</p>
+                    <p class="border border-info rounded" id="web_oferta">{{ WEB }}</p>
                     <h5 class="text-secondary">E-mail de contacto</h5>
-                    <p class="border border-info rounded" id="email_oferta">{{ email }}</p>
+                    <p class="border border-info rounded" id="email_oferta">{{ EMAIL }}</p>
                     <h5 class="text-secondary">Teléfono de contacto</h5>
-                    <p class="border border-info rounded" id="telefono_oferta">{{ telefono }}</p>
+                    <p class="border border-info rounded" id="telefono_oferta">{{ TELEFONO }}</p>
                     <h5 class="text-secondary">Número de Vacantes Disponibles</h5>
-                    <p class="border border-info rounded" id="vacante_oferta">{{ vacantes }}</p>
+                    <p class="border border-info rounded" id="vacante_oferta">{{ VACANTES }}</p>
                     <h5 class="text-secondary">Salario mensual aproximado [€]</h5>
-                    <p class="border border-info rounded" id="salario_oferta">{{ salario }}</p>
+                    <p class="border border-info rounded" id="salario_oferta">{{ SALARIO }}</p>
                     <h5 class="text-secondary">Localización</h5>
-                    <p class="border border-info rounded" id="localizacion_oferta">{{ localizacion }}</p>
+                    <p class="border border-info rounded" id="localizacion_oferta">{{ LOCALIZACION }}</p>
                     <h5 class="text-secondary">Fecha de Creación Oferta</h5>
-                    <p class="border border-info rounded" id="creacion_oferta">{{ creacion }}</p>
+                    <p class="border border-info rounded" id="creacion_oferta">{{ CREACION }}</p>
                 </div>
                 <div class="col-md-4">
                     <h3 class="">Estas Interesad@ en esta Oferta de Trabajo?</h3>

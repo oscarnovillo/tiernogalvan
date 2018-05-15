@@ -92,18 +92,18 @@ function buildCodeModal(genericObject) {
                     '<input type="hidden" class="form-control" name="action" required="required" value="crear_oferta_form"></div>'+
                     '<div class="form-group">'+
                     '<label class="">Título de la oferta *</label>'+
-                '<input type="text" class="form-control" placeholder="Oferta de Trabajo" name="titulo_oferta" required="required" value="'+genericObject.titulo+'">'+
+                '<input type="text" class="form-control" placeholder="Oferta de Trabajo" name="titulo_oferta" required="required" value="'+genericObject.TITULO+'">'+
                     '<small class="form-text text-muted">Describe en pocas palabras, lo que estas ofreciendo</small>'+
                 '</div>'+
                '<div class="form-group">'+
                    '<label>Descripción</label>'+
                    '<small class="form-text text-muted">Cuentanos en que consiste el trabajo</small>'+
-               '<textarea class="form-control" rows="4" name="descripcion_oferta">'+genericObject.descripcion+'</textarea>'+
+               '<textarea class="form-control" rows="4" name="descripcion_oferta">'+genericObject.DESCRIPCION+'</textarea>'+
                    '</div>'+
                    '<div class="form-group">'+
                    '<label>Requisitos</label>'+
                    '<small class="form-text text-muted">Cuentanos un poco las habilidades necesarias que necesita el futuro candidato</small>'+
-               '<textarea class="form-control" rows="4" name="requisitos_oferta">'+genericObject.requisitos+'</textarea>'+
+               '<textarea class="form-control" rows="4" name="requisitos_oferta">'+genericObject.REQUISITOS+'</textarea>'+
                    '</div>'+
                    '<div class="form-group">'+
                    '<label>Ciclo de Formación Profesional</label>'+
@@ -114,42 +114,42 @@ function buildCodeModal(genericObject) {
                '</div>'+
                '<div class="form-group">'+
                    '<label>Nombre de la Empresa</label>'+
-               '<input type="text" class="form-control" placeholder="MiEmpresa SL" name="empresa_oferta" value="'+genericObject.empresa+'">'+
+               '<input type="text" class="form-control" placeholder="MiEmpresa SL" name="empresa_oferta" value="'+genericObject.EMPRESA+'">'+
                    '<small class="form-text text-muted">Queremos saber quien ofrece el empleo</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>web/información adicional</label>'+
-               '<input type="text" class="form-control" placeholder="www.mi-empresa.es" name="web_oferta" value="'+genericObject.web+'">'+
+               '<input type="text" class="form-control" placeholder="www.mi-empresa.es" name="web_oferta" value="'+genericObject.WEB+'">'+
                    '<small class="form-text text-muted">Tienes una web? Quieres ofrecer más información? Has publicado esta oferta en otras plataformas? Dejanos el enlace</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>E-mail</label>'+
-                   '<input type="email" class="form-control" placeholder="contacto@mi-empresa.es" name="email_oferta" value="'+genericObject.email+'">'+
+                   '<input type="email" class="form-control" placeholder="contacto@mi-empresa.es" name="email_oferta" value="'+genericObject.EMAIL+'">'+
                    '<small class="form-text text-muted">Nuestros usuari@s estan interesados, escribe un e-mail donde contactarte.&nbsp;</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>Teléfono</label>'+
-                   '<input type="text" class="form-control" placeholder="91123456" name="telefono_oferta" value="'+genericObject.telefono+'">'+
+                   '<input type="text" class="form-control" placeholder="91123456" name="telefono_oferta" value="'+genericObject.TELEFONO+'">'+
                    '<small class="form-text text-muted">O si lo prefieres, puedes dejarnos un número de telefono</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>Vacantes</label>'+
-                   '<input type="text" class="form-control" placeholder="10" name="vacante_oferta" value="'+genericObject.vacantes+'">'+
+                   '<input type="text" class="form-control" placeholder="10" name="vacante_oferta" value="'+genericObject.VACANTES+'">'+
                    '<small class="form-text text-muted">Cuántos puestos de empleo, quieres ofrecer</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>Salario</label>'+
-                   '<input type="text" class="form-control" placeholder="1000" name="salario_oferta" value="'+genericObject.salario+'">'+
+                   '<input type="text" class="form-control" placeholder="1000" name="salario_oferta" value="'+genericObject.SALARIO+'">'+
                    '<small class="form-text text-muted">Cuál es el sueldo mensual, que quieres mostrar</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>Localización</label>'+
-                   '<input type="text" class="form-control" placeholder="Madrid" name="localizacion_oferta" value="'+genericObject.localizacion+'">'+
+                   '<input type="text" class="form-control" placeholder="Madrid" name="localizacion_oferta" value="'+genericObject.LOCALIZACION+'">'+
                    '<small class="form-text text-muted">Dónde esta el centro de trabajo? Dinos la ciudad, barrio, calle o lugar apróximado</small>'+
                '</div>'+
                '<div class="form-group">'+
                    '<label>Caducidad</label>'+
-                   '<input type="date" class="form-control" placeholder="20/01/2025" name="caducidad_oferta" required="required" value="'+genericObject.caducidad+'">'+
+                   '<input type="date" class="form-control" placeholder="20/01/2025" name="caducidad_oferta" required="required" value="'+genericObject.CADUCIDAD+'">'+
                    '<small class="form-text text-muted">Danos un plazo, hasta cuando deseas mostrar esta oferta en nuestra plataforma?</small>'+
                '</div>'+
            '</form>'+

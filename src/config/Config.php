@@ -5,9 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace config;
 
-class Config {
+class Config
+{
 
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "oscarnovillo";

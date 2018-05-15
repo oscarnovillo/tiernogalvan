@@ -111,11 +111,15 @@ class BolsaTrabajoController
         }
     }
 
-    //TODO - Construir funcionalidad
+
     public function crearOfertaVista()
     {
         $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
-        TwigViewer::getInstance()->viewPage($page);
+        $servicios = new BolsaTrabajoServicios();
+        $estudios = (object)[];
+        $estudios->FP_ESTUDIOS = $servicios->getEstudiosCentro();
+
+        TwigViewer::getInstance()->viewPage($page, (array)$estudios);
     }
 
     public function crearOfertaForm($datos)
@@ -123,15 +127,16 @@ class BolsaTrabajoController
         $servicios = new BolsaTrabajoServicios();
         if ($servicios->tratarParametrosNuevaOferta($datos)) {
             //comprobar si devuelve un error
+            $datos->id_user_oferta = "10";//Temporal hasta tener enlace con usuarios
             $newOfertaDB = $servicios->insertNuevaOferta($datos);
-            $newOfertaDB2 = $this->generarOferta();
+
 
         } else {
             //oferta de trabajo mal hecha
         }
 
         //var_dump($datos);
-        echo json_encode($newOfertaDB2);
+        echo json_encode($newOfertaDB);
         return true;
         $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
         TwigViewer::getInstance()->viewPage($page);
@@ -144,7 +149,7 @@ class BolsaTrabajoController
         $servicios = new BolsaTrabajoServicios();
         //Comprobar que devuelve - pendiente
         $ofertaDB = $servicios->verOferta($idOferta);
-        $ofertaDB = $this->generarOferta();
+        //$ofertaDB = $this->generarOferta();
 
         if ($responseJson == true) {
             echo json_encode($ofertaDB);
@@ -161,7 +166,7 @@ class BolsaTrabajoController
         $servicios = new BolsaTrabajoServicios();
         //Comprobar que devuelve - pendiente
         $misOfertasDB = $servicios->misOfertas($idOwner);
-        $misOfertasDB = $this->generarMisOfertas();
+        //$misOfertasDB = $this->generarMisOfertas();
         $ofertasVista = (object)[];
         $ofertasVista->misOfertas = $misOfertasDB;
         $page = ConstantesPaginas::MIS_OFERTAS_PAGE;

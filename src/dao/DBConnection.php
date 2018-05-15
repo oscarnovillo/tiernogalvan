@@ -18,24 +18,28 @@ use config\Config;
  *
  * @author user
  */
-class DBConnection {
+class DBConnection
+{
 
     private $db = NULL;
 
     //put your code here
-    public function getConnection() {
+    public function getConnection()
+    {
         try {
-            $dsn = "mysql:host=" . Config::DB_SERVER_NAME . ";dbname=" . Config::DB_DATABASE;
+            $dsn = "mysql:host=" . Config::DB_SERVER_NAME . ";dbname=" . Config::DB_DATABASE . ";charset=utf8";
             $this->db = new PDO($dsn, Config::DB_USER_NAME, Config::DB_PASSWORD);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
         return $this->db;
     }
 
-    public function disconnect() {
+    public function disconnect()
+    {
         if ($this->db != NULL) {
-            $this->db  = NULL;
+            $this->db = NULL;
         }
     }
 

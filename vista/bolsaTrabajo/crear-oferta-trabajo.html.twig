@@ -32,12 +32,15 @@
                         </div>
                         <div class="form-group">
                             <label>Ciclo de Formación Profesional *</label>
-                            <select class="form-control" multiple="" required="required" name="fp_oferta">
-                                <option></option>
-                                <option>DAW - Desarrollo de Aplicaciones Web</option>
-                                <option>ASIR -</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <select class="form-control" multiple="" size="10" required="required" name="fp_oferta">
+
+
+                                {% for estudios in FP_ESTUDIOS %}
+                                    <option value="{{ estudios.ID_FP }}">{{ estudios.TITULO }}</option>
+
+
+                                {% endfor %}
+
                             </select>
                             <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
                                 ajuste a
