@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Crete+Round|Merriweather|Josefin+Sans|Montserrat|Vollkorn');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Righteous');
-@import url(menu.css);
+/*@import url(menu.css);*/
 @import url(banner.css);
 @import url(contenido.css);
 @import url(subcontenido.css);
@@ -63,7 +63,7 @@ button{
 }
 
 main{ 
-  margin-top: 65px;
+  padding-bottom: 15px;
   background: #dbe1ea;
 }
 

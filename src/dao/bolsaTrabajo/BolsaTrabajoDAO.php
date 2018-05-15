@@ -10,14 +10,14 @@ namespace dao\bolsaTrabajo;
 
 
 use dao\DBConnection;
-use function Latitude\QueryBuilder\alias;
 use Latitude\QueryBuilder\Engine\MySqlEngine;
-use function Latitude\QueryBuilder\on;
 use Latitude\QueryBuilder\QueryFactory;
 use model\EstudiosCentroTrabajo;
 use model\OfertaTrabajo;
 use utils\bolsaTrabajo\ConstantesBD;
+use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
+use function Latitude\QueryBuilder\on;
 
 
 class BolsaTrabajoDAO
@@ -133,7 +133,6 @@ class BolsaTrabajoDAO
             $oferta->FPTARGETS = $estudiosOferta;
 
 
-
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         } finally {
@@ -193,7 +192,7 @@ class BolsaTrabajoDAO
             //recuperar Ofertas de Trabajo
             $stmt = $db->prepare($query->sql());
             $stmt->execute($query->params());
-            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS,OfertaTrabajo::class);
+            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS, OfertaTrabajo::class);
 
 
         } catch (\Exception $exception) {
@@ -204,8 +203,58 @@ class BolsaTrabajoDAO
         return $ofertasDB;
     }
 
+
     public function getFpTitulosByIdOferta($idOferta)
     {
-        return true;
+
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        //Recupera los id estudios del centro
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_ESTUDIOS_CENTRO)
+            ->compile();
+
+        $EstudiosTabla = "ESTUDIOS";
+        $OfertaTabla = "OFERTAS";
+
+        $query2 = $factory
+            ->select($EstudiosTabla . "." . ConstantesBD::ID_FP)
+            ->from(alias(ConstantesBD::TABLA_ESTUDIOS_CENTRO, $EstudiosTabla))
+            ->join(alias(ConstantesBD::TABLA_OFERTA_ESTUDIOS, $OfertaTabla)
+                , on($EstudiosTabla . "." . ConstantesBD::ID_FP, $OfertaTabla . "." . ConstantesBD::ID_ESTUDIO))
+            ->where(field($OfertaTabla . "." . ConstantesBD::ID_OFERTA)->eq($idOferta))
+            ->compile();
+
+
+        $dbConnection = null;
+        $estudiosDBBundle = (object)[];
+
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Estudios del centro
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $estudiosDB = $stmt->fetchAll(\PDO::FETCH_CLASS, EstudiosCentroTrabajo::class);
+
+
+            //recuperamos las id de la oferta
+            $stmt = $db->prepare($query2->sql());
+            $stmt->execute($query2->params());
+            $id_ofertasDB = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            $estudiosDBBundle->ESTUDIOS = $estudiosDB;
+            $estudiosDBBundle->KEYS = $id_ofertasDB;
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $estudiosDBBundle;
     }
 }//fin clase

@@ -75,7 +75,7 @@ class BolsaTrabajoController
                             if (v::numeric()->validate($idOferta)) {
                                 $servicios = new BolsaTrabajoServicios();
                                 $titulos = $servicios->getOfertaFpTitulo($idOferta);//temporal hasta tener base de datos
-                                $titulos = $this->generarTitulos();
+                                //$titulos = $this->generarTitulos();
                                 echo json_encode($titulos);
                             }
 
