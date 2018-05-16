@@ -1,3 +1,53 @@
+$(document).ready(function () {
+
+        $('#build_modal').on("click", "#ok_modal", function () {
+
+            $("#form_update_oferta").submit(function (ev) {//Enviamos los datos de la oferta para actualizarla en DB
+                ev.preventDefault();
+                var $form = $("#form_update_oferta");
+                var data = getFormData($form);
+                enviarAlServidor(data);
+            });
+        });
+
+
+    }
+);
+
+function getFormData($form) {
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+    var fp_ofertas = [];
+    $.map(unindexed_array, function (n, i) {
+        if (n["name"] === "fp_oferta") {
+            fp_ofertas.push(n["value"]);
+            indexed_array[n["name"]] = fp_ofertas;
+
+        } else {
+            indexed_array[n['name']] = n['value'];
+        }
+
+    });
+
+    return indexed_array;
+}
+
+
+function enviarAlServidor(datos) {
+    $.ajax({
+        url: "index.php?c=bolsa_trabajo&a=crear_oferta&tarea=update",
+        data: {
+            update_oferta: JSON.stringify(datos)
+        },
+        success: function (result) {
+            $('#request_modal').modal('hide');
+            console.log(result);
+        }
+    });
+
+}
+
+
 function editarOferta(idOferta) {
 //llamada de AJAX -  para devolver datos de oferta creada por el/la usuari@
 
@@ -80,7 +130,7 @@ function createAndLaunchModalView(genericObject) {
     $('#request_modal').modal('show');
 }
 
-//TODO - poblar con datos lo recibido del servidor
+
 function buildCodeModal(genericObject) {
     var cabecera = "Editar Oferta de trabajo";
     var okText = "Guardar Cambios";
@@ -93,12 +143,13 @@ function buildCodeModal(genericObject) {
         '<span aria-hidden="true">&times;</span>' +
         '</button>' +
         '</div>' +
+        '<form class="" id="form_update_oferta" action="">' +
         '<div class="modal-body">' +
-        '<form class="" id="form_crear_oferta" action="">' +
+
         '<p class="">Edita toda la información que quieras, pero no te olvides en guardar los cambios' +
         '<br></p>' +
         '<div class="input-group">' +
-        '<input type="hidden" class="form-control" name="action" required="required" value="crear_oferta_form"></div>' +
+        '<input type="hidden" class="form-control" name="action" required="required" value="update_oferta_form"></div>' +
         '<div class="form-group">' +
         '<label class="">Título de la oferta *</label>' +
         '<input type="text" class="form-control" placeholder="Oferta de Trabajo" name="titulo_oferta" required="required" value="' + genericObject.TITULO + '">' +
@@ -158,19 +209,27 @@ function buildCodeModal(genericObject) {
         '</div>' +
         '<div class="form-group">' +
         '<label>Caducidad</label>' +
-        '<input type="date" class="form-control" placeholder="20/01/2025" name="caducidad_oferta" required="required" value="' + genericObject.CADUCIDAD + '">' +
+        '<input type="date" class="form-control" placeholder="20/01/2025" name="caducidad_oferta" required="required" value="' + getFecha(genericObject.CADUCIDAD) + '">' +
         '<small class="form-text text-muted">Danos un plazo, hasta cuando deseas mostrar esta oferta en nuestra plataforma?</small>' +
         '</div>' +
-        '</form>' +
+
         '</div>' +
         '<div class="modal-footer">' +
         '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>' +
-        '<button type="button" class="btn btn-primary" data-dismiss="modal" id="ok_modal">' + okText + '</button>' +
+        '<button type="submit" class="btn btn-primary"  id="ok_modal">' + okText + '</button>' +
         '</div>' +
+        '</form>' +
         '</div>' +
         '</div>' +
         '</div>';
 
 
     return code;
+}
+
+function getFecha(objString) {
+    var now = new Date(objString);
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    return now.getFullYear() + "-" + (month) + "-" + (day);
 }

@@ -40,6 +40,12 @@ class BolsaTrabajoController
                         $datos = json_decode($datos);
                         $this->crearOfertaForm($datos);
 
+                    }else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
+
+                        $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::UPDATE_OFERTA);
+                        $datos = json_decode($datos);
+                        $this->updateOfertaForm($datos);
+
                     } else {
                         $this->crearOfertaVista();
                     }
@@ -229,7 +235,7 @@ class BolsaTrabajoController
 
         return $newOfertaDB2;
     }
-
+//TODO - Borrar
     public function generarMisOfertas()
     {
         $misOfertillas = [];
@@ -245,7 +251,7 @@ class BolsaTrabajoController
 
         return $misOfertillas;
     }
-
+//TODO - Borrar
     public function generarTitulos()
     {
         $misTitulos = [];
@@ -260,6 +266,12 @@ class BolsaTrabajoController
         }
 
         return $misTitulos;
+    }
+
+    private function updateOfertaForm($datos)
+    {
+        //TODO - pendiente servicios y DAO para UPDATE
+        echo var_dump($datos);
     }
 
 }//fin clase

@@ -44,6 +44,7 @@ class ConstantesBolsaTrabajo
     const RESPONSE_JSON = "response_json";
     const ID_OWNER_OFERTA = "id_owner";
     const NUEVA_OFERTA = "nueva_oferta";
+    const UPDATE_OFERTA = "update_oferta";
     const OPERACION = "operacion";
     const ID_PERFIL_PERSONA = "id_perfil";
 
@@ -51,5 +52,6 @@ class ConstantesBolsaTrabajo
      * tareas
      */
     const INSERT = "insert";
+    const UPDATE = "update";
     const OFERTA_FP_CODES = "oferta_fp_codes";
 }
