@@ -6,6 +6,8 @@ use controllers\BolsaTrabajoController;
 use controllers\MaintenanceController;
 use controllers\TestController;
 use controllers\VentaLibrosController;
+use controllers\LoginUsers;
+use controllers\CrudUsersController;
 use controllers\TareasController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
@@ -36,6 +38,14 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::TAREAS_CONTROLLER:
             $controller = new TareasController();
             $controller->tareas();
+            break;
+        case Constantes::CRUD_CONTROLLER:
+            $controller = new CrudUsersController();
+            $controller->crud();
+            break;
+        case Constantes::LOGIN_CONTROLLER:
+            $controller = new LoginUsers();
+            $controller->login();
             break;
     }
 }

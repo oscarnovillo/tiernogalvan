@@ -22,4 +22,6 @@ class Constantes
     const BOLSA_TRABAJO_CONTROLLER = "bolsa_trabajo";
     const VENTA_LIBROS_CONTROLLER = "venta_libros";
     const TAREAS_CONTROLLER = "tareas";
+    const CRUD_CONTROLLER = "crud_users";
+    const LOGIN_CONTROLLER = "login_users";
 }

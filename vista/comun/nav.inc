@@ -13,6 +13,7 @@
                 <li><a href="/index.php?c=venta_libros">Libros 2ª mano</a></li>
                 <li><a href="/index.php?c=tareas">Tareas para alumnos</a></li>
                 <li><a href="index.php?c=bolsa_trabajo">Bolsa de Trabajo</a></li>
+                <li><a href="index.php?c=crud_users">Crud Users</a></li>
             </ul>
         </div>
     </nav>

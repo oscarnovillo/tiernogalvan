@@ -7,6 +7,7 @@ use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
 use model\Users;
+use servicios\users\UsersServicios;
 
 /**
  * Description of CrudUsersController
@@ -22,7 +23,7 @@ class CrudUsersController {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
+        $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
             
@@ -82,7 +83,8 @@ class CrudUsersController {
                     break;
 
             }
+        }else{
+            TwigViewer::getInstance()->viewPage($page,$parameters);
         }
-        TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 }

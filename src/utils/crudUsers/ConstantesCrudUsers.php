@@ -26,10 +26,10 @@ class ConstantesCrudUsers {
     const DELETE_ERROR = "No se ha podido borrar al usuario";
     const DELETE_NO = "El usuario ya existe";
     
+    const CRUD_PAGE = "crudUsers/crudUsers.html";
     
     
     
-    const CRUD_PAGE = "";
     
     
     const PARAM_PASS = "pass";

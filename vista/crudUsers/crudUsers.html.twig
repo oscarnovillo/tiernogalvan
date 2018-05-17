@@ -1,0 +1,76 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block content %}
+    
+    <div class="contenedor">
+          
+            <h1>Listado de Usuarios</h1>
+            
+            <form action="index.php" method="post" id="form_venta" onsubmit="return validar(this)">
+                        <input type="hidden" name="c" value="venta_libros">
+                        <input type="hidden" name="a" value="add_libro">
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Titulo</span>
+                            <input type="text" id="titulo" name="titulo" placeholder="Titulo" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>ISBN</span>
+                            <input type="text" id="isbn" name="isbn" placeholder="123-1-12-123456-1" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Precio</span>
+                            <input type="text" id="precio" name="precio" placeholder="0,00" required>
+                        </div>
+                        
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <span>Asignatura</span>
+                            <select id="asignatura" name="asignatura" required>
+                                <option value="Matemáticas">Matemáticas</option>
+                                <option value="Lengua">Lengua</option>
+                                <option value="FOL">FOL</option>
+                                <option value="C. sociales">C. sociales</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 col-sm-12 col-lg-4">
+                            <span>Curso</span>
+                            <select id="curso" name="curso" required>
+                                <option value="4 ESO">4º ESO</option>
+                                <option value="1 BACH">1º BACH</option>
+                                <option value="2 BACH">2º BACH</option>
+                                <option value="1 DAW">1º DAW</option>
+                                <option value="2 DAW">2º DAW</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <input type="submit" value="Publicar" class="boton-contenido">
+                        </div>
+                    </form>
+                
+                
+            
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <script src="js/bolsaTrabajo/crear_oferta.js"></script>
+
+{% endblock %}
