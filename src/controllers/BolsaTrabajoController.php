@@ -131,7 +131,7 @@ class BolsaTrabajoController
     public function crearOfertaForm($datos)
     {
         $servicios = new BolsaTrabajoServicios();
-        if ($servicios->tratarParametrosNuevaOferta($datos)) {
+        if ($servicios->tratarParametrosOferta($datos)) {
             //comprobar si devuelve un error
             $datos->id_user_oferta = "10";//Temporal hasta tener enlace con usuarios
             $newOfertaDB = $servicios->insertNuevaOferta($datos);
@@ -271,7 +271,19 @@ class BolsaTrabajoController
     private function updateOfertaForm($datos)
     {
         //TODO - pendiente servicios y DAO para UPDATE
-        echo var_dump($datos);
+        $servicios = new BolsaTrabajoServicios();
+        if ($servicios->tratarParametrosOferta($datos)) {
+            //comprobar si devuelve un error
+            //$datos->id_user_oferta = "10";//Temporal hasta tener enlace con usuarios
+            $newOfertaDB = $servicios->actualizarOferta($datos);
+
+
+        } else {
+            //oferta de trabajo mal hecha
+        }
+
+
+       // echo var_dump($datos);
     }
 
 }//fin clase

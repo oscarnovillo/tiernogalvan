@@ -152,6 +152,7 @@ function buildCodeModal(genericObject) {
         '<input type="hidden" class="form-control" name="action" required="required" value="update_oferta_form"></div>' +
         '<div class="form-group">' +
         '<label class="">Título de la oferta *</label>' +
+        '<input type="hidden"  name="id_oferta" required="required" value="' + genericObject.ID_OFERTA + '">' +
         '<input type="text" class="form-control" placeholder="Oferta de Trabajo" name="titulo_oferta" required="required" value="' + genericObject.TITULO + '">' +
         '<small class="form-text text-muted">Describe en pocas palabras, lo que estas ofreciendo</small>' +
         '</div>' +

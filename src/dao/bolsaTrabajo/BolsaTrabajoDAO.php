@@ -257,4 +257,74 @@ class BolsaTrabajoDAO
         }
         return $estudiosDBBundle;
     }
+
+    public function updateOfertaDB($oferta)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->update(ConstantesBD::TABLA_OFERTA, [
+                //ConstantesBD::ID_OFERTA => $oferta->id_oferta,
+                ConstantesBD::TITULO => $oferta->titulo_oferta
+                , ConstantesBD::DESCRIPCION => $oferta->descripcion_oferta
+                , ConstantesBD::EMPRESA => $oferta->empresa_oferta
+                , ConstantesBD::WEB => $oferta->web_oferta
+                , ConstantesBD::EMAIL => $oferta->email_oferta
+                , ConstantesBD::TELEFONO => $oferta->telefono_oferta
+                , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
+                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::SALARIO => $oferta->salario_oferta
+                , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
+                , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
+                //, ConstantesBD::ID_USER => $oferta->id_user_oferta
+            ])->where(field(ConstantesBD::ID_OFERTA)->eq($oferta->id_oferta))
+            ->compile();
+
+        //echo  $query->sql();
+        //echo  var_dump($query->params());
+        //return true;
+
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+            //update en la tabla oferta de trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+           // $oferta->id_oferta = $db->lastInsertId();
+
+            //borramos los registros en la tabla
+            $query2 = $factory->delete(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                ->where(field(ConstantesBD::ID_OFERTA)->eq($oferta->id_oferta))
+                ->compile();
+
+            $stmt = $db->prepare($query2->sql());
+            $stmt->execute($query2->params());
+
+            //insert tabla oferta Estudios
+            $query3 = $factory->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                ->columns(ConstantesBD::ID_OFERTA, ConstantesBD::ID_ESTUDIO);
+            foreach ($oferta->fp_oferta as $codeFp) {
+                $query3->values($oferta->id_oferta, $codeFp);
+            }
+            $query3->compile();
+            $stmt = $db->prepare($query3->sql($engine));
+            $stmt->execute($query3->params($engine));
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $oferta;
+
+    }
 }//fin clase

@@ -35,7 +35,7 @@ class BolsaTrabajoServicios
     }
 
 
-    public function tratarParametrosNuevaOferta($json)
+    public function tratarParametrosOferta($json)
     {
         return $this->validarOferta($json);
     }
@@ -52,9 +52,9 @@ class BolsaTrabajoServicios
         $validador = v::attribute(ConstantesBolsaTrabajo::TITULO_OFERTA, v::stringType()->length(10, 200))
             ->attribute(ConstantesBolsaTrabajo::DESCRIPCION_OFERTA, v::stringType()->length(10, 1000))
             ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
-            ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::stringType()->length(10, 80)))
-            ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(10, 60)))
-            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(10, 80)))
+            ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::stringType()->length(4, 80)))
+            ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(3, 60)))
+            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 80)))
             ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(3, 85)))
             ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
@@ -90,5 +90,11 @@ class BolsaTrabajoServicios
     public function miPerfil($idPerfil)
     {
         return true;
+    }
+
+    public function actualizarOferta($datos)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->updateOfertaDB($datos);
     }
 }
