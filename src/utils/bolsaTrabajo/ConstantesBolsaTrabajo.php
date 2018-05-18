@@ -31,6 +31,7 @@ class ConstantesBolsaTrabajo
      */
     const CREAR_OFERTA_TRABAJO = "crear_oferta";
     const VER_OFERTA_TRABAJO = "ver_oferta";
+    const BORRAR_OFERTA_TRABAJO = "borrar_oferta";
     const MIS_OFERTAS_TRABAJO = "mis_ofertas";
     const MI_PERFIL_TRABAJO = "mi_perfil";
     const EDITAR_PERFIL_TRABAJO = "editar_perfil";
@@ -54,4 +55,5 @@ class ConstantesBolsaTrabajo
     const INSERT = "insert";
     const UPDATE = "update";
     const OFERTA_FP_CODES = "oferta_fp_codes";
+
 }

@@ -9,9 +9,11 @@
 namespace controllers;
 
 use Faker\Factory;
+use model\GenericMessage;
 use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
+use utils\bolsaTrabajo\MensajesBT;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
@@ -40,7 +42,7 @@ class BolsaTrabajoController
                         $datos = json_decode($datos);
                         $this->crearOfertaForm($datos);
 
-                    }else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
+                    } else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::UPDATE_OFERTA);
                         $datos = json_decode($datos);
@@ -57,10 +59,20 @@ class BolsaTrabajoController
                         $respnseJson = filter_input(INPUT_GET, ConstantesBolsaTrabajo::RESPONSE_JSON);
                         $this->verOferta($idOferta, (isset($respnseJson)) ? $respnseJson : false);
                     } else {
-                        $this->irAlIndex();
+                        echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
                     }
 
                     break;
+                case ConstantesBolsaTrabajo::BORRAR_OFERTA_TRABAJO:
+                    $idOferta = filter_input(INPUT_POST, ConstantesBolsaTrabajo::ID_OFERTA);
+                    if (v::numeric()->validate($idOferta)) {
+                        $this->borrarOferta($idOferta, 10);//TODO - Temporal UserID
+                    } else {
+                        echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
+                    }
+
+                    break;
+
                 case ConstantesBolsaTrabajo::MIS_OFERTAS_TRABAJO:
                     $idOwnerOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OWNER_OFERTA);
                     if (v::numeric()->validate($idOwnerOferta)) {
@@ -235,6 +247,7 @@ class BolsaTrabajoController
 
         return $newOfertaDB2;
     }
+
 //TODO - Borrar
     public function generarMisOfertas()
     {
@@ -251,6 +264,7 @@ class BolsaTrabajoController
 
         return $misOfertillas;
     }
+
 //TODO - Borrar
     public function generarTitulos()
     {
@@ -270,20 +284,32 @@ class BolsaTrabajoController
 
     private function updateOfertaForm($datos)
     {
-        //TODO - pendiente servicios y DAO para UPDATE
         $servicios = new BolsaTrabajoServicios();
         if ($servicios->tratarParametrosOferta($datos)) {
             //comprobar si devuelve un error
-            //$datos->id_user_oferta = "10";//Temporal hasta tener enlace con usuarios
-            $newOfertaDB = $servicios->actualizarOferta($datos);
-
+            $ofertaDB = $servicios->actualizarOferta($datos);
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA));
 
         } else {
-            //oferta de trabajo mal hecha
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ACTUALIZACION_DENEGADA));
         }
 
+    }
 
-       // echo var_dump($datos);
+    private function borrarOferta($idOferta, $idOwner)
+    {
+        $servicios = new BolsaTrabajoServicios();
+        if (v::numeric()->validate($idOwner)) {
+
+            if ($servicios->borrarOferta($idOferta, $idOwner)) {
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::BORRAR_ACEPTADA));
+            } else {
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::BORRAR_DENEGADA));
+            }
+
+        } else {
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER));
+        }
     }
 
 }//fin clase

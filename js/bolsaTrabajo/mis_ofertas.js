@@ -6,7 +6,10 @@ $(document).ready(function () {
                 ev.preventDefault();
                 var $form = $("#form_update_oferta");
                 var data = getFormData($form);
-                enviarAlServidor(data);
+                if (!$('button').is("[disabled]")) {//evitamos el doble click para llamada AJAX
+                    enviarAlServidor(data);
+                }
+                $('button').attr('disabled', true);
             });
         });
 
@@ -40,7 +43,10 @@ function enviarAlServidor(datos) {
             update_oferta: JSON.stringify(datos)
         },
         success: function (result) {
+            $('button').attr('disabled', false);
             $('#request_modal').modal('hide');
+            $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));
+            $('#request_modal_response').modal('show');
             console.log(result);
         }
     });
@@ -51,32 +57,72 @@ function enviarAlServidor(datos) {
 function editarOferta(idOferta) {
 //llamada de AJAX -  para devolver datos de oferta creada por el/la usuari@
 
-    $.ajax({
-        type: "GET",
-        url: "index.php?c=bolsa_trabajo&a=ver_oferta",
-        data: {
-            id_oferta: idOferta,
-            response_json: true
-        },
-        success: function (result) {
-            if (result === "null") {
 
-            } else {
+    if (!$('a').is("[disabled]")) {
+        $.ajax({
+            type: "GET",
+            url: "index.php?c=bolsa_trabajo&a=ver_oferta",
+            data: {
+                id_oferta: idOferta,
+                response_json: true
+            },
+            success: function (result) {
+                if (result === "null") {
 
-                var resp = JSON.parse(result);
+                } else {
+                    $('a').attr('disabled', false);
+                    var resp = JSON.parse(result);
 
-                createAndLaunchModalView(resp);
-                recuperarFpAsociadosOferta(idOferta);
+                    createAndLaunchModalView(resp);
+                    recuperarFpAsociadosOferta(idOferta);
+                }
+
+
+                console.log("Respuesta Server");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest + textStatus + errorThrown);
             }
+        });
+        $('a').attr('disabled', true);
+    } else {
+        event.preventDefault();
+    }
 
 
-            console.log("Respuesta Server");
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            console.log(XMLHttpRequest + textStatus + errorThrown);
-        }
-    });
+}
 
+
+function borrarOferta(id_oferta) {
+
+    if (!$('a').is("[disabled]")) {//prevenir el doble click
+
+        $.ajax({
+            type: "POST",
+            url: "index.php?c=bolsa_trabajo&a=borrar_oferta",
+            data: {
+                id_oferta: id_oferta,
+                response_json: true
+            },
+            success: function (result) {
+                if (result === "null") {
+
+                } else {
+                    $('a').attr('disabled', false);
+                    $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));
+                    $('#request_modal_response').modal('show');
+
+                }
+
+
+                console.log("Respuesta Server");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest + textStatus + errorThrown);
+            }
+        });
+        $('a').attr('disabled', true);
+    }
 }
 
 function recuperarFpAsociadosOferta(idOferta) {
@@ -227,6 +273,34 @@ function buildCodeModal(genericObject) {
 
     return code;
 }
+
+
+function buildCodeModalMessage(genericObject) {
+    var cabecera = genericObject.TITULO;
+    var okText = "Entendido";
+    var code = '<div class="modal fade"  id="request_modal_response">' +
+        '<div class="modal-dialog" role="dialog">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header" >' +
+        '<h5 class="modal-title">' + cabecera + '</h5>' +
+        '<button type="button" class="close" data-dismiss="modal">' +
+        '<span>×</span>' +
+        '</button>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<p>' + genericObject.TEXTO + '</p>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-primary" data-dismiss="modal">' + okText + '</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+
+    return code;
+}
+
 
 function getFecha(objString) {
     var now = new Date(objString);

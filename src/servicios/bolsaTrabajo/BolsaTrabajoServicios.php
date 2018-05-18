@@ -97,4 +97,10 @@ class BolsaTrabajoServicios
         $dao = new BolsaTrabajoDAO();
         return $dao->updateOfertaDB($datos);
     }
+
+    public function borrarOferta($idOferta, $idOwner)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->deleteOfertaDB($idOferta, $idOwner);
+    }
 }

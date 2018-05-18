@@ -280,9 +280,6 @@ class BolsaTrabajoDAO
             ])->where(field(ConstantesBD::ID_OFERTA)->eq($oferta->id_oferta))
             ->compile();
 
-        //echo  $query->sql();
-        //echo  var_dump($query->params());
-        //return true;
 
         $dbConnection = null;
         try {
@@ -295,7 +292,6 @@ class BolsaTrabajoDAO
             $stmt = $db->prepare($query->sql());
             $stmt->execute($query->params());
 
-           // $oferta->id_oferta = $db->lastInsertId();
 
             //borramos los registros en la tabla
             $query2 = $factory->delete(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
@@ -325,6 +321,38 @@ class BolsaTrabajoDAO
         }
 
         return $oferta;
+
+    }
+
+    public function deleteOfertaDB($idOferta, $idOwner)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory->delete(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::ID_OFERTA)->eq($idOferta))
+            ->andWhere(field(ConstantesBD::ID_USER)->eq($idOwner))
+            ->compile();
+
+        $dbConnection = null;
+        $resultado = false;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+            $resultado = true;
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $resultado;
 
     }
 }//fin clase

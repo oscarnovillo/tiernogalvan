@@ -3,6 +3,7 @@
 
 {% block content %}
     <div id="build_modal"></div>
+    <div id="build_modal_response"></div>
     <div class="p-1">
         <div class="container">
             <div class="row">
@@ -25,9 +26,9 @@
                                 <td class="text-center">{{ oferta.idOferta|escape }}</td>
                                 <td class="text-center">{{ oferta.titulo|e }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-primary w-100 p-0 m-1"
-                                       data-toggle="modal" onclick="editarOferta('{{ oferta.idOferta|escape }}')">Editar</a>
-                                    <a class="btn w-100 p-0 m-1 btn-block btn-danger" href="#">Borrar </a>
+                                    <a class="btn btn-outline-primary w-100 p-0 m-1"
+                                       data-toggle="modal" id="editar_oferta_button" onclick="editarOferta('{{ oferta.idOferta|escape }}')">Editar</a>
+                                    <a class="btn w-100 p-0 m-1 btn-block btn-danger"  id="borrar_oferta_button" onclick="borrarOferta('{{ oferta.idOferta|escape }}')">Borrar </a>
                                 </td>
                             </tr>
 
