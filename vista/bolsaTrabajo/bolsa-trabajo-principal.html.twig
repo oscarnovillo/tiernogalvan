@@ -1,8 +1,7 @@
 {# empty Twig template #}
 {% extends "index.html.twig" %}
-
 {% block content %}
-
+    {% include 'bolsaTrabajo/menu-bolsa-trabajo.html.twig' %}
     <div class="p-2">
         <div class="container">
             <div class="row">
@@ -10,22 +9,16 @@
                     <h3 class="" contenteditable="false">Opciones de Filtración</h3>
                     <p class="lead">Ciclo Formativo</p>
                     <form class="">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="fp_oferta" id="exampleRadios1"
-                                   value="option1" checked="">
-                            <label class="form-check-label" for="exampleRadios1"> DAW - Desarrollo de Aplicaciones
-                                web </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="fp_oferta" id="exampleRadios2"
-                                   value="option2">
-                            <label class="form-check-label" for="exampleRadios2"> ASIR - cosas de sistemas </label>
-                        </div>
-                        <div class="form-check disabled">
-                            <input class="form-check-input" type="radio" name="fp_oferta" id="exampleRadios3"
-                                   value="option3" disabled="">
-                            <label class="form-check-label" for="exampleRadios3"> Disabled radio </label>
-                        </div>
+                        {% for estudios in FP_ESTUDIOS.FP_ESTUDIOS %}
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="fp_oferta"
+                                       value="{{ estudios.ID_FP }}">
+                                <label class="form-check-label">{{ estudios.TITULO }} </label>
+                            </div>
+
+                        {% endfor %}
+
                         <p class="lead">Fecha</p>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="fecha_oferta" id="" value="recientes"
@@ -42,24 +35,29 @@
                 <div class="col-md-8">
                     <h1 class="">Ofertas de trabajo</h1>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">List group</h5>
-                                <small>3 days ago</small>
-                            </div>
-                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                                risus varius blandit.</p>
-                            <small>Donec id elit non mi porta.</small>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">List group </h5>
-                                <small class="text-muted">3 days ago</small>
-                            </div>
-                            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-                                risus varius blandit.</p>
-                            <small class="text-muted">Donec id elit non mi porta.</small>
-                        </a>
+
+                        {% set estado = 'active' %}
+                        {% set i = 0 %}
+                        {% for oferta in OFERTAS_DB %}
+
+                            {% if i % 2 == 0 %}
+                                {% set estado = '' %}
+                            {% else %}
+                                {% set estado = 'active' %}
+                            {% endif %}
+
+                            <a href="index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta={{ oferta.ID_OFERTA }}"
+                               class="list-group-item list-group-item-action flex-column align-items-start {{ estado }}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ oferta.TITULO }}</h5>
+                                    <small>{{ oferta.CREACION }}</small>
+                                </div>
+                                <p class="mb-1">{{ oferta.DESCRIPCION }}</p>
+                                <small>Donec id elit non mi porta.</small>
+                            </a>
+
+                            {% set i = i+1 %}
+                        {% endfor %}
                     </div>
                     <ul class="pagination d-flex justify-content-center">
                         <li class="page-item">

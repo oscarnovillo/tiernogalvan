@@ -141,6 +141,38 @@ class BolsaTrabajoDAO
         return $oferta;
     }
 
+
+    public function getAllOfertasDB($limit, $offset)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_OFERTA)
+            ->offset($offset)
+            ->limit($limit)
+            ->compile();
+
+        $dbConnection = null;
+        $ofertasDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS, OfertaTrabajo::class);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $ofertasDB;
+    }
+
     /***
      * Recupera un array con la id y el nombre del Ciclo formativo del centro de estudios
      * @return array

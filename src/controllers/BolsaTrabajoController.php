@@ -12,6 +12,8 @@ use Faker\Factory;
 use model\GenericMessage;
 use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
+use Teapot\StatusCode\Http;
+use utils\bolsaTrabajo\ConstantesBD;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\Constantes;
@@ -124,7 +126,14 @@ class BolsaTrabajoController
         } else {
             $page = ConstantesPaginas::BOLSA_TRABAJO_PAGE;
             //enviar ofertas de trabajo a la vista principal
-            TwigViewer::getInstance()->viewPage($page);
+            $servicios = new BolsaTrabajoServicios();
+
+            $OfertasBundle = (object)[];
+            $OfertasBundle->OFERTAS_DB = $servicios->getAllOfertas(5, 0);
+            $OfertasBundle->FP_ESTUDIOS = $this->cargarCiclosFP();
+
+
+            TwigViewer::getInstance()->viewPage($page, (array)$OfertasBundle);
 
         }
     }
@@ -133,9 +142,7 @@ class BolsaTrabajoController
     public function crearOfertaVista()
     {
         $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
-        $servicios = new BolsaTrabajoServicios();
-        $estudios = (object)[];
-        $estudios->FP_ESTUDIOS = $servicios->getEstudiosCentro();
+        $estudios = $this->cargarCiclosFP();
 
         TwigViewer::getInstance()->viewPage($page, (array)$estudios);
     }
@@ -144,36 +151,35 @@ class BolsaTrabajoController
     {
         $servicios = new BolsaTrabajoServicios();
         if ($servicios->tratarParametrosOferta($datos)) {
-            //comprobar si devuelve un error
-            $datos->id_user_oferta = "10";//Temporal hasta tener enlace con usuarios
+            $datos->id_user_oferta = "10";// TODO - Temporal hasta tener enlace con usuarios
             $newOfertaDB = $servicios->insertNuevaOferta($datos);
-
+            if (is_object($newOfertaDB)) {
+                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
+                $message->setLINK(MensajesBT::INSERCION_ACEPTADA_LINK . $newOfertaDB->id_oferta);
+                echo json_encode($message);
+            }
 
         } else {
-            //oferta de trabajo mal hecha
+            http_response_code(Http::BAD_REQUEST);
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA));
         }
 
-        //var_dump($datos);
-        echo json_encode($newOfertaDB);
-        return true;
-        $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
-        TwigViewer::getInstance()->viewPage($page);
 
     }
 
-    //TODO - Construir funcionalidad
     public function verOferta($idOferta, $responseJson)
     {
         $servicios = new BolsaTrabajoServicios();
-        //Comprobar que devuelve - pendiente
         $ofertaDB = $servicios->verOferta($idOferta);
-        //$ofertaDB = $this->generarOferta();
-
-        if ($responseJson == true) {
-            echo json_encode($ofertaDB);
+        if (is_object($ofertaDB)) {
+            if ($responseJson == true) {
+                echo json_encode($ofertaDB);
+            } else {
+                $page = ConstantesPaginas::VER_OFERTA_PAGE;
+                TwigViewer::getInstance()->viewPage($page, (array)$ofertaDB);
+            }
         } else {
-            $page = ConstantesPaginas::VER_OFERTA_PAGE;
-            TwigViewer::getInstance()->viewPage($page, (array)$ofertaDB);
+            $this->irAlIndex();
         }
 
 
@@ -280,6 +286,14 @@ class BolsaTrabajoController
         }
 
         return $misTitulos;
+    }
+
+    public function cargarCiclosFP()
+    {
+        $servicios = new BolsaTrabajoServicios();
+        $estudios = (object)[];
+        $estudios->FP_ESTUDIOS = $servicios->getEstudiosCentro();
+        return $estudios;
     }
 
     private function updateOfertaForm($datos)

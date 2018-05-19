@@ -13,6 +13,7 @@ class GenericMessage
 {
     public $TITULO;
     public $TEXTO;
+    public $LINK;
 
     /**
      * GenericMessage constructor.
@@ -23,6 +24,22 @@ class GenericMessage
     {
         $this->TITULO = $TITULO;
         $this->TEXTO = $TEXTO;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLINK()
+    {
+        return $this->LINK;
+    }
+
+    /**
+     * @param mixed $LINK
+     */
+    public function setLINK($LINK): void
+    {
+        $this->LINK = $LINK;
     }
 
 

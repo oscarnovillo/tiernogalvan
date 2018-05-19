@@ -10,9 +10,11 @@ namespace servicios\bolsaTrabajo;
 
 
 use Carbon\Carbon;
+use config\ConfigBolsaTrabajo;
 use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use Respect\Validation\Validator as v;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
+use utils\bolsaTrabajo\MensajesBT;
 
 class BolsaTrabajoServicios
 {
@@ -103,4 +105,37 @@ class BolsaTrabajoServicios
         $dao = new BolsaTrabajoDAO();
         return $dao->deleteOfertaDB($idOferta, $idOwner);
     }
-}
+
+    public function getAllOfertas($limit, $offset)
+    {
+        $dao = new BolsaTrabajoDAO();
+        $ofertasDB = $dao->getAllOfertasDB($limit, $offset);
+        if (is_array($ofertasDB)) {
+            foreach ($ofertasDB as $item) {
+                $item = $this->formatOferta($item);
+            }
+        }
+        return $ofertasDB;
+    }
+
+    public function formatOferta($oferta)
+    {
+        $oferta->CREACION = $this->formatCreacion($oferta->CREACION);
+        $oferta->DESCRIPCION = $this->formatTexto($oferta->DESCRIPCION, ConfigBolsaTrabajo::LONGITUD_TEXTO_DESCRIPCION);
+        return $oferta;
+    }
+
+    public function formatCreacion($creacion)
+    {
+        $caducidad = Carbon::createFromTimeString($creacion);
+        $diferencia = Carbon::now()->diffInDays($caducidad);
+        return sprintf(MensajesBT::TIEMPO_TRANSCURRIDO, $diferencia);
+    }
+
+    public function formatTexto($texto, $limit)
+    {
+        if (strlen($texto) > $limit)
+            $texto = substr($texto, 0, strrpos(substr($texto, 0, $limit), ' ')) . '...';
+        return $texto;
+    }
+}//fin clase
