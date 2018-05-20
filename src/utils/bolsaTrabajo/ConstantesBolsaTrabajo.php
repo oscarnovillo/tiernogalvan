@@ -42,6 +42,10 @@ class ConstantesBolsaTrabajo
      */
     const TAREA = "tarea";
     const ID_OFERTA = "id_oferta";
+    const PAGINA_OFERTA = "page";
+    const ORDEN = "orden";
+    const ID_FP = "fp_oferta";
+    const LIMIT = "limit";
     const RESPONSE_JSON = "response_json";
     const ID_OWNER_OFERTA = "id_owner";
     const NUEVA_OFERTA = "nueva_oferta";
@@ -55,5 +59,6 @@ class ConstantesBolsaTrabajo
     const INSERT = "insert";
     const UPDATE = "update";
     const OFERTA_FP_CODES = "oferta_fp_codes";
+    const PAGINACION_OFERTAS = "pagination";
 
 }

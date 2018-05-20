@@ -8,12 +8,12 @@
 
 namespace controllers;
 
+use config\ConfigBolsaTrabajo;
 use Faker\Factory;
 use model\GenericMessage;
 use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
 use Teapot\StatusCode\Http;
-use utils\bolsaTrabajo\ConstantesBD;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\Constantes;
@@ -85,7 +85,7 @@ class BolsaTrabajoController
 
                     break;
 
-                case ConstantesBolsaTrabajo::REQUEST_OPERATION_TRABAJO;
+                case ConstantesBolsaTrabajo::REQUEST_OPERATION_TRABAJO;//Operaciones REST
                     $operacion = filter_input(INPUT_GET, ConstantesBolsaTrabajo::OPERACION);
 
                     switch ($operacion) {
@@ -94,10 +94,23 @@ class BolsaTrabajoController
 
                             if (v::numeric()->validate($idOferta)) {
                                 $servicios = new BolsaTrabajoServicios();
-                                $titulos = $servicios->getOfertaFpTitulo($idOferta);//temporal hasta tener base de datos
-                                //$titulos = $this->generarTitulos();
+                                $titulos = $servicios->getOfertaFpTitulo($idOferta);
                                 echo json_encode($titulos);
                             }
+
+                            break;
+                        case ConstantesBolsaTrabajo::PAGINACION_OFERTAS;
+
+                            $page = filter_input(INPUT_GET, ConstantesBolsaTrabajo::PAGINA_OFERTA);
+                            $orden = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ORDEN);
+                            $fpId = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_FP);
+                            $limit = filter_input(INPUT_GET, ConstantesBolsaTrabajo::LIMIT);
+                            //TODO - Controlar cuando recibes un fp IP = 0 para recuperar todas las ofertas
+                            //TODO - No estas enviando la fecha formateada y limite de descipción
+                            $servicios = new BolsaTrabajoServicios();
+                            $ofertasFilter = $servicios->getOfertasByFpIdAndTime($limit, $page, $fpId, $orden);
+
+                            echo json_encode($ofertasFilter);
 
                             break;
                     }
@@ -113,7 +126,6 @@ class BolsaTrabajoController
                     }
                     break;
                 case ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO:
-                    //añadir campo foto y arreglar form radios
                     $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
                     if (v::numeric()->validate($idPerfil)) {
                         $this->editarPerfil($idPerfil);
@@ -129,7 +141,7 @@ class BolsaTrabajoController
             $servicios = new BolsaTrabajoServicios();
 
             $OfertasBundle = (object)[];
-            $OfertasBundle->OFERTAS_DB = $servicios->getAllOfertas(5, 0);
+            $OfertasBundle->OFERTAS_DB = $servicios->getAllOfertas(ConfigBolsaTrabajo::NUM_RESULTADOS_OFERTAS, 0);
             $OfertasBundle->FP_ESTUDIOS = $this->cargarCiclosFP();
 
 

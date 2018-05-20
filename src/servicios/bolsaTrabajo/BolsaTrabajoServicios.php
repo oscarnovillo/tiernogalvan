@@ -36,6 +36,12 @@ class BolsaTrabajoServicios
         return $dao->getFpTitulosByIdOferta($idOferta);
     }
 
+    public function getOfertasByFpIdAndTime($limit, $offset, $fpId, $orden)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getOfertasByFpCodeAndTimeDB($limit, $offset, $fpId, $orden);
+    }
+
 
     public function tratarParametrosOferta($json)
     {

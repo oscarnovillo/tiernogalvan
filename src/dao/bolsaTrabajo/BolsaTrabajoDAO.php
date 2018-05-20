@@ -141,7 +141,13 @@ class BolsaTrabajoDAO
         return $oferta;
     }
 
-
+    /**
+     *
+     * Recupera todas las ofertas de la base de datos
+     * @param $limit
+     * @param $offset
+     * @return array|null
+     */
     public function getAllOfertasDB($limit, $offset)
     {
         $engine = new MySqlEngine();
@@ -151,6 +157,47 @@ class BolsaTrabajoDAO
             ->from(ConstantesBD::TABLA_OFERTA)
             ->offset($offset)
             ->limit($limit)
+            ->compile();
+
+        $dbConnection = null;
+        $ofertasDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS, OfertaTrabajo::class);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $ofertasDB;
+    }
+
+    public function getOfertasByFpCodeAndTimeDB($count_per_page, $page_number, $idFp, $orden)
+    {
+        $page_number -= 1;
+
+        $next_offset = $page_number * $count_per_page;
+
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $aliasOfertaEstudios = "A_OFER_EST";
+        $aliasOfertas = "A_OFER";
+        $query = $factory
+            ->select()
+            ->from(alias(ConstantesBD::TABLA_OFERTA, $aliasOfertas))
+            ->join(alias(ConstantesBD::TABLA_OFERTA_ESTUDIOS, $aliasOfertaEstudios)
+                , on($aliasOfertas . "." . ConstantesBD::ID_OFERTA, $aliasOfertaEstudios . "." . ConstantesBD::ID_OFERTA))
+            ->where(field($aliasOfertaEstudios . '.' . ConstantesBD::ID_ESTUDIO)->eq($idFp))
+            ->orderBy($aliasOfertas . '.' . ConstantesBD::CREACION, $orden)
+            ->offset($next_offset)
+            ->limit($count_per_page)
             ->compile();
 
         $dbConnection = null;
@@ -203,7 +250,7 @@ class BolsaTrabajoDAO
         return $estudios;
     }
 
-    //construir query
+
     public function getOfertasByIdOwner($idOwner)
     {
         $engine = new MySqlEngine();

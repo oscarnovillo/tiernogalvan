@@ -8,7 +8,11 @@
                 <div class="col-md-4 border rounded">
                     <h3 class="" contenteditable="false">Opciones de Filtración</h3>
                     <p class="lead">Ciclo Formativo</p>
-                    <form class="">
+                    <form id="form_filtrar_ofertas" class="">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="fp_oferta" id="" value="0" checked>
+                            <label class="form-check-label" for="exampleRadios1"> Todas las Ofertas</label>
+                        </div>
                         {% for estudios in FP_ESTUDIOS.FP_ESTUDIOS %}
 
                             <div class="form-check">
@@ -21,15 +25,15 @@
 
                         <p class="lead">Fecha</p>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="fecha_oferta" id="" value="recientes"
+                            <input class="form-check-input" type="radio" name="orden" id="" value="DESC"
                                    checked="">
                             <label class="form-check-label" for="exampleRadios1"> Más recientes </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="fecha_oferta" id="" value="antiguas">
+                            <input class="form-check-input" type="radio" name="orden" id="" value="ASC">
                             <label class="form-check-label" for="exampleRadios1"> Más antiguos</label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm btn-block m-1">Aplicar filtro</button>
+                        <button type="submit" id="filtrar_ofertas" class="btn btn-primary btn-sm btn-block m-1">Aplicar filtro</button>
                     </form>
                 </div>
                 <div class="col-md-8">
@@ -85,6 +89,7 @@
                             </a>
                         </li>
                     </ul>
+                    <div id="pagination-demo2"></div>
                 </div>
             </div>
         </div>
@@ -102,10 +107,12 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           type="text/css">
+    <link rel="stylesheet" href="http://pagination.js.org/dist/2.1.2/pagination.css"
+          type="text/css">
     <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-    <script src="js/bolsaTrabajo/crear_oferta.js"></script>
+    <script src="http://pagination.js.org/dist/2.1.2/pagination.js"></script>
+    <script src="js/bolsaTrabajo/principal.js"></script>
+    <script src="js/bolsaTrabajo/funciones_comunes.js"></script>
 
 {% endblock %}
