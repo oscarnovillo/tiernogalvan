@@ -27,13 +27,12 @@
 }
 
 .tareas_table td{
-    /*text-align:center;*/
+    color: black;
     padding:0.5em;
-    color:black;
 }
 
 .tareas_table input {
-    margin: 1em 0em;
+    /*margin: 1em 0em;*/
 }
 
 .mensaje_ok{
@@ -48,19 +47,27 @@
     background-color: lightcoral;
 }
 
-.no_existe{
+.cursiva{
     font-style: italic;
     text-align: center;
 }
 
-.btn_campo{
+.tareas_table{
     text-align: center;
 }
 
-.btn_campo button{
+.tareas_table button{
     padding:0em 0.25em;
 }
 
+.tarea_caducada{
+    background-color: lightgray;
+}
+
+.tarea_hoy{
+    background-color: lightcoral;
+    font-weight: bold;
+}
 
 
 /* Flexbox Example 

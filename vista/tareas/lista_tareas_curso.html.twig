@@ -1,0 +1,223 @@
+{% extends "index.html.twig" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/tareas/tareas.css">
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/slideslow.js"></script>
+    <script src="/js/menu.js"></script>
+    <script src="/js/muestra-blog.js"></script>
+    <script src="/js/modal.js"></script>
+    <script src="/js/contador.js"></script>
+
+    <script src="/js/tareas/tareas.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="cuerpo">
+        <div class="contenido">
+            {% if nombre_curso %}
+                <h1 class="tareas_title">Tareas para alumnos de {{ nombre_curso }}</h1>
+
+
+                {% if tienes_permisos == "true" %}
+                    <div id="mensaje" style="display:none"></div>
+                    <datalist id="suggestions">
+                        {% for asignatura in asignaturas %}
+                            <option value="{{ asignatura }}">
+                            {% endfor %}
+                    </datalist>
+                {% endif %}
+
+                <table class="tareas_table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Descripción de la tarea</th>
+                            <th>Asignatura / Módulo</th>
+                            <th>Fecha</th>
+                            {% if tienes_permisos == "true" %}<th></th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if tareas %}
+                            {% for tarea in tareas %}
+                                <tr id="fila_tarea{{ tarea.id_tarea }}">
+                                    <td>
+                                        <span id="descripcion_txt{{ tarea.id_tarea }}">{{ tarea.descripcion }}</span>
+                                        {% if tienes_permisos == "true" %}
+                                            <div class="flexbox stretch">
+
+                                                <input type="hidden" 
+                                                       id="descripcion_original{{ tarea.id_tarea }}" 
+                                                       value="{{ tarea.descripcion }}">
+
+                                                <input type="hidden" 
+                                                       size="50"
+                                                       id="descripcion{{ tarea.id_tarea }}" 
+                                                       value="{{ tarea.descripcion }}" 
+                                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                                       onblur="restaurarCampoSiVacio('descripcion', {{ tarea.id_tarea }})"
+                                                       onkeyup="return enviarEnter(event, {{ tarea.id_tarea }})">
+
+                                            </div>
+                                        {% endif %}
+
+                                    </td>
+                                    <td class="text-center">
+                                        <span id="asignatura_txt{{ tarea.id_tarea }}">{{ tarea.asignatura }}</span>
+
+                                        {% if tienes_permisos == "true" %}
+                                            <div class="flexbox stretch">
+                                                <input type="hidden" 
+                                                       class="asignatura"
+                                                       id="asignatura_original{{ tarea.id_tarea }}" 
+                                                       value="{{ tarea.asignatura }}">
+
+                                                <input type="hidden" value="{{ tarea.asignatura }}" 
+                                                       id="asignatura{{ tarea.id_tarea }}" 
+                                                       list="suggestions" 
+                                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                                       onclick="this.value = ''"
+                                                       onblur="restaurarCampoSiVacio('asignatura', {{ tarea.id_tarea }})"
+                                                       onkeyup="enviarEnter(event, {{ tarea.id_tarea }})">                  
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <span id="fecha_txt{{ tarea.id_tarea }}"
+                                              {% if "now"|date('Y-m-d') == tarea.fecha|date('Y-m-d') %}
+                                                  class="tarea_hoy"
+                                              {% elseif "now"|date('Y-m-d') > tarea.fecha|date('Y-m-d') %}
+                                                  class="tarea_caducada"
+                                              {%endif%}
+                                              >{{ tarea.fecha }}</span>
+                                        {% if tienes_permisos == "true" %}
+                                            <div class="flexbox stretch">
+                                                <input type="hidden" 
+                                                       id="fecha_original{{ tarea.id_tarea }}" 
+                                                       value="{{ tarea.fecha }}">
+
+                                                <input type="hidden"
+                                                       id="fecha{{ tarea.id_tarea }}" 
+                                                       value="{{ tarea.fecha }}"
+                                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                                       onblur="restaurarCampoSiVacio('fecha', {{ tarea.id_tarea }})"
+                                                       onkeyup="enviarEnter(event, {{ tarea.id_tarea }})">
+
+                                            </div>
+                                        {% endif %}
+
+                                    </td>
+                                    {% if tienes_permisos == "true" %}
+                                        <td>
+                                            <button onclick="editar({{ tarea.id_tarea }})" 
+                                                    id="btn_edit{{ tarea.id_tarea }}"
+                                                    title="{{ editarTareaEditarTooltip }}">
+                                                {{ editarTareaEditar }}
+                                            </button>
+
+                                            <button onclick="modificar({{ tarea.id_tarea }})" 
+                                                    id="btn_ok{{ tarea.id_tarea }}" 
+                                                    style="display:none"
+                                                    title="{{ editarTareaOkTooltip }}">
+                                                {{ editarTareaOk }}
+                                            </button>
+                                            <button onclick="cancelar({{ tarea.id_tarea }})"
+                                                    id="btn_cancelar{{ tarea.id_tarea }}" 
+                                                    style="display:none"
+                                                    title="{{ editarTareaCancelarTooltip }}">
+                                                {{ editarTareaCancelar }}
+                                            </button>
+
+                                            <button onclick="borrar({{ tarea.id_tarea }})"
+                                                    id="btn_borrar{{ tarea.id_tarea }}" 
+                                                    title="{{ editarTareaBorrarTooltip }}">
+                                                {{ editarTareaBorrar }}
+                                            </button>
+
+                                        </td>
+                                    {% endif %}
+                                </tr>
+
+                            {% endfor %}
+                        {% else %}
+                            <tr id="noHayTareas">
+                                <td class="cursiva" colspan="4">(No se han encontrado tareas)</td>
+                            </tr>
+                        {% endif %}
+
+
+                        {% if tienes_permisos == "true" %}
+
+                            <!-- Nueva fila -->
+                            <tr id="fila_tareaNueva" style="display:none">
+                                <td>
+                                    <div class="flexbox stretch">
+                                        <input type="text" 
+                                               size="50"
+                                               id="descripcionNueva" 
+                                               onkeyup="return enviarEnterNueva(event)">
+                                    </div>
+
+                                </td>
+                                <td class="text-center">
+                                    <span id="asignatura_txtNueva">{{ tarea.asignatura }}</span>
+
+                                    <div class="flexbox stretch">
+
+                                        <input type="text"
+                                               id="asignaturaNueva" 
+                                               list="suggestions" 
+                                               onclick="this.value = ''"
+                                               onkeyup="enviarEnterNueva(event)">                  
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span id="fecha_txtNueva">{{ tarea.fecha }}</span>
+                                    <div class="flexbox stretch">
+
+                                        <input type="date"
+                                               id="fechaNueva" 
+                                               onkeyup="enviarEnterNueva(event)">
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <input type="hidden" id="id_curso" value="{{ id_curso }}">
+                                    <button onclick="crearNuevaTarea()" 
+                                            id="btn_okNueva" 
+                                            title="{{ editarTareaOkTooltip }}">
+                                        {{ editarTareaOk }}
+                                    </button>
+                                    <button onclick="cancelarNuevaTarea()"
+                                            id="btn_cancelarNueva" 
+                                            title="{{ editarTareaCancelarTooltip }}">
+                                        {{ editarTareaCancelar }}
+                                    </button>
+
+                                </td>
+                            </tr>
+
+
+                            <tr id="fila_add">
+                                <td colspan="4"><button onclick="mostrarCrearTarea()">Añadir</button></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+
+            {% else %}
+                <h1 class="tareas_title">Tareas para alumnos</h1>
+                <p class="cursiva">(El curso no existe)</p>
+            {% endif %}
+
+
+            <p class="cursiva">(TODO: mejorar la recarga cutre al añadir tareas. Quizá implemente datatables.)</p>
+
+            <a href="/index.php?c=tareas">Volver</a><br>
+            <a href="/index.php?c=tareas&a=ver_curso&id_curso={{ id_curso }}&hola_tengo_permisos_de_profesor=true">"Obtener permisos de profesor" (pruebas)</a>
+        </div>
+    </div>
+{% endblock %}
