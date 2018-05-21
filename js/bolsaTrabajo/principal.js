@@ -22,7 +22,7 @@ $("#form_filtrar_ofertas").submit(function (ev) {
 
 });
 
-//TODO - pulir JS y modificar la vista principal
+//TODO - pulir JS y modificar la vista principal - modificar la paginación - centrar y modificar controles
 function crearContainer() {
     container = $('#pagination-demo2');
     container.pagination({

@@ -38,8 +38,11 @@ class BolsaTrabajoServicios
 
     public function getOfertasByFpIdAndTime($limit, $offset, $fpId, $orden)
     {
-        $dao = new BolsaTrabajoDAO();
-        return $dao->getOfertasByFpCodeAndTimeDB($limit, $offset, $fpId, $orden);
+        if ($fpId == 0) {//Cuando queremos todas las ofertas del centro
+
+            return $this->getAllOfertas($limit, $offset, $orden);
+        }
+        return $this->getAllOfertasFilter($limit, $offset, $fpId, $orden);
     }
 
 
@@ -112,10 +115,22 @@ class BolsaTrabajoServicios
         return $dao->deleteOfertaDB($idOferta, $idOwner);
     }
 
-    public function getAllOfertas($limit, $offset)
+    public function getAllOfertas($limit, $offset, $orden)
     {
         $dao = new BolsaTrabajoDAO();
-        $ofertasDB = $dao->getAllOfertasDB($limit, $offset);
+        $ofertasDB = $dao->getAllOfertasDB($limit, $offset, $orden);
+        if (is_array($ofertasDB)) {
+            foreach ($ofertasDB as $item) {
+                $item = $this->formatOferta($item);
+            }
+        }
+        return $ofertasDB;
+    }
+
+    public function getAllOfertasFilter($limit, $offset, $fpId, $orden)
+    {
+        $dao = new BolsaTrabajoDAO();
+        $ofertasDB = $dao->getOfertasByFpCodeAndTimeDB($limit, $offset, $fpId, $orden);
         if (is_array($ofertasDB)) {
             foreach ($ofertasDB as $item) {
                 $item = $this->formatOferta($item);

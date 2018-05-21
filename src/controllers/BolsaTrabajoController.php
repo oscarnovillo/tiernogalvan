@@ -105,8 +105,7 @@ class BolsaTrabajoController
                             $orden = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ORDEN);
                             $fpId = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_FP);
                             $limit = filter_input(INPUT_GET, ConstantesBolsaTrabajo::LIMIT);
-                            //TODO - Controlar cuando recibes un fp IP = 0 para recuperar todas las ofertas
-                            //TODO - No estas enviando la fecha formateada y limite de descipción
+
                             $servicios = new BolsaTrabajoServicios();
                             $ofertasFilter = $servicios->getOfertasByFpIdAndTime($limit, $page, $fpId, $orden);
 
@@ -141,7 +140,7 @@ class BolsaTrabajoController
             $servicios = new BolsaTrabajoServicios();
 
             $OfertasBundle = (object)[];
-            $OfertasBundle->OFERTAS_DB = $servicios->getAllOfertas(ConfigBolsaTrabajo::NUM_RESULTADOS_OFERTAS, 0);
+            //$OfertasBundle->OFERTAS_DB = $servicios->getAllOfertas(ConfigBolsaTrabajo::NUM_RESULTADOS_OFERTAS, 0,$orden);
             $OfertasBundle->FP_ESTUDIOS = $this->cargarCiclosFP();
 
 
@@ -242,63 +241,6 @@ class BolsaTrabajoController
         TwigViewer::getInstance()->viewPage($page);
     }
 
-    //TODO - método temporal para carga las llamadas con datos
-    public function generarOferta()
-    {
-        $newOfertaDB2 = (object)[];
-        $faker = Factory::create();
-        $newOfertaDB2->id = $faker->randomNumber(3);
-        $newOfertaDB2->titulo = $faker->text(80);
-        $newOfertaDB2->descripcion = $faker->text(150);
-        $newOfertaDB2->requisitos = $faker->text(150);
-        $newOfertaDB2->empresa = $faker->name(null);
-        $newOfertaDB2->web = $faker->domainName;
-        $newOfertaDB2->email = $faker->email;
-        $newOfertaDB2->telefono = $faker->phoneNumber;
-        $newOfertaDB2->vacantes = $faker->randomNumber(2);
-        $newOfertaDB2->salario = $faker->randomNumber(4);
-        $newOfertaDB2->localizacion = $faker->city;
-        $newOfertaDB2->caducidad = $faker->date('Y-m-d');
-        $newOfertaDB2->creacion = $faker->date('Y-m-d');
-        $fpTargets = [$faker->name, $faker->name, $faker->name];
-        $newOfertaDB2->fpTargets = $fpTargets;
-
-        return $newOfertaDB2;
-    }
-
-//TODO - Borrar
-    public function generarMisOfertas()
-    {
-        $misOfertillas = [];
-        $miOfertaFaker = (object)[];
-        $faker = Factory::create();
-
-        for ($i = 0; $i < 10; $i++) {
-            $miOfertaFaker->idOferta = $faker->randomDigit;
-            $miOfertaFaker->titulo = $faker->realText(80);
-
-            array_push($misOfertillas, $miOfertaFaker);
-        }
-
-        return $misOfertillas;
-    }
-
-//TODO - Borrar
-    public function generarTitulos()
-    {
-        $misTitulos = [];
-        $misTitulosFPFaker = (object)[];
-        $faker = Factory::create();
-
-        for ($i = 0; $i < 4; $i++) {
-            $misTitulosFPFaker->idFp = $faker->randomDigit;
-            $misTitulosFPFaker->nombreFp = $faker->realText(50);
-
-            array_push($misTitulos, $misTitulosFPFaker);
-        }
-
-        return $misTitulos;
-    }
 
     public function cargarCiclosFP()
     {

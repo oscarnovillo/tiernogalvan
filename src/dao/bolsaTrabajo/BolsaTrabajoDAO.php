@@ -148,15 +148,21 @@ class BolsaTrabajoDAO
      * @param $offset
      * @return array|null
      */
-    public function getAllOfertasDB($limit, $offset)
+    public function getAllOfertasDB($count_per_page, $page_number, $orden)
     {
+        $page_number -= 1;
+
+        $next_offset = $page_number * $count_per_page;
+
+
         $engine = new MySqlEngine();
         $factory = new QueryFactory($engine);
         $query = $factory
             ->select()
             ->from(ConstantesBD::TABLA_OFERTA)
-            ->offset($offset)
-            ->limit($limit)
+            ->orderBy(ConstantesBD::CREACION, $orden)
+            ->offset($next_offset)
+            ->limit($count_per_page)
             ->compile();
 
         $dbConnection = null;
