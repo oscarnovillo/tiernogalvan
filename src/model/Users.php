@@ -18,15 +18,10 @@ class Users {
     public $email;
     public $activo;
     
-    function __construct($id, $nick, $pass, $name, $surname, $telefono, $email, $activo) {
+    function __construct($id, $nick) {
         $this->id = $id;
         $this->nick = $nick;
-        $this->pass = $pass;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->telefono = $telefono;
-        $this->email = $email;
-        $this->activo = $activo;
+        
     }
     
     function getId() {

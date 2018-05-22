@@ -10,7 +10,6 @@ namespace servicios\users;
 
 use dao\users\UsersDAO;
 
-
 class UsersServicios {
     
     public function getUser($user){

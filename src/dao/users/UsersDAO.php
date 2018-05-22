@@ -5,6 +5,11 @@
  *
  * @author erasto
  */
+
+namespace dao\users;
+
+use dao\DBConnection;
+
 class UsersDAO {
     
     public function getUserDAO($user)
@@ -12,7 +17,7 @@ class UsersDAO {
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT * FROM USERS WHERE id=:id");
+        $stmt = $db->prepare("SELECT * FROM USERS WHERE pass=:id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         //$incidencia = $stmt->fetch(PDO::FETCH_OBJ);
@@ -28,7 +33,7 @@ class UsersDAO {
         $stmt = $db->prepare("INSERT INTO USERS (pass,nombre) "
                            . "VALUES (:nombre,:pass)");
         $stmt->bindParam(":nombre", $user->nombre);
-        $stmt->bindParam(":pass", $user->pass);
+        $stmt->bindParam(":id", $user->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;
