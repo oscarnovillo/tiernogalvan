@@ -112,6 +112,11 @@ class BolsaTrabajoController
                             echo json_encode($ofertasFilter);
 
                             break;
+                        case ConstantesBolsaTrabajo::PAGINACION_SIZE;
+                            $servicios = new BolsaTrabajoServicios();
+                            echo json_encode($servicios->getSizeOfertas());
+
+                            break;
                     }
 
 
@@ -124,7 +129,7 @@ class BolsaTrabajoController
                         $this->irAlIndex();
                     }
                     break;
-                case ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO:
+                case ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO://TODO - Crear el DAO para editar perfiles
                     $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
                     if (v::numeric()->validate($idPerfil)) {
                         $this->editarPerfil($idPerfil);

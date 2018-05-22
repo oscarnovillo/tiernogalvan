@@ -1,10 +1,11 @@
 let $form;
 let dataForm;
 var container;
+var numOfertas;
 $(document).ready(function () {
-
+        sizeOfertas();
         updateSelection();
-        crearContainer();
+
 
     }
 );//fin ready
@@ -18,13 +19,11 @@ $("#form_filtrar_ofertas").submit(function (ev) {
     crearContainer();
 
 
-    //getOfertasFilter(data);
-
 });
 
-//TODO - pulir JS y modificar la vista principal - modificar la paginación - centrar y modificar controles
+
 function crearContainer() {
-    container = $('#pagination-demo2');
+    container = $('#pagination');
     container.pagination({
         dataSource: 'index.php?c=bolsa_trabajo&a=request_operation&operacion=pagination',
         locator: 'items',
@@ -32,7 +31,12 @@ function crearContainer() {
             pageNumber: 'page',
             pageSize: 'limit'
         },
-        totalNumber: 120,
+        className: 'paginationjs-big',
+        //totalNumber: 120,
+        totalNumberLocator: function (response) {
+            // you can return totalNumber by analyzing response content
+            return numOfertas;
+        },
         pageSize: 10,
         ajax: {
             beforeSend: function () {
@@ -76,38 +80,29 @@ function crearContainer() {
     });
 }
 
-function updateSelection() {
-    $form = $("#form_filtrar_ofertas");
-    dataForm = getFormData($form);
-    console.log(dataForm);
-}
-
-function getOfertasFilter(dataForm) {
+function sizeOfertas() {
     $.ajax({
         type: "GET",
         url: "index.php?c=bolsa_trabajo&a=request_operation",
         data: {
-            operacion: "pagination",
-            page: 1,
-            limit: 1,
-            orden: dataForm.orden,
-            fp_oferta: dataForm.fp_oferta
-
+            operacion: "size"
         },
         success: function (result) {
-            if (result === "null") {
+            var res = JSON.parse(result);
+            numOfertas = res[0];
 
-            } else {
+            crearContainer();//creamos el filtro cuando tenemos el total de ofertas
 
-                var resp = JSON.parse(result);
-
-                console.log(resp);
-            }
-
-            console.log("Respuesta Server");
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             console.log(XMLHttpRequest + textStatus + errorThrown);
         }
     });
 }
+
+function updateSelection() {
+    $form = $("#form_filtrar_ofertas");
+    dataForm = getFormData($form);
+    console.log(dataForm);
+}
+

@@ -57,6 +57,12 @@ class BolsaTrabajoServicios
         return $dao->getEstudiosCentroDB();
     }
 
+    public function getSizeOfertas()
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getSizeOfertasDB();
+    }
+
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;

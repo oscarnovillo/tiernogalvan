@@ -17,6 +17,7 @@ use model\OfertaTrabajo;
 use utils\bolsaTrabajo\ConstantesBD;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
+use function Latitude\QueryBuilder\fn;
 use function Latitude\QueryBuilder\on;
 
 
@@ -286,6 +287,36 @@ class BolsaTrabajoDAO
             $dbConnection->disconnect();
         }
         return $ofertasDB;
+    }
+
+    public function getSizeOfertasDB()
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select(fn('COUNT', ConstantesBD::ID_OFERTA))
+            ->from(ConstantesBD::TABLA_OFERTA)
+            ->compile();
+
+        $dbConnection = null;
+        $numOfertas = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $numOfertas = $stmt->fetch(\PDO::FETCH_NUM);
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $numOfertas;
     }
 
 
