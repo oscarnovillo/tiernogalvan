@@ -23,15 +23,15 @@ class CrudUsersController {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = "insert";/*filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);*/
+        $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
             
             //$user = new Users();
             $user = new \stdClass;
                     
-            $user->id = "1234"; /*$_REQUEST[ConstantesVentas::PARAM_PASS];*/
-            $user->nombre = "erasto"; /*$_REQUEST[ConstantesVentas::PARAM_NICK];*/
+            $user->id = $_REQUEST[ConstantesCrudUsers::PARAM_PASS];
+            $user->nombre = $_REQUEST[ConstantesCrudUsers::PARAM_NICK];
             //etc etc
             
             switch ($action) {

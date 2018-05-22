@@ -9,6 +9,7 @@
 namespace dao\users;
 
 use dao\DBConnection;
+use PDO;
 
 class UsersDAO {
     
@@ -20,25 +21,25 @@ class UsersDAO {
         $stmt = $db->prepare("SELECT * FROM USERS WHERE pass=:id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-        //$incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+        $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
-        //return $incidencia;
+        return $incidencia;
     }
     
-     public function addUserDAO($user)
+    public function addUserDAO($user)
     {
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
         $stmt = $db->prepare("INSERT INTO USERS (pass,nombre) "
-                           . "VALUES (:nombre,:pass)");
+                           . "VALUES (:id,:nombre)");
         $stmt->bindParam(":nombre", $user->nombre);
         $stmt->bindParam(":id", $user->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;
     }
-     public function updateUserDAO($user)
+    public function updateUserDAO($user)
     {
         $dbConnection = new DBConnection();
 
@@ -50,7 +51,7 @@ class UsersDAO {
         $dbConnection->disconnect();
         //return $incidencia;
     }
-     public function deleteUserDAO($user)
+    public function deleteUserDAO($user)
     {
         $dbConnection = new DBConnection();
 

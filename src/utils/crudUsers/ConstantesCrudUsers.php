@@ -31,6 +31,6 @@ class ConstantesCrudUsers {
     
     
     
-    
-    const PARAM_PASS = "pass";
+    const PARAM_NICK = "nombre";
+    const PARAM_PASS = "id";
 }
