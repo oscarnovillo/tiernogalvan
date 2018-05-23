@@ -13,6 +13,20 @@ use PDO;
 
 class UsersDAO {
     
+    
+    public function getAllUsersDAO() {
+        $sql = "SELECT * FROM USERS";
+
+        $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $dbConnection->disconnect();
+
+        return $users;
+    }
+    
     public function getUserDAO($user)
     {
         $dbConnection = new DBConnection();

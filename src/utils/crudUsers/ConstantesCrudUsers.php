@@ -28,9 +28,12 @@ class ConstantesCrudUsers {
     
     const CRUD_PAGE = "crudUsers/crudUsers.html";
     
-    
-    
-    
-    const PARAM_NICK = "nombre";
-    const PARAM_PASS = "id";
+    const PARAM_NICK = "nick";
+    const PARAM_ID = "id";
+    const PARAM_NAME = "nombre";
+    const PARAM_PASS = "pass";
+    const PARAM_LASTNAME = "apellidos";
+    const PARAM_TEL = "telefono";
+    const PARAM_EMAIL = "email";
+    const PARAM_PERMISSION = "permiso";
 }

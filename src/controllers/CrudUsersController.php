@@ -23,15 +23,21 @@ class CrudUsersController {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
+        $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
             
             //$user = new Users();
             $user = new \stdClass;
                     
-            $user->id = $_REQUEST[ConstantesCrudUsers::PARAM_PASS];
-            $user->nombre = $_REQUEST[ConstantesCrudUsers::PARAM_NICK];
+            $user->id = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_ID);
+            $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
+            $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
+            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
+            $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
+            $user->telefono = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL);
+            $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
+            $user->permiso = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION);
             //etc etc
             
             switch ($action) {
@@ -54,7 +60,7 @@ class CrudUsersController {
                 case ConstantesCrudUsers::UPDATE_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
-                    if($userChecked){
+                    if($userChecked != null){
                         $userChecked = $usersSevicios->updateUser($user);
                         
                         if($userChecked){
@@ -84,8 +90,15 @@ class CrudUsersController {
                     break;
 
             }
-        }else{
-            TwigViewer::getInstance()->viewPage($page,$parameters);
         }
+        
+        $users = $usersSevicios->getAllUsers();
+        
+        if($users != null){
+            $parameters['users'] = $users;
+        }
+        
+        TwigViewer::getInstance()->viewPage($page,$parameters);
+        
     }
 }

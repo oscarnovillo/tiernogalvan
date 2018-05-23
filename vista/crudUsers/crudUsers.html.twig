@@ -6,8 +6,32 @@
     <div class="contenedor">
           
         <h1>Listado de Usuarios</h1>
+        
+        
+        {% if users != null %}
+                <table>
+                    <tr>
+                        <th><span>Nombre</span></th>
+                        <th><span>Pass</span></th>
+                        
+                    </tr>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.nombre }}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h1>No Hay usuarios</h1>
+            {% endif %}
+        
+        
+        {% if mensaje != null %}
+                <h2 id="mensaje">{{ mensaje }}</h2>
+        {% endif %}
 
-        <form action="index.php" method="get" id="crud_users">
+        <form action="index.php" method="post" id="crud_users">
             <input type="hidden" name="c" value="crud_users">
 
             <div class="col-12 col-sm-6 col-lg-4">
@@ -20,8 +44,46 @@
                 <input type="text" id="nombre_user" name="nombre" placeholder="nombre" required>
             </div>
             
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>APELLIDOS</span>
+                <input type="text" id="apellidos_user" name="apellidos" placeholder="apellidos">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>NICK</span>
+                <input type="text" id="nick_user" name="nick" placeholder="nick">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>PASS</span>
+                <input type="text" id="pass_user" name="pass" placeholder="pass">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>TELEFONO</span>
+                <input type="text" id="telefono_user" name="telefono" placeholder="telefono">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>EMAIL</span>
+                <input type="text" id="email_user" name="email" placeholder="email">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4">
+                <span>PERMISO</span>
+                <input type="text" id="permiso_user" name="permiso" placeholder="permiso">
+            </div>
+            
             <div class="col-12">
                 <input type="submit" name="a" value="insert" class="boton-contenido">
+            </div>
+            
+            <div class="col-12">
+                <input type="submit" name="a" value="update" class="boton-contenido">
+            </div>
+            
+            <div class="col-12">
+                <input type="submit" name="a" value="delete" class="boton-contenido">
             </div>
         </form>
     </div>
