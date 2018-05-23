@@ -471,4 +471,82 @@ class BolsaTrabajoDAO
         return $resultado;
 
     }
+    /**
+     *
+     * Usuarios
+     *
+     */
+
+    //TODO - Terminar insert Perfil y subida de archivos al servidor, pendiente terminar JS y lado de servidor
+    public function insertPerfilDB($perfil)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->insert(ConstantesBD::TABLA_PERFIL_ALUMNO, [
+                ConstantesBD::ID_PERFIL => null,
+                ConstantesBD::NOMBRE => $perfil->titulo_oferta
+                , ConstantesBD::APELLIDOS => $perfil->descripcion_oferta
+                , ConstantesBD::FP_CODE => $perfil->empresa_oferta
+                , ConstantesBD::TELEFONO => $perfil->web_oferta
+                , ConstantesBD::FOTO => $perfil->email_oferta
+                , ConstantesBD::PERFIL_EXTERNO => $perfil->telefono_oferta
+                , ConstantesBD::CV => $perfil->requisitos_oferta
+                , ConstantesBD::LINK_INTERES => $perfil->vacante_oferta
+                , ConstantesBD::COMENTARIO => $perfil->salario_oferta
+                , ConstantesBD::EXPERIENCIA=> $perfil->localizacion_oferta
+                , ConstantesBD::ULTIMA_EDICION => $perfil->caducidad_oferta
+                , ConstantesBD::RECIBIR_OFERTAS => $perfil->id_user_oferta
+                , ConstantesBD::BUSCA_TRABAJO => $perfil->id_user_oferta
+            ])
+            ->compile();
+
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+            //insert en la tabla oferta de trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+            $perfil->id_oferta = $db->lastInsertId();
+
+            //insert tabla oferta Estudios
+
+            //$factory = new QueryFactory(new MySqlEngine());
+
+            /*$arrayMap = [];
+            foreach ($oferta->fp_oferta as $codeFp) {
+                $arrayMap[ConstantesBD::ID_OFERTA] = $oferta->id_oferta;
+                $arrayMap[ConstantesBD::ID_ESTUDIO] = $codeFp;
+            }
+                        $query2 = $factory
+                            ->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                            ->map($arrayMap)->compile();*/
+
+            $query2 = $factory->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
+                ->columns(ConstantesBD::ID_OFERTA, ConstantesBD::ID_ESTUDIO);
+            foreach ($perfil->fp_oferta as $codeFp) {
+                $query2->values($perfil->id_oferta, $codeFp);
+            }
+            $query2->compile();
+            $stmt = $db->prepare($query2->sql($engine));
+            $stmt->execute($query2->params($engine));
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $perfil;
+    }
+
+
 }//fin clase
