@@ -17,6 +17,7 @@ class ConstantesBD
     const TABLA_OFERTA = "OFERTA";
     const TABLA_ESTUDIOS_CENTRO = "ESTUDIOS_CENTRO";
     const TABLA_OFERTA_ESTUDIOS = "OFERTA_ESTUDIOS";
+    const TABLA_PERFIL_ALUMNO = "PERFIL_ALUMNO";
 
     /**
      * Columnas
@@ -52,5 +53,24 @@ class ConstantesBD
 
     const ID_ESTUDIO = "ID_ESTUDIO";
 
+    /**
+     *
+     * Tablas Perfil - Alumno
+     *
+     */
+
+    const ID_PERFIL = "ID_PERFIL";
+    const NOMBRE = "NOMBRE";
+    const APELLIDOS = "APELLIDOS";
+    const FP_CODE = "FP_CODE";
+    const FOTO = "FOTO";
+    const PERFIL_EXTERNO = "PERFIL_EXTERNO";
+    const CV = "CV";
+    const LINK_INTERES = "LINK_INTERES";
+    const COMENTARIO = "COMENTARIO";
+    const EXPERIENCIA = "EXPERIENCIA";
+    const ULTIMA_EDICION = "ULTIMA_EDICION";
+    const RECIBIR_OFERTAS = "RECIBIR_OFERTAS";
+    const BUSCA_TRABAJO = "BUSCA_TRABAJO";
 
 }//FIN CLASE
