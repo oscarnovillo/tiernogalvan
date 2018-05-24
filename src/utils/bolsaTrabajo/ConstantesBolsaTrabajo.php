@@ -61,5 +61,6 @@ class ConstantesBolsaTrabajo
     const OFERTA_FP_CODES = "oferta_fp_codes";
     const PAGINACION_OFERTAS = "pagination";
     const PAGINACION_SIZE = "size";
+    const UPLOAD_FILE = "upload_file";
 
 }

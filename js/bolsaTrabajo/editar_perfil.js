@@ -2,7 +2,7 @@ var uploader = new qq.FineUploader({
     debug: true,
     element: document.getElementById('fine-uploader'),
     request: {
-        endpoint: '/uploads'
+        endpoint: 'index.php?c=bolsa_trabajo&a=request_operation&operacion=upload_file'
     },
     deleteFile: {
         enabled: true,

@@ -23,4 +23,12 @@ class Config
     const DB_DATABASE = "appbanco";
      * 
      */
+
+    //DB Ricardo
+    /*const DB_SERVER_NAME = "discutivo.com:3306";
+    const DB_USER_NAME = "discu351_test";
+    const DB_PASSWORD = "nohay2sin3";
+    const DB_DATABASE = "discu351_clase";*/
+
+
 }

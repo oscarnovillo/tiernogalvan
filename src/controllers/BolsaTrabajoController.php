@@ -117,6 +117,12 @@ class BolsaTrabajoController
                             echo json_encode($servicios->getSizeOfertas());
 
                             break;
+                        case ConstantesBolsaTrabajo::UPLOAD_FILE:
+
+                            $servicios = new BolsaTrabajoServicios();
+                            $servicios->subirArchivo();
+
+                            break;
                     }
 
 

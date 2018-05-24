@@ -4,8 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd0f9a7193f3aaf510d06f317d63b9b7",
+    "content-hash": "707c42225f74ab04e54097e0a99627ae",
     "packages": [
+        {
+            "name": "fineuploader/php-traditional-server",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FineUploader/php-traditional-server.git",
+                "reference": "ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FineUploader/php-traditional-server/zipball/ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190",
+                "reference": "ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Endpoint handler for Fine Uploader's traditional server requests.",
+            "homepage": "http://fineuploader.com",
+            "time": "2017-02-23T15:06:09+00:00"
+        },
         {
             "name": "fzaninotto/faker",
             "version": "v1.7.0",
@@ -53,6 +76,93 @@
                 "fixtures"
             ],
             "time": "2017-08-15T16:34:15+00:00"
+        },
+        {
+            "name": "gargron/fileupload",
+            "version": "v1.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gargron/fileupload.git",
+                "reference": "fd2b79c9b868b9987925e098f5562231e691ce7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gargron/fileupload/zipball/fd2b79c9b868b9987925e098f5562231e691ce7d",
+                "reference": "fd2b79c9b868b9987925e098f5562231e691ce7d",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FileUpload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "File uploading library capable of handling large/chunked/multiple file uploads",
+            "time": "2017-05-19T17:43:52+00:00"
+        },
+        {
+            "name": "josantonius/file",
+            "version": "1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Josantonius/PHP-File.git",
+                "reference": "32ebebe5f58a7c5cd3eb56c42becd08aa61a6cd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Josantonius/PHP-File/zipball/32ebebe5f58a7c5cd3eb56c42becd08aa61a6cd5",
+                "reference": "32ebebe5f58a7c5cd3eb56c42becd08aa61a6cd5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.3 || ^2.8",
+                "phpmd/phpmd": "^2.6",
+                "phpunit/phpunit": "^5.7 || ^6.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Josantonius\\File\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josantonius",
+                    "email": "hello@josantonius.com",
+                    "homepage": "https://josantonius.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library for file management.",
+            "keywords": [
+                "File handler",
+                "Search words in file",
+                "file",
+                "hhvm",
+                "php",
+                "strings"
+            ],
+            "time": "2018-01-06T10:00:15+00:00"
         },
         {
             "name": "latitude/latitude",
