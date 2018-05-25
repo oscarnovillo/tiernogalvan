@@ -10,21 +10,20 @@ namespace config;
 
 class Config
 {
-   
+   /*
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "oscarnovillo";
     const DB_PASSWORD = "c557ef";
     const DB_DATABASE = "clasesdaw";
-
-    /*db de Andrei
+*/
+   
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";
     const DB_DATABASE = "appbanco";
-     * 
-     */
+     
 
-    //DB Ricardo
+    //DB Ricardo //Hola Ricardo un saludo anónimo :)
     /*const DB_SERVER_NAME = "discutivo.com:3306";
     const DB_USER_NAME = "discu351_test";
     const DB_PASSWORD = "nohay2sin3";

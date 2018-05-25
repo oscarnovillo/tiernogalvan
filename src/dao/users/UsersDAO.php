@@ -17,6 +17,8 @@ class UsersDAO {
         
         try{
             
+            $users = (object)[];
+            
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
             
@@ -26,7 +28,7 @@ class UsersDAO {
             $users = $stmt->fetchAll(PDO::FETCH_OBJ);
             
         } catch (\Exception $exception) {
-            echo $exception->getMessage();
+            
         } finally {  
             $dbConnection->disconnect();
         }
@@ -37,16 +39,19 @@ class UsersDAO {
     public function getUserDAO($user){
     
         try{
+            
+            $incidencia = (object)[];
+            
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $stmt = $db->prepare("SELECT * FROM USERS WHERE pass=:id");
+            $stmt = $db->prepare("SELECT * FROM users WHERE id=:id");
             $stmt->bindParam(":id", $id);
             $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
             
         } catch (\Exception $exception) {
-            echo $exception->getMessage();
+          
         } finally {  
             $dbConnection->disconnect();
         }
@@ -57,24 +62,29 @@ class UsersDAO {
     public function addUserDAO($user)
     {
         try{
+            $id_usuario = new \stdClass;
             $insertado = true;
             
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
             $db->beginTransaction();
             
-            $stmt = $db->prepare("INSERT INTO USERS (pass,nombre) "
-                               . "VALUES (:id,:nombre)");
-            $stmt->bindParam(":nombre", $user->nombre);
+            $stmt = $db->prepare("INSERT INTO users (id,nombre,apellidos,telefono,email,pass,nick) "
+                               . "VALUES (:id,:nombre,:apellidos,:telefono,:email,:pass,:nick)");
             $stmt->bindParam(":id", $user->id);
+            $stmt->bindParam(":nombre", $user->nombre);
+            $stmt->bindParam(":apellidos", $user->apellidos);
+            $stmt->bindParam(":telefono", $user->telefono);
+            $stmt->bindParam(":email", $user->email);
+            $stmt->bindParam(":pass", $user->pass);
+            $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();
             $id_usuario->id_usuario = $db->lastInsertId();
             
-            
-            $stmt2 = $db->prepare("INSERT INTO PERMISOS (id_usuario,id_permiso) "
-                               . "VALUES (:id_usuario,:id_permiso)");
+            $stmt2 = $db->prepare("INSERT INTO permisos (id_usuario,id_rol) "
+                               . "VALUES (:id_usuario,:id_rol)");
             $stmt2->bindParam(":id_usario", $id_usuario->id_usuario);
-            $stmt2->bindParam(":id_permiso", $user->id_permiso);
+            $stmt2->bindParam(":id_rol", $user->id_rol);
             $stmt2->execute();
             $db->commit();
             

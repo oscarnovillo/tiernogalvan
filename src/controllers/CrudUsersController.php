@@ -27,18 +27,15 @@ class CrudUsersController {
         
         if (isset($action)) {
             
-            //$user = new Users();
             $user = new \stdClass;
-                    
-            $user->id = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_ID);
-            $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
+                   
             $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
-            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
             $user->telefono = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL);
             $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
-            $user->permiso = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION);
-            //etc etc
+            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
+            $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
+            $user->id_rol = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION);
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
@@ -60,7 +57,7 @@ class CrudUsersController {
                 case ConstantesCrudUsers::UPDATE_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
-                    if($userChecked != null){
+                    if($userChecked){
                         $userChecked = $usersSevicios->updateUser($user);
                         
                         if($userChecked){
@@ -91,14 +88,12 @@ class CrudUsersController {
 
             }
         }
-        
-        $users = $usersSevicios->getAllUsers();
-        
-        if($users != null){
-            $parameters['users'] = $users;
-        }
-        
+        $usuarios = $usersSevicios->getAllUsers();
+            
+            if($usuarios != null){
+               $parameters['usuarios'] = $usuarios;
+            }
+            
         TwigViewer::getInstance()->viewPage($page,$parameters);
-        
     }
 }

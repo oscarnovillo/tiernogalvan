@@ -35,8 +35,12 @@
             <input type="hidden" name="c" value="crud_users">
 
             <div class="col-12 col-sm-6 col-lg-4">
-                <span>ID</span>
-                <input type="text" id="id_user" name="id" placeholder="id" required>
+                <span>permiso</span>
+                <select id="id_rol" name="id_rol" required>
+                    <option value="10">Alumno</option>
+                    <option value="11">Profesor</option>
+                    <option value="12">Admin</option>  
+                </select>
             </div>
 
             <div class="col-12 col-sm-6 col-lg-4">
@@ -67,11 +71,6 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <span>EMAIL</span>
                 <input type="text" id="email_user" name="email" placeholder="email">
-            </div>
-            
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>PERMISO</span>
-                <input type="text" id="permiso_user" name="permiso" placeholder="permiso">
             </div>
             
             <div class="col-12">
