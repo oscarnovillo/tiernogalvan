@@ -4,7 +4,7 @@ namespace utils;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
+use config\Config;
 class Mailer
 {
 
@@ -14,12 +14,12 @@ class Mailer
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp1.example.com;smtp2.example.com';
+            $mail->Host = Config::MAIL_SERVER;
             $mail->SMTPAuth = true;
-            $mail->Username = 'user@example.com';
-            $mail->Password = 'secret';
+            $mail->Username = Config::MAIL_USER;
+            $mail->Password = Config::MAIL_PASSWORD;
             $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->Port = Config::MAIL_PORT;
 
             $mail->setFrom('contacto@iestiernogalvan.es', 'IES Enrique Tierno Galván');
             $mail->addAddress($reciperEmail, $reciperName);
