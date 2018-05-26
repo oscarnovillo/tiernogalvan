@@ -4,31 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "707c42225f74ab04e54097e0a99627ae",
+    "content-hash": "263719048bd854a536f2754b18885a01",
     "packages": [
-        {
-            "name": "fineuploader/php-traditional-server",
-            "version": "1.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FineUploader/php-traditional-server.git",
-                "reference": "ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FineUploader/php-traditional-server/zipball/ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190",
-                "reference": "ca3b7277c0dbddd2bf8bc97ed94ecc65776a2190",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Endpoint handler for Fine Uploader's traditional server requests.",
-            "homepage": "http://fineuploader.com",
-            "time": "2017-02-23T15:06:09+00:00"
-        },
         {
             "name": "fzaninotto/faker",
             "version": "v1.7.0",
@@ -76,36 +53,6 @@
                 "fixtures"
             ],
             "time": "2017-08-15T16:34:15+00:00"
-        },
-        {
-            "name": "gargron/fileupload",
-            "version": "v1.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Gargron/fileupload.git",
-                "reference": "fd2b79c9b868b9987925e098f5562231e691ce7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Gargron/fileupload/zipball/fd2b79c9b868b9987925e098f5562231e691ce7d",
-                "reference": "fd2b79c9b868b9987925e098f5562231e691ce7d",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "FileUpload\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "File uploading library capable of handling large/chunked/multiple file uploads",
-            "time": "2017-05-19T17:43:52+00:00"
         },
         {
             "name": "josantonius/file",
@@ -217,16 +164,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.27.0",
+            "version": "1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9"
+                "reference": "b1cc4493fafb1b1402d50474fe6305e0558c6829"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
-                "reference": "ef81c39b67200dcd7401c24363dcac05ac3a4fe9",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b1cc4493fafb1b1402d50474fe6305e0558c6829",
+                "reference": "b1cc4493fafb1b1402d50474fe6305e0558c6829",
                 "shasum": ""
             },
             "require": {
@@ -261,7 +208,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-04-23T09:02:57+00:00"
+            "time": "2018-05-24T13:09:20+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -453,16 +400,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.0.9",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "ad3abf08eb3450491d8d76513100ef58194cd13e"
+                "reference": "e1f5863d0a9e79cfec7f031421ced3fe1d403e66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/ad3abf08eb3450491d8d76513100ef58194cd13e",
-                "reference": "ad3abf08eb3450491d8d76513100ef58194cd13e",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/e1f5863d0a9e79cfec7f031421ced3fe1d403e66",
+                "reference": "e1f5863d0a9e79cfec7f031421ced3fe1d403e66",
                 "shasum": ""
             },
             "require": {
@@ -517,7 +464,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2018-04-30T01:23:47+00:00"
+            "time": "2018-05-21T10:09:47+00:00"
         },
         {
             "name": "teapot/status-code",

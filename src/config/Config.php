@@ -23,7 +23,7 @@ class Config
     const DB_DATABASE = "appbanco";
      
 
-    //DB Ricardo //Hola Ricardo un saludo anónimo :)
+    //DB Ricardo //Hola Ricardo un saludo anónimo :), Uy pero quién podrá ser!!
     /*const DB_SERVER_NAME = "discutivo.com:3306";
     const DB_USER_NAME = "discu351_test";
     const DB_PASSWORD = "nohay2sin3";

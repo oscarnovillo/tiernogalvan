@@ -386,6 +386,8 @@ class UploadHandler
      */
     protected function isInaccessible($directory)
     {
+        //$dd= "src/servicios/bolsaTrabajo/files";
+        //mkdir($dd , 0777);
         $isWin = $this->isWindows();
         $folderInaccessible = ($isWin) ? !is_writable($directory) : (!is_writable($directory) && !is_executable($directory));
         return $folderInaccessible;

@@ -5,10 +5,16 @@ var uploader = new qq.FineUploader({
         endpoint: 'index.php?c=bolsa_trabajo&a=request_operation&operacion=upload_file'
     },
     deleteFile: {
+        method: 'POST',
         enabled: true,
-        endpoint: '/uploads'
+        endpoint: 'index.php?c=bolsa_trabajo&a=request_operation&operacion=upload_file'
     },
     retry: {
         enableAuto: true
     }
 });
+
+
+///recuperar datos subida
+uploader.getUploads('id')[0].uuid;
+uploader.getUploads('id')[0].name;

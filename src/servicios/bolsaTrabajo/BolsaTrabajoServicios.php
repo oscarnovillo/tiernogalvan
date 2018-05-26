@@ -167,12 +167,13 @@ class BolsaTrabajoServicios
         return $texto;
     }
 
-    public function subirArchivo() //TODO - probar subida en servidor real
+    public function subirArchivo()
     {
+        $directorioSubida = ConfigBolsaTrabajo::DIRECTORIO_PERFILES;
         $uploader = new UploadHandler();
 
         // Specify the list of valid extensions, ex. array("jpeg", "xml", "bmp")
-        $uploader->allowedExtensions = array(); // all files types allowed by default
+        $uploader->allowedExtensions = array("jpeg", "jpg", "png"); // all files types allowed by default
 
         // Specify max file size in bytes.
         $uploader->sizeLimit = null;
@@ -191,17 +192,23 @@ class BolsaTrabajoServicios
             // Assumes you have a chunking.success.endpoint set to point here with a query parameter of "done".
             // For example: /myserver/handlers/endpoint.php?done
             if (isset($_GET["done"])) {
-                $result = $uploader->combineChunks("files");
+                $result = $uploader->combineChunks($directorioSubida);
             } // Handles upload requests
             else {
                 // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-                $result = $uploader->handleUpload("files");
+                $result = $uploader->handleUpload($directorioSubida);
 
                 // To return a name used for uploaded file you can use the following line.
                 $result["uploadName"] = $uploader->getUploadName();
             }
 
             echo json_encode($result);
+        } // for delete file requests
+        else if ($method == "DELETE") {
+            $result = $uploader->handleDelete($directorioSubida);
+            echo json_encode($result);
+        } else {
+            header("HTTP/1.0 405 Method Not Allowed");
         }
 
 
