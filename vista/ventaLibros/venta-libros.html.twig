@@ -3,85 +3,199 @@
 {% block content %}
     <div class="cuerpo">
         <div class="contenido">
-                    
-            {% if misVentas != null %}
-                <table>
-                    <tr>
-                        <th><span>Titulo</span></th>
-                        <th><span>ISBN</span></th>
-                        <th><span>Precio</span></th>
-                        <th><span>Asignatura</span></th>
-                        <th><span>Curso</span></th>
-                    </tr>
-                    {% for venta in misVentas %}
+            {% if mensaje_reserva != null %}
+                <script>alert("{{ mensaje_reserva }}");</script>
+            {% endif %}
+            {% if error_reserva != null %}
+                <h2 class="error_reserva">{{ error_reserva }}</h2>
+            {% endif %}
+            <h1><span onclick="verTodos()" class="seleccionado" id="texto_todos">Todos los libros</span></h1>
+            <section class="cont_tabla" id="todos">
+                {% if allVentas != null %}
+                    <table class="table table-striped">
                         <tr>
-                            <td>{{ venta.titulo }}</td>
-                            <td>{{ venta.isbn }}</td>
-                            <td>{{ venta.precio }}</td>
-                            <td>{{ venta.asignatura }}</td>
-                            <td>{{ venta.curso }}</td>
+                            <th><span>Titulo</span></th>
+                            <th><span>ISBN</span></th>
+                            <th><span>Precio</span></th>
+                            <th><span>Asignatura</span></th>
+                            <th><span>Curso</span></th>
+                            <th><span>Reservar</span></th>
                         </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <h1>No tienes libros a la venta</h1>
+                        {% for venta in allVentas %}
+                            <tr>
+                                <td>{{ venta.titulo }}</td>
+                                <td>{{ venta.isbn }}</td>
+                                <td>{{ venta.precio }}€</td>
+                                <td>{{ venta.asignatura }}</td>
+                                <td>{{ venta.curso }}</td>
+                                <td><button class="boton-contenido boton" onclick="reservar({{ venta.id }}, '{{ venta.id_vendedor }}')">Reservar</button></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <form action="index.php" method="post" id="form_res">
+                        <input type="hidden" id="id_venta" name="id_venta">
+                        <input type="hidden" id="id_vendedor" name="id_vendedor">
+                        <input type="hidden" name="c" value="venta_libros">
+                        <input type="hidden" name="a" value="res_libro">
+                    </form>
+                {% else %}
+                    <h2>No hay libros a la venta</h2>
+                {% endif %}
+            </section>
+            
+            <h1><span onclick="verMios()" id="texto_mios">Mis libros</span></h1>
+            <section class="cont_tabla" id="mios">    
+                {% if misVentas != null %}
+                    <table class="table table-striped">
+                        <tr>
+                            <th><span>Titulo</span></th>
+                            <th><span>ISBN</span></th>
+                            <th><span>Precio</span></th>
+                            <th><span>Asignatura</span></th>
+                            <th><span>Curso</span></th>
+                            <th><span>Estado</span></th>
+                            <th><span>Editar</span></th>
+                            <th><span>Eliminar</span></th>
+                        </tr>
+                        {% for venta in misVentas %}
+                            <tr>
+                                <td>{{ venta.titulo }}</td>
+                                <td>{{ venta.isbn }}</td>
+                                <td>{{ venta.precio }}€</td>
+                                <td>{{ venta.asignatura }}</td>
+                                <td>{{ venta.curso }}</td>
+                                <td>{{ venta.estado }}</td>
+                                <td><a href="javascript:void(0)" onclick="editar({{ venta.id }}, '{{ venta.titulo }}', '{{ venta.isbn }}', 
+                                                                               '{{ venta.precio }}', '{{ venta.asignatura }}', '{{ venta.curso }}', 
+                                                                               '{{ venta.estado }}');">Editar</a></td>
+                                <td><a href="javascript:void(0)">Eliminar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <div id="form_public">
+                        <div id="cont_form_edit" class="row">
+                            <span class="error_form" id="texto"></span>
+                            <br>
+                            <form action="index.php" method="post" id="form_editar" onsubmit="return validar(this)">
+                                <input type="hidden" name="c" value="venta_libros">
+                                <input type="hidden" name="a" value="edit_libro">
+                                <input type="hidden" id="id_venta_edit" name="id_venta_edit">
+                                       
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <span>Titulo</span>
+                                    <input type="text" id="titulo_edit" name="titulo" placeholder="Titulo" required>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <span>ISBN</span>
+                                    <input type="text" id="isbn_edit" name="isbn" placeholder="123-1-12-123456-1" required>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <span>Precio</span>
+                                    <input type="text" id="precio_edit" name="precio" placeholder="0,00" required>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <span>Asignatura</span>
+                                    <select id="asignatura_edit" name="asignatura">
+                                        <option value="Matemáticas">Matemáticas</option>
+                                        <option value="Lengua">Lengua</option>
+                                        <option value="FOL">FOL</option>
+                                        <option value="C. sociales">C. sociales</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-sm-7 col-lg-4">
+                                    <span>Curso</span>
+                                    <select id="curso_edit" name="curso">
+                                        <option value="4 ESO">4º ESO</option>
+                                        <option value="1 BACH">1º BACH</option>
+                                        <option value="2 BACH">2º BACH</option>
+                                        <option value="1 DAW">1º DAW</option>
+                                        <option value="2 DAW">2º DAW</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12 col-sm-4 col-lg-4">
+                                    <span>Estado</span>
+                                    <select id="estado_edit" name="estado">
+                                        <option value="A la venta">A la venta</option>
+                                        <option value="Reservado">Reservado</option>
+                                        <option value="Vendido">Vendido</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <input type="submit" value="Guardar" class="boton-contenido">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <h2>No tienes libros a la venta</h2>
+                {% endif %}
+            </section>
+            
+            
+            {% if mensaje_publicacion != null %}
+                <h2>{{ mensaje_publicacion }}</h2>
             {% endif %}
             
-            {% if mensaje != null %}
-                <h2 id="mensaje">{{ mensaje }}</h2>
-            {% endif %}
+            
+            <section class="cont_tabla">
+                <h1><span onclick="verPublicar()" id="texto_publicar">Publica tu libro</span></h1>
+                <div id="form_public" class="row">
+                    <div id="cont_form">
+                        <span class="error_form"></span>
+                        <br>
+                        <form action="index.php" method="post" id="form_venta" onsubmit="return validar(this)">
+                            <input type="hidden" name="c" value="venta_libros">
+                            <input type="hidden" name="a" value="add_libro">
 
-            <h1 id="publicar">Publica tu libro</h1>
-            <div id="form_public" class="row">
-                <div id="cont_form">
-                    <span id="error_form"></span>
-                    <br>
-                    <form action="index.php" method="post" id="form_venta" onsubmit="return validar(this)">
-                        <input type="hidden" name="c" value="venta_libros">
-                        <input type="hidden" name="a" value="add_libro">
-                        
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <span>Titulo</span>
-                            <input type="text" id="titulo" name="titulo" placeholder="Titulo" required>
-                        </div>
-                        
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <span>ISBN</span>
-                            <input type="text" id="isbn" name="isbn" placeholder="123-1-12-123456-1" required>
-                        </div>
-                        
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <span>Precio</span>
-                            <input type="text" id="precio" name="precio" placeholder="0,00" required>
-                        </div>
-                        
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <span>Asignatura</span>
-                            <select id="asignatura" name="asignatura" required>
-                                <option value="Matemáticas">Matemáticas</option>
-                                <option value="Lengua">Lengua</option>
-                                <option value="FOL">FOL</option>
-                                <option value="C. sociales">C. sociales</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-12 col-sm-12 col-lg-4">
-                            <span>Curso</span>
-                            <select id="curso" name="curso" required>
-                                <option value="4 ESO">4º ESO</option>
-                                <option value="1 BACH">1º BACH</option>
-                                <option value="2 BACH">2º BACH</option>
-                                <option value="1 DAW">1º DAW</option>
-                                <option value="2 DAW">2º DAW</option>
-                            </select>
-                        </div>
-                        
-                        <div class="col-12">
-                            <input type="submit" value="Publicar" class="boton-contenido">
-                        </div>
-                    </form>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <span>Titulo</span>
+                                <input type="text" id="titulo" name="titulo" placeholder="Titulo" required>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <span>ISBN</span>
+                                <input type="text" id="isbn" name="isbn" placeholder="123-1-12-123456-1" required>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <span>Precio</span>
+                                <input type="text" id="precio" name="precio" placeholder="0,00" required>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <span>Asignatura</span>
+                                <select id="asignatura" name="asignatura" required>
+                                    <option value="Matemáticas">Matemáticas</option>
+                                    <option value="Lengua">Lengua</option>
+                                    <option value="FOL">FOL</option>
+                                    <option value="C. sociales">C. sociales</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-lg-4">
+                                <span>Curso</span>
+                                <select id="curso" name="curso" required>
+                                    <option value="4 ESO">4º ESO</option>
+                                    <option value="1 BACH">1º BACH</option>
+                                    <option value="2 BACH">2º BACH</option>
+                                    <option value="1 DAW">1º DAW</option>
+                                    <option value="2 DAW">2º DAW</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <input type="submit" value="Publicar" class="boton-contenido">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
     

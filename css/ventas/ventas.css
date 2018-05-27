@@ -38,7 +38,46 @@
     max-width: 200px;
 }
 
-#error_form{
+.error_form{
     display: none;
     color: indianred;
+}
+
+.error_reserva{
+    color: indianred;
+}
+
+h1{
+    text-align: center;
+    margin: 20px 0 20px 0;
+}
+
+h1 span{
+    cursor: pointer;
+}
+
+h2{
+    text-align: center;
+}
+
+.cont_tabla{
+    margin-bottom: 50px;
+}
+
+.boton{
+    line-height: 0px;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    width: 100px;
+}
+
+#mios{
+    display: none;
+}
+
+.seleccionado{
+    color: #008CBA;
+    cursor: default;
 }

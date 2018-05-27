@@ -32,7 +32,7 @@ class VentaLibrosController {
                 case ConstantesVentas::ACCION_ADD_LIBRO:
                     $venta = new \stdClass;
                     
-                    //$venta->id_vendedor = $_SESSION["id_vendedor"];
+                    //$venta->id_vendedor = $_SESSION["id_usuario"];
                     //$venta->email = $_SESSION["email"];
                     $venta->id_vendedor = 1;
                     $venta->email = "migueldiaz.tg@gmail.com";
@@ -46,15 +46,55 @@ class VentaLibrosController {
                     $ventaCreada = $ventasSevicios->addVenta($venta);
                     
                     if($ventaCreada){
-                        $parameters['mensaje'] = ConstantesVentas::VENTA_CORRECTA;
+                        $parameters['mensaje_publicacion'] = ConstantesVentas::VENTA_CORRECTA;
                     }else{
-                        $parameters['mensaje'] = ConstantesVentas::ERROR;
+                        $parameters['mensaje_publicacion'] = ConstantesVentas::ERROR;
                     }
                     
                     break;
+                    
+                case ConstantesVentas::ACCION_RES_LIBRO:
+                    $id_venta = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
+                    $id_vendedor =(int)$_REQUEST[ConstantesVentas::PARAM_ID_VENDEDOR];
+                    
+                    //$id_usuario = $_SESSION["id_vendedor"];
+                    $id_usuario = 1;
+                    
+                    if($id_vendedor == $id_usuario){
+                        $parameters['error_reserva'] = ConstantesVentas::ERROR_MISMO_USER;
+                    }else{
+                        $actualizado = $ventasSevicios->resVenta($id_venta);
+
+                        if($actualizado == true){
+                            /*Enviar email
+                            email = $_SESSION["email"];
+                            enviar(email); 
+                            o como sea xD   
+                            */
+                            $parameters['mensaje_reserva'] = ConstantesVentas::VENTA_RESERVADA;
+                        }else{
+                            $parameters['mensaje_reserva'] = ConstantesVentas::ERROR;
+                        }
+                    }
+                    
+                    break;
+                    
+                case ConstantesVentas::ACCION_EDIT_LIBRO:
+                    
+                    break;
+                
+                case ConstantesVentas::ACCION_DEL_LIBRO:
+                    
+                    break;
+                
             }
         }
-        $misVentas = $ventasSevicios->getMisVentas(2);
+        $allVentas = $ventasSevicios->getAllVentas();
+        if($allVentas != null){
+            $parameters['allVentas'] = $allVentas;
+        }
+        
+        $misVentas = $ventasSevicios->getMisVentas(1);
         if($misVentas != null){
             $parameters['misVentas'] = $misVentas;
         }

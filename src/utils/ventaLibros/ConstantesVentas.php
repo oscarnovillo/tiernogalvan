@@ -5,10 +5,17 @@ class ConstantesVentas{
     const VENTAS_PAGE = "ventaLibros/venta-libros.html";
     
     const ACCION_ADD_LIBRO = "add_libro";
+    const ACCION_EDIT_LIBRO = "edit_libro";
+    const ACCION_DEL_LIBRO = "del_libro";
+    const ACCION_RES_LIBRO = "res_libro";
     
     const ERROR = "Ha ocurrido un error.";
     const VENTA_CORRECTA = "Tu libro se ha puesto a la venta.";
+    const VENTA_RESERVADA = "Tu reserva se ha realizado correctamente. Hemos informado al vendedor para que se ponga en contacto contigo.";
+    const ERROR_MISMO_USER = "No puedes reservar tus propios libros.";
     
+    const PARAM_ID_VENTA = "id_venta";
+    const PARAM_ID_VENDEDOR = "id_vendedor";
     const PARAM_TITULO = "titulo";
     const PARAM_ISBN = "isbn";
     const PARAM_PRECIO = "precio";
