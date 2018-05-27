@@ -23,8 +23,10 @@ class MensajesBT
     const BORRAR_DENEGADA = "Fallo borrando los datos, por favor inténtalo otra vez";
 
     const INSERCION_ACEPTADA_LINK = "index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta=";
+    const ACTUALIZACION_ACEPTADA_LINK = "index.php?c=bolsa_trabajo&a=mi_perfil&id_perfil=";
 
     const ERROR_FALLO_IDENTIFICADOR = "Fallo en la identificación de parametros, por favor estas enviando paramentros erróneos";
+    const ERROR_FALLO_INTERNO = "Error en el servidor, por favor refresca la página(F5) y vuelve a intentarlo";
     const ERROR_FALLO_IDENTIFICADOR_USER = "Fallo en la identificación del usuari@, hemos perdido tu identificador de usuari@, por favor refresca o vuelve a iniciar sesión";
 
 

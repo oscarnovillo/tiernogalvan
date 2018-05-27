@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use config\ConfigBolsaTrabajo;
 use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use Respect\Validation\Validator as v;
+use utils\bolsaTrabajo\ConstantesBD;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\bolsaTrabajo\UploadHandler;
@@ -86,6 +87,22 @@ class BolsaTrabajoServicios
         return $isValid;
     }
 
+    public function validarPerfil($perfil)
+    {
+
+        $validador = v::attribute(ConstantesBD::NOMBRE, v::stringType()->length(1, 100))
+            ->attribute(ConstantesBD::APELLIDOS, v::stringType()->length(1, 100))
+            ->attribute(ConstantesBD::FP_CODE, v::numeric())
+            ->attribute(ConstantesBD::COMENTARIO, v::optional(v::stringType()->length(3, 1000)))
+            ->attribute(ConstantesBD::EXPERIENCIA, v::optional(v::stringType()->length(3, 1000)))
+            ->attribute(ConstantesBD::PERFIL_EXTERNO, v::optional(v::stringType()->length(3, 200)))
+            ->attribute(ConstantesBD::LINK_INTERES, v::optional(v::stringType()->length(3, 200)))
+            ->attribute(ConstantesBD::EMAIL, v::optional(v::stringType()->length(3, 100)))
+            ->attribute(ConstantesBD::TELEFONO, v::optional(v::stringType()->length(6, 12)));
+
+        return $validador->validate($perfil);
+    }
+
     public function validarFpCodes($fp_array_oferta)
     {
         $isValid = false;
@@ -121,6 +138,24 @@ class BolsaTrabajoServicios
         $dao = new BolsaTrabajoDAO();
         return $dao->deleteOfertaDB($idOferta, $idOwner);
     }
+
+
+    public function actualizarPerfil($perfil)
+    {
+        $dao = new BolsaTrabajoDAO();
+        $perfil = $this->formatFotoUrl($perfil);
+
+        return $dao->insertOrUpdatePerfilDB($perfil);
+    }
+
+    private function formatFotoUrl($perfil)
+    {
+        if ($perfil->NAME != null && $perfil->UUID != null) {
+            $perfil->FOTO = ConfigBolsaTrabajo::DIRECTORIO_PERFILES . '/' . $perfil->UUID . '/' . $perfil->NAME;
+        }
+        return $perfil;
+    }
+
 
     public function getAllOfertas($limit, $offset, $orden)
     {

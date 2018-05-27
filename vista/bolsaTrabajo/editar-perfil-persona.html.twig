@@ -2,14 +2,14 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    <div id="build_modal"></div>
+    <div id="build_modal_response"></div>
     <div class="py-2">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card-body p-5 border rounded">
                         <h3 class="pb-3">Editar Perfil</h3>
-                        <form action="" name="form_editar_perfil">
+                        <form id="form_editar_perfil">
                             <div class="form-group">
                                 <label>Foto de Perfil</label>
                                 <!-- The element where Fine Uploader will exist. -->
@@ -25,15 +25,9 @@
                             <div class="form-group">
                                 <label>Ciclos Formativos Cursados</label>
                                 <select class="form-control" multiple="" required="required" name="FP_CODE">
-                                    <option></option>
-                                    <option value="DAW - Desarrollo de Aplicaciones Web">DAW - Desarrollo de
-                                        Aplicaciones Web
-                                    </option>
-                                    Tenemos distintos ciclos, seleciona el que mejor se ajuste a tu medida. Para
-                                    selección múltiple presiona [Ctrl] y los ciclos que desees
-                                    <option value="ASIR -">ASIR -</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    {% for estudios in FP_ESTUDIOS %}
+                                        <option value="{{ estudios.ID_FP }}">{{ estudios.TITULO }}</option>
+                                    {% endfor %}
                                 </select>
                                 <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
                                     ajuste a tu medida. Para selección múltiple presiona [Ctrl] y los ciclos que desees
@@ -53,6 +47,20 @@
                                     tipo en el hábito laboral? Plásmalo aquí.
                                 </small>
                                 <textarea class="form-control" rows="4" name="EXPERIENCIA"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <small class="form-text text-muted">Este número será visible para todas las personas que
+                                    accedan a tu perfil.
+                                </small>
+                                <input class="form-control" name="TELEFONO" placeholder="615555444"/>
+                            </div>
+                            <div class="form-group">
+                                <label>E-mail</label>
+                                <small class="form-text text-muted">Este e-mail será visible para todas las personas que
+                                    accedan a tu perfil.
+                                </small>
+                                <input class="form-control" name="EMAIL" placeholder="miCorreo@gmail.com"/>
                             </div>
                             <div class="form-group">
                                 <label>Perfil Externo</label>
@@ -194,6 +202,7 @@
 
 
 
+    <script src="js/bolsaTrabajo/funciones_comunes.js"></script>
     <script src="js/bolsaTrabajo/editar_perfil.js"></script>
 
 

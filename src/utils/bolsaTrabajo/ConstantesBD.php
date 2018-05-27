@@ -16,6 +16,7 @@ class ConstantesBD
      */
     const TABLA_OFERTA = "OFERTA";
     const TABLA_ESTUDIOS_CENTRO = "ESTUDIOS_CENTRO";
+    const TABLA_ESTUDIOS_ALUMNO = "ESTUDIOS_ALUMNO";
     const TABLA_OFERTA_ESTUDIOS = "OFERTA_ESTUDIOS";
     const TABLA_PERFIL_ALUMNO = "PERFIL_ALUMNO";
 
@@ -72,5 +73,14 @@ class ConstantesBD
     const ULTIMA_EDICION = "ULTIMA_EDICION";
     const RECIBIR_OFERTAS = "RECIBIR_OFERTAS";
     const BUSCA_TRABAJO = "BUSCA_TRABAJO";
+
+
+    /**
+     * Tabla Estudios Alumno
+     *
+     */
+
+    const  ID_ALUMNO = "ID_ALUMNO";
+
 
 }//FIN CLASE
