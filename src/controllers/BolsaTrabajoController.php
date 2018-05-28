@@ -139,9 +139,17 @@ class BolsaTrabajoController
                     if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO);
-                        $datos = json_decode($datos);
-                        $datos->ID_PERFIL = 1;//TODO - Temporal - recuperar Id del alumno de session
-                        $this->insertOrUpdatePerfilForm($datos);
+                        $datosConfig = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO_CONFIG);
+                        if ($datos != null) {
+                            $datos = json_decode($datos);
+                            $datos->ID_PERFIL = 1;//TODO - Temporal - recuperar Id del alumno de session
+                            $this->insertOrUpdatePerfilForm($datos);
+                        } elseif ($datosConfig != null) {
+                            $datosConfig = json_decode($datosConfig);
+                            $datosConfig->ID_PERFIL = 1;//TODO - Temporal - recuperar Id del alumno de session
+                            $this->insertOrUpdatePerfilFormConfig($datosConfig);
+                        }
+
 
                     } else {
                         $this->editarPerfilVista();
@@ -235,7 +243,7 @@ class BolsaTrabajoController
     {
         $servicios = new BolsaTrabajoServicios();
         //Comprobar que devuelve - pendiente
-        $miPerfilDB = $servicios->miPerfil($idPerfil);
+        $miPerfilDB = $servicios->getMiPerfil($idPerfil);//TODO - enviar la información del perfil 
         /*$miPerfilDB = $this->generarMisOfertas();
         $ofertasVista = (object)[];
         $ofertasVista->misOfertas = $miPerfilDB;*/
@@ -247,15 +255,24 @@ class BolsaTrabajoController
     public function editarPerfil($idPerfil)//TODO - Recuperar datos del perfil para poblar la vista de edición
     {
         $servicios = new BolsaTrabajoServicios();
-        //Comprobar que devuelve - pendiente
-        $miPerfilDB = $servicios->miPerfil($idPerfil);
-        /*$miPerfilDB = $this->generarMisOfertas();
-        $ofertasVista = (object)[];
-        $ofertasVista->misOfertas = $miPerfilDB;*/
-        $page = ConstantesPaginas::EDITAR_PERFIL_PAGE;
 
-        $estudios = $this->cargarCiclosFP();
-        TwigViewer::getInstance()->viewPage($page, (array)$estudios);
+        $miPerfilDB = $servicios->getMiPerfil($idPerfil);
+        if (is_array($miPerfilDB)) {
+
+            $perfilBundle = (object)[];
+
+            $perfilBundle->PERFIL_DATA = $miPerfilDB;
+            $perfilBundle->FP_ESTUDIOS = $this->cargarCiclosFP();
+
+            $page = ConstantesPaginas::EDITAR_PERFIL_PAGE;
+
+
+            TwigViewer::getInstance()->viewPage($page, (array)$perfilBundle);
+
+        } else {
+            //no existe
+
+        }
 
     }
 
@@ -311,8 +328,6 @@ class BolsaTrabajoController
         if ($servicios->validarPerfil($datos)) {
             $datos = $servicios->actualizarPerfil($datos);
             if (is_object($datos)) {
-
-                //TODO - Construir URL de respuesta
                 $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
                 $message->setLINK(MensajesBT::INSERCION_ACEPTADA_LINK . $datos->ID_PERFIL);
                 echo json_encode($message);
@@ -322,6 +337,18 @@ class BolsaTrabajoController
         } else {
             echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
 
+        }
+    }
+
+    private function insertOrUpdatePerfilFormConfig($datosConfig)
+    {
+        $servicios = new BolsaTrabajoServicios();
+
+        if ($servicios->validarPerfilConfig($datosConfig)) {
+            $servicios->actualizarPerfilConfig($datosConfig);
+            //TODO - Construir la respuesta al cliente
+        } else {
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
         }
     }
 

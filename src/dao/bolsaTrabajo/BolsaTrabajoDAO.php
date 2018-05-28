@@ -16,6 +16,7 @@ use Latitude\QueryBuilder\Engine\MySqlEngine;
 use Latitude\QueryBuilder\QueryFactory;
 use model\EstudiosCentroTrabajo;
 use model\OfertaTrabajo;
+use model\PerfilBolsaTrabajo;
 use utils\bolsaTrabajo\ConstantesBD;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
@@ -592,6 +593,38 @@ class BolsaTrabajoDAO
         }
 
         return $perfil;
+    }
+
+    public function getPerfilDB($idPerfil)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($idPerfil))
+            ->compile();
+
+        $dbConnection = null;
+        $perfilDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Perfil Alumn@
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $perfilDB = $stmt->fetchAll(\PDO::FETCH_CLASS, PerfilBolsaTrabajo::class);
+
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $perfilDB;
+
     }
 
 }//fin clase

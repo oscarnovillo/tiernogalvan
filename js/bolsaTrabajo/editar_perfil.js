@@ -38,7 +38,16 @@ $(document).ready(function () {
                 $('button').attr('disabled', true);
             }
         });
+        $("#form_configuraciones_adicionales").submit(function (ev) {
+            ev.preventDefault();
 
+            var data = getFormData($("#form_configuraciones_adicionales"));
+
+            if (!$('button').is("[disabled]")) {//prevenir el doble click
+                enviarAlServidorConfig(data);
+               //$('button').attr('disabled', true);
+            }
+        });
 
     }
 );
@@ -49,6 +58,26 @@ function enviarAlServidor(datos) {
         url: "index.php?c=bolsa_trabajo&a=editar_perfil&tarea=update",
         data: {
             editar_perfil: JSON.stringify(datos)
+        },
+        success: function (result) {
+            $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));
+            $('#request_modal_response').modal('show');
+            $('button').attr('disabled', false);
+            console.log(result);
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $("#build_modal_response").html(buildCodeModalMessageError(JSON.parse(XMLHttpRequest.responseText)));
+            $('#request_modal_response').modal('show');
+            $('button').attr('disabled', false);
+            console.log(XMLHttpRequest + textStatus + errorThrown);
+        }
+    });
+
+}
+function enviarAlServidorConfig(datos) {
+    $.ajax({
+        url: "index.php?c=bolsa_trabajo&a=editar_perfil&tarea=update",
+        data: {
+            editar_perfil_config: JSON.stringify(datos)
         },
         success: function (result) {
             $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));

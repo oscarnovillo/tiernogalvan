@@ -122,9 +122,10 @@ class BolsaTrabajoServicios
         return $dao->getOfertasByIdOwner($idOwner);
     }
 
-    public function miPerfil($idPerfil)
+    public function getMiPerfil($idPerfil)
     {
-        return true;
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getPerfilDB($idPerfil);
     }
 
     public function actualizarOferta($datos)
@@ -262,6 +263,19 @@ class BolsaTrabajoServicios
         }
 
         return $_SERVER["REQUEST_METHOD"];
+    }
+
+    public function validarPerfilConfig($datosConfig)
+    {
+        $validador = v::attribute(ConstantesBD::RECIBIR_OFERTAS, v::boolVal())
+            ->attribute(ConstantesBD::BUSCA_TRABAJO, v::boolVal());
+
+        return $validador->validate($datosConfig);
+    }
+
+    public function actualizarPerfilConfig($datosConfig)
+    {
+        //TODO - Construir la lógica para gestionar peticiones cuando no existe un perfil previo
     }
 
 }//fin clase
