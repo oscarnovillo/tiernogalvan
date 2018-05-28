@@ -2,28 +2,39 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    
-    <div class="contenedor">
+    <div class="cuerpoCrud">
+    <div class="contenedor colorCrud">
           
         <h1>Listado de Usuarios</h1>
         
         
-        {% if users != null %}
-                <table>
+        {% if usuarios != null %}
+                <table class="table table-striped" id="tabla">
                     <tr>
                         <th><span>Nombre</span></th>
+                        <th><span>Apellidos</span></th>
+                        <th><span>Teléfono</span></th>
+                        <th><span>Email</span></th>
+                        <th><span>Nick</span></th>
                         <th><span>Pass</span></th>
                         
+                        
                     </tr>
-                    {% for user in users %}
+                    {% for user in usuarios %}
                         <tr>
-                            <td>{{ user.nombre }}</td>
+                            <td class="colorTD">{{ user.nombre }}</td>
+                            <td>{{ user.apellidos }}</td>
+                            <td>{{ user.telefono }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.nick }}</td>
+                            <td>{{ user.pass }}</td>
+                            
                             
                         </tr>
                     {% endfor %}
                 </table>
             {% else %}
-                <h1>No Hay usuarios</h1>
+                <h1 class="rojoCrud">No Hay usuarios</h1>
             {% endif %}
         
         
@@ -31,60 +42,67 @@
                 <h2 id="mensaje">{{ mensaje }}</h2>
         {% endif %}
 
+    </div>    
+    <div class="contenedor colorCrud">    
+        
+        <h1>Modificar Usuarios</h1>
+        
         <form action="index.php" method="post" id="crud_users">
             <input type="hidden" name="c" value="crud_users">
 
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>permiso</span>
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>NOMBRE:</span>
+                <input type="text" id="nombre_user" name="nombre" placeholder="nombre" required>
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>APELLIDOS:</span>
+                <input type="text" id="apellidos_user" name="apellidos" placeholder="apellidos">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>NICK:</span>
+                <input type="text" id="nick_user" name="nick" placeholder="nick">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>PASS:</span>
+                <input type="text" id="pass_user" name="pass" placeholder="pass">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>TELEFONO:</span>
+                <input type="text" id="telefono_user" name="telefono" placeholder="telefono">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <span>EMAIL:</span>
+                <input type="text" id="email_user" name="email" placeholder="email">
+            </div>
+            
+            <div class="col-12 form-group">
+                <span>PERMISO:</span>
                 <select id="id_rol" name="id_rol" required>
                     <option value="10">Alumno</option>
                     <option value="11">Profesor</option>
                     <option value="12">Admin</option>  
                 </select>
             </div>
-
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>NOMBRE</span>
-                <input type="text" id="nombre_user" name="nombre" placeholder="nombre" required>
-            </div>
             
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>APELLIDOS</span>
-                <input type="text" id="apellidos_user" name="apellidos" placeholder="apellidos">
-            </div>
-            
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>NICK</span>
-                <input type="text" id="nick_user" name="nick" placeholder="nick">
-            </div>
-            
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>PASS</span>
-                <input type="text" id="pass_user" name="pass" placeholder="pass">
-            </div>
-            
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>TELEFONO</span>
-                <input type="text" id="telefono_user" name="telefono" placeholder="telefono">
-            </div>
-            
-            <div class="col-12 col-sm-6 col-lg-4">
-                <span>EMAIL</span>
-                <input type="text" id="email_user" name="email" placeholder="email">
-            </div>
-            
-            <div class="col-12">
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
                 <input type="submit" name="a" value="insert" class="boton-contenido">
             </div>
             
-            <div class="col-12">
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
                 <input type="submit" name="a" value="update" class="boton-contenido">
             </div>
             
-            <div class="col-12">
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
                 <input type="submit" name="a" value="delete" class="boton-contenido">
             </div>
         </form>
     </div>
+    </div>
+        
 {% endblock %}
 

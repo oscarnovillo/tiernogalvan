@@ -1,0 +1,22 @@
+.navbar{
+    background: #008cba !important;
+}
+
+.colorTD{
+    color: black !important;
+}
+
+.colorCrud{
+    background: #fff;
+    display: table;
+    padding: 15px;
+    margin-bottom: 15px !important;
+}
+
+#mensaje{
+    color:blue;
+}
+
+.cuerpoCrud{
+    padding-top: 15px;
+}

@@ -31,11 +31,11 @@ class CrudUsersController {
                    
             $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
-            $user->telefono = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL);
-            $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
+            $user->telefono = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL));
+            $user->email = (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL));
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
-            $user->id_rol = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION);
+            $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
