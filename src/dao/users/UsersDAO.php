@@ -13,6 +13,29 @@ use PDO;
 
 class UsersDAO {
     
+    public function getAllPermisosDAO() {
+        
+        try{
+            
+            $users = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+            
+            $sql = "SELECT * FROM permisos";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+            
+        } finally {  
+            $dbConnection->disconnect();
+        }
+
+        return $users;
+    }
+    
     public function getAllUsersDAO() {
         
         try{
@@ -22,13 +45,15 @@ class UsersDAO {
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
             
-            $sql = "SELECT * FROM users";
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
+                    . "from users u join permisos p "
+                    . "on u.id = p.id_usuario ";
             $stmt = $db->prepare($sql);
             $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $users = $stmt->fetchAll(PDO::FETCH_OBJ);  
             
         } catch (\Exception $exception) {
-            
+
         } finally {  
             $dbConnection->disconnect();
         }
@@ -46,7 +71,7 @@ class UsersDAO {
             $db = $dbConnection->getConnection();
 
             $stmt = $db->prepare("SELECT * FROM users WHERE id=:id");
-            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":id", $user->id);
             $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
             
@@ -99,17 +124,34 @@ class UsersDAO {
     }
     public function updateUserDAO($user)
     {
-        $dbConnection = new DBConnection();
+        try{
+        
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
 
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("UPDATE users "
-                . "SET  nombre=?, apellidos=?, telefono=?, email=?, pass=?, nick=?"
-                . "WHERE id=?");
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
-        //$incidencia = $stmt->fetch(PDO::FETCH_OBJ);
-        $dbConnection->disconnect();
-        //return $incidencia;
+            $insertado = true;
+            $telefono = intval($user->telefono);
+            $id = intval($user->id);
+
+            $stmt = $db->prepare("UPDATE users "
+                    . "SET  nombre=:nombre, apellidos=:apellidos, telefono=:telefono,"
+                    . "email=:email, pass=:pass, nick=:nick"
+                    . "WHERE id=:id");
+            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":nombre", $user->nombre);
+            $stmt->bindParam(":apellidos", $user->apellidos);
+            $stmt->bindParam(":telefono", $telefono);
+            $stmt->bindParam(":email", $user->email);
+            $stmt->bindParam(":pass", $user->pass);
+            $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
+            
+            } catch (\Exception $exception) {
+            $insertado = false;
+            } finally {
+                $dbConnection->disconnect();
+            }
+            return $insertado;   
     }
     
     public function deleteUserDAO($user)

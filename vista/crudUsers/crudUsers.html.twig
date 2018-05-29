@@ -11,17 +11,28 @@
         {% if usuarios != null %}
                 <table class="table table-striped" id="tabla">
                     <tr>
+                        <th><span>Cargar Usuario</span></th>
+                        <th><span>Permiso</span></th>
                         <th><span>Nombre</span></th>
                         <th><span>Apellidos</span></th>
                         <th><span>Teléfono</span></th>
                         <th><span>Email</span></th>
                         <th><span>Nick</span></th>
                         <th><span>Pass</span></th>
+                        <th><span>Código Activación</span></th>
+                        <th><span>Activado</span></th>
                         
                         
                     </tr>
-                    {% for user in usuarios %}
+                    {% for user in usuarios %}   
                         <tr>
+                            <td>
+                                <input type="button" value="cargar" 
+                               onclick="cargarUser({{ user.id }}, '{{ user.nombre }}', 
+                                           '{{ user.apellidos }}','{{ user.telefono }}',
+                                           '{{ user.email }}','{{ user.pass }}',
+                                           '{{ user.nick }}','{{ user.id_rol }}')"/></td>
+                            <td class="colorTD">{{ user.id_rol }}</td>
                             <td class="colorTD">{{ user.nombre }}</td>
                             <td>{{ user.apellidos }}</td>
                             <td>{{ user.telefono }}</td>
@@ -49,6 +60,7 @@
         
         <form action="index.php" method="post" id="crud_users">
             <input type="hidden" name="c" value="crud_users">
+            <input type="hidden" id="id_user" name="id">  
 
             <div class="col-12 col-sm-6 col-lg-4 form-group">
                 <span>NOMBRE:</span>
@@ -106,3 +118,6 @@
         
 {% endblock %}
 
+{% block scripts %}
+    <script src="/js/crudUsers/crudUsers.js"></script>
+{% endblock %}

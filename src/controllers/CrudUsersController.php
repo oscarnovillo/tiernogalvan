@@ -28,11 +28,12 @@ class CrudUsersController {
         if (isset($action)) {
             
             $user = new \stdClass;
-                   
+            
+            $user->id = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_ID));
             $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
             $user->telefono = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL));
-            $user->email = (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL));
+            $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
@@ -89,7 +90,7 @@ class CrudUsersController {
             }
         }
         $usuarios = $usersSevicios->getAllUsers();
-            
+
             if($usuarios != null){
                $parameters['usuarios'] = $usuarios;
             }
