@@ -27,9 +27,17 @@ class LoginUsers {
         if (isset($action)) {
             switch ($action) {
                 case ConstantesCrudUsers::LOGIN_USER:
-                    
-                $_SESSION["nombre_user"] = "1";//pones lo que quieras
-                $_SESSION["permiso"] = "1";
+                    /*
+                     * TODO: erasto, aqui comprueba si se conecta por el form. lo de dentro del if puedes dejarlo igual.
+                     * También tienes que cambiar las variables de id de usuario y permiso de usuario (los coges cuando se conecte).
+                     */
+                    $conexionValida = true; //programar esto
+                    $idUsuario = 1; //programar esto
+                    $idPermiso = 1; //programar esto
+                    if ($conexionValida) {
+                        $_SESSION["nombre_user"] = $idUsuario;//pones lo que quieras
+                        $_SESSION["permiso"] = $idPermiso;
+                    }
                     
                     break;
                 

@@ -18,10 +18,16 @@ class Constantes
      * Controladores
      */
     const TEST_CONTROLLER = "test";
-    const MAINTENANCE_CONTROLLER = "maintenance";
+    const MAINTENANCE_CONTROLLER = "andrei";
     const BOLSA_TRABAJO_CONTROLLER = "bolsa_trabajo";
     const VENTA_LIBROS_CONTROLLER = "venta_libros";
     const TAREAS_CONTROLLER = "tareas";
     const CRUD_CONTROLLER = "crud_users";
     const LOGIN_CONTROLLER = "login_users";
+
+    /**
+     * Variables de sesión.
+     */
+    const SESS_USER = "USER_SESS";
+    const SESS_PERMISSION = "USER_SESS";
 }
