@@ -16,10 +16,6 @@ class Config
     const DB_PASSWORD = "c557ef";
     const DB_DATABASE = "clasesdaw";
 
-    const MAIL_SERVER = "";
-    const MAIL_USER = "";
-    const MAIL_PASSWORD = "";
-    const MAIL_PORT = "";
     /*db de Andrei
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";

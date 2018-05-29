@@ -9,11 +9,14 @@
 namespace dao\bolsaTrabajo;
 
 
+use config\ConfigBolsaTrabajo;
 use dao\DBConnection;
+use Josantonius\File\File;
 use Latitude\QueryBuilder\Engine\MySqlEngine;
 use Latitude\QueryBuilder\QueryFactory;
 use model\EstudiosCentroTrabajo;
 use model\OfertaTrabajo;
+use model\PerfilBolsaTrabajo;
 use utils\bolsaTrabajo\ConstantesBD;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
@@ -471,35 +474,64 @@ class BolsaTrabajoDAO
         return $resultado;
 
     }
+
     /**
      *
      * Usuarios
      *
      */
 
-    //TODO - Terminar insert Perfil y subida de archivos al servidor, pendiente terminar JS y lado de servidor
-    public function insertPerfilDB($perfil)
+
+    public function insertOrUpdatePerfilDB($perfil)
     {
+
         $engine = new MySqlEngine();
         $factory = new QueryFactory($engine);
-        $query = $factory
-            ->insert(ConstantesBD::TABLA_PERFIL_ALUMNO, [
-                ConstantesBD::ID_PERFIL => null,
-                ConstantesBD::NOMBRE => $perfil->titulo_oferta
-                , ConstantesBD::APELLIDOS => $perfil->descripcion_oferta
-                , ConstantesBD::FP_CODE => $perfil->empresa_oferta
-                , ConstantesBD::TELEFONO => $perfil->web_oferta
-                , ConstantesBD::FOTO => $perfil->email_oferta
-                , ConstantesBD::PERFIL_EXTERNO => $perfil->telefono_oferta
-                , ConstantesBD::CV => $perfil->requisitos_oferta
-                , ConstantesBD::LINK_INTERES => $perfil->vacante_oferta
-                , ConstantesBD::COMENTARIO => $perfil->salario_oferta
-                , ConstantesBD::EXPERIENCIA=> $perfil->localizacion_oferta
-                , ConstantesBD::ULTIMA_EDICION => $perfil->caducidad_oferta
-                , ConstantesBD::RECIBIR_OFERTAS => $perfil->id_user_oferta
-                , ConstantesBD::BUSCA_TRABAJO => $perfil->id_user_oferta
-            ])
+        $query0 = $factory
+            ->select(alias(fn("COUNT", ConstantesBD::ID_PERFIL), 'NUM'), ConstantesBD::FOTO)
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($perfil->ID_PERFIL))
             ->compile();
+
+        $paramentros = [
+            ConstantesBD::ID_PERFIL => null,//TODO - cambiar con base real
+            ConstantesBD::NOMBRE => $perfil->NOMBRE
+            , ConstantesBD::APELLIDOS => $perfil->APELLIDOS
+            , ConstantesBD::FP_CODE => $perfil->FP_CODE
+            , ConstantesBD::TELEFONO => $perfil->TELEFONO
+            , ConstantesBD::FOTO => $perfil->FOTO
+            , ConstantesBD::PERFIL_EXTERNO => $perfil->PERFIL_EXTERNO
+            //ConstantesBD::CV => $perfil->CV
+            , ConstantesBD::LINK_INTERES => $perfil->LINK_INTERES
+            , ConstantesBD::COMENTARIO => $perfil->COMENTARIO
+            , ConstantesBD::EXPERIENCIA => $perfil->EXPERIENCIA
+
+            , ConstantesBD::EMAIL => $perfil->EMAIL
+            //, ConstantesBD::RECIBIR_OFERTAS => $perfil->RECIBIR_OFERTAS
+            //, ConstantesBD::BUSCA_TRABAJO => $perfil->BUSCA_TRABAJO
+        ];
+
+        $queryInsert = $factory
+            ->insert(ConstantesBD::TABLA_PERFIL_ALUMNO, $paramentros)
+            ->compile();
+
+        $queryDelete = $factory
+            ->delete(ConstantesBD::TABLA_ESTUDIOS_ALUMNO)
+            ->where(field(ConstantesBD::ID_ALUMNO)->eq($perfil->ID_PERFIL))
+            ->compile();
+
+        $queryInsertEst_alumn = $factory
+            ->insert(ConstantesBD::TABLA_ESTUDIOS_ALUMNO, [
+                ConstantesBD::ID_ALUMNO => $perfil->ID_PERFIL,
+                ConstantesBD::ID_FP => $perfil->FP_CODE])
+            ->compile();
+
+        unset($paramentros[ConstantesBD::ID_PERFIL]);
+        $queryUpdate = $factory
+            ->update(ConstantesBD::TABLA_PERFIL_ALUMNO, $paramentros)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($perfil->ID_PERFIL))
+            ->compile();
+
 
         $dbConnection = null;
         try {
@@ -508,33 +540,136 @@ class BolsaTrabajoDAO
 
             $db = $dbConnection->getConnection();
             $db->beginTransaction();
-            //insert en la tabla oferta de trabajo
+
+
+            //recuperamos registros Perfil
+            $stmt = $db->prepare($query0->sql());
+            $stmt->execute($query0->params());
+            $perfilExist = $stmt->fetch(\PDO::FETCH_OBJ);
+            if (is_object($perfilExist) && $perfilExist->NUM > 0) {//Existe un insert Previo
+                //delete
+                $stmt = $db->prepare($queryDelete->sql());
+                $stmt->execute($queryDelete->params());
+
+                //Update
+                if ($perfilExist->FOTO != null && $perfil->FOTO == null) {
+                    unset($paramentros[ConstantesBD::FOTO]);
+                    $queryUpdateTemp = $factory
+                        ->update(ConstantesBD::TABLA_PERFIL_ALUMNO, $paramentros)
+                        ->where(field(ConstantesBD::ID_PERFIL)->eq($perfil->ID_PERFIL))
+                        ->compile();
+                } else {
+                    File::delete($perfilExist->FOTO);//Borro la foto previa
+                    $folderParent = explode("/", $perfilExist->FOTO);
+                    $pos = sizeof($folderParent) - 2;
+                    File::deleteEmptyDir(ConfigBolsaTrabajo::DIRECTORIO_PERFILES . '/' . $folderParent[$pos]);//borro el directorio vacío
+                    $queryUpdateTemp = $queryUpdate;
+
+                }
+                $stmt = $db->prepare($queryUpdateTemp->sql());
+                $stmt->execute($queryUpdateTemp->params());
+
+
+            } else {
+                //insert
+                $stmt = $db->prepare($queryInsert->sql());
+                $stmt->execute($queryInsert->params());
+
+            }
+
+            //insert tabla estudios_alumno
+            $stmt = $db->prepare($queryInsertEst_alumn->sql());
+            $stmt->execute($queryInsertEst_alumn->params());
+
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            $perfil = null;
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $perfil;
+    }
+
+    public function getPerfilDB($idPerfil)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($idPerfil))
+            ->compile();
+
+        $dbConnection = null;
+        $perfilDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Perfil Alumn@
             $stmt = $db->prepare($query->sql());
             $stmt->execute($query->params());
+            $perfilDB = $stmt->fetchAll(\PDO::FETCH_CLASS, PerfilBolsaTrabajo::class);
 
-            $perfil->id_oferta = $db->lastInsertId();
 
-            //insert tabla oferta Estudios
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $perfilDB;
 
-            //$factory = new QueryFactory(new MySqlEngine());
+    }
 
-            /*$arrayMap = [];
-            foreach ($oferta->fp_oferta as $codeFp) {
-                $arrayMap[ConstantesBD::ID_OFERTA] = $oferta->id_oferta;
-                $arrayMap[ConstantesBD::ID_ESTUDIO] = $codeFp;
+    public function updatePerfilDBConfig($datosConfig)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query0 = $factory
+            ->select(alias(fn("COUNT", ConstantesBD::ID_PERFIL), 'NUM'))
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($datosConfig->ID_PERFIL))
+            ->compile();
+
+        $paramentros = [
+            ConstantesBD::RECIBIR_OFERTAS => $datosConfig->RECIBIR_OFERTAS,
+            ConstantesBD::BUSCA_TRABAJO => $datosConfig->BUSCA_TRABAJO
+        ];
+
+
+        $queryUpdate = $factory
+            ->update(ConstantesBD::TABLA_PERFIL_ALUMNO, $paramentros)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($datosConfig->ID_PERFIL))
+            ->compile();
+
+
+        $dbConnection = null;
+        $response = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+
+
+            //recuperamos registros Perfil
+            $stmt = $db->prepare($query0->sql());
+            $stmt->execute($query0->params());
+            $perfilExist = $stmt->fetch(\PDO::FETCH_OBJ);
+            if (is_object($perfilExist) && $perfilExist->NUM > 0) {//Existe un insert Previo
+
+                //Update
+                $stmt = $db->prepare($queryUpdate->sql());
+                $response = $stmt->execute($queryUpdate->params());
             }
-                        $query2 = $factory
-                            ->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
-                            ->map($arrayMap)->compile();*/
 
-            $query2 = $factory->insert(ConstantesBD::TABLA_OFERTA_ESTUDIOS)
-                ->columns(ConstantesBD::ID_OFERTA, ConstantesBD::ID_ESTUDIO);
-            foreach ($perfil->fp_oferta as $codeFp) {
-                $query2->values($perfil->id_oferta, $codeFp);
-            }
-            $query2->compile();
-            $stmt = $db->prepare($query2->sql($engine));
-            $stmt->execute($query2->params($engine));
             $db->commit();
 
 
@@ -545,8 +680,8 @@ class BolsaTrabajoDAO
             $dbConnection->disconnect();
         }
 
-        return $perfil;
-    }
+        return $response;
 
+    }
 
 }//fin clase

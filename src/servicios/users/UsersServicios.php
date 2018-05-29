@@ -28,11 +28,16 @@ class UsersServicios {
         $dao = new UsersDAO();
         return $dao->deleteUserDAO($user);
     }
-    
     public function getAllUsers(){
         $dao = new UsersDAO();
         return $dao->getAllUsersDAO();
     }
+    public function getAllPermisos(){
+        $dao = new UsersDAO();
+        return $dao->getAllPermisosDAO();
+    }
+    
+    
     
     
 }

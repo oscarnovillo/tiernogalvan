@@ -2,41 +2,43 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    <div id="build_modal"></div>
+    <div id="build_modal_response"></div>
     <div class="py-2">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card-body p-5 border rounded">
                         <h3 class="pb-3">Editar Perfil</h3>
-                        <form action="https://formspree.io/YOUREMAILHERE">
+                        <form id="form_editar_perfil">
                             <div class="form-group">
                                 <label>Foto de Perfil</label>
-                                <input class="form-control-file" type="file" name="foto_perfil">
                                 <!-- The element where Fine Uploader will exist. -->
                                 <div id="fine-uploader"></div>
                             </div>
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input class="form-control" placeholder="Tu nombre, por favor"></div>
+                                <input class="form-control" name="NOMBRE" placeholder="Tu nombre, por favor"
+                                       value="{{ PERFIL_DATA[0].NOMBRE |e }}"></div>
                             <div class="form-group">
                                 <label>Apellidos</label>
-                                <input class="form-control" placeholder="Tus Apellidos, por favor"></div>
+                                <input class="form-control" NAME="APELLIDOS" placeholder="Tus Apellidos, por favor"
+                                       value="{{ PERFIL_DATA[0].APELLIDOS |escape }}">
+                            </div>
                             <div class="form-group">
                                 <label>Ciclos Formativos Cursados</label>
-                                <select class="form-control" multiple="" required="required" name="fp_oferta">
-                                    <option></option>
-                                    <option value="DAW - Desarrollo de Aplicaciones Web">DAW - Desarrollo de
-                                        Aplicaciones Web
-                                    </option>
-                                    Tenemos distintos ciclos, seleciona el que mejor se ajuste a tu medida. Para
-                                    selección múltiple presiona [Ctrl] y los ciclos que desees
-                                    <option value="ASIR -">ASIR -</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                <select class="form-control" multiple="" required="required" name="FP_CODE">
+                                    {% set key_fp = PERFIL_DATA[0].FP_CODE %}
+
+                                    {% for estudios in FP_ESTUDIOS.FP_ESTUDIOS %}
+                                        {% if key_fp == estudios.ID_FP %}
+                                            {% set estado = "selected" %}
+                                        {% else %}
+                                            {% set estado = "" %}
+                                        {% endif %}
+                                        <option value="{{ estudios.ID_FP }}" {{ estado }}>{{ estudios.TITULO }}</option>
+                                    {% endfor %}
                                 </select>
-                                <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
-                                    ajuste a tu medida. Para selección múltiple presiona [Ctrl] y los ciclos que desees
+                                <small class="form-text text-muted">Selecciona el ciclo que has cursado en el centro.
                                 </small>
                             </div>
                             <div class="form-group">
@@ -45,25 +47,45 @@
                                     explica tus habilidades destacables que pueden ser relevantes para conseguir un
                                     empleo.
                                 </small>
-                                <textarea class="form-control" rows="4" name="informacion_persona"></textarea>
+                                <textarea class="form-control" rows="4"
+                                          name="COMENTARIO">{{ PERFIL_DATA[0].COMENTARIO|escape }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label>Experiencia</label>
                                 <small class="form-text text-muted">Has trabajado antes? o tienes experiencia de algun
                                     tipo en el hábito laboral? Plásmalo aquí.
                                 </small>
-                                <textarea class="form-control" rows="4" name="informacion_persona"></textarea>
+                                <textarea class="form-control" rows="4"
+                                          name="EXPERIENCIA">{{ PERFIL_DATA[0].EXPERIENCIA|escape }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <small class="form-text text-muted">Este número será visible para todas las personas que
+                                    accedan a tu perfil.
+                                </small>
+                                <input class="form-control" name="TELEFONO" placeholder="615555444"
+                                       value="{{ PERFIL_DATA[0].TELEFONO|escape }}"/>
+                            </div>
+                            <div class="form-group">
+                                <label>E-mail</label>
+                                <small class="form-text text-muted">Este e-mail será visible para todas las personas que
+                                    accedan a tu perfil.
+                                </small>
+                                <input class="form-control" name="EMAIL"
+                                       placeholder="miCorreo@gmail.com" value="{{ PERFIL_DATA[0].EMAIL|escape }}"/>
                             </div>
                             <div class="form-group">
                                 <label>Perfil Externo</label>
-                                <input class="form-control" placeholder="Linkedin, Infojobs.....">
+                                <input class="form-control" name="PERFIL_EXTERNO" placeholder="Linkedin, Infojobs....."
+                                       value="{{ PERFIL_DATA[0].PERFIL_EXTERNO|escape }}">
                                 <small class="form-text text-muted">Tienes un perfil en otra plataforma de empleo más
                                     completa? deja constancia de ello.&nbsp;
                                 </small>
                             </div>
                             <div class="form-group">
                                 <label>Enlace de Interés</label>
-                                <input class="form-control" placeholder="tu web personal....">
+                                <input class="form-control" name="LINK_INTERES" placeholder="tu web personal...."
+                                       value="{{ PERFIL_DATA[0].LINK_INTERES|escape }}">
                                 <small class="form-text text-muted">Tienes algo en la web para destacar? deja el link a
                                     tu web &nbsp;o sitio a señalar.&nbsp;
                                 </small>
@@ -75,31 +97,60 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card-body p-3">
+                        <div class="mx-auto">
+                            <h3 class="pb-0">Foto Actual</h3>
+                            <img class="img-fluid d-block float-right rounded img-thumbnail"
+                                 src="
+                                 {% set imgurl = "https://i.imgur.com/dqZvAQ4.jpg" %}
+                                 {% if PERFIL_DATA[0].FOTO == null or PERFIL_DATA[0].FOTO == "" %}
+                                 {{ imgurl }}
+                                 {% else %}
+                                 {{ PERFIL_DATA[0].FOTO }}
+                                 {% endif %}
+                                " width="100%" height="auto" id="foto_persona">
+                        </div>
                         <h3 class="pb-3">Configuraciones adicionales</h3>
-                        <form action="https://formspree.io/YOUREMAILHERE">
+                        <form action="" id="form_configuraciones_adicionales">
                             <div class="form-group">
                                 <label>Estás buscando trabajo?</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="busca_trabajo" id="" value="true"
-                                           checked="">
+                                    {% set marcado = "checked" %}
+                                    {% set isMarcado = "" %}
+                                    {% if PERFIL_DATA[0].BUSCA_TRABAJO == 0 %}
+                                        {% set isMarcado = marcado %}
+                                    {% endif %}
+                                    <input class="form-check-input" type="radio" name="BUSCA_TRABAJO" id="" value="1"
+                                            {% if PERFIL_DATA[0].BUSCA_TRABAJO == 1 %}
+                                                {{ marcado }}
+                                            {% endif %}
+                                    >
                                     <label class="form-check-label" for="exampleRadios1"> Si </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="busca_trabajo" id=""
-                                           value="false">
+                                    <input class="form-check-input" type="radio" name="BUSCA_TRABAJO" id=""
+                                           value="0" {{ isMarcado }}>
                                     <label class="form-check-label" for="exampleRadios2"> No </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Quieres recibir ofertas de trabajo por E-mail?</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="recibir_ofertas" id=""
-                                           value="true" checked="">
+                                    {% set marcado = "checked" %}
+                                    {% set isMarcado = "" %}
+                                    {% if PERFIL_DATA[0].RECIBIR_OFERTAS == 0 %}
+                                        {% set isMarcado = marcado %}
+                                    {% endif %}
+                                    <input class="form-check-input" type="radio" name="RECIBIR_OFERTAS" id=""
+                                           value="1"
+                                            {% if PERFIL_DATA[0].RECIBIR_OFERTAS == 1 %}
+                                                {{ marcado }}
+                                            {% endif %}
+                                    >
                                     <label class="form-check-label" for="exampleRadios1"> Si </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="recibir_ofertas" id=""
-                                           value="false">
+                                    <input class="form-check-input" type="radio" name="RECIBIR_OFERTAS" id=""
+                                           value="0" {{ isMarcado }}>
                                     <label class="form-check-label" for="exampleRadios2"> No </label>
                                 </div>
                             </div>
@@ -112,7 +163,7 @@
     </div>
 
     <script type="text/template" id="qq-template">
-        <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
+        <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Suelta una foto aquí">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
                 <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
                      class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
@@ -121,10 +172,10 @@
                 <span class="qq-upload-drop-area-text-selector"></span>
             </div>
             <div class="qq-upload-button-selector qq-upload-button">
-                <div>Upload a file</div>
+                <div>Sube una foto</div>
             </div>
             <span class="qq-drop-processing-selector qq-drop-processing">
-                <span>Processing dropped files...</span>
+                <span>Procesando archivos ...</span>
                 <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
             </span>
             <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
@@ -136,12 +187,13 @@
                     <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
                     <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
                     <span class="qq-upload-file-selector qq-upload-file"></span>
-                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+                    <span class="qq-edit-filename-icon-selector qq-edit-filename-icon"
+                          aria-label="Edit filename"></span>
                     <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
                     <span class="qq-upload-size-selector qq-upload-size"></span>
-                    <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancel</button>
-                    <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Retry</button>
-                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Delete</button>
+                    <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancelar</button>
+                    <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Reintentar</button>
+                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Borrar</button>
                     <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
                 </li>
             </ul>
@@ -149,7 +201,7 @@
             <dialog class="qq-alert-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
-                    <button type="button" class="qq-cancel-button-selector">Close</button>
+                    <button type="button" class="qq-cancel-button-selector">Cerrar</button>
                 </div>
             </dialog>
 
@@ -157,7 +209,7 @@
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
                     <button type="button" class="qq-cancel-button-selector">No</button>
-                    <button type="button" class="qq-ok-button-selector">Yes</button>
+                    <button type="button" class="qq-ok-button-selector">Si</button>
                 </div>
             </dialog>
 
@@ -165,7 +217,7 @@
                 <div class="qq-dialog-message-selector"></div>
                 <input type="text">
                 <div class="qq-dialog-buttons">
-                    <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                    <button type="button" class="qq-cancel-button-selector">Cancelar</button>
                     <button type="button" class="qq-ok-button-selector">Ok</button>
                 </div>
             </dialog>
@@ -193,6 +245,7 @@
 
 
 
+    <script src="js/bolsaTrabajo/funciones_comunes.js"></script>
     <script src="js/bolsaTrabajo/editar_perfil.js"></script>
 
 

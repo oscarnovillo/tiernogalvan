@@ -1,5 +1,5 @@
 <div class="contenedor">
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark colorMenu">
         <div class="container">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar3SupportedContent">
                 <span class="navbar-toggler-icon"></span>

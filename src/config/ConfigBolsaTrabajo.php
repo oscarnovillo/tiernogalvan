@@ -16,4 +16,8 @@ class ConfigBolsaTrabajo
     //Número de ofertas mostradas por página
     const NUM_RESULTADOS_OFERTAS = 10;
 
+    //Directorio fotos perfiles
+    const DIRECTORIO_PERFILES = "img/bolsaTrabajo/perfiles";
+
+
 }
