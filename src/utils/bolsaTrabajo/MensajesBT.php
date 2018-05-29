@@ -27,6 +27,7 @@ class MensajesBT
 
     const ERROR_FALLO_IDENTIFICADOR = "Fallo en la identificación de parametros, por favor estas enviando paramentros erróneos";
     const ERROR_FALLO_INTERNO = "Error en el servidor, por favor refresca la página(F5) y vuelve a intentarlo";
+    const ERROR_FALLO_CONFIG_USER = "Error en el servidor, para modificar estas opciones, primero tienes que rellenar los datos del perfil";
     const ERROR_FALLO_IDENTIFICADOR_USER = "Fallo en la identificación del usuari@, hemos perdido tu identificador de usuari@, por favor refresca o vuelve a iniciar sesión";
 
 

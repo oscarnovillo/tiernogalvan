@@ -82,6 +82,7 @@ function enviarAlServidorConfig(datos) {
         success: function (result) {
             $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));
             $('#request_modal_response').modal('show');
+            $('#ver_perfil').hide();
             $('button').attr('disabled', false);
             console.log(result);
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -112,7 +113,7 @@ function buildCodeModalMessage(genericObject) {
         '</div>' +
         '<div class="modal-footer">' +
         '<button type="button" class="btn btn-secondary" data-dismiss="modal">' + okText + '</button>' +
-        '<a class="btn btn-primary" href="' + genericObject.LINK + '" role="button">' + irOferta + '</a>' +
+        '<a class="btn btn-primary" id="ver_perfil" href="' + genericObject.LINK + '" role="button">' + irOferta + '</a>' +
         '</div>' +
         '</div>' +
         '</div>' +
