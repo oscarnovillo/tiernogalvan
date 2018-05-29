@@ -7,7 +7,6 @@ use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
 
-
 /**
  * Description of LoginUsers
  *
@@ -28,15 +27,20 @@ class LoginUsers {
             switch ($action) {
                 case ConstantesCrudUsers::LOGIN_USER:
                     /*
+                     * ERASTO LEEMEE :))
                      * TODO: erasto, aqui comprueba si se conecta por el form. lo de dentro del if puedes dejarlo igual.
                      * También tienes que cambiar las variables de id de usuario y permiso de usuario (los coges cuando se conecte).
                      */
                     $conexionValida = true; //programar esto
                     $idUsuario = 1; //programar esto
                     $idPermiso = 1; //programar esto
+
+                    /*
+                     * A partir de aquí nada. Esto es mágico.
+                     */
                     if ($conexionValida) {
-                        $_SESSION["nombre_user"] = $idUsuario;//pones lo que quieras
-                        $_SESSION["permiso"] = $idPermiso;
+                        $_SESSION[Constantes::SESS_USER] = $idUsuario;
+                        $_SESSION[Constantes::SESS_PERMISSION] = $idPermiso;
                     }
                     
                     break;

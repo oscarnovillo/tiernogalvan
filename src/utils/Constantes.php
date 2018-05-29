@@ -28,6 +28,6 @@ class Constantes
     /**
      * Variables de sesión.
      */
-    const SESS_USER = "USER_SESS";
-    const SESS_PERMISSION = "USER_SESS";
+    const SESS_USER = "USER_ID";
+    const SESS_PERMISSION = "USER_PERMISSION";
 }
