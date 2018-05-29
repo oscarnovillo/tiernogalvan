@@ -27,11 +27,9 @@ class LoginUsers {
         if (isset($action)) {
             switch ($action) {
                 case ConstantesCrudUsers::LOGIN_USER:
-
-                    $user = new $user();
                     
-                    $user->pass = $_REQUEST[ConstantesVentas::PARAM_PASS];
-                    $user->nick = $_REQUEST[ConstantesVentas::PARAM_NICK];
+                $_SESSION["nombre_user"] = "1";//pones lo que quieras
+                $_SESSION["permiso"] = "1";
                     
                     break;
                 

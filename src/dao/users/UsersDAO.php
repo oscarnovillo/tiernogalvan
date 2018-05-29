@@ -94,13 +94,11 @@ class UsersDAO {
             $db = $dbConnection->getConnection();
             $db->beginTransaction();
             
-            $telefono = intval($user->telefono);
-            
             $stmt = $db->prepare("INSERT INTO users (nombre,apellidos,telefono,email,pass,nick)"
                                . "VALUES (:nombre,:apellidos,:telefono,:email,:pass,:nick)");
             $stmt->bindParam(":nombre", $user->nombre);
             $stmt->bindParam(":apellidos", $user->apellidos);
-            $stmt->bindParam(":telefono", $telefono);
+            $stmt->bindParam(":telefono", $user->telefono);
             $stmt->bindParam(":email", $user->email);
             $stmt->bindParam(":pass", $user->pass);
             $stmt->bindParam(":nick", $user->nick);
@@ -122,32 +120,44 @@ class UsersDAO {
         }
         return $insertado;
     }
+    
     public function updateUserDAO($user)
     {
         try{
         
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
+            $db->beginTransaction();
 
             $insertado = true;
             $telefono = intval($user->telefono);
             $id = intval($user->id);
 
             $stmt = $db->prepare("UPDATE users "
-                    . "SET  nombre=:nombre, apellidos=:apellidos, telefono=:telefono,"
-                    . "email=:email, pass=:pass, nick=:nick"
-                    . "WHERE id=:id");
+                    . "SET nombre=:nombre, apellidos=:apellidos, telefono=:telefono, "
+                    . "email=:email, pass=:pass, nick=:nick "
+                    . "WHERE id=:id ");
             $stmt->bindParam(":id", $id);
             $stmt->bindParam(":nombre", $user->nombre);
             $stmt->bindParam(":apellidos", $user->apellidos);
-            $stmt->bindParam(":telefono", $telefono);
+            $stmt->bindParam(":telefono", $user->telefono);
             $stmt->bindParam(":email", $user->email);
             $stmt->bindParam(":pass", $user->pass);
             $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();
             
+            $stmt = $db->prepare("UPDATE permisos "
+                    . "SET id_rol=:id_rol "
+                    . "WHERE id_usuario=:id ");
+            $stmt->bindParam(":id", $user->id);
+            $stmt->bindParam(":id_rol", $user->id_rol);
+            $stmt->execute();
+            $db->commit();
+            
+            
             } catch (\Exception $exception) {
-            $insertado = false;
+                $insertado = false;
+                $db->rollBack();
             } finally {
                 $dbConnection->disconnect();
             }
