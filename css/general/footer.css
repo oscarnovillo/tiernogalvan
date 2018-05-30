@@ -3,6 +3,13 @@ footer {
   margin: 1.6rem 0;
 }
 
+footer .contenedor {
+    background: #dbe1ea;
+}
+
+footer .contenedor a img {
+    mix-blend-mode: multiply;
+}
 footer img{
 	height: 50px;
 }
