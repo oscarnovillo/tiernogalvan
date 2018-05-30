@@ -17,11 +17,16 @@ class Config
     const DB_DATABASE = "clasesdaw";
 */
    
-    const DB_SERVER_NAME = "db4free.net:3307";
+    /*const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";
     const DB_DATABASE = "appbanco";
-     
+     */
+    
+    const DB_SERVER_NAME = "localhost";
+    const DB_USER_NAME = "sergio";
+    const DB_PASSWORD = "nohay2sin3";
+    const DB_DATABASE = "clase";
 
     //DB Ricardo //Hola Ricardo un saludo anónimo :), Uy pero quién podrá ser!!
     /*const DB_SERVER_NAME = "discutivo.com:3306";
