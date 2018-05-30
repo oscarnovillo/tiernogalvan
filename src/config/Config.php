@@ -1,7 +1,15 @@
 <?php
 
 namespace config;
-
+/*
+ * INFORMACIÓN IMPORTANTE, LEER:
+ * SE USA LA DB ACTUAL, NO SE MODIFICA YA QUE AHORRAMOS TIEMPO PARA EL TRABAJO GRUPAL.
+ * SI TENÍAIS UNA DB ANTIGUA, EXPORTARLA Y LUEGO LA IMPORTÁIS EN LA ACTUAL.
+ * LA CONEXIÓN ACTUAL SÓLO SE USARÁ PARA ESTE PROYECTO.
+ * PENSAR QUE SI SEGUÍS USANDO OTRA, OS VA A TOCAR PASARLO IGUALMENTE,
+ * LA BASE DE DATOS EN EL INSTI VA A ESTAR CENTRALIZADA.
+ * AHORRÁOS TRABAJO PARA DENTRO DE DOS SEMANAS :)
+ */
 class Config
 {
 
@@ -14,19 +22,5 @@ class Config
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";
     const DB_DATABASE = "appbanco";
-
-    //DB Ricardo
-    /*const DB_SERVER_NAME = "discutivo.com:3306";
-    const DB_USER_NAME = "discu351_test";
-    const DB_PASSWORD = "nohay2sin3";
-    const DB_DATABASE = "discu351_clase";
-
-    const DB_SERVER_NAME = "db4free.net:3307";
-    const DB_USER_NAME = "oscarnovillo";
-    const DB_PASSWORD = "c557ef";
-    const DB_DATABASE = "clasesdaw";
-
-    */
-
 
 }
