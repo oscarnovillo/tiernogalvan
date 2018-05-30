@@ -14,6 +14,9 @@ $(document).ready(function () {
                 "searchable": false
             }
         ],
-        "order": [[  3, "desc" ],[ 0, "desc" ]]
+        "order": [[3, "desc"], [0, "desc"]],
+        "initComplete": function (settings, json) {
+            $("#incidencias_filter").find("label").contents().first()[0].textContent = '';
+        }
     });
 });

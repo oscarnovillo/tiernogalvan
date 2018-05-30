@@ -12,7 +12,9 @@
     <table id="incidencias" class="display" data-stripe-classes="[]">
         <thead>
         <tr>
-            <th></th>
+            {% if permiso == "ADMIN" %}
+                <th></th>
+            {% endif %}
             <th>Incidencia</th>
             <th>Solicitado por</th>
             <th>Estado</th>
@@ -25,7 +27,7 @@
             <tr class="estado-{{ incidencia.estado }}">
                 <td>{{ incidencia.fecha }}</td>
                 <td>{{ incidencia.nombre }}</td>
-                <td>{{ incidencia.solicitado_por }}</td>
+                <td>{{ incidencia.solicitante }}</td>
                 <td data-order="{{ incidencia.estado }}">
                     {% if incidencia.estado == "proceso" %}
                         <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
@@ -37,7 +39,7 @@
                         <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
                     {% endif %}
                 </td>
-                <td>{{ incidencia.departamento }}</td>
+                <td>{{ incidencia.departName }}</td>
                 {% if permiso == "ADMIN" %}
                     <td>
                     {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
@@ -52,7 +54,7 @@
                             </div>
                         </div>
                     {% elseif incidencia.estado == "completado" %}
-                        Completado por: {{ incidencia.completado_por }}
+                        Completado por: {{ incidencia.completado_por_nombre }}
                     {% endif %}
                     </td>
                 {% endif %}
@@ -73,7 +75,8 @@
                     <input type="hidden" name="c" value="maintenance">
                     <input type="hidden" name="a" value="insert">
                     <label for="incidencia">Incidencia</label>
-                    <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia">
+                    <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia"
+                           autocomplete="off">
                     <label for="departamento">Departamento</label>
                     <select id="departamento" name="departamento">
                         <option disabled selected>Selecciona un departamento...</option>
@@ -88,16 +91,16 @@
     </div>
 
 {% endblock %}
-<!-- Bloque de estilos, se añadirán al final de los bases -->
 {% block styles %}
+    <!-- Bloque de estilos, se añadirán al final de los bases -->
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
     <link rel="stylesheet" href="/css/maintenance/crud.css">
     <link rel="stylesheet" href="/css/maintenance/modales.css">
     <link rel="stylesheet" href="/css/maintenance/alerts.css">
 {% endblock %}
-<!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
 {% block scripts %}
+    <!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
     <script type="text/javascript"
             src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
     <script src="/js/maintenance/crud.js"></script>

@@ -275,7 +275,20 @@ class BolsaTrabajoServicios
 
     public function actualizarPerfilConfig($datosConfig)
     {
-        //TODO - Construir la lógica para gestionar peticiones cuando no existe un perfil previo
+        $dao = new BolsaTrabajoDAO();
+        return $dao->updatePerfilDBConfig($datosConfig);
+    }
+
+    public function recuperarNombreCiclo($fpCode)
+    {
+        $estudios = $this->getEstudiosCentro();
+        $nombreCiclo = null;
+        foreach ($estudios as $estudio) {
+            if ($estudio->ID_FP == $fpCode) {
+                $nombreCiclo = $estudio->TITULO;
+            }
+        }
+        return $nombreCiclo;
     }
 
 }//fin clase

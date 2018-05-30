@@ -627,4 +627,61 @@ class BolsaTrabajoDAO
 
     }
 
+    public function updatePerfilDBConfig($datosConfig)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query0 = $factory
+            ->select(alias(fn("COUNT", ConstantesBD::ID_PERFIL), 'NUM'))
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($datosConfig->ID_PERFIL))
+            ->compile();
+
+        $paramentros = [
+            ConstantesBD::RECIBIR_OFERTAS => $datosConfig->RECIBIR_OFERTAS,
+            ConstantesBD::BUSCA_TRABAJO => $datosConfig->BUSCA_TRABAJO
+        ];
+
+
+        $queryUpdate = $factory
+            ->update(ConstantesBD::TABLA_PERFIL_ALUMNO, $paramentros)
+            ->where(field(ConstantesBD::ID_PERFIL)->eq($datosConfig->ID_PERFIL))
+            ->compile();
+
+
+        $dbConnection = null;
+        $response = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+
+
+            //recuperamos registros Perfil
+            $stmt = $db->prepare($query0->sql());
+            $stmt->execute($query0->params());
+            $perfilExist = $stmt->fetch(\PDO::FETCH_OBJ);
+            if (is_object($perfilExist) && $perfilExist->NUM > 0) {//Existe un insert Previo
+
+                //Update
+                $stmt = $db->prepare($queryUpdate->sql());
+                $response = $stmt->execute($queryUpdate->params());
+            }
+
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
+
+    }
+
 }//fin clase
