@@ -37,6 +37,7 @@ class CrudUsersController {
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
+            $user->activado = 1;
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
@@ -74,7 +75,7 @@ class CrudUsersController {
                 case ConstantesCrudUsers::DELETE_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
-                    if(!$userChecked){
+                    if($userChecked){
                         $userChecked = $usersSevicios->deleteUser($user);
                         
                         if($userChecked){

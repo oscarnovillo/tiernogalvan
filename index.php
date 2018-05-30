@@ -77,7 +77,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::CRUD_CONTROLLER:
             $controller = new CrudUsersController();
             /* Requerir login */
-            $userSessionValid ? $controller->crud() : $errController->permissions();
+            $controller->crud();
+            //$userSessionValid ? $controller->crud() : $errController->permissions();
             break;
         case Constantes::LOGIN_CONTROLLER:
             $controller = new LoginUsers();

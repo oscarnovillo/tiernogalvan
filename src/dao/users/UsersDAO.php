@@ -45,7 +45,7 @@ class UsersDAO {
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol, u.activado "
                 . "from users u join permisos p "
                 . "on u.id = p.id_usuario ";
             $stmt = $db->prepare($sql);
@@ -140,18 +140,19 @@ class UsersDAO {
             $db = $dbConnection->getConnection();
             $db->beginTransaction();
             
-            $stmt = $db->prepare("INSERT INTO users (nombre,apellidos,telefono,email,pass,nick)"
-                               . "VALUES (:nombre,:apellidos,:telefono,:email,:pass,:nick)");
+            $stmt = $db->prepare("INSERT INTO users (nombre,apellidos,telefono,email,pass,nick,activado) "
+                               . "VALUES (:nombre,:apellidos,:telefono,:email,:pass,:nick,:activado)");
             $stmt->bindParam(":nombre", $user->nombre);
             $stmt->bindParam(":apellidos", $user->apellidos);
             $stmt->bindParam(":telefono", $user->telefono);
             $stmt->bindParam(":email", $user->email);
             $stmt->bindParam(":pass", $user->pass);
             $stmt->bindParam(":nick", $user->nick);
+            $stmt->bindParam(":activado", $user->activado);
             $stmt->execute();
             $id_usuario = $db->lastInsertId();
             
-            $stmt = $db->prepare("INSERT INTO permisos (id_usuario,id_rol)"
+            $stmt = $db->prepare("INSERT INTO permisos (id_usuario,id_rol) "
                                . "VALUES (:id_usuario,:id_rol)");
             $stmt->bindParam(":id_usuario", $id_usuario);
             $stmt->bindParam(":id_rol", $user->id_rol);
@@ -176,14 +177,12 @@ class UsersDAO {
             $db->beginTransaction();
 
             $insertado = true;
-            $telefono = intval($user->telefono);
-            $id = intval($user->id);
 
             $stmt = $db->prepare("UPDATE users "
                     . "SET nombre=:nombre, apellidos=:apellidos, telefono=:telefono, "
                     . "email=:email, pass=:pass, nick=:nick "
                     . "WHERE id=:id ");
-            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":id", $user->id);
             $stmt->bindParam(":nombre", $user->nombre);
             $stmt->bindParam(":apellidos", $user->apellidos);
             $stmt->bindParam(":telefono", $user->telefono);
@@ -212,14 +211,32 @@ class UsersDAO {
     
     public function deleteUserDAO($user)
     {
-        $dbConnection = new DBConnection();
+        try{
+        
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
 
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT * FROM USERS WHERE id=:id");
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
-        //$incidencia = $stmt->fetch(PDO::FETCH_OBJ);
-        $dbConnection->disconnect();
-        //return $incidencia;
+            $insertado = true;
+
+            $stmt = $db->prepare("DELETE from users "
+                    . "WHERE id=:id ");
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            
+            $stmt = $db->prepare("DELETE from permisos " 
+                    . "WHERE id_usuario=:id ");
+            $stmt->bindParam(":id", $user->id);
+            $stmt->execute();
+            $db->commit();
+            
+            
+            } catch (\Exception $exception) {
+                $insertado = false;
+                $db->rollBack();
+            } finally {
+                $dbConnection->disconnect();
+            }
+            return $insertado;   
     }
 }

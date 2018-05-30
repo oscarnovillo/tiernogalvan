@@ -19,7 +19,6 @@
                         <th><span>Email</span></th>
                         <th><span>Nick</span></th>
                         <th><span>Pass</span></th>
-                        <th><span>Código Activación</span></th>
                         <th><span>Activado</span></th>
                         
                         
@@ -39,6 +38,7 @@
                             <td>{{ user.email }}</td>
                             <td>{{ user.nick }}</td>
                             <td>{{ user.pass }}</td>
+                            <td>{{ user.activado }}</td>
                             
                             
                         </tr>
@@ -95,9 +95,9 @@
             <div class="col-12 form-group">
                 <span>PERMISO:</span>
                 <select id="id_rol" name="id_rol" required>
-                    <option value="10">Alumno</option>
-                    <option value="11">Profesor</option>
-                    <option value="12">Admin</option>  
+                    <option value="1">Alumno</option>
+                    <option value="2">Profesor</option>
+                    <option value="3">Admin</option>  
                 </select>
             </div>
             
