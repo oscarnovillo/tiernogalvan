@@ -19,20 +19,33 @@
                     <p class="lead">Experiencia</p>
                     <p class="" id="experiencia_persona">{{ PERFIL_DATA[0].EXPERIENCIA |escape }}</p>
                     <p class="lead">Perfíl Externo</p>
-                    <a class="nav-link" href="#"
+                    <a class="nav-link" href="{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}" target="_blank"
                        id="perfil_externo_persona">{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}</a>
                     <p class="lead">Enlaces de Interés</p>
-                    <a class="nav-link" href="#" id="enlace_persona">Perfíl Github</a>
+                    <a class="nav-link" href="{{ PERFIL_DATA[0].LINK_INTERES |escape }}"
+                       target="_blank" id="enlace_persona">{{ PERFIL_DATA[0].LINK_INTERES |escape }}</a>
                 </div>
                 <div class="col-md-4">
-                    <img class="img-fluid d-block float-right rounded" src="https://i.imgur.com/dqZvAQ4.jpg" width="50%"
-                         height="auto" id="foto_persona">
-                    <p class="lead">Buscando Trabajo</p>
-                    <p class="text-primary" id="busca_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit.</p>
-                    <p class="lead">Interesado en Ofertas</p>
-                    <p class="text-primary" id="interesado_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit.</p>
+                    <img class="img-fluid d-block rounded mx-auto" src="
+                     {% set imgurl = "https://i.imgur.com/dqZvAQ4.jpg" %}
+                                 {% if PERFIL_DATA[0].FOTO == null or PERFIL_DATA[0].FOTO == "" %}
+                                 {{ imgurl }}
+                                 {% else %}
+                                 {{ PERFIL_DATA[0].FOTO }}
+                                 {% endif %}
+                     " width="70%"
+                         height="auto" id="foto_persona"/>
+
+                    <p class="lead ">Situación Laboral</p>
+
+                    <p class="lead my-1">Trabajo:</p>
+                    <p class="text-primary" id="busca_persona">{{ PERFIL_DATA[0].BUSCA_TRABAJO |escape }}</p>
+                    <p class="lead">Ofertas de Trabajo:</p>
+                    <p class="text-primary" id="interesado_persona">{{ PERFIL_DATA[0].RECIBIR_OFERTAS |escape }}</p>
+                    <div class="blockquote text-secondary">
+                        <p class="text-left my-0">Perfil Actualizado:</p>
+                        <div class="blockquote-footer my-0">{{ PERFIL_DATA[0].ULTIMA_EDICION }}</div>
+                    </div>
                 </div>
             </div>
         </div>

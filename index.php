@@ -62,7 +62,7 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
             /* Requerir login */
-            $userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
+            !$userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
             break;
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();

@@ -32,5 +32,9 @@ class MensajesBT
 
 
     const TIEMPO_TRANSCURRIDO = "Hace %d días";
+    const RECIBIR_OFERTAS_NO = "No Estoy interesad@ en recibir ofertas de Trabajo";
+    const RECIBIR_OFERTAS_OK = "Estoy dispuest@ a recibir ofertas de Trabajo";
+    const BUSCA_TRABAJO_OK = "En búsqueda activa de empleo";
+    const BUSCA_TRABAJO_NO = "No busco empleo en estos momentos";
 
 }

@@ -291,4 +291,28 @@ class BolsaTrabajoServicios
         return $nombreCiclo;
     }
 
+    public function definirInfoOferta($RECIBIR_OFERTAS)
+    {
+        $responseText = null;
+        if ($RECIBIR_OFERTAS == 0) {
+            $responseText = MensajesBT::RECIBIR_OFERTAS_OK;
+        } else {
+            $responseText = MensajesBT::RECIBIR_OFERTAS_NO;
+        }
+        return $responseText;
+    }
+
+    public function definirInfoTrabajo($BUSCA_TRABAJO)
+    {
+        $responseText = null;
+        if ($BUSCA_TRABAJO == 0) {
+            $responseText = MensajesBT::BUSCA_TRABAJO_OK;
+        } else {
+            $responseText = MensajesBT::BUSCA_TRABAJO_NO;
+        }
+        return $responseText;
+    }
+
+
+
 }//fin clase

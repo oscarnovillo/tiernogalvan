@@ -53,7 +53,7 @@ class BolsaTrabajoController
                     }
 
                     break;
-                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO:
+                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO://TODO - Apuntarse en una oferta de Trabajo
                     $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
                         $respnseJson = filter_input(INPUT_GET, ConstantesBolsaTrabajo::RESPONSE_JSON);
@@ -230,9 +230,8 @@ class BolsaTrabajoController
     public function misOferta($idOwner)
     {
         $servicios = new BolsaTrabajoServicios();
-        //Comprobar que devuelve - pendiente
         $misOfertasDB = $servicios->misOfertas($idOwner);
-        //$misOfertasDB = $this->generarMisOfertas();
+
         $ofertasVista = (object)[];
         $ofertasVista->misOfertas = $misOfertasDB;
         $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
@@ -245,8 +244,11 @@ class BolsaTrabajoController
         $page = ConstantesPaginas::MI_PERFIL_PAGE;
         $servicios = new BolsaTrabajoServicios();
 
-        $miPerfilDB = $servicios->getMiPerfil($idPerfil);//TODO - pintar la info del perfil
+        $miPerfilDB = $servicios->getMiPerfil($idPerfil);
         $miPerfilDB[0]->FP_CODE = $servicios->recuperarNombreCiclo($miPerfilDB[0]->FP_CODE);
+        $miPerfilDB[0]->RECIBIR_OFERTAS = $servicios->definirInfoOferta($miPerfilDB[0]->RECIBIR_OFERTAS);
+        $miPerfilDB[0]->BUSCA_TRABAJO = $servicios->definirInfoTrabajo($miPerfilDB[0]->BUSCA_TRABAJO);
+        $miPerfilDB[0]->ULTIMA_EDICION = $servicios->formatCreacion($miPerfilDB[0]->ULTIMA_EDICION);
         $perfilBundle = (object)[];
 
         $perfilBundle->PERFIL_DATA = $miPerfilDB;
