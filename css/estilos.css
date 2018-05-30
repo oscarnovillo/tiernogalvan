@@ -1,2 +1,13 @@
 @import "/css/general/general.css";
 
+.text-white {
+    color: white
+}
+
+.text-white:hover {
+    color: black !important;
+}
+
+body {
+    background: #dbe1ea;
+}

@@ -35,30 +35,76 @@ class UsersDAO {
 
         return $users;
     }
-    
+
     public function getAllUsersDAO() {
-        
+
         try{
-            
+
             $users = (object)[];
-            
+
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
-            
+
             $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
-                    . "from users u join permisos p "
-                    . "on u.id = p.id_usuario ";
+                . "from users u join permisos p "
+                . "on u.id = p.id_usuario ";
             $stmt = $db->prepare($sql);
             $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_OBJ);  
-            
+            $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+
         } catch (\Exception $exception) {
 
-        } finally {  
+        } finally {
             $dbConnection->disconnect();
         }
 
         return $users;
+    }
+
+    public function getUserByIdDao($id)
+    {
+
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick from users u";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_OBJ);
+            return $user;
+
+        } catch (\Exception $exception) {
+
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return false;
+    }
+
+    public function getUserPermissionsByIdDao($id)
+    {
+
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
+                . "from users u join permisos p "
+                . "on u.id = p.id_usuario ";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $permissions = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $permissions;
+
+        } catch (\Exception $exception) {
+
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return [];
     }
     
     public function getUserDAO($user){

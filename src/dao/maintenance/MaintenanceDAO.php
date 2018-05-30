@@ -4,6 +4,7 @@ namespace dao\maintenance;
 
 use dao\DBConnection;
 use PDO;
+use utils\Constantes;
 
 class MaintenanceDAO
 {
@@ -13,7 +14,10 @@ class MaintenanceDAO
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT * FROM incidencias");
+        $stmt = $db->prepare("SELECT i.*,u.nombre as solicitante, d.nombre as departName, i.nombre, i.id, uu.nombre as completado_por_nombre FROM incidencias i 
+                                        JOIN users u ON i.solicitado_por=u.id
+                                        JOIN departamentos d ON i.departamento=d.id
+                                        LEFT JOIN users uu ON (i.completado_por IS NOT NULL AND i.completado_por=uu.id)");
         $stmt->execute();
         $incidencias = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
@@ -30,6 +34,18 @@ class MaintenanceDAO
         $departamentos = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
         return $departamentos;
+    }
+
+    public function getAllTics()
+    {
+        $dbConnection = new DBConnection();
+
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare("SELECT u.* FROM users u JOIN permisos p ON p.id_rol=4");
+        $stmt->execute();
+        $tics = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $dbConnection->disconnect();
+        return $tics;
     }
 
     public function getIncidencia($id)
@@ -76,9 +92,10 @@ class MaintenanceDAO
     {
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("UPDATE incidencias SET estado=:estado WHERE id=:id");
+        $stmt = $db->prepare("UPDATE incidencias SET estado=:estado,completado_por=:usrid WHERE id=:id");
         $stmt->bindParam(":estado", $estado);
         $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":usrid", $_SESSION[Constantes::SESS_USER]);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;

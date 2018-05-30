@@ -31,6 +31,15 @@ class MaintenanceServicios
         return $dao->getAllDepartamentos();
     }
 
+    /*
+     * Devuelve todos los TIC del departamento, los cuales pueden resolver incidencias.
+     */
+    public function getAllTics()
+    {
+        $dao = new MaintenanceDAO();
+        return $dao->getAllTics();
+    }
+
     public function getDepartamentoById($id)
     {
         $dao = new MaintenanceDAO();

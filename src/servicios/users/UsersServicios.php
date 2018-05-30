@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of UsersServicios
- *
- * @author erasto
- */
 
 namespace servicios\users;
 
