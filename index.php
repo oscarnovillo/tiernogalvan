@@ -83,7 +83,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::LOGIN_CONTROLLER:
             $controller = new LoginUsers();
             /* Requerir login */
-            $userSessionValid ? $controller->login() : $errController->permissions();
+            //$userSessionValid ? $controller->login() : $errController->permissions();
+            $controller->login();
             break;
         case Constantes::DISCONNECT_CONTROLLER:
             $controller = new LogoutController();

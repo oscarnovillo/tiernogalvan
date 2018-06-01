@@ -107,6 +107,29 @@ class UsersDAO {
         return [];
     }
     
+    public function getUserByNickDAO($user){
+    
+        try{
+            
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("SELECT * FROM users WHERE nick=:nick");
+            $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
+        return $incidencia;
+    }
+    
     public function getUserDAO($user){
     
         try{

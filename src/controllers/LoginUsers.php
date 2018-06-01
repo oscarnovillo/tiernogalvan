@@ -6,6 +6,8 @@ use utils\loginUsers\ConstantesLoginUsers;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
+use utils\PasswordStorage;
+use servicios\users\UsersServicios;
 
 /**
  * Description of LoginUsers
@@ -17,33 +19,42 @@ class LoginUsers {
     
     public function login(){
         
-        $page = ConstantesLoginUsers::LOGIN_PAGE;
+        $page = ConstantesLoginUsers::START_PAGE;
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
+        $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
+            
+            $PasswordStorage = new PasswordStorage();
+            $user = new \stdClass;
+            
             switch ($action) {
-                case ConstantesCrudUsers::LOGIN_USER:
-                    /*
-                     * ERASTO LEEMEE :))
-                     * TODO: erasto, aqui comprueba si se conecta por el form. lo de dentro del if puedes dejarlo igual.
-                     * También tienes que cambiar las variables de id de usuario y permiso de usuario (los coges cuando se conecte).
-                     */
-                    $conexionValida = true; //programar esto
-                    $idUsuario = 1; //programar esto
-
-                    /*
-                     * A partir de aquí nada. Esto es mágico.
-                     */
-                    if ($conexionValida) {
-                        $_SESSION[Constantes::SESS_USER] = $idUsuario;
-                    }
+                case ConstantesLoginUsers::LOGIN_USER:
                     
+                    $user->pass = filter_input(INPUT_POST, ConstantesLoginUsers::PARAM_PASS);
+                    $user->nick = filter_input(INPUT_POST, ConstantesLoginUsers::PARAM_NICK);
+                    
+                    $userChecked = $usersSevicios->getUserByNick($user);
+                     
+                    if($userChecked){
+                        $pass = $user->pass;
+                        $hash = $PasswordStorage->create_hash($user->pass);
+
+                        if($PasswordStorage->verify_password($pass, $hash)){
+                            $parameters['mensaje'] = $userChecked->nombre;
+                            $_SESSION[Constantes::SESS_USER] = $userChecked;
+                            $page = ConstantesLoginUsers::LOGIN_PAGE;
+                        }else{
+                            $parameters['mensaje'] = ConstantesLoginUsers::PASS_NO;
+                        }  
+                    }else{
+                        $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_ERROR;
+                    }
                     break;
                 
-                case ConstantesCrudUsers::REGISTER_USER:
+                case ConstantesLoginUsers::REGISTER_USER:
                     
                     break;
             }

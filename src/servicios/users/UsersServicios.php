@@ -31,6 +31,11 @@ class UsersServicios {
         $dao = new UsersDAO();
         return $dao->getAllPermisosDAO();
     }
+    public function getUserByNick($user){
+        $dao = new UsersDAO();
+        return $dao->getUserByNickDAO($user);
+    }
+    
     
     
     

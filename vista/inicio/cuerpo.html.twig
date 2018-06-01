@@ -1,4 +1,9 @@
 
+    
+
+ {% block content %}
+
+
       <section id="contenido" class="col-12">
         <div class="contenedor">
           <div class="col-m-4 marco-foto">
@@ -6,31 +11,28 @@
             <p>Puedes acceder a información pública de forma anónima y a información privada mediante usuario y contraseña</p>
             <button type="button" class="boton-contenido">Acceso público</button>
             <button type="button" class="boton-contenido" onclick="openVentana()">Acceso Restringido</button>
+            {% if mensaje != null %}
+                <h2 id="mensaje">{{ mensaje }}</h2>
+            {% endif %}
             <div class="ventana">
               <div class="form">
                 <div class="cerrar"><a onclick="closeVentana()">cerrar X</a></div>
-                <form class="form-ventana">
+                <form class="form-ventana" action="index.php" method="post" id="login_users">
                   <div>
-                    <label><strong>Usuario</strong></label>
-                    <label text="nombre"><input type="text" placeholder="Introduce un nombre" name="nombre" required></label>
-                    <label><strong>Contraseña</strong></label>
-                    <label text="password"><input type="password" placeholder="Introduce contraseña" name="psw" required></label>
-                    <label><strong>Repite Contraseña</strong></label>
-                    <label text="password"><input type="password" placeholder="Repite contraseña" name="psw-repeat" required></label>
-                    <label text="checkbox"><input text="checkbox" type="checkbox" checked></label>
-                     Recordar contraseña
-                    <label><strong>¿Qué estás estudiando?</strong></label>
-                    <label text="select"><select id="country" name="country">
-                      <option value="australia">E.S.O.</option>
-                      <option value="canada">Bachillerato</option>
-                      <option value="usa">Grado Medio</option>
-                      <option value="usa">Grado Superior</option>
-                    </select></label>
-                    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-                    <div class="clearfix">
-                      <button type="button" onclick="closeVentana()" class="cancelbtn">Cancelar</button>
-                      <button type="submit" class="signupbtn">Entrar</button>
+                      <input type="hidden" name="c" value="login_users">
+                    <div class="col-12 form-group">
+                        <span>Nick:</span>
+                        <input type="text" id="nick_user" name="nick" placeholder="nick" required>
                     </div>
+                    <div class="col-12 form-group">
+                        <span>Pass:</span>
+                        <input type="text" name="pass" required>
+                    </div>
+                      <div class="col-12 form-group">
+                        <button type="submit" name="a" value="login" class="signupbtn">Entrar</button>
+                    </div>
+                    <p>Si quieres registrarte <a href="#">Pulsa aqui</a>.</p>
+                    
                   </div>
                 </form>
               </div>
@@ -62,3 +64,4 @@
           </div>
         </section>
 
+   {% endblock %}
