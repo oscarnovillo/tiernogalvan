@@ -67,7 +67,7 @@ class LoginUsers {
 
                         if(!$userChecked){
 
-                            $user->pass = $PasswordStorage->create_hash($pass);
+                            $user->pass = $PasswordStorage->create_hash($user->pass);
                             $user->activado = 0;
 
                             switch ($palabra_clave){
@@ -90,9 +90,12 @@ class LoginUsers {
                             $userChecked = $usersSevicios->addUser($user);
 
                             if($userChecked){
-
-                                //generar codigo
-                                //mandar mail
+                                
+                                $cod_act = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
+                                
+                                sendMail($user->email, $user->nombre . " " . $user->apellidos, 
+                                        "Código de activación I.E.S. Enrique Tierno Galván", "Codigo de activación: http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act);//esto hay que cambiarlo
+                                
                             }else{
                                 $parameters['mensaje'] = ConstantesLoginUsers::REGISTRO_ERROR;
                             }
@@ -109,7 +112,7 @@ class LoginUsers {
                     
                 case ConstantesLoginUsers::ACTIVATE_USER:
                     
-                    //recoge el codigo del cliente
+                    $cod_act = filter_input(INPUT_POST, ConstantesLoginUsers::COD_ACT);
                     //comprueba con el de la bd
                     //si si si 
                     //si no no
@@ -119,4 +122,5 @@ class LoginUsers {
         }
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
+    
 }

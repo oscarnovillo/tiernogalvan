@@ -36,5 +36,9 @@ class ConstantesLoginUsers {
     
     const ACTIVATE_USER = "activar";
     
+    const TAMAÑO_RANDOM = 20;
+    const COD_ACT = "cod_act";
+    
+    
     
 }
