@@ -60,44 +60,52 @@ class LoginUsers {
                 
                 case ConstantesLoginUsers::REGISTER_USER:
                     
-                    $userChecked = $usersSevicios->getUserByNick($user);
+                    if($user->nick != null){//la primera vez que entra que mande a la pag de registro
+                        //la segunda vez, rellenado el form debera pasar
                     
-                    if($userChecked){
-                        
-                        $user->pass = $PasswordStorage->create_hash($pass);
-                        $user->activado = 0;
-                        
-                        switch ($palabra_clave){
-                            
-                            case Constantes::PERMISO_ALUMNO:
-                                $user->id_rol = Constantes::ID_ROL_ALUMNO;
-                                break;
-                            
-                            case Constantes::PERMISO_PROFESOR:
-                                $user->id_rol = Constantes::ID_ROL_PROFESOR;
-                                break;
-                            
-                            case Constantes::PERMISO_ADMIN:
-                                $user->id_rol = Constantes::ID_ROL_ADMIN;
-                                break;
-                        }
-                        $userChecked = $usersSevicios->addUser($user);
-                        
-                        if($userChecked){
-                            
-                            //generar codigo
-                            //mandar mail
+                        $userChecked = $usersSevicios->getUserByNick($user);
+
+                        if(!$userChecked){
+
+                            $user->pass = $PasswordStorage->create_hash($pass);
+                            $user->activado = 0;
+
+                            switch ($palabra_clave){
+
+                                case Constantes::PERMISO_ALUMNO:
+                                    $user->id_rol = Constantes::ID_ROL_ALUMNO;
+                                    break;
+
+                                case Constantes::PERMISO_PROFESOR:
+                                    $user->id_rol = Constantes::ID_ROL_PROFESOR;
+                                    break;
+
+                                case Constantes::PERMISO_ADMIN:
+                                    $user->id_rol = Constantes::ID_ROL_ADMIN;
+                                    break;
+                                default:
+                                    $parameters['mensaje'] = ConstantesLoginUsers::PERMISO_FAIL;
+                                    break;
+                            }
+                            $userChecked = $usersSevicios->addUser($user);
+
+                            if($userChecked){
+
+                                //generar codigo
+                                //mandar mail
+                            }else{
+                                $parameters['mensaje'] = ConstantesLoginUsers::REGISTRO_ERROR;
+                            }
+
                         }else{
-                            $parameters['mensaje'] = ConstantesLoginUsers::REGISTRO_ERROR;
+                            $parameters['mensaje'] = ConstantesLoginUsers::INVALID_USER;
                         }
 
+                        $page = ConstantesLoginUsers::REGISTRO_PAGE;
+                        
                     }else{
-                        $parameters['mensaje'] = ConstantesLoginUsers::INVALID_USER;
+                        $page = ConstantesLoginUsers::REGISTRO_PAGE;
                     }
-                    
-                    $page = ConstantesLoginUsers::REGISTRO_PAGE;
-                    
-                    break;
                     
                 case ConstantesLoginUsers::ACTIVATE_USER:
                     
