@@ -36,4 +36,5 @@ class ConstantesCrudUsers {
     const PARAM_TEL = "telefono";
     const PARAM_EMAIL = "email";
     const PARAM_PERMISSION = "id_rol";
+    const PARAM_ACTIVADO = 1;
 }

@@ -30,4 +30,19 @@ class Constantes
      * Variables de sesión.
      */
     const SESS_USER = "USER_ID";
+    
+    /**
+     * Palabras clave.
+     */
+    const PERMISO_ALUMNO = "alumno";
+    const PERMISO_PROFESOR = "profesor";
+    const PERMISO_ADMIN = "admin";
+    
+    /**
+     * id_rol.
+     */
+    const ID_ROL_ALUMNO = 1;
+    const ID_ROL_PROFESOR = 2;
+    const ID_ROL_ADMIN = 3;
+    
 }

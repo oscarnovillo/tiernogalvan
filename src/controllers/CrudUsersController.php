@@ -40,7 +40,7 @@ class CrudUsersController {
             $user->pass = $PasswordStorage->create_hash($user->pass);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
-            $user->activado = 1;
+            $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
