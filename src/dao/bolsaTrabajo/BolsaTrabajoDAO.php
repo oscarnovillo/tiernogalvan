@@ -595,6 +595,11 @@ class BolsaTrabajoDAO
         return $perfil;
     }
 
+    /***
+     * Recupera los datos de un/a usuari@ de base de datos
+     * @param $idPerfil
+     * @return array|null
+     */
     public function getPerfilDB($idPerfil)
     {
         $engine = new MySqlEngine();
@@ -682,6 +687,80 @@ class BolsaTrabajoDAO
 
         return $response;
 
+    }
+
+    public function comprobarApuntarDB($idOferta, $idUser)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select(alias(fn("COUNT", ConstantesBD::ID_APUNTAR), 'NUM'))
+            ->from(ConstantesBD::TABLA_APUNTARSE_OFERTA)
+            ->where(field(ConstantesBD::ID_OFERTA)->eq($idOferta))
+            ->andWhere(field(ConstantesBD::ID_ALUMNO)->eq($idUser))
+            ->compile();
+
+
+        $dbConnection = null;
+        $response = false;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            //recuperamos registros
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $perfilExist = $stmt->fetch(\PDO::FETCH_OBJ);
+            if (is_object($perfilExist) && $perfilExist->NUM > 0) {//Existe un insert Previo
+                $response = true;
+            }
+
+        } catch (\Exception $exception) {
+
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
+
+    }
+
+    public function insertApuntarDB($idOferta, $idUser)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->insert(ConstantesBD::TABLA_APUNTARSE_OFERTA, [
+                ConstantesBD::ID_APUNTAR => null,
+                ConstantesBD::ID_OFERTA => $idOferta
+                , ConstantesBD::ID_ALUMNO => $idUser
+                , ConstantesBD::NOTIFICADO => true
+            ])
+            ->compile();
+        $response = true;
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            //insert en la tabla apuntarse
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+
+        } catch (\Exception $exception) {
+            $response = false;
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
     }
 
 }//fin clase

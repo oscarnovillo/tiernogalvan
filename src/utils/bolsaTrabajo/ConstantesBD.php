@@ -19,6 +19,7 @@ class ConstantesBD
     const TABLA_ESTUDIOS_ALUMNO = "ESTUDIOS_ALUMNO";
     const TABLA_OFERTA_ESTUDIOS = "OFERTA_ESTUDIOS";
     const TABLA_PERFIL_ALUMNO = "PERFIL_ALUMNO";
+    const TABLA_APUNTARSE_OFERTA = "APUNTARSE_OFERTA";
 
     /**
      * Columnas
@@ -81,6 +82,13 @@ class ConstantesBD
      */
 
     const  ID_ALUMNO = "ID_ALUMNO";
+
+
+    /**
+     * Tabla apuntarse oferta
+     */
+    const ID_APUNTAR = "ID_APUNTAR";
+    const NOTIFICADO = "NOTIFICADO";
 
 
 }//FIN CLASE

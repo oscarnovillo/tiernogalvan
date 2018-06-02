@@ -19,5 +19,14 @@ class ConfigBolsaTrabajo
     //Directorio fotos perfiles
     const DIRECTORIO_PERFILES = "img/bolsaTrabajo/perfiles";
 
+    //Buzón de Correo
+    const MAIL_FROM ="dawcrud@gmail.com";
+    const SMTP_SERVER ="smtp.gmail.com";
+    const SMTP_PORT = 587;
+    const MAIL_PASS =  "nohay2sin3";
+    const EMAIL_ORIGEN =  "bolsaDeTrabajo-Noreply@gmail.com";
+    const RESPONSABLE_ORIGEN =  "IES Tierno Galván - Bolsa de Trabajo";
+
+
 
 }

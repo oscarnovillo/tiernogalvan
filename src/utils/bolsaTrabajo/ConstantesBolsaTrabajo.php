@@ -63,5 +63,16 @@ class ConstantesBolsaTrabajo
     const PAGINACION_OFERTAS = "pagination";
     const PAGINACION_SIZE = "size";
     const UPLOAD_FILE = "upload_file";
+    const APUNTAR_OFERTA = "apuntar_oferta";
+
+
+    /**
+     *
+     * Templates Correo
+     *
+     */
+    const TEMPLATE_CONFIRMACION_OFERTA_ALUMN = "bolsaTrabajo/confirmacion-apuntar-oferta.html";
+    const TEMPLATE_CONFIRMACION_OFERTA_EMPRESA = "bolsaTrabajo/confirmacion-apuntar-oferta-empresa.html";
+    const TEMPLATE_NUEVA_OFERTA_INFO = "bolsaTrabajo/nueva-oferta-template.html";
 
 }
