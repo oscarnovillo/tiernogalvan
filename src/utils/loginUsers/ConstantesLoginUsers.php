@@ -18,6 +18,7 @@ class ConstantesLoginUsers {
     const LOGIN_USER = "login";
     
     const LOGIN_PAGE = "login/inicio.html";
+    const REGISTRO_PAGE = "login/registro.html";
     const START_PAGE = "index.html";
     
     const LOGIN_YES = "Bienvenido";

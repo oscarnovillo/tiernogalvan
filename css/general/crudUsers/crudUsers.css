@@ -2,21 +2,55 @@
     background: #008cba !important;
 }
 
+.nav-link{
+    color: #fff !important;
+}
+
+
 .colorTD{
     color: black !important;
 }
 
 .colorCrud{
     background: #fff;
-    display: table;
     padding: 15px;
     margin-bottom: 15px !important;
 }
 
 #mensaje{
     color:blue;
+    width: 100%;
 }
 
 .cuerpoCrud{
     padding-top: 15px;
+}
+
+.listadoIzquierda{
+    float: left;
+}
+
+.modificarDerecha{
+    float: right;
+}
+
+.imgDescarga{
+    width: 35px;
+    height: 20px;
+}
+
+.divDescarga{
+    
+}
+
+#crud_users span{
+    width: 100%;
+}
+
+.modUsers{
+     display: table;
+}
+
+.contForm{
+   clear: both;
 }

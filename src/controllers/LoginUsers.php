@@ -40,7 +40,7 @@ class LoginUsers {
                      
                     if($userChecked){
                         $pass = $user->pass;
-                        $hash = $PasswordStorage->create_hash($user->pass);
+                        $hash = $PasswordStorage->create_hash($pass);
 
                         if($PasswordStorage->verify_password($pass, $hash)){
                             $parameters['mensaje'] = $userChecked->nombre;
@@ -55,6 +55,8 @@ class LoginUsers {
                     break;
                 
                 case ConstantesLoginUsers::REGISTER_USER:
+                    
+                    $page = ConstantesLoginUsers::REGISTRO_PAGE;
                     
                     break;
             }
