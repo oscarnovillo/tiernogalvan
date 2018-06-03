@@ -45,4 +45,5 @@ class Constantes
     const ID_ROL_PROFESOR = 2;
     const ID_ROL_ADMIN = 3;
     
+    const CARPETA_DOCUMENTOS_DIRECCION  = "/DocumentosDireccion";
 }

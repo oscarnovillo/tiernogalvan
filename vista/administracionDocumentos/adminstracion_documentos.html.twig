@@ -1,0 +1,17 @@
+
+{% extends "index.html.twig" %}
+{% block content %}
+   
+
+    <div class="body">
+        <div class="content">
+            <h1 class="documentos_direcion_title">Documentos direccion</h1>
+            <form action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}&a=upload_file" method="post" enctype="multipart/form-data">
+			<input type="file" name="archivo" id="archivo"></input>
+			<input type="submit" value="Subir archivo"></input>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+

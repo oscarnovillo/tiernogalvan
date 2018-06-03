@@ -27,6 +27,6 @@ class ConstantesPaginas
     const MI_PERFIL_PAGE = "bolsaTrabajo/mi-perfil-persona.html";
     const EDITAR_PERFIL_PAGE = "bolsaTrabajo/editar-perfil-persona.html";
     const CRUD_PAGE = "crudUsers/crudUsers.html";
-
+    const ADMINISTRACION_DOCUMENTOS = "administracionDocumentos/adminstracion_documentos.html";
 
 }
