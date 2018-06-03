@@ -1,0 +1,19 @@
+{# empty Twig template #}
+{% extends "index.twig.html" %}
+{% block content %}
+    <button type="button" id="abrir_modal_add_asignatura" class="btn btn-primary">Nueva Asignatura</button>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
+            <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
+            <input type="button" name="aceptar" id="aceptar_envio">
+            <input type="button" name="cancelar" id="cancelar_envio">
+        </form>
+      </div>
+
+    </div>
+{% endblock %}

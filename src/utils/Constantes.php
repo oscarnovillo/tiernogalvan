@@ -24,4 +24,5 @@ class Constantes
     const TAREAS_CONTROLLER = "tareas";
     const CRUD_CONTROLLER = "crud_users";
     const LOGIN_CONTROLLER = "login_users";
+    const SEGUIMIENTO_PROGRAMACIONES_CONTROLLER = "seguimiento_programaciones";
 }

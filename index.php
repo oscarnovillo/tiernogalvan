@@ -9,6 +9,7 @@ use controllers\VentaLibrosController;
 use controllers\LoginUsers;
 use controllers\CrudUsersController;
 use controllers\TareasController;
+use controllers\SeguimientoProgramaciones;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
@@ -46,6 +47,10 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::LOGIN_CONTROLLER:
             $controller = new LoginUsers();
             $controller->login();
+            break;
+        case Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER:
+            $controller = new SeguimientoProgramaciones();
+            //$controller->login();
             break;
     }
 }
