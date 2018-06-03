@@ -1,0 +1,33 @@
+{% extends "index.html.twig" %}
+{% block content %}
+    <button type="button" id="abrir_modal_add_asignatura" class="btn btn-primary" data-target="modal_add_asignatura">Nueva Asignatura</button>
+    
+  <div class="modal" tabindex="-1" role="dialog" id="modal_add_asignatura">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Asignatura</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
+            <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
+        </form>
+      </div>
+      <div class="modal-footer">
+            <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
+            <input type="button" class="btn btn-primary" name="cancelar" id="cancelar_envio" value="Cancelar">
+      </div>
+    </div>
+  </div>
+</div>
+    {% block scripts %}
+        <script src="js/seguimientoProgramaciones/modales.js"></script>
+        <script src="js/seguimientoProgramaciones/crudAsignaturas.js"></script>
+        <script src="bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.js"></script>
+    {%endblock%}
+    {% block styles %}
+    {%endblock%}
+{% endblock %}

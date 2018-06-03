@@ -16,4 +16,7 @@ class ConstantesBD {
     const select_all_unidTrabajo = "SELECT * FROM UNIDADES_TRABAJO";
     const insert_asignatura = "INSERT INTO ASIGNATURAS (NOMBRE) VALUES(?)";
     const actualizar_asignatura = "UPDATE ASIGNATURAS SET nombre = ? WHERE id = ?";
+    const insert_unidad = "INSERT INTO ASIGNATURAS (NOMBRE) VALUES(?)";
+    const actualizar_unidad = "UPDATE UNIDADES_TRABAJO SET nombre = ? WHERE id = ?";
+    const CONTAR_ASIGNATURAS_MISMO_NOMBRE = "SELECT count(*) FROM ASIGNATURAS WHERE NOMBRE = ?";
 }

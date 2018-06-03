@@ -34,4 +34,21 @@ class seguimientoServices {
         $dao = new crudAsignaturas();
         return $dao->get_all_asignaturas();
     }
+    
+    public function insertar_unidad_trabajo($unidad_trabajo){
+        $dao = new crudUnidadesTrabajo();
+        return $dao->crear_asignatura($unidad_trabajo);
+    }
+    public function modificar_unidad_trabajo($unidad_trabajo){
+        $dao = new crudUnidadesTrabajo();
+        return $dao->modificar_asignatura($unidad_trabajo);
+    }
+    public function borrar_unidad_trabajo($unidad_trabajo){
+        $dao = new crudUnidadesTrabajo();
+        return $dao->borrar_asignatura($unidad_trabajo);
+    }
+    public function leer_unidad_trabajo(){
+        $dao = new crudUnidadesTrabajo();
+        return $dao->get_all_asignaturas();
+    }
 }
