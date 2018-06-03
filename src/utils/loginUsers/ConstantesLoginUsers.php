@@ -17,6 +17,7 @@ class ConstantesLoginUsers {
     const PARAM_APELLIDOS = "apellidos";
     const PARAM_TELEFONO = "telefono";
     const PARAM_EMAIL = "email";
+    const COD_ACT = "cod_act";
     const PARAM_PALABRA_CLAVE = "palabra_clave";
     
     const REGISTER_USER = "registrar";
@@ -33,11 +34,18 @@ class ConstantesLoginUsers {
     const INVALID_USER = "Usuario inválido";
     const REGISTRO_ERROR = "Ha ocurrido un error al registrar";
     const PERMISO_FAIL = "La palabra clave es incorrecta";
+    const SENT_EMAIL = "Se acaba de mandar don email a tu correo con el código de activación";
     
     const ACTIVATE_USER = "activar";
     
     const TAMAÑO_RANDOM = 20;
-    const COD_ACT = "cod_act";
+    
+    const ACTIVO_NO = "Esta cuenta no esta activada";
+    const RECUPERTE_PASS = "recuperar_pass";
+    const INVALID_COD = "Código de activación inválido";
+    const CUENTA_ACTIVADA = "Se ha activado la cuenta con éxito";
+    const ACTIVAR_FAIL = "No se ha podido activar la cuenta";
+    
     
     
     

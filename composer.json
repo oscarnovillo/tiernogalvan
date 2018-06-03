@@ -1,26 +1,11 @@
 {
-  "name": "vendor/php-tierno-galvan",
-  "description": "Description of project PhpTiernoGalvan.",
-  "authors": [
-    {
-      "name": "user",
-      "email": "your@email.here"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "": "src/"
-    }
-  },
-  "require": {
-    "twig/twig": "v2.4.4",
-    "phpmailer/phpmailer": "^6.0",
-    "respect/validation": "1.1.15",
-    "nesbot/carbon": "~1.18",
-    "latitude/latitude": "3.0.1",
-    "fzaninotto/faker": "v1.7.0",
-    "teapot/status-code": "v1.1.1",
-    "josantonius/file": "1.1.7"
-
-  }
+    "name": "vendor/php-tierno-galvan",
+    "description": "Description of project PhpTiernoGalvan.",
+    "authors": [
+        {
+            "name": "Eduardo DAW",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {}
 }

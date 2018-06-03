@@ -36,6 +36,21 @@ class UsersServicios {
         return $dao->getUserByNickDAO($user);
     }
     
+    public function getUserActivo($user){
+        $dao = new UsersDAO();
+        return $dao->getUserActivoDAO($user);
+    }
+    
+    public function activarCuenta($user){
+        $dao = new UsersDAO();
+        return $dao->activarCuentaDAO($user);
+    }
+    
+    public function getCodAct($user){
+        $dao = new UsersDAO();
+        return $dao->getCodActDAO($user);
+    }
+    
     function random_code($limit){
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }

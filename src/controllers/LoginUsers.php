@@ -8,6 +8,7 @@ use utils\ConstantesPaginas;
 use utils\TwigViewer;
 use utils\PasswordStorage;
 use servicios\users\UsersServicios;
+use utils\Mailer;
 
 /**
  * Description of LoginUsers
@@ -47,9 +48,17 @@ class LoginUsers {
                         $hash = $PasswordStorage->create_hash($pass);
 
                         if($PasswordStorage->verify_password($pass, $hash)){
-                            $parameters['mensaje'] = $userChecked->nombre;
-                            $_SESSION[Constantes::SESS_USER] = $userChecked;
-                            $page = ConstantesLoginUsers::LOGIN_PAGE;
+                            
+                            $activado = $usersSevicios->getUserActivo($user);
+                            
+                            if($activado == 1){
+                                $parameters['mensaje'] = $userChecked->nombre;
+                                $_SESSION[Constantes::SESS_USER] = $userChecked;
+                                $page = ConstantesLoginUsers::LOGIN_PAGE;
+                                
+                            }else{
+                               $parameters['mensaje'] = ConstantesLoginUsers::ACTIVO_NO; 
+                            }
                         }else{
                             $parameters['mensaje'] = ConstantesLoginUsers::PASS_NO;
                         }  
@@ -59,6 +68,8 @@ class LoginUsers {
                     break;
                 
                 case ConstantesLoginUsers::REGISTER_USER:
+                    
+                    $mailer = new Mailer();
                     
                     if($user->nick != null){//la primera vez que entra que mande a la pag de registro
                         //la segunda vez, rellenado el form debera pasar
@@ -93,8 +104,13 @@ class LoginUsers {
                                 
                                 $cod_act = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
                                 
-                                sendMail($user->email, $user->nombre . " " . $user->apellidos, 
-                                        "Código de activación I.E.S. Enrique Tierno Galván", "Codigo de activación: http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act);//esto hay que cambiarlo
+                                $mailer->sendMail($user->email, $user->nombre . " " . $user->apellidos, 
+                                        "Código de activación I.E.S. Enrique Tierno Galván", 
+                                        "Codigo de activación: esto es una prueba");
+
+
+                                //http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act."?nick=".$user->nick
+                                $parameters['mensaje'] = ConstantesLoginUsers::SENT_EMAIL;
                                 
                             }else{
                                 $parameters['mensaje'] = ConstantesLoginUsers::REGISTRO_ERROR;
@@ -110,12 +126,39 @@ class LoginUsers {
                         $page = ConstantesLoginUsers::REGISTRO_PAGE;
                     }
                     
+                    break;
+                    
                 case ConstantesLoginUsers::ACTIVATE_USER:
                     
-                    $cod_act = filter_input(INPUT_POST, ConstantesLoginUsers::COD_ACT);
-                    //comprueba con el de la bd
-                    //si si si 
-                    //si no no
+                    $user->cod_act = filter_input(INPUT_POST, ConstantesLoginUsers::COD_ACT); 
+                    
+                    $cod_ok = $usersSevicios->getCodAct($user);
+                    
+                    if($cod_ok){
+                        
+                        $user->activado = 1;
+                        
+                        $activar = $usersSevicios->activarCuenta($user);  
+                        
+                        if($activar){
+                            $parameters['mensaje'] = ConstantesLoginUsers::CUENTA_ACTIVADA;
+                        }else{
+                            $parameters['mensaje'] = ConstantesLoginUsers::AVTIVAR_FAIL;
+                        }
+                        
+                    }else{
+                        $parameters['mensaje'] = ConstantesLoginUsers::INVALID_COD;
+                        
+                    }
+                    
+                    break;
+                
+                case ConstantesLoginUsers::RECUPERATE_PASS:
+                    
+                    //comprueba nick
+                    // si esta en la base 
+                    //
+                    
                     
                     break;
             }
