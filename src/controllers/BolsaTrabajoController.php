@@ -30,7 +30,7 @@ class BolsaTrabajoController
     //TODO - en construcción
     public function bolsaTrabajoMain()
     {
-        $idUser = 1;//TODO - temporal - mirar que permisos lleva
+        $idUser = 3;//TODO - temporal - mirar que permisos lleva
         $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         $tarea = filter_input(INPUT_GET, ConstantesBolsaTrabajo::TAREA);
         if (isset($action)) {
@@ -55,7 +55,7 @@ class BolsaTrabajoController
                     }
 
                     break;
-                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO://TODO - avisar de ofertas a posibles interesados -> script
+                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
                         $respnseJson = filter_input(INPUT_GET, ConstantesBolsaTrabajo::RESPONSE_JSON);

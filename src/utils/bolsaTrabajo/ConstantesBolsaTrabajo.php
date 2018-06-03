@@ -64,6 +64,7 @@ class ConstantesBolsaTrabajo
     const PAGINACION_SIZE = "size";
     const UPLOAD_FILE = "upload_file";
     const APUNTAR_OFERTA = "apuntar_oferta";
+    const CONTADOR = "CONTADOR";
 
 
     /**

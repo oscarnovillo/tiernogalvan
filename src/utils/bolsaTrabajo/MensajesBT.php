@@ -38,6 +38,7 @@ class MensajesBT
     const BUSCA_TRABAJO_NO = "No busco empleo en estos momentos";
     const ASUNTO_CONFIRM_OFERTA = "Te acabas de apuntar a una oferta de Empleo";
     const ASUNTO_CONFIRM_OFERTA_EMPRESA = "Una persona esta interesada por tu oferta de empleo";
+    const ASUNTO_NUEVA_OFERTA = "Tenemos una nueva oferta de trabajo para tí";
 
     const APUNTARSE_TODO_CORRECTO = "Felicidades! te acabas de apuntar correctamente a una oferta de trabajo, recibiras un e-mail con más detalles";
     const APUNTARSE_FALTA_EMPRESA = "Acabas de apuntarte a esta oferta de trabajo, pero no hemos podido contactar con la persona responsable, Por favor, trata de ponerte en contacto con ella y pactad una entrevista";
