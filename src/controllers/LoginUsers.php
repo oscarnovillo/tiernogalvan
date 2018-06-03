@@ -47,12 +47,10 @@ class LoginUsers {
                         $pass = $user->pass;
                         $hash = $PasswordStorage->create_hash($pass);
 
-                        if($PasswordStorage->verify_password($pass, $hash)){
-                            
-                            $activado = $usersSevicios->getUserActivo($user);
-                            
-                            if($activado == 1){
-                                $parameters['mensaje'] = $userChecked->nombre;
+                        if($PasswordStorage->verify_password($pass, $userChecked->pass)){
+                             
+                            if($userChecked->activado === "1"){
+                                $parameters['mensaje'] = $userChecked->nombre." ".$userChecked->apellidos;
                                 $_SESSION[Constantes::SESS_USER] = $userChecked;
                                 $page = ConstantesLoginUsers::LOGIN_PAGE;
                                 
@@ -60,7 +58,7 @@ class LoginUsers {
                                $parameters['mensaje'] = ConstantesLoginUsers::ACTIVO_NO; 
                             }
                         }else{
-                            $parameters['mensaje'] = ConstantesLoginUsers::PASS_NO;
+                            $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_NO;
                         }  
                     }else{
                         $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_ERROR;

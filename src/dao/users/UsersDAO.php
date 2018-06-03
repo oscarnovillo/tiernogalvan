@@ -261,28 +261,7 @@ class UsersDAO {
             }
             return $insertado;   
     }
-    
-     public function getUserActivoDAO($user){
-         
-        try{
-            $incidencia = (object)[];
-            
-            $dbConnection = new DBConnection();
-            $db = $dbConnection->getConnection();
-
-            $stmt = $db->prepare("SELECT activado FROM users WHERE id=:id");
-            $stmt->bindParam(":id", $user->id);
-            $stmt->execute();
-            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
-            
-        } catch (\Exception $exception) {
-          
-        } finally {  
-            $dbConnection->disconnect();
-        }
-        return $incidencia; 
-     }
-     
+ 
     public function activarCuentaDAO($user){
          
         try{

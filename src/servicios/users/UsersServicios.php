@@ -36,11 +36,6 @@ class UsersServicios {
         return $dao->getUserByNickDAO($user);
     }
     
-    public function getUserActivo($user){
-        $dao = new UsersDAO();
-        return $dao->getUserActivoDAO($user);
-    }
-    
     public function activarCuenta($user){
         $dao = new UsersDAO();
         return $dao->activarCuentaDAO($user);
