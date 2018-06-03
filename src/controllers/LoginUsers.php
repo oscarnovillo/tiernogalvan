@@ -24,7 +24,7 @@ class LoginUsers {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
+        $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
         
         if (isset($action)) {
             
@@ -152,10 +152,29 @@ class LoginUsers {
                 
                 case ConstantesLoginUsers::RECUPERATE_PASS:
                     
-                    //comprueba nick
-                    // si esta en la base 
-                    //
-                    
+                    if($user->nick != null){
+                        $userChecked = $usersSevicios->getUserByNick($user);
+                     
+                        if($userChecked){
+                            $pass_created = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_GENERAR_PASS);
+                            $user->pass = $PasswordStorage->create_hash($pass_created);
+                            $updateOk = $usersSevicios->updatePass($user);
+                            
+                            if($updateOk){
+                                //envia pass al cliente
+                                $parameters['mensaje'] = ConstantesLoginUsers::EMAIL_SENT;
+                                
+                            }else{
+                                $parameters['mensaje'] = "fallo update";
+                            }
+                            
+                            
+                        }else{
+                            $parameters['mensaje'] = "usuario no existe";
+                        }
+                    }
+                   
+                    $page = ConstantesLoginUsers::RECUPERAR_PAGE;
                     
                     break;
             }

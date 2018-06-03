@@ -26,6 +26,7 @@ class ConstantesLoginUsers {
     const LOGIN_PAGE = "login/inicio.html";
     const REGISTRO_PAGE = "login/registro.html";
     const START_PAGE = "index.html";
+    const RECUPERAR_PAGE = "login/recuperarPass.html";
     
     const LOGIN_YES = "Bienvenido";
     const LOGIN_NO = "Nick o Contraseña inválidos";
@@ -39,12 +40,15 @@ class ConstantesLoginUsers {
     const ACTIVATE_USER = "activar";
     
     const TAMAÑO_RANDOM = 20;
+    const TAMAÑO_GENERAR_PASS = 4;
     
     const ACTIVO_NO = "Esta cuenta no esta activada";
-    const RECUPERTE_PASS = "recuperar_pass";
     const INVALID_COD = "Código de activación inválido";
     const CUENTA_ACTIVADA = "Se ha activado la cuenta con éxito";
     const ACTIVAR_FAIL = "No se ha podido activar la cuenta";
+    
+    const RECUPERATE_PASS = "recuperarPass";
+    const EMAIL_SENT = "Hemos enviado un nuevo password a tu email";
     
     
     
