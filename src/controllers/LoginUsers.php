@@ -69,8 +69,7 @@ class LoginUsers {
                     
                     $mailer = new Mailer();
                     
-                    if($user->nick != null){//la primera vez que entra que mande a la pag de registro
-                        //la segunda vez, rellenado el form debera pasar
+                    if($user->nick != null){
                     
                         $userChecked = $usersSevicios->getUserByNick($user);
 
