@@ -9,13 +9,7 @@ class ConstantesTareas {
     const ACTION_VER_CURSO = "ver_curso";
     const ACTION_ID_CURSO = "id_curso";
     
-    const EDITAR_TAREA_OK = "✓";
-    const EDITAR_TAREA_OK_TOOLTIP = "Aceptar";
-    const EDITAR_TAREA_CANCELAR = "✗";
-    const EDITAR_TAREA_CANCELAR_TOOLTIP = "Cancelar";
-    const EDITAR_TAREA_EDITAR = "Editar";
-    const EDITAR_TAREA_EDITAR_TOOLTIP = "Editar";
-    const EDITAR_TAREA_BORRAR = "Borrar";
-    const EDITAR_TAREA_BORRAR_TOOLTIP = "Borrar";
-
+    const ACTION_MODIFICAR_TAREA="modificar_tarea";
+    const ACTION_BORRAR_TAREA="borrar_tarea";
+    const ACTION_CREAR_TAREA="crear_tarea";
 }

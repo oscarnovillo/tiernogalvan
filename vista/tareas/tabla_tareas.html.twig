@@ -1,0 +1,278 @@
+<table class="tareas_table table-striped">
+    <!-- HEAD -->
+    <thead>
+        <tr>
+            <th onclick="reordenar(3, 'sort_descripcion');">{{ textos.CampoDescripcion }}
+                <i id="sort_descripcion" class="fas {% if order==3 and desc == 1 %}fa-sort-up{% else %}fa-sort-down{% endif %}"></i>
+            </th>
+
+            <th onclick="reordenar(4, 'sort_asignatura');">{{ textos.CampoAsignatura }}
+                <i id="sort_asignatura" class="fas {% if order==4 and desc == 1 %}fa-sort-up{% else %}fa-sort-down{% endif %}"></i>
+            </th>
+
+            <th onclick="reordenar(5, 'sort_fecha');">{{ textos.CampoFecha }}
+                <i id="sort_fecha" class="fas {% if order==5 and desc == 1 %}fa-sort-up{% else %}fa-sort-down{% endif %}"></i>
+            </th>
+
+            <th onclick="reordenar(5, 'sort_prioridad');">{{ textos.CampoPrioridad }}
+                <i id="sort_prioridad" class="fas {% if order==5 and desc == 1 %}fa-sort-up{% else %}fa-sort-down{% endif %}"></i></th>
+
+            {% if permiso_edicion == 1 %}<th>{{ textos.CampoAcciones }}</th>{% endif %}
+        </tr>
+    </thead>
+
+    <!-- BODY -->
+    <tbody id="tbody_recarga">
+
+        <!-- Pinta los datos si existen -->
+        {% if tareas %}
+            {% for tarea in tareas %}
+                <tr id="fila_tarea{{ tarea.id_tarea }}">
+
+                    <!-- Descripción -->
+                    <td title="{{ textos.CampoDescripcion }}">
+                        <span id="descripcion_txt{{ tarea.id_tarea }}" style="font-weight:bold">{{ tarea.descripcion }}</span>
+                        {% if permiso_edicion == 1 %}
+                            <div class="flexbox stretch">
+
+                                <input type="hidden" 
+                                       id="descripcion_original{{ tarea.id_tarea }}" 
+                                       value="{{ tarea.descripcion }}">                               
+
+                                <input type="hidden" 
+                                       size="40"
+                                       id="descripcion{{ tarea.id_tarea }}" 
+                                       value="{{ tarea.descripcion }}" 
+                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                       onblur="restaurarCampoSiVacio('descripcion', {{ tarea.id_tarea }});"
+                                       onkeyup="return enviarEnter(event, {{ tarea.id_tarea }});">
+
+                            </div>
+                        {% endif %}
+                    </td>
+
+                    <!-- Asignatura -->
+                    <td class="text-center" title="{{ textos.CampoAsignatura }}">
+                        <span id="asignatura_txt{{ tarea.id_tarea }}">{{ tarea.asignatura }}</span>
+
+                        {% if permiso_edicion == 1 %}
+                            <div class="flexbox stretch">
+                                <input type="hidden" 
+                                       id="asignatura_original{{ tarea.id_tarea }}" 
+                                       value="{{ tarea.asignatura }}">
+
+                                <input type="hidden" value="{{ tarea.asignatura }}" 
+                                       id="asignatura{{ tarea.id_tarea }}" 
+                                       list="suggestions" 
+                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                       onclick="this.value = '';"
+                                       onblur="restaurarCampoSiVacio('asignatura', {{ tarea.id_tarea }});"
+                                       onkeyup="enviarEnter(event, {{ tarea.id_tarea }});">                  
+                            </div>
+                        {% endif %}
+                    </td>
+
+                    <!-- Fecha -->
+                    <td class="text-center" title="{{ textos.CampoFecha }}">
+                        <span id="fecha_txt{{ tarea.id_tarea }}">{{ tarea.fecha }}</span>
+                        {% if permiso_edicion == 1 %}
+                            <div class="flexbox stretch">
+                                <input type="hidden" 
+                                       id="fecha_original{{ tarea.id_tarea }}" 
+                                       value="{{ tarea.fecha }}">
+
+                                <input type="hidden"
+                                       id="fecha{{ tarea.id_tarea }}" 
+                                       value="{{ tarea.fecha }}"
+                                       oninput="mostrarBotonModificar ({{ tarea.id_tarea }})"
+                                       onblur="restaurarCampoSiVacio('fecha', {{ tarea.id_tarea }});"
+                                       onkeyup="enviarEnter(event, {{ tarea.id_tarea }});">
+
+                            </div>
+                        {% endif %}
+
+                    </td>
+
+                    <!-- Prioridad -->
+                    <td title="{{ textos.CampoPrioridad }}">
+                        {% set fhoy = "now"|date('Y-m-d') %}
+                        {% set ftarea = tarea.fecha|date('Y-m-d') %}
+
+                        {% set difference = date(fhoy).diff(date(ftarea)) %}
+                        {% set leftDays = difference.days %}
+
+                        {% if leftDays == 1 %}
+                            {% set palabra_dias = textos.Dia %}
+                        {% else %}
+                            {% set palabra_dias = textos.Dias %}
+                        {% endif %}
+
+
+                        {% if fhoy > ftarea %}
+                            <div class="tarea_caducada">{{ textos.Finalizo }} {{ leftDays }} {{ palabra_dias }}</div>
+                        {% elseif fhoy == ftarea %}
+                            <div class="tarea_urgente">{{ textos.Hoy }}</div>
+                        {% elseif fhoy < ftarea %}
+                            {% if leftDays == 1 %}
+                                <div class="tarea_urgente">{{ textos.Manana }}</div>
+
+                            {% else %}
+                                <div>{{ textos.Quedan }} {{ leftDays }} {{ palabra_dias }}</div>
+                            {% endif %}
+
+                        {%endif%}
+
+                    </td>
+
+                    <!-- Acciones -->
+                    {% if permiso_edicion == 1 %}
+                        <td title="{{ textos.CampoAcciones }}">
+                            <i class="fas fa-edit fa-lg" onclick="editar({{ tarea.id_tarea }});" 
+                               id="btn_edit{{ tarea.id_tarea }}"
+                               title="{{ textos.Editar }}"></i>
+
+                            <i class="fas fa-check-circle fa-lg" onclick="modificar({{ tarea.id_tarea }});" 
+                               id="btn_ok{{ tarea.id_tarea }}" 
+                               style="display:none"
+                               title="{{ textos.Ok }}"></i>
+
+                            <i class="fas fa-ban fa-lg" onclick="cancelar({{ tarea.id_tarea }});"
+                               id="btn_cancelar{{ tarea.id_tarea }}" 
+                               style="display:none"
+                               title="{{ textos.Cancelar }}"></i>
+                            </button>
+
+                            <i class="fas fa-trash-alt fa-lg" onclick="borrar({{ tarea.id_tarea }});"
+                               id="btn_borrar{{ tarea.id_tarea }}" 
+                               title="{{ textos.Borrar }}"></i>
+
+                        </td>
+                    {% endif %}
+                </tr>
+
+            {% endfor %}
+        {% else %}
+            <!-- Si no existe, muestra mensaje  -->
+            <tr id="noHayTareas">
+                <td class="cursiva" colspan="5">{{ textos.NoHayTareas }}</td>
+            </tr>
+        {% endif %}
+
+
+        <!-- AÑADIR NUEVA FILA (aparece al pinchar botón) -->
+        {% if permiso_edicion == 1 %}
+            <tr id="fila_tareaNueva" style="display:none">
+
+                <!-- Descripción -->
+                <td>
+                    <div class="flexbox stretch">
+                        <input type="text" 
+                               id="descripcionNueva" 
+                               onkeyup="return enviarEnterNueva(event);">
+                    </div>
+
+                </td>
+
+                <!-- Asignatura -->
+                <td class="text-center">
+                    <span id="asignatura_txtNueva">{{ tarea.asignatura }}</span>
+
+                    <div class="flexbox stretch">
+
+                        <input type="text"
+                               id="asignaturaNueva" 
+                               list="suggestions" 
+                               onclick="this.value = '';"
+                               onkeyup="enviarEnterNueva(event);">                  
+                    </div>
+                </td>
+
+                <!-- Fecha -->
+                <td class="text-center">
+                    <span id="fecha_txtNueva">{{ tarea.fecha }}</span>
+                    <div class="flexbox stretch">
+
+                        <input type="date"
+                               id="fechaNueva" 
+                               onkeyup="enviarEnterNueva(event);">
+                    </div>
+
+                </td>
+
+                <!-- Prioridad (el usuario no lo introduce, se calcula sola) -->
+                <td></td>
+
+                <!-- Acciones: Aceptar / Cancelar -->
+                <td>
+                    <input type="hidden" id="id_curso" value="{{ id_curso }}">
+                    <i class="fas fa-check-circle fa-lg" onclick="crearNuevaTarea();" 
+                       id="btn_okNueva" 
+                       title="{{ textos.Ok }}"></i>
+
+                    <i class="fas fa-ban fa-lg" onclick="cancelarNuevaTarea();"
+                       id="btn_cancelarNueva" 
+                       title="{{ textos.Cancelar }}"></i>
+                </td>
+            </tr>
+
+            <!-- Botón para añadir filas -->
+            <tr id="fila_add">
+                <td colspan="5"><button onclick="mostrarCrearTarea();">{{ textos.Anadir }}</button></td>
+            </tr>
+
+        {% endif %}
+
+
+        </tr>
+    </tbody>
+
+    <!-- FOOTER -->
+    <tfoot>
+        <tr>
+            <th colspan="5">
+                <!-- Checkbox ocultar tareas-->
+                <label style="float:left; padding:0em 1em">
+                    <input type="checkbox" 
+                           id="param_hide_old" 
+                           {% if hide_old == 1 %}checked{% endif %} 
+                           onchange="recargarTabla();"> {{ textos.OcultarTareas }}
+                </label>
+
+                <label>
+                {% if tareas_count > limit %}
+
+                    {% if pag > 1 %}
+                        <i class="fas fa-fast-backward fa-lg" title="{{ textos.Primera }}" onclick='paginador(1);'></i>
+                        <i class="fas fa-step-backward fa-lg" title="{{ textos.Anterior }}" onclick='paginador({{ pag - 1 }});'></i>
+                    {% endif %} 
+                    
+                    <input id='param_pag' type='text' value="{{ pag }}" size="1" onchange="paginador(this);"> / {{ num_pag }}
+                    <input id='num_pag' type='hidden' value="{{ num_pag }}">
+                    
+                    {% if pag < num_pag %}
+                        <i class="fas fa-step-forward fa-lg" title="{{ textos.Siguiente }}" onclick='paginador({{ pag + 1 }});'></i>
+                        <i class="fas fa-fast-forward fa-lg" title="{{ textos.Ultima }}" onclick='paginador({{ num_pag }});'></i>
+
+                    {% endif %} 
+
+                {% endif %} 
+                </label>
+
+                <!-- Desplegable nº páginas-->
+                <label style="float:right; padding:0em 1em">{{ textos.NumPagsPagina }} 
+                     <!--
+                    <select id='param_limit' onchange="recargarTabla();">
+                        <option value="5" {% if limit == 5 %}selected{% endif %}>5</option>
+                        <option value="10" {% if limit == 10 %}selected{% endif %}>10</option>
+                        <option value="25" {% if limit == 25 %}selected{% endif %}>25</option>
+                        <option value="50" {% if limit == 50 %}selected{% endif %}>50</option>
+                    </select>
+                     -->
+                     <input id='param_limit' type='text' size="1" value="{{ limit }}" maxlength="3" onchange="num_pags(this);">
+                </label>
+            </th>
+    </tfoot>
+</table>
+
+<input type="hidden" id="param_order" value="{{ order }}">
+<input type="hidden" id="param_desc" value="{{ desc }}">
