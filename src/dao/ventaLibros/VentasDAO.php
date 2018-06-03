@@ -66,14 +66,41 @@ class VentasDAO {
         return $mis_ventas;
     }
     
-    public function resVenta($id){
+    public function resVenta($id_venta, $id_usuario){
         $db = new DBConnection();
         $conn = $db->getConnection();
         
         $actualizado;
         
-        $stmt = $conn->prepare("UPDATE venta_libros SET estado = 'Reservado' WHERE id = ?");
-        $stmt->bindParam(1, $id);
+        $stmt = $conn->prepare("UPDATE venta_libros SET estado = 'Reservado', id_comprador = ? WHERE id = ?");
+        $stmt->bindParam(1, $id_usuario);
+        $stmt->bindParam(2, $id_venta);
+        $stmt->execute();
+        
+        if (($stmt->rowCount()) > 0){
+            $actualizado = true;
+        }else{
+            $actualizado = false;
+        }
+        
+        $db->disconnect();
+        return $actualizado;
+    }
+    
+    public function editVenta($venta){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $actualizado;
+        
+        $stmt = $conn->prepare("UPDATE venta_libros SET titulo = ?, isbn = ?, precio = ?, asignatura = ?, curso = ?, estado = ? WHERE id = ?");
+        $stmt->bindParam(1, $venta->titulo);
+        $stmt->bindParam(2, $venta->isbn);
+        $stmt->bindParam(3, $venta->precio);
+        $stmt->bindParam(4, $venta->asignatura);
+        $stmt->bindParam(5, $venta->curso);
+        $stmt->bindParam(6, $venta->estado);
+        $stmt->bindParam(7, $venta->id);
         $stmt->execute();
         
         if (($stmt->rowCount()) > 0){
