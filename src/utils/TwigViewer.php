@@ -28,6 +28,7 @@ class TwigViewer {
 
         $this->loader = new FilesystemLoader(Constantes::TWIG_FOLDER);
         $this->twig = new Environment($this->loader);
+        $this->twig->addGlobal('userOnline', isset($_SESSION[Constantes::SESS_USER]));
     }
 
     public static function getInstance() {

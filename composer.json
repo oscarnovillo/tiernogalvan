@@ -1,4 +1,4 @@
-{
+ {
   "name": "vendor/php-tierno-galvan",
   "description": "Description of project PhpTiernoGalvan.",
   "authors": [
@@ -19,6 +19,8 @@
     "nesbot/carbon": "~1.18",
     "latitude/latitude": "3.0.1",
     "fzaninotto/faker": "v1.7.0",
-    "teapot/status-code": "v1.1.1"
+    "teapot/status-code": "v1.1.1",
+    "josantonius/file": "1.1.7"
+
   }
-}
+ }

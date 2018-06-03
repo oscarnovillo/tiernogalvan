@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    {% include "comun/head.inc" %}
+    {% include "comun/head.html.twig" %}
     {% block styles %}{% endblock %}
 </head>
 <body>
-
-
-    {% include "comun/header.inc" %}
-
-
-
-
-
-    {% include "comun/nav.inc" %}
-
-
+{% include "comun/header.html.twig" %}
+{% include "comun/nav.html.twig" %}
 <main>
 
     {% block content %}
-        {% include "inicio/cuerpo.inc" %}
+        {% include "inicio/cuerpo.html.twig" %}
     {% endblock %}
 
 </main>
 
-{% include "comun/footer.inc" %}
+{% include "comun/footer.html.twig" %}
 
 {% block scripts %}
     <script src="/js/slideslow.js"></script>
-    <script src="/js/menu.js"></script>
-    <script src="/js/muestra-blog.js"></script>
     <script src="/js/modal.js"></script>
-    <script src="/js/contador.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

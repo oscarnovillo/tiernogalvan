@@ -1,6 +1,4 @@
-#contenido{
-	padding-bottom: 0;
-}
+
 
 #contenido .contenedor{
 	display: flex;/*con esta propiedad los dos bloques tienen el mismo alto de background*/

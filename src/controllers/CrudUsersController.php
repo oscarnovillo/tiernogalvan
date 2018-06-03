@@ -8,6 +8,7 @@ use utils\ConstantesPaginas;
 use utils\TwigViewer;
 use model\Users;
 use servicios\users\UsersServicios;
+use utils\PasswordStorage;
 
 /**
  * Description of CrudUsersController
@@ -23,15 +24,23 @@ class CrudUsersController {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
+        $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
             
-            $user = new Users();
-                    
-            $user->pass = $_REQUEST[ConstantesVentas::PARAM_PASS];
-            $user->nombre = $_REQUEST[ConstantesVentas::PARAM_NICK];
-            //etc etc
+            $user = new \stdClass;
+            $PasswordStorage = new PasswordStorage();
+            
+            $user->id = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_ID));
+            $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
+            $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
+            $user->telefono = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL));
+            $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
+            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
+            $user->pass = $PasswordStorage->create_hash($user->pass);
+            $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
+            $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
+            $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
@@ -69,7 +78,7 @@ class CrudUsersController {
                 case ConstantesCrudUsers::DELETE_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
-                    if(!$userChecked){
+                    if($userChecked){
                         $userChecked = $usersSevicios->deleteUser($user);
                         
                         if($userChecked){
@@ -83,8 +92,13 @@ class CrudUsersController {
                     break;
 
             }
-        }else{
-            TwigViewer::getInstance()->viewPage($page,$parameters);
         }
+        $usuarios = $usersSevicios->getAllUsers();
+
+            if($usuarios != null){
+               $parameters['usuarios'] = $usuarios;
+            }
+            
+        TwigViewer::getInstance()->viewPage($page,$parameters);
     }
 }

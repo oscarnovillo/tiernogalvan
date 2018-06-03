@@ -32,4 +32,9 @@ class VentasServicios {
         $dao = new VentasDAO();
         return $dao->getMisVentas($id);
     }
+    
+    public function resVenta($id){
+        $dao = new VentasDAO();
+        return $dao->resVenta($id);
+    }
 }

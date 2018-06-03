@@ -2,7 +2,7 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-
+    <div id="build_modal_response"></div>
     <div class="p-2">
         <div class="container">
             <div class="row">
@@ -43,6 +43,9 @@
                         <br>
                         <br>
                     </p>
+                    <input type="hidden" id="id_oferta" value="{{ ID_OFERTA }}"/>
+                    <a class="btn  fa fa-envelope btn-primary text-uppercase d-flex justify-content-center py-2 btn-lg"
+                       href="#" id="id_apuntarse">&nbsp; Apúntame</a>
                 </div>
             </div>
         </div>
@@ -52,18 +55,8 @@
 
 {% block scripts %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          type="text/css">
-    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% include 'bolsaTrabajo/scripts-comunes.html.twig' %}
 
-
-    <script src="js/bolsaTrabajo/crear_oferta.js"></script>
+    <script src="js/bolsaTrabajo/ver_oferta.js"></script>
 
 {% endblock %}

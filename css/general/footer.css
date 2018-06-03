@@ -1,8 +1,15 @@
 footer {
   text-align: center;
-  margin: 1.6rem 0;
 }
 
+footer .contenedor {
+    background: #fff;
+    padding: 25px 15px 15px 15px;
+}
+
+footer .contenedor a img {
+    mix-blend-mode: multiply;
+}
 footer img{
 	height: 50px;
 }

@@ -8,31 +8,44 @@
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="display-4">Datos Personales</h1>
-                    <h1 class="" id="nombre_persona">Alisteria Pendragon</h1>
+                    <h1 class=""
+                        id="nombre_persona">{{ PERFIL_DATA[0].NOMBRE |e }} {{ PERFIL_DATA[0].APELLIDOS |escape }}</h1>
                     <p class="lead">Ciclos Formativos:</p>
                     <ul class="">
-                        <li>One</li>
+                        <li>{{ PERFIL_DATA[0].FP_CODE |escape }}</li>
                     </ul>
                     <p class="lead">Información</p>
-                    <p class="" id="comentario_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit.</p>
+                    <p class="" id="comentario_persona">{{ PERFIL_DATA[0].COMENTARIO |escape }}</p>
                     <p class="lead">Experiencia</p>
-                    <p class="" id="experiencia_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit.</p>
+                    <p class="" id="experiencia_persona">{{ PERFIL_DATA[0].EXPERIENCIA |escape }}</p>
                     <p class="lead">Perfíl Externo</p>
-                    <a class="nav-link" href="#" id="perfil_externo_persona">Linkedin perfil</a>
+                    <a class="nav-link" href="{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}" target="_blank"
+                       id="perfil_externo_persona">{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}</a>
                     <p class="lead">Enlaces de Interés</p>
-                    <a class="nav-link" href="#" id="enlace_persona">Perfíl Github</a>
+                    <a class="nav-link" href="{{ PERFIL_DATA[0].LINK_INTERES |escape }}"
+                       target="_blank" id="enlace_persona">{{ PERFIL_DATA[0].LINK_INTERES |escape }}</a>
                 </div>
                 <div class="col-md-4">
-                    <img class="img-fluid d-block float-right rounded" src="https://i.imgur.com/dqZvAQ4.jpg" width="50%"
-                         height="auto" id="foto_persona">
-                    <p class="lead">Buscando Trabajo</p>
-                    <p class="text-primary" id="busca_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit.</p>
-                    <p class="lead">Interesado en Ofertas</p>
-                    <p class="text-primary" id="interesado_persona">Paragraph. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit.</p>
+                    <img class="img-fluid d-block rounded mx-auto" src="
+                     {% set imgurl = "https://i.imgur.com/dqZvAQ4.jpg" %}
+                                 {% if PERFIL_DATA[0].FOTO == null or PERFIL_DATA[0].FOTO == "" %}
+                                 {{ imgurl }}
+                                 {% else %}
+                                 {{ PERFIL_DATA[0].FOTO }}
+                                 {% endif %}
+                     " width="70%"
+                         height="auto" id="foto_persona"/>
+
+                    <p class="lead ">Situación Laboral</p>
+
+                    <p class="lead my-1">Trabajo:</p>
+                    <p class="text-primary" id="busca_persona">{{ PERFIL_DATA[0].BUSCA_TRABAJO |escape }}</p>
+                    <p class="lead">Ofertas de Trabajo:</p>
+                    <p class="text-primary" id="interesado_persona">{{ PERFIL_DATA[0].RECIBIR_OFERTAS |escape }}</p>
+                    <div class="blockquote text-secondary">
+                        <p class="text-left my-0">Perfil Actualizado:</p>
+                        <div class="blockquote-footer my-0">{{ PERFIL_DATA[0].ULTIMA_EDICION }}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,17 +55,7 @@
 
 {% block scripts %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          type="text/css">
-    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-
+    {% include 'bolsaTrabajo/scripts-comunes.html.twig' %}
 
 
     <script src="js/bolsaTrabajo/mis_ofertas.js"></script>
