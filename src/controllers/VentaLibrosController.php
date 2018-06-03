@@ -24,6 +24,8 @@ class VentaLibrosController {
         $page = ConstantesVentas::VENTAS_PAGE;
         $parameters = array();
         $ventasSevicios = new VentasServicios();
+        $user = $_SESSION[Constantes::SESS_USER];
+        $id_usuario = $user->id;
         
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
@@ -32,10 +34,8 @@ class VentaLibrosController {
                 case ConstantesVentas::ACCION_ADD_LIBRO:
                     $venta = new \stdClass;
                     
-                    //$venta->id_vendedor = $_SESSION["id_usuario"];
-                    //$venta->email = $_SESSION["email"];
-                    $venta->id_vendedor = 1;
-                    $venta->email = "migueldiaz.tg@gmail.com";
+                    $venta->id_vendedor = $id_usuario;
+                    $venta->email = $user->email;
                     $venta->titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
                     $venta->isbn = $_REQUEST[ConstantesVentas::PARAM_ISBN];
                     $venta->precio = floatval($_REQUEST[ConstantesVentas::PARAM_PRECIO]);
@@ -57,13 +57,10 @@ class VentaLibrosController {
                     $id_venta = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
                     $id_vendedor =(int)$_REQUEST[ConstantesVentas::PARAM_ID_VENDEDOR];
                     
-                    //$id_usuario = $_SESSION["id_vendedor"];
-                    $id_usuario = 1;
-                    
                     if($id_vendedor == $id_usuario){
                         $parameters['error_reserva'] = ConstantesVentas::ERROR_MISMO_USER;
                     }else{
-                        $actualizado = $ventasSevicios->resVenta($id_venta);
+                        $actualizado = $ventasSevicios->resVenta($id_venta, $id_usuario);
 
                         if($actualizado == true){
                             /*Enviar email
@@ -80,7 +77,21 @@ class VentaLibrosController {
                     break;
                     
                 case ConstantesVentas::ACCION_EDIT_LIBRO:
+                    $venta = new \stdClass;
                     
+                    $venta->id = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
+                    $venta->titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
+                    $venta->isbn = $_REQUEST[ConstantesVentas::PARAM_ISBN];
+                    $venta->precio = floatval($_REQUEST[ConstantesVentas::PARAM_PRECIO]);
+                    $venta->asignatura = $_REQUEST[ConstantesVentas::PARAM_ASIGNATURA];
+                    $venta->curso = $_REQUEST[ConstantesVentas::PARAM_CURSO];
+                    $venta->estado = $_REQUEST[ConstantesVentas::PARAM_ESTADO];
+                    
+                    $ventaEditada = $ventasSevicios->editVenta($venta);
+                    
+                    if(!$ventaEditada){
+                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR;
+                    }
                     break;
                 
                 case ConstantesVentas::ACCION_DEL_LIBRO:
@@ -94,7 +105,7 @@ class VentaLibrosController {
             $parameters['allVentas'] = $allVentas;
         }
         
-        $misVentas = $ventasSevicios->getMisVentas(1);
+        $misVentas = $ventasSevicios->getMisVentas($id_usuario);
         if($misVentas != null){
             $parameters['misVentas'] = $misVentas;
         }

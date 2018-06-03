@@ -21,6 +21,7 @@ class ConstantesVentas{
     const PARAM_PRECIO = "precio";
     const PARAM_ASIGNATURA = "asignatura";
     const PARAM_CURSO = "curso";
+    const PARAM_ESTADO = "estado";
 }
 
 

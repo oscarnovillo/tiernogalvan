@@ -30,12 +30,16 @@
     display: none;
 }
 
-#form_public{
+.form_public{
     text-align: center;
 }
 
-#form_public .boton-contenido{
+.form_public .boton-contenido{
     max-width: 200px;
+}
+
+#cont_form_edit{
+    display: none;
 }
 
 .error_form{

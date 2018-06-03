@@ -33,8 +33,13 @@ class VentasServicios {
         return $dao->getMisVentas($id);
     }
     
-    public function resVenta($id){
+    public function resVenta($id_venta, $id_usuario){
         $dao = new VentasDAO();
-        return $dao->resVenta($id);
+        return $dao->resVenta($id_venta, $id_usuario);
+    }
+    
+    public function editVenta($venta){
+        $dao = new VentasDAO();
+        return $dao->editVenta($venta);
     }
 }
