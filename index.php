@@ -12,6 +12,7 @@ use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
+use utils\loginUsers\ConstantesLoginUsers;
 use utils\TwigViewer;
 use servicios\session\SessionServicios;
 use controllers\ErrorController;
@@ -99,7 +100,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             $userSessionValid ? $controller->logout() : $errController->permissions();
             break;
         default:
-            TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            $userSessionValid ? TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE) : TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            
     }
 }
 else

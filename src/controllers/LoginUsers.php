@@ -177,6 +177,10 @@ class LoginUsers {
                     $page = ConstantesLoginUsers::RECUPERAR_PAGE;
                     
                     break;
+                    
+                case ConstantesLoginUsers::CHANGE_PASS:
+                  $page = ConstantesLoginUsers::SETTINGS_PAGE;
+                break;
             }
         }
         TwigViewer::getInstance()->viewPage($page,$parameters);

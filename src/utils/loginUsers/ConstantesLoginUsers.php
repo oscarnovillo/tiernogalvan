@@ -27,6 +27,7 @@ class ConstantesLoginUsers {
     const REGISTRO_PAGE = "login/registro.html";
     const START_PAGE = "index.html";
     const RECUPERAR_PAGE = "login/recuperarPass.html";
+    const SETTINGS_PAGE = "login/settingsUsers.html";
     
     const LOGIN_YES = "Bienvenido";
     const LOGIN_NO = "Nick o Contraseña inválidos";
@@ -50,6 +51,7 @@ class ConstantesLoginUsers {
     const RECUPERATE_PASS = "recuperarPass";
     const EMAIL_SENT = "Hemos enviado un nuevo password a tu email";
     
+    const CHANGE_PASS = "cambiarPass";
     
     
     
