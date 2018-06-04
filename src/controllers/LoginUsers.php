@@ -127,7 +127,7 @@ class LoginUsers {
                     
                 case ConstantesLoginUsers::ACTIVATE_USER:
                     
-                    $user->cod_act = filter_input(INPUT_POST, ConstantesLoginUsers::COD_ACT); 
+                    $user->cod_act = $_REQUEST[ConstantesLoginUsers::COD_ACT];
                     
                     $cod_ok = $usersSevicios->getCodAct($user);
                     
@@ -140,7 +140,7 @@ class LoginUsers {
                         if($activar){
                             $parameters['mensaje'] = ConstantesLoginUsers::CUENTA_ACTIVADA;
                         }else{
-                            $parameters['mensaje'] = ConstantesLoginUsers::AVTIVAR_FAIL;
+                            $parameters['mensaje'] = ConstantesLoginUsers::ACTIVAR_FAIL;
                         }
                         
                     }else{
@@ -179,8 +179,35 @@ class LoginUsers {
                     break;
                     
                 case ConstantesLoginUsers::CHANGE_PASS:
-                  $page = ConstantesLoginUsers::SETTINGS_PAGE;
-                break;
+                    
+                    $user->nuevo_pass = filter_input(INPUT_POST, ConstantesLoginUsers::NEW_PASS);
+                    
+                    $userChecked = $usersSevicios->getUserByNick($user);
+                     
+                    if($userChecked){    
+                        
+                        if($PasswordStorage->verify_password($user->pass, $userChecked->pass)){
+                            
+                            $user->pass = $PasswordStorage->create_hash($user->nuevo_pass);
+                            $passUpdated = $usersSevicios->updatePass($user); 
+                            
+                            if($passUpdated){
+                                $parameters['mensaje'] = ConstantesLoginUsers::PASS_UP_YES;
+                                
+                            }else{
+                                $parameters['mensaje'] = ConstantesLoginUsers::PASS_UP_NO;
+                            }
+                            
+                        }else{
+                            $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_NO;
+                        }  
+                    }
+                    $page = ConstantesLoginUsers::SETTINGS_PAGE;
+                    break;
+                    
+                    
+                  
+              
             }
         }
         TwigViewer::getInstance()->viewPage($page,$parameters);

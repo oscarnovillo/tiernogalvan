@@ -52,6 +52,9 @@ class ConstantesLoginUsers {
     const EMAIL_SENT = "Hemos enviado un nuevo password a tu email";
     
     const CHANGE_PASS = "cambiarPass";
+    const NEW_PASS = "new_pass";
+    const PASS_UP_YES = "Contraseña cambiada correctamente";
+    const PASS_UP_NO = "No se ha podido cambiar la contraseña";
     
     
     

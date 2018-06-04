@@ -318,8 +318,9 @@ class UsersDAO {
             $db = $dbConnection->getConnection();
 
             $stmt = $db->prepare("UPDATE users "
-                    . "SET pass=:pass "
+                    . "SET pass=:nuevo_pass "
                     . "WHERE nick=:nick ");
+            $stmt->bindParam(":nuevo_pass", $user->pass);
             $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);

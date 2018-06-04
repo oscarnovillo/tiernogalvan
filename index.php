@@ -100,8 +100,15 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             $userSessionValid ? $controller->logout() : $errController->permissions();
             break;
         default:
-            $userSessionValid ? TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE) : TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
-            
+            //TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            if($userSessionValid){
+                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE);
+                
+            }else{
+                $parameters['mensaje'] = $_SESSION[Constantes::SESS_USER];
+                              
+                TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            }    
     }
 }
 else
