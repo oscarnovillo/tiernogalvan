@@ -22,13 +22,15 @@ use utils\TwigViewer;
 class BolsaTrabajoController
 {
 
+    public $idUser;
+
     /**
      * Función principal encargada de repartir las operaciones que se realizan en la bolsa de trabajo
      */
     //TODO - en construcción
     public function bolsaTrabajoMain()
     {
-
+        $idUser = 3;//TODO - temporal - mirar que permisos lleva
         $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         $tarea = filter_input(INPUT_GET, ConstantesBolsaTrabajo::TAREA);
         if (isset($action)) {
@@ -53,7 +55,7 @@ class BolsaTrabajoController
                     }
 
                     break;
-                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO://TODO - Apuntarse en una oferta de Trabajo
+                case ConstantesBolsaTrabajo::VER_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
                         $respnseJson = filter_input(INPUT_GET, ConstantesBolsaTrabajo::RESPONSE_JSON);
@@ -66,7 +68,7 @@ class BolsaTrabajoController
                 case ConstantesBolsaTrabajo::BORRAR_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_POST, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
-                        $this->borrarOferta($idOferta, 10);//TODO - Temporal UserID
+                        $this->borrarOferta($idOferta, $idUser);
                     } else {
                         echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
                     }
@@ -86,13 +88,13 @@ class BolsaTrabajoController
                 //Operaciones REST
                 case ConstantesBolsaTrabajo::REQUEST_OPERATION_TRABAJO;
                     $operacion = filter_input(INPUT_GET, ConstantesBolsaTrabajo::OPERACION);
-
+                    $servicios = new BolsaTrabajoServicios();
                     switch ($operacion) {
                         case ConstantesBolsaTrabajo::OFERTA_FP_CODES;
                             $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
 
                             if (v::numeric()->validate($idOferta)) {
-                                $servicios = new BolsaTrabajoServicios();
+
                                 $titulos = $servicios->getOfertaFpTitulo($idOferta);
                                 echo json_encode($titulos);
                             }
@@ -105,25 +107,30 @@ class BolsaTrabajoController
                             $fpId = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_FP);
                             $limit = filter_input(INPUT_GET, ConstantesBolsaTrabajo::LIMIT);
 
-                            $servicios = new BolsaTrabajoServicios();
+
                             $ofertasFilter = $servicios->getOfertasByFpIdAndTime($limit, $page, $fpId, $orden);
 
                             echo json_encode($ofertasFilter);
 
                             break;
                         case ConstantesBolsaTrabajo::PAGINACION_SIZE;
-                            $servicios = new BolsaTrabajoServicios();
+
                             echo json_encode($servicios->getSizeOfertas());
 
                             break;
                         case ConstantesBolsaTrabajo::UPLOAD_FILE:
 
-                            $servicios = new BolsaTrabajoServicios();
+
                             $servicios->subirArchivo();
 
                             break;
-                    }
 
+                        case ConstantesBolsaTrabajo::APUNTAR_OFERTA:
+                            $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
+                            $servicios->apuntarEnOferta($idOferta,$idUser);
+
+                            break;
+                    }
 
                     break;
                 case ConstantesBolsaTrabajo::MI_PERFIL_TRABAJO:
@@ -140,7 +147,7 @@ class BolsaTrabajoController
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO);
                         $datosConfig = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO_CONFIG);
-                        $userID = 1;//TODO - Temporal - recuperar Id del alumno de session
+                        $userID = $idUser;
                         if ($datos != null) {
                             $datos = json_decode($datos);
                             $datos->ID_PERFIL = $userID;
@@ -193,11 +200,11 @@ class BolsaTrabajoController
     {
         $servicios = new BolsaTrabajoServicios();
         if ($servicios->tratarParametrosOferta($datos)) {
-            $datos->id_user_oferta = "10";// TODO - Temporal hasta tener enlace con usuarios
+            $datos->id_user_oferta = $this->idUser;
             $newOfertaDB = $servicios->insertNuevaOferta($datos);
             if (is_object($newOfertaDB)) {
                 $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
-                $message->setLINK(MensajesBT::INSERCION_ACEPTADA_LINK . $newOfertaDB->id_oferta);
+                $message->setLINK(MensajesBT::LINK_OFERTA_TRABAJO . $newOfertaDB->id_oferta);
                 echo json_encode($message);
             }
 
@@ -326,7 +333,7 @@ class BolsaTrabajoController
             $datos = $servicios->actualizarPerfil($datos);
             if (is_object($datos)) {
                 $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
-                $message->setLINK(MensajesBT::INSERCION_ACEPTADA_LINK . $datos->ID_PERFIL);
+                $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
                 echo json_encode($message);
             } else {
                 echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));

@@ -1,4 +1,4 @@
-{
+ {
   "name": "vendor/php-tierno-galvan",
   "description": "Description of project PhpTiernoGalvan.",
   "authors": [
@@ -23,4 +23,4 @@
     "josantonius/file": "1.1.7"
 
   }
-}
+ }

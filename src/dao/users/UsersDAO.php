@@ -83,9 +83,8 @@ class UsersDAO {
         return false;
     }
 
-    public function getUserPermissionsByIdDao($id)
-    {
-
+    public function getUserPermissionsByIdDao($id){
+            
         try {
 
             $dbConnection = new DBConnection();
@@ -262,4 +261,77 @@ class UsersDAO {
             }
             return $insertado;   
     }
+ 
+    public function activarCuentaDAO($user){
+         
+        try{
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("INSERT INTO users (activado) "
+                               . "VALUES (:activado) "
+                               . "WHERE nick = :nick");
+            $stmt->bindParam(":activado", $user->activado);
+            $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }        
+        return $incidencia;
+    }
+    
+    public function getCodActDAO($user){
+         
+        try{
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("SELECT codigo_activacion "
+                               . "FROM users "
+                               . "WHERE nick=:nick");
+            $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        return $incidencia;
+    }
+    
+    public function updatePassDAO($user){
+         
+        try{
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("UPDATE users "
+                    . "SET pass=:nuevo_pass "
+                    . "WHERE nick=:nick ");
+            $stmt->bindParam(":nuevo_pass", $user->pass);
+            $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        return $incidencia;
+    }
+    
+    
 }

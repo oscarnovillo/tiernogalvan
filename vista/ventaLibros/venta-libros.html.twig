@@ -9,6 +9,12 @@
             {% if error_reserva != null %}
                 <h2 class="error_reserva">{{ error_reserva }}</h2>
             {% endif %}
+            {% if mensaje_editar != null %}
+                <h2 class="error_reserva">{{ mensaje_editar }}</h2>
+            {% endif %}
+            {% if mensaje_publicacion != null %}
+                <h2 class="error_reserva">{{ mensaje_publicacion }}</h2>
+            {% endif %}
             <h1><span onclick="verTodos()" class="seleccionado" id="texto_todos">Todos los libros</span></h1>
             <section class="cont_tabla" id="todos">
                 {% if allVentas != null %}
@@ -72,14 +78,14 @@
                             </tr>
                         {% endfor %}
                     </table>
-                    <div id="form_public">
+                    <div class="form_public">
                         <div id="cont_form_edit" class="row">
                             <span class="error_form" id="texto"></span>
                             <br>
                             <form action="index.php" method="post" id="form_editar" onsubmit="return validar(this)">
                                 <input type="hidden" name="c" value="venta_libros">
                                 <input type="hidden" name="a" value="edit_libro">
-                                <input type="hidden" id="id_venta_edit" name="id_venta_edit">
+                                <input type="hidden" id="id_venta_edit" name="id_venta">
                                        
                                 <div class="col-12 col-sm-6 col-lg-4">
                                     <span>Titulo</span>
@@ -137,17 +143,11 @@
                 {% endif %}
             </section>
             
-            
-            {% if mensaje_publicacion != null %}
-                <h2>{{ mensaje_publicacion }}</h2>
-            {% endif %}
-            
-            
             <section class="cont_tabla">
                 <h1><span onclick="verPublicar()" id="texto_publicar">Publica tu libro</span></h1>
-                <div id="form_public" class="row">
+                <div class="form_public row">
                     <div id="cont_form">
-                        <span class="error_form"></span>
+                        <span class="error_form" id="error_form"></span>
                         <br>
                         <form action="index.php" method="post" id="form_venta" onsubmit="return validar(this)">
                             <input type="hidden" name="c" value="venta_libros">
@@ -200,7 +200,6 @@
     </div>
     
 {% endblock %}
-
 
 {% block styles %}
     <link rel="stylesheet" href="/css/ventas/ventas.css">

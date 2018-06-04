@@ -17,6 +17,7 @@
     background-color: #CAEBFF;
     width:100%;
     margin:1em 0em;
+    text-align: center;
 }
 
 .tareas_table th{
@@ -30,6 +31,22 @@
     color: black;
     padding:0.5em;
 }
+
+.tareas_table thead {
+      display: block; 
+}
+
+.tareas_table th, td {
+    width:1%;
+}
+
+.tareas_table tbody {
+    height: 300px;
+    display: block;
+    width: 100%;
+    overflow: auto;
+}
+
 
 .tareas_table input {
     /*margin: 1em 0em;*/
@@ -52,9 +69,7 @@
     text-align: center;
 }
 
-.tareas_table{
-    text-align: center;
-}
+
 
 .tareas_table button{
     padding:0em 0.25em;
@@ -64,9 +79,47 @@
     background-color: lightgray;
 }
 
-.tarea_hoy{
+.tarea_urgente{
     background-color: lightcoral;
     font-weight: bold;
+}
+
+.fas:hover {
+    color:yellow;
+}
+
+@media (max-width: 650px) {
+    .tareas_table tbody{
+        height:auto;
+        
+    }
+    
+    .tareas_table thead th{
+        display:block;
+        width:100%;
+    }
+    
+    .tareas_table tr, .tareas_table td{
+        display:block;
+        width:100%;
+    }
+    
+
+}
+
+
+.tareas_table tr:hover{
+    background-color: lightcoral !important;
+}
+
+#cargando{
+    width:100%; 
+    height:100%; 
+    position:fixed;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.5);
+    display:none;
 }
 
 

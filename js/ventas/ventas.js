@@ -53,7 +53,7 @@ function verPublicar(){
 function validar(formulario){
     var valido = true;
     
-    if(formulario.titulo.value == "" || !/[a-zA-Z]/.test(formulario.titulo.value)){
+    if(formulario.titulo.value == "" || !/[a-zA-Z0-9]/.test(formulario.titulo.value)){
         valido = false;
         $("#error_form").html("Rellena todos los campos correctamente.");
         $("#error_form").fadeIn(100);
@@ -69,6 +69,7 @@ function reservar(id, id_vendedor){
 }
 
 function editar(id, titulo, isbn, precio, asignatura, curso, estado){
+    $("#cont_form_edit").fadeIn(100);
     $("#id_venta_edit").val(id);
     $("#titulo_edit").val(titulo);
     $("#isbn_edit").val(isbn);

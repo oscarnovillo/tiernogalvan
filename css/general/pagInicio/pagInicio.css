@@ -1,0 +1,10 @@
+.imgSetings{
+    width: 50px !important;
+    height: 35px !important;
+}
+
+.border{
+    border: 1px solid !important;
+    margin-bottom: 15px;
+    color: grey;
+}

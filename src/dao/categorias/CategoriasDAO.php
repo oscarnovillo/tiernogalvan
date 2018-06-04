@@ -9,15 +9,16 @@ use \utils\categorias;
 class CategoriasDAO{
 
       public function getCategoriaDAO(){
+        $dbConnection = new DBConnection();
         try{
             $categorias = (object)[];
-            $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
-            $sql = documentos\ConstantesCategorias::GET_CATEGORIES;
+            $sql = categorias\ConstantesCategorias::GET_CATEGORIES;
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $categorias = $stmt->fetchAll(PDO::FETCH_OBJ);  
-        } catch (\Exception $exception) {   
+        } catch (\Exception $exception) { 
+            return -1;
         } finally {  
             $dbConnection->disconnect();
         }
@@ -25,36 +26,55 @@ class CategoriasDAO{
     }
     
     public function insertCategoriaDAO($categoria) {
-        $id = "";
-        $sql = documentos\ConstantesCategorias::INSERT_CATEGORY;
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($id, $categoria));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $id = "";
+            $sql = categorias\ConstantesCategorias::INSERT_CATEGORY;
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($id, $categoria));
+            $filas = $stmt->rowCount();
+            $last_id = $db->lastInsertId();
+            return $last_id;
+        }catch(\Exception $exception){
+            return -1;
+        }finally{
+            $dbConnection->disconnect();
+        }
+        
     }
    
     public function updateCategoriaDAO($id,$categoria){
-        $sql = documentos\ConstantesCategorias::UPDATE_CATEGORY;
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($categoria,$id));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $sql = categorias\ConstantesCategorias::UPDATE_CATEGORY;
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($categoria,$id));
+            $filas = $stmt->rowCount();
+            $dbConnection->disconnect();
+            return $filas;
+        }catch(\Exception $exception){
+            return -1;
+        }finally{
+            $dbConnection->disconnect();
+        }
     } 
     
     public function deleteCategoriaDAO($id) {
-        $sql = documentos\ConstantesCategorias::DELETE_CATEGORY;
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($id));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $sql = categorias\ConstantesCategorias::DELETE_CATEGORY;            
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($id));
+            $filas = $stmt->rowCount();
+            $dbConnection->disconnect();
+            return $filas;
+        }catch(\Exception $exception){
+            return -1;
+        }finally{
+            $dbConnection->disconnect();
+        }
     }
 }

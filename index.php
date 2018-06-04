@@ -8,13 +8,16 @@ use controllers\TestController;
 use controllers\VentaLibrosController;
 use controllers\LoginUsers;
 use controllers\CrudUsersController;
+use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
+use utils\loginUsers\ConstantesLoginUsers;
 use utils\TwigViewer;
 use servicios\session\SessionServicios;
 use controllers\ErrorController;
 use controllers\LogoutController;
+
 
 /*
  * Mostrar errores sólo si es en localhost, a modo de debugging.
@@ -64,6 +67,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             /* Requerir login */
             !$userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
             break;
+        case Constantes::DOCUMENTOS_CONTROLLER:
+            $controller = new AdministracionDocumentosController();
+            /* Requerir login */
+           // !$userSessionValid ? $controller->documentos() : $errController->permissions();
+            $controller->documentos();
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();
             /* Requerir login */
@@ -92,7 +100,15 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             $userSessionValid ? $controller->logout() : $errController->permissions();
             break;
         default:
-            TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            //TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            if($userSessionValid){
+                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE);
+                
+            }else{
+                $parameters['mensaje'] = $_SESSION[Constantes::SESS_USER];
+                              
+                TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            }    
     }
 }
 else

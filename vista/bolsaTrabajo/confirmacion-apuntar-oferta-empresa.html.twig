@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> </head>
+
+<body>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-4">Nuev@ candidat@ apuntad@&nbsp;</h1>
+          <h4 class="">Un@ de nuestr@s alumn@s se acaba de apuntar a tu oferta de Trabajo.</h4>
+          <p class="">Te adunjuntamos una breve descripción de su perfil en la bolsa de trabajo, así como te rogamos un pronto contacto con nuestr@ alumn@ si encaja con lo que buscas.</p>
+          <div class="card">
+            <div class="card-header" contenteditable="true"> Oferta Publicada: {{ TITULO }}&nbsp;
+              <a class="btn border  btn-sm btn-link align-self-end d-inline-flex" href="{{ LINK_OFERTA }}" target="_blank">Ver Oferta en la Intranet</a>
+
+            </div>
+            <div class="card-body">
+              <h4> Nombre: {{ NOMBRE }} {{ APELLIDOS }}</h4>
+              <h6 class="text-muted">Descripción:</h6>
+              <p>{{ COMENTARIO }}</p>
+              <p> </p>
+              <h6 class="text-muted">Experiencia:</h6>
+              <p>{{ EXPERIENCIA }}</p>
+              <h6 class="text-muted">Email/Teléfono;</h6>
+              <p>{{ EMAIL }} / {{ TELEFONO }}</p>
+            </div>
+          </div>
+          <a class="btn btn-primary d-flex justify-content-center align-items-center border py-2 my-2" href="{{ LINK_PERFIL }}">Ver Perfil en la Intranet</a>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="blockquote">
+            <p class="mb-0">Un Cordial Saludo y gracias por participar en nuestro centro.</p>
+          </div>
+          <div class="blockquote-footer d-flex flex-row-reverse">IES Tierno Galván - Bolsa de Trabajo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -8,6 +8,7 @@ use utils\ConstantesPaginas;
 use utils\TwigViewer;
 use utils\PasswordStorage;
 use servicios\users\UsersServicios;
+use utils\Mailer;
 
 /**
  * Description of LoginUsers
@@ -23,7 +24,7 @@ class LoginUsers {
         $usersSevicios = new UsersServicios();
         $parameters = array();
         
-        $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
+        $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
         
         if (isset($action)) {
             
@@ -46,12 +47,18 @@ class LoginUsers {
                         $pass = $user->pass;
                         $hash = $PasswordStorage->create_hash($pass);
 
-                        if($PasswordStorage->verify_password($pass, $hash)){
-                            $parameters['mensaje'] = $userChecked->nombre;
-                            $_SESSION[Constantes::SESS_USER] = $userChecked;
-                            $page = ConstantesLoginUsers::LOGIN_PAGE;
+                        if($PasswordStorage->verify_password($pass, $userChecked->pass)){
+                             
+                            if($userChecked->activado === "1"){
+                                $parameters['mensaje'] = $userChecked->nombre." ".$userChecked->apellidos;
+                                $_SESSION[Constantes::SESS_USER] = $userChecked;
+                                $page = ConstantesLoginUsers::LOGIN_PAGE;
+                                
+                            }else{
+                               $parameters['mensaje'] = ConstantesLoginUsers::ACTIVO_NO; 
+                            }
                         }else{
-                            $parameters['mensaje'] = ConstantesLoginUsers::PASS_NO;
+                            $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_NO;
                         }  
                     }else{
                         $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_ERROR;
@@ -60,14 +67,15 @@ class LoginUsers {
                 
                 case ConstantesLoginUsers::REGISTER_USER:
                     
-                    if($user->nick != null){//la primera vez que entra que mande a la pag de registro
-                        //la segunda vez, rellenado el form debera pasar
+                    $mailer = new Mailer();
+                    
+                    if($user->nick != null){
                     
                         $userChecked = $usersSevicios->getUserByNick($user);
 
                         if(!$userChecked){
 
-                            $user->pass = $PasswordStorage->create_hash($pass);
+                            $user->pass = $PasswordStorage->create_hash($user->pass);
                             $user->activado = 0;
 
                             switch ($palabra_clave){
@@ -90,9 +98,17 @@ class LoginUsers {
                             $userChecked = $usersSevicios->addUser($user);
 
                             if($userChecked){
+                                
+                                $cod_act = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
+                                
+                                $mailer->sendMail($user->email, $user->nombre . " " . $user->apellidos, 
+                                        "Código de activación I.E.S. Enrique Tierno Galván", 
+                                        "Codigo de activación: esto es una prueba");
 
-                                //generar codigo
-                                //mandar mail
+
+                                //http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act."?nick=".$user->nick
+                                $parameters['mensaje'] = ConstantesLoginUsers::SENT_EMAIL;
+                                
                             }else{
                                 $parameters['mensaje'] = ConstantesLoginUsers::REGISTRO_ERROR;
                             }
@@ -107,16 +123,94 @@ class LoginUsers {
                         $page = ConstantesLoginUsers::REGISTRO_PAGE;
                     }
                     
+                    break;
+                    
                 case ConstantesLoginUsers::ACTIVATE_USER:
                     
-                    //recoge el codigo del cliente
-                    //comprueba con el de la bd
-                    //si si si 
-                    //si no no
+                    $user->cod_act = $_REQUEST[ConstantesLoginUsers::COD_ACT];
+                    
+                    $cod_ok = $usersSevicios->getCodAct($user);
+                    
+                    if($cod_ok){
+                        
+                        $user->activado = 1;
+                        
+                        $activar = $usersSevicios->activarCuenta($user);  
+                        
+                        if($activar){
+                            $parameters['mensaje'] = ConstantesLoginUsers::CUENTA_ACTIVADA;
+                        }else{
+                            $parameters['mensaje'] = ConstantesLoginUsers::ACTIVAR_FAIL;
+                        }
+                        
+                    }else{
+                        $parameters['mensaje'] = ConstantesLoginUsers::INVALID_COD;
+                        
+                    }
                     
                     break;
+                
+                case ConstantesLoginUsers::RECUPERATE_PASS:
+                    
+                    if($user->nick != null){
+                        $userChecked = $usersSevicios->getUserByNick($user);
+                     
+                        if($userChecked){
+                            $pass_created = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_GENERAR_PASS);
+                            $user->pass = $PasswordStorage->create_hash($pass_created);
+                            $updateOk = $usersSevicios->updatePass($user);
+                            
+                            if($updateOk){
+                                //envia pass al cliente
+                                $parameters['mensaje'] = ConstantesLoginUsers::EMAIL_SENT;
+                                
+                            }else{
+                                $parameters['mensaje'] = "fallo update";
+                            }
+                            
+                            
+                        }else{
+                            $parameters['mensaje'] = "usuario no existe";
+                        }
+                    }
+                   
+                    $page = ConstantesLoginUsers::RECUPERAR_PAGE;
+                    
+                    break;
+                    
+                case ConstantesLoginUsers::CHANGE_PASS:
+                    
+                    $user->nuevo_pass = filter_input(INPUT_POST, ConstantesLoginUsers::NEW_PASS);
+                    
+                    $userChecked = $usersSevicios->getUserByNick($user);
+                     
+                    if($userChecked){    
+                        
+                        if($PasswordStorage->verify_password($user->pass, $userChecked->pass)){
+                            
+                            $user->pass = $PasswordStorage->create_hash($user->nuevo_pass);
+                            $passUpdated = $usersSevicios->updatePass($user); 
+                            
+                            if($passUpdated){
+                                $parameters['mensaje'] = ConstantesLoginUsers::PASS_UP_YES;
+                                
+                            }else{
+                                $parameters['mensaje'] = ConstantesLoginUsers::PASS_UP_NO;
+                            }
+                            
+                        }else{
+                            $parameters['mensaje'] = ConstantesLoginUsers::LOGIN_NO;
+                        }  
+                    }
+                    $page = ConstantesLoginUsers::SETTINGS_PAGE;
+                    break;
+                    
+                    
+                  
+              
             }
         }
         TwigViewer::getInstance()->viewPage($page,$parameters);
     }
+    
 }

@@ -19,5 +19,19 @@ class ConfigBolsaTrabajo
     //Directorio fotos perfiles
     const DIRECTORIO_PERFILES = "img/bolsaTrabajo/perfiles";
 
+    //Limite impuesto por Google
+    const LIMITE_CORREOS_POR_DIA = 500;
+    //limite para enviar correos por hora
+    const LIMITE_CORREOS_POR_HORA = 20;
+
+
+    //Buzón de Correo
+    const MAIL_FROM = "dawcrud@gmail.com";
+    const SMTP_SERVER = "smtp.gmail.com";
+    const SMTP_PORT = 587;
+    const MAIL_PASS = "nohay2sin3";
+    const EMAIL_ORIGEN = "bolsaDeTrabajo-Noreply@gmail.com";
+    const RESPONSABLE_ORIGEN = "IES Tierno Galván - Bolsa de Trabajo";
+
 
 }

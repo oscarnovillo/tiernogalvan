@@ -17,6 +17,7 @@ class ConstantesLoginUsers {
     const PARAM_APELLIDOS = "apellidos";
     const PARAM_TELEFONO = "telefono";
     const PARAM_EMAIL = "email";
+    const COD_ACT = "cod_act";
     const PARAM_PALABRA_CLAVE = "palabra_clave";
     
     const REGISTER_USER = "registrar";
@@ -25,6 +26,8 @@ class ConstantesLoginUsers {
     const LOGIN_PAGE = "login/inicio.html";
     const REGISTRO_PAGE = "login/registro.html";
     const START_PAGE = "index.html";
+    const RECUPERAR_PAGE = "login/recuperarPass.html";
+    const SETTINGS_PAGE = "login/settingsUsers.html";
     
     const LOGIN_YES = "Bienvenido";
     const LOGIN_NO = "Nick o Contraseña inválidos";
@@ -33,8 +36,26 @@ class ConstantesLoginUsers {
     const INVALID_USER = "Usuario inválido";
     const REGISTRO_ERROR = "Ha ocurrido un error al registrar";
     const PERMISO_FAIL = "La palabra clave es incorrecta";
+    const SENT_EMAIL = "Se acaba de mandar don email a tu correo con el código de activación";
     
     const ACTIVATE_USER = "activar";
+    
+    const TAMAÑO_RANDOM = 20;
+    const TAMAÑO_GENERAR_PASS = 4;
+    
+    const ACTIVO_NO = "Esta cuenta no esta activada";
+    const INVALID_COD = "Código de activación inválido";
+    const CUENTA_ACTIVADA = "Se ha activado la cuenta con éxito";
+    const ACTIVAR_FAIL = "No se ha podido activar la cuenta";
+    
+    const RECUPERATE_PASS = "recuperarPass";
+    const EMAIL_SENT = "Hemos enviado un nuevo password a tu email";
+    
+    const CHANGE_PASS = "cambiarPass";
+    const NEW_PASS = "new_pass";
+    const PASS_UP_YES = "Contraseña cambiada correctamente";
+    const PASS_UP_NO = "No se ha podido cambiar la contraseña";
+    
     
     
 }

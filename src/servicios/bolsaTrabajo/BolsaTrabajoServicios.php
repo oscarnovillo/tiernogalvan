@@ -12,11 +12,17 @@ namespace servicios\bolsaTrabajo;
 use Carbon\Carbon;
 use config\ConfigBolsaTrabajo;
 use dao\bolsaTrabajo\BolsaTrabajoDAO;
+use model\GenericMessage;
 use Respect\Validation\Validator as v;
+use Teapot\StatusCode\Http;
+use utils\bolsaTrabajo\BuzonCorreo;
 use utils\bolsaTrabajo\ConstantesBD;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
+use utils\bolsaTrabajo\GenEmail;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\bolsaTrabajo\UploadHandler;
+use utils\ConstantesPaginas;
+
 
 class BolsaTrabajoServicios
 {
@@ -71,13 +77,13 @@ class BolsaTrabajoServicios
         $validador = v::attribute(ConstantesBolsaTrabajo::TITULO_OFERTA, v::stringType()->length(10, 200))
             ->attribute(ConstantesBolsaTrabajo::DESCRIPCION_OFERTA, v::stringType()->length(10, 1000))
             ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
-            ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::stringType()->length(4, 80)))
+            ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::email()->length(4, 80)))
             ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(3, 60)))
             ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 80)))
             ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(3, 85)))
             ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
-            ->attribute(ConstantesBolsaTrabajo::SALARIO_OFERTA, v::optional(v::floatVal()))//no funciona con Coma
+            ->attribute(ConstantesBolsaTrabajo::SALARIO_OFERTA, v::optional(v::stringType()->length(1, 100)))
             ->attribute(ConstantesBolsaTrabajo::CADUCIDAD_OFERTA, v::date('Y-m-d')->between(Carbon::now(), Carbon::now()->addMonth(3)));
         if ($validador->validate($ofertaNueva)) {
             $fp_array_oferta = $ofertaNueva->fp_oferta;
@@ -313,6 +319,222 @@ class BolsaTrabajoServicios
         return $responseText;
     }
 
+    public function comprobarApuntarOferta($idOferta, $idUser)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->comprobarApuntarDB($idOferta, $idUser);
+    }
+
+    public function apuntarseOfertaDB($idOferta, $idUser)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->insertApuntarDB($idOferta, $idUser);
+    }
+
+    public function apuntarEnOferta($idOferta, $idUser)
+    {
+        $message = null;
+        $perfilUser = $this->getMiPerfil($idUser);
+
+        if (is_array($perfilUser) && !empty($perfilUser)) {
+
+            $registroPrevio = $this->comprobarApuntarOferta($idOferta, $idUser);
+
+            if (!$registroPrevio) {
+                $ofertaDatos = $this->verOferta($idOferta);
+                if (is_object($ofertaDatos) && $ofertaDatos->EMAIL != null) {
+                    $servidor = new BuzonCorreo();
+                    $aplicante = false;
+                    if ($perfilUser[0]->EMAIL != null) {
+                        //Enviamos correo de confirmación
+                        $ofertaDatos->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaDatos->ID_OFERTA);
+                        $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_ALUMN, (array)$ofertaDatos);
+                        $aplicante = $servidor->enviarCorreo($perfilUser[0]->EMAIL, $perfilUser[0]->NOMBRE, MensajesBT::ASUNTO_CONFIRM_OFERTA, $template);
+                    }
+                    //enviamos correo a ofertante
+                    $perfilUser[0]->TITULO = $ofertaDatos->TITULO;
+                    $perfilUser[0]->LINK_PERFIL = $this->formatearOfertaURLEmail(MensajesBT::LINK_PERFIL_USER, $perfilUser[0]->ID_PERFIL);
+                    $perfilUser[0]->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaDatos->ID_OFERTA);
+                    $perfiObject = $perfilUser[0];
+
+                    $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_EMPRESA, (array)$perfiObject);
+                    $receptor = $servidor->enviarCorreo($ofertaDatos->EMAIL, $ofertaDatos->EMPRESA, MensajesBT::ASUNTO_CONFIRM_OFERTA_EMPRESA, $template);
+
+                    if ($aplicante && $receptor) {
+                        $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::APUNTARSE_TODO_CORRECTO);
+
+                    } elseif ($aplicante && !$receptor) {
+                        //ponte en contacto con el ofertante
+                        $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::APUNTARSE_FALTA_EMPRESA);
+
+
+                    } else {
+                        //ponte en contacto no tenemos datos suficientes
+                        $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::APUNTARSE_FALTAN_COSAS);
+
+                    }
+
+                    $this->apuntarseOfertaDB($idOferta, $idUser);
+
+
+                } else {
+                    http_response_code(Http::BAD_REQUEST);
+                    $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::APUNTARSE_EMPRESA_NO_EMAIL);
+                }
+
+            } else {
+                //ya estas apuntad@
+                http_response_code(Http::BAD_REQUEST);
+                $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::APUNTARSE_DENEGACION_REPLICA);
+            }
+
+
+        } else {
+            //no existe el user
+            http_response_code(Http::BAD_REQUEST);
+            $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::APUNTARSE_DENEGACION_NO_PERFIL);
+        }
+
+        echo json_encode($message);
+
+    }
+
+    private function formatearOfertaURLEmail($ruta, $id)
+    {
+        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+        return $protocol . $_SERVER['HTTP_HOST'] . '/' . $ruta . $id;
+
+    }
+
+    public function recuperarUsersRecibirOferta($idFpCode)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getAllUsersANotificarDB($idFpCode);
+    }
+
+    /**
+     * Metodo encargado de hacer un barrido por todas las ofertas buscando aquellas que no han sido difundidas, para un posterior envío de correos con la oferta
+     *
+     * Será llamado por CRON - cada - 6 horas
+     */
+    public function recuperarOfertasANotificar()
+    {
+        $dao = new BolsaTrabajoDAO();
+        $ofertasDB = $dao->getAllOfertasANotificarDB();
+        $resultado = true;
+        if (is_array($ofertasDB) && !empty($ofertasDB)) {
+            foreach ($ofertasDB as $item) {
+                $idOferta = $item->ID_OFERTA;
+                $usersId = [];
+                $fpCodes = $this->getOfertaFpTitulo($item->ID_OFERTA);
+                if (is_array($fpCodes->KEYS) && !empty($fpCodes->KEYS) && $resultado) {
+                    foreach ($fpCodes->KEYS as $fp_clave) {
+                        $userANotificar = $this->recuperarUsersRecibirOferta($fp_clave[ConstantesBD::ID_FP]);
+                        if (is_array($userANotificar) && !empty($userANotificar)) {
+                            foreach ($userANotificar as $code) {
+                                array_push($usersId, $code->ID_PERFIL);
+                            }
+                        } else {
+                            //No hay perfiles
+                        }
+
+
+                    }//fin foreach
+
+                    //insertar en la base de datos para una oferta
+                    if (!empty($usersId)) {
+                        $resultado = $dao->agregarEnviarOfertas($idOferta, $usersId);
+                    }
+
+                } else {
+                    //Esta oferta no tiene ciclos asociados
+                }
+            }//fin foreach
+
+        } else {
+            //no tenemos ofertas a difundir
+        }
+
+
+    }
+
+    public function numEmailsEnviados()
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->getCounterEmailDB();
+    }
+
+    public function actualizarEmailsEnviados($numero)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->updateCounterEmailDB($numero);
+    }
+
+    /**
+     *
+     * Método destinado para mandar correos en masa con las nuevas ofertas de trabajo publicadas
+     *
+     * Utilizado por CRON - cada hora
+     * @param $limite
+     *
+     *
+     */
+    //TODO - HACER PRUEBAS - Cuando lo llamas del navegador pierde la referencia de las vistas y las busca en la carperta de cron
+    public function enviarCorreoMasivo($limite)
+    {
+        $numEnviados = $this->numEmailsEnviados();
+        $contador = 0;
+        $servidor = new BuzonCorreo();
+        $horaActual = Carbon::now()->hour;
+        if ($horaActual >= 23) {//reset diario
+            $this->actualizarEmailsEnviados(0);
+        }
+        if ($numEnviados < ConfigBolsaTrabajo::LIMITE_CORREOS_POR_DIA) {
+            $dao = new BolsaTrabajoDAO();
+            $ofertasAEnviar = $dao->getEmailNoNotificadosDB($limite);
+            $ofertaDB = null;
+            if (is_array($ofertasAEnviar) && !empty($ofertasAEnviar)) {
+                $size = count($ofertasAEnviar);
+                for ($i = 0; $i < $size; $i++) {
+                    $ofertaTemp = null;
+                    $j = $i - 1;
+
+                    if ($ofertaDB == null || $ofertasAEnviar[$i][ConstantesBD::ID_OFERTA] != $ofertasAEnviar[$j][ConstantesBD::ID_OFERTA]) {
+
+                        $ofertaDB = $dao->verOfertaDB($ofertasAEnviar[$i][ConstantesBD::ID_OFERTA]);
+                    }
+                    $ofertaTemp = $ofertaDB;
+
+
+                    if (is_object($ofertaTemp)) {
+                        $userDB = $dao->getPerfilDB($ofertasAEnviar[$i][ConstantesBD::ID_USER]);
+
+                        $emailUser = $userDB[0]->EMAIL;
+                        $emailNombre = $userDB[0]->NOMBRE;
+                        $ofertaTemp->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaTemp->ID_OFERTA);
+                        $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_NUEVA_OFERTA_INFO, (array)$ofertaTemp);
+
+                        $isSend = $servidor->enviarCorreo($emailUser, $emailNombre, MensajesBT::ASUNTO_NUEVA_OFERTA, $template);
+
+                        if ($isSend) {
+                            $dao->updateEnviarCorreosDB($ofertasAEnviar[$i][ConstantesBD::ID_NOTIFICAR]);
+                            $contador++;
+                            sleep(1);//para  no saturar el servidor de correo
+                        }
+
+
+                    }
+                }//fin for
+
+                $dao->updateCounterEmailDB($numEnviados + $contador);
+            }
+
+
+        } else {
+            //Te has pasado del límite
+        }
+
+    }
 
 
 }//fin clase

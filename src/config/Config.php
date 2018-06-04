@@ -13,16 +13,11 @@ namespace config;
 class Config
 {
 
-    /*
-     * Servidor de correo.
-     */
     const MAIL_SERVER = "smtp.gmail.com";
     const MAIL_USER = "alumno1@iesquevedo.es";
     const MAIL_PASSWORD = "alumnodam2";
     const MAIL_PORT = 587;
-    /*
-     * Base de datos.
-     */
+
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";

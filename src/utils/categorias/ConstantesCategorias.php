@@ -12,4 +12,7 @@ class ConstantesCategorias{
     const INSERT_CATEGORY = "INSERT INTO categorias(idCategoria, Categoria) VALUES (?,?)";
     const UPDATE_CATEGORY = "UPDATE categorias SET Categoria=? WHERE idCategorias = ?" ;
     const DELETE_CATEGORY ="DELETE FROM categorias WHERE idCategoria = ?";
+    const CREAR_CATEGORIA = "newcategory";
+    const NOMBRE_CATEGORIA = "categoria";
+    const ID_CATEGORIA = "idcategoria";
 }

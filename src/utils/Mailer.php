@@ -19,11 +19,11 @@ class Mailer
             $mail->Password = Config::MAIL_PASSWORD;
             $mail->Port = Config::MAIL_PORT;
 
-            $mail->setFrom('contacto@iestiernogalvan.es', 'IES Enrique Tierno Galván');
+            $mail->setFrom('alumno1@iesquevedo.es', 'IES Enrique Tierno Galván');//contacto@iestiernogalvan.es
             $mail->addAddress($reciperEmail, $reciperName);
-            $mail->addReplyTo('contacto@iestiernogalvan.es', 'Information');
-            $mail->addCC('contacto@iestiernogalvan.es');
-            $mail->addBCC('contacto@iestiernogalvan.es');
+            $mail->addReplyTo('alumno1@iesquevedo.es', 'Information');//contacto@iestiernogalvan.es
+            $mail->addCC('alumno1@iesquevedo.es');//contacto@iestiernogalvan.es
+            $mail->addBCC('alumno1@iesquevedo.es');//contacto@iestiernogalvan.es
 
             //Content
             $mail->isHTML(true);
