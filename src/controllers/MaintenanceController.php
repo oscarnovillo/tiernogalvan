@@ -9,7 +9,6 @@ use utils\maintenance\Utils;
 use utils\Mailer;
 use utils\TwigViewer;
 use servicios\session\SessionServicios;
-
 class MaintenanceController
 {
 
