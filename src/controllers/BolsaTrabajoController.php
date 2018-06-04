@@ -30,7 +30,8 @@ class BolsaTrabajoController
     //TODO - en construcción
     public function bolsaTrabajoMain()
     {
-        $idUser = 3;//TODO - temporal - mirar que permisos lleva
+
+        $idUser = $this->setIdUser(3);//TODO - temporal - mirar que permisos lleva
         $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         $tarea = filter_input(INPUT_GET, ConstantesBolsaTrabajo::TAREA);
         if (isset($action)) {
@@ -68,7 +69,7 @@ class BolsaTrabajoController
                 case ConstantesBolsaTrabajo::BORRAR_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_POST, ConstantesBolsaTrabajo::ID_OFERTA);
                     if (v::numeric()->validate($idOferta)) {
-                        $this->borrarOferta($idOferta, $idUser);
+                        $this->borrarOferta($idOferta, $this->getIdUser());
                     } else {
                         echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
                     }
@@ -127,7 +128,7 @@ class BolsaTrabajoController
 
                         case ConstantesBolsaTrabajo::APUNTAR_OFERTA:
                             $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
-                            $servicios->apuntarEnOferta($idOferta,$idUser);
+                            $servicios->apuntarEnOferta($idOferta,$this->getIdUser());
 
                             break;
                     }
@@ -147,7 +148,7 @@ class BolsaTrabajoController
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO);
                         $datosConfig = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO_CONFIG);
-                        $userID = $idUser;
+                        $userID = $this->getIdUser();
                         if ($datos != null) {
                             $datos = json_decode($datos);
                             $datos->ID_PERFIL = $userID;
@@ -200,7 +201,7 @@ class BolsaTrabajoController
     {
         $servicios = new BolsaTrabajoServicios();
         if ($servicios->tratarParametrosOferta($datos)) {
-            $datos->id_user_oferta = $this->idUser;
+            $datos->id_user_oferta = $this->getIdUser();
             $newOfertaDB = $servicios->insertNuevaOferta($datos);
             if (is_object($newOfertaDB)) {
                 $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
@@ -359,5 +360,23 @@ class BolsaTrabajoController
             echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param mixed $idUser
+     */
+    public function setIdUser($idUser): void
+    {
+        $this->idUser = $idUser;
+    }
+
+
 
 }//fin clase

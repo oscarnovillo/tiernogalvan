@@ -9,6 +9,7 @@
 namespace dao\bolsaTrabajo;
 
 
+use Carbon\Carbon;
 use config\ConfigBolsaTrabajo;
 use dao\DBConnection;
 use Josantonius\File\File;
@@ -455,6 +456,38 @@ class BolsaTrabajoDAO
         $query = $factory->delete(ConstantesBD::TABLA_OFERTA)
             ->where(field(ConstantesBD::ID_OFERTA)->eq($idOferta))
             ->andWhere(field(ConstantesBD::ID_USER)->eq($idOwner))
+            ->compile();
+
+        $dbConnection = null;
+        $resultado = false;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+            $resultado = true;
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $resultado;
+
+    }
+
+    public function deleteOldOfertasDB()
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory->delete(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->subMonth(3)->toDateTimeString()))
+            ->andWhere(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->addMonth(3)->toDateTimeString()))
             ->compile();
 
         $dbConnection = null;
