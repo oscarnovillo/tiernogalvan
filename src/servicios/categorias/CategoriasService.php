@@ -19,9 +19,9 @@ class CategoriasService {
         $dao = new CategoriasDAO();
         return $dao->insertCategoriaDAO($categoria);
     }
-    public function updateCategoria($id,$categoria){
+    public function updateCategoria($categoria){
         $dao = new CategoriasDAO();
-        return $dao->updateCategoriaDAO($id, $categoria);
+        return $dao->updateCategoriaDAO($categoria);
     }
     public function deleteCategoria($id){
         $dao = new CategoriasDAO();

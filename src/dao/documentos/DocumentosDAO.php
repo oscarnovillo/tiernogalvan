@@ -64,13 +64,13 @@ class DocumentosDAO{
         
     }
    
-    public function updateDocumentoDAO($id,$documento,$categoria){
+    public function updateDocumentoDAO($id,$documento){
         $dbConnection = new DBConnection();
         try{
             $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT;
             $db = $dbConnection->getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($documento, $categoria,$id));
+            $stmt->execute(array($documento,$id));
             $filas = $stmt->rowCount();
             $dbConnection->disconnect();
             return $filas;

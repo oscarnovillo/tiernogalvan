@@ -10,7 +10,7 @@ namespace utils\categorias;
 class ConstantesCategorias{
     const GET_CATEGORIES = "SELECT * FROM categorias order by Categoria";
     const INSERT_CATEGORY = "INSERT INTO categorias(idCategoria, Categoria) VALUES (?,?)";
-    const UPDATE_CATEGORY = "UPDATE categorias SET Categoria=? WHERE idCategorias = ?" ;
+    const UPDATE_CATEGORY = "UPDATE categorias SET Categoria=? WHERE Categoria = ?" ;
     const DELETE_CATEGORY ="DELETE FROM categorias WHERE idCategoria = ?";
     const CREAR_CATEGORIA = "newcategory";
     const NOMBRE_CATEGORIA = "categoria";

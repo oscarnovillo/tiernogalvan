@@ -44,13 +44,13 @@ class CategoriasDAO{
         
     }
    
-    public function updateCategoriaDAO($id,$categoria){
+    public function updateCategoriaDAO($categoria){
         $dbConnection = new DBConnection();
         try{
             $sql = categorias\ConstantesCategorias::UPDATE_CATEGORY;
             $db = $dbConnection->getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($categoria,$id));
+            $stmt->execute(array($categoria));
             $filas = $stmt->rowCount();
             $dbConnection->disconnect();
             return $filas;
