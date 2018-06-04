@@ -39,14 +39,16 @@ function enviarAlServidor(datos) {
             nueva_oferta: JSON.stringify(datos)
         },
         success: function (result) {
+            $('button').attr('disabled', false);
             $("#build_modal_response").html(buildCodeModalMessage(JSON.parse(result)));
             $('#request_modal_response').modal('show');
-            $('button').attr('disabled', false);
+
             console.log(result);
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $('button').attr('disabled', false);
             $("#build_modal_response").html(buildCodeModalMessageError(JSON.parse(XMLHttpRequest.responseText)));
             $('#request_modal_response').modal('show');
-            $('button').attr('disabled', false);
+
             console.log(XMLHttpRequest + textStatus + errorThrown);
         }
     });

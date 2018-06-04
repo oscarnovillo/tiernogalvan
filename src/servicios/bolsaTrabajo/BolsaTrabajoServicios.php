@@ -479,7 +479,7 @@ class BolsaTrabajoServicios
      *
      *
      */
-    //TODO - HACER PRUEBAS - Cuando lo llamas del navegador pierde la referencia de las vistas y las busca en la carperta de cron
+
     public function enviarCorreoMasivo($limite)
     {
         $numEnviados = $this->numEmailsEnviados();
@@ -534,6 +534,19 @@ class BolsaTrabajoServicios
             //Te has pasado del límite
         }
 
+    }
+
+    /**
+     * Método que borra todas las ofertas de trabajo antiguas - más de 3 meses
+     *
+     * llamado por CRON - cada día
+     *
+     */
+
+    //TODO - pendiente de pulir el borrado
+    public function borrarViejasOfertas(){
+        $dao = new BolsaTrabajoDAO();
+        $dao->deleteOldOfertasDB();
     }
 
 

@@ -74,6 +74,6 @@ class ConstantesBolsaTrabajo
      */
     const TEMPLATE_CONFIRMACION_OFERTA_ALUMN = "bolsaTrabajo/confirmacion-apuntar-oferta.html";
     const TEMPLATE_CONFIRMACION_OFERTA_EMPRESA = "bolsaTrabajo/confirmacion-apuntar-oferta-empresa.html";
-    const TEMPLATE_NUEVA_OFERTA_INFO = "bolsaTrabajo/nueva-oferta-template.html";
+    const TEMPLATE_NUEVA_OFERTA_INFO = "nueva-oferta-template.html";
 
 }
