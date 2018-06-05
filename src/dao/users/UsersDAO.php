@@ -84,15 +84,16 @@ class UsersDAO {
     }
 
     public function getUserPermissionsByIdDao($id){
-            
         try {
 
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
-                . "from users u join permisos p "
-                . "on u.id = p.id_usuario ";
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol, r.descripcion as rank_name "
+                . "from users u "
+                . "join permisos p on u.id = p.id_usuario "
+                . "join roles r on r.id_rol=p.id_rol"
+                . " where u.id=" . $id;
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $permissions = $stmt->fetchAll(PDO::FETCH_OBJ);

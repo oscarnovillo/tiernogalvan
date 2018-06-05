@@ -81,7 +81,7 @@ class MaintenanceDAO
         $db = $dbConnection->getConnection();
         $stmt = $db->prepare("INSERT INTO incidencias (nombre,solicitado_por,departamento,fecha) VALUES (:nombre,:solicitado_por,:departamento,now())");
         $stmt->bindParam(":nombre", $incidencia);
-        $stmt->bindParam(":solicitado_por", $usuario);
+        $stmt->bindParam(":solicitado_por", $usuario->id);
         $stmt->bindParam(":departamento", $departamento->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
