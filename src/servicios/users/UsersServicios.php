@@ -31,6 +31,12 @@ class UsersServicios {
         $dao = new UsersDAO();
         return $dao->getAllPermisosDAO();
     }
+    
+    public function getAllRoles(){
+        $dao = new UsersDAO();
+        return $dao->getAllRolesDAO();
+    }
+    
     public function getUserByNick($user){
         $dao = new UsersDAO();
         return $dao->getUserByNickDAO($user);
@@ -49,6 +55,11 @@ class UsersServicios {
     public function updatePass($user){
         $dao = new UsersDAO();
         return $dao->updatePassDAO($user);
+    }
+    
+    public function getPermisoUser($user){
+        $dao = new UsersDAO();
+        return $dao->getPermisoUserDao($user);
     }
     
     function random_code($limit){

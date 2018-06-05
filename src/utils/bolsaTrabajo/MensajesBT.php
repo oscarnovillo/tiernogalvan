@@ -47,4 +47,8 @@ class MensajesBT
     const APUNTARSE_DENEGACION_REPLICA = "Ya te has apuntado a esta oferta de trabajo, no puedes repetir esta acción";
     const APUNTARSE_DENEGACION_NO_PERFIL = "No puedes utilizar este servicio, primero tienes que rellenar los datos personales de tu perfil, es lo que el/la ofertante tendrá en cuenta para su proceso de selección";
 
+    const NUM_REGISTROS_BORRADOS = "Número de registros borrados: %d ";
+    const USER_AGREGADO_COLA = "User %s enviad@ a EnviarCorreos ";
+    const NUM_CORREOS_ENVIADOS = "Número de ofertas de trabajo enviadas: %d ";
+
 }
