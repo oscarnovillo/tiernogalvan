@@ -488,6 +488,7 @@ class BolsaTrabajoDAO
         $query = $factory->delete(ConstantesBD::TABLA_OFERTA)
             ->where(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->subMonth(3)->toDateTimeString()))
             ->andWhere(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->addMonth(3)->toDateTimeString()))
+            ->orWhere(field(ConstantesBD::CADUCIDAD)->eq(Carbon::now()->toDateString()))
             ->compile();
 
         $dbConnection = null;
@@ -501,7 +502,7 @@ class BolsaTrabajoDAO
             $stmt = $db->prepare($query->sql());
             $stmt->execute($query->params());
 
-            $resultado = true;
+            $resultado = $stmt->rowCount();
 
         } catch (\Exception $exception) {
             echo $exception->getMessage();

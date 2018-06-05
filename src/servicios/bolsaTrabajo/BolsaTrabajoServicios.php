@@ -79,7 +79,7 @@ class BolsaTrabajoServicios
             ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
             ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::email()->length(4, 80)))
             ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(3, 60)))
-            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 80)))
+            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 150)))
             ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(3, 85)))
             ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
@@ -433,6 +433,7 @@ class BolsaTrabajoServicios
                         if (is_array($userANotificar) && !empty($userANotificar)) {
                             foreach ($userANotificar as $code) {
                                 array_push($usersId, $code->ID_PERFIL);
+                                echo sprintf(MensajesBT::USER_AGREGADO_COLA, $code->ID_PERFIL) . PHP_EOL;
                             }
                         } else {
                             //No hay perfiles
@@ -527,12 +528,14 @@ class BolsaTrabajoServicios
                 }//fin for
 
                 $dao->updateCounterEmailDB($numEnviados + $contador);
+
             }
 
 
         } else {
             //Te has pasado del límite
         }
+        echo sprintf(MensajesBT::NUM_CORREOS_ENVIADOS, $contador);
 
     }
 
@@ -543,10 +546,11 @@ class BolsaTrabajoServicios
      *
      */
 
-    //TODO - pendiente de pulir el borrado
-    public function borrarViejasOfertas(){
+    public function borrarViejasOfertas()
+    {
         $dao = new BolsaTrabajoDAO();
-        $dao->deleteOldOfertasDB();
+        $filas = $dao->deleteOldOfertasDB();
+        echo sprintf(MensajesBT::NUM_REGISTROS_BORRADOS, $filas);
     }
 
 
