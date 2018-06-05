@@ -13,14 +13,14 @@
         <table id="incidencias" class="display" data-stripe-classes="[]">
             <thead>
             <tr>
-                {% if permiso == "ADMIN" %}
-                    <th></th>
-                {% endif %}
+                <th></th>
                 <th>Incidencia</th>
                 <th>Solicitado por</th>
                 <th>Estado</th>
                 <th>Departamento</th>
-                <th></th>
+                {% if permiso == "ADMIN" %}
+                    <th></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>

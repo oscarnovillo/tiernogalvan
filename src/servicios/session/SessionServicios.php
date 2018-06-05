@@ -30,8 +30,6 @@ class SessionServicios
         }
         $usersDao = new UsersDAO();
         $permissions = $usersDao->getUserPermissionsByIdDao($_SESSION[Constantes::SESS_USER]->id);
-        var_dump($permissions);
-        die();
         foreach ($permissions as $permission) {
             if ($permission->rank_name == $reqPermission) {
                 return true;
