@@ -1,17 +1,44 @@
-
+{# empty Twig template #}
 {% extends "index.html.twig" %}
-{% block content %}
-   
 
-    <div class="body">
-        <div class="content">
-            <h1 class="documentos_direcion_title">Documentos direccion</h1>
+{% block styles %}
+    <link rel="stylesheet" href="/css/documentos/documentos.css">   
+{% endblock %}
+{% block content %}
+     <section id="contenido" class="col-12">
+        <div class="contenedor" id="container">
+            <div class="col-12">
+                <h1 class="documentos-direcion-title">Administracion documentos direccion</h1>
+            </div>
+           
+<div id="tab-choice" class="container">	
+    <ul  class="nav nav-pills">
+        <li class="active">
+            <a  href="#tab-categorias" data-toggle="tab">Categorias</a>
+        </li>
+        <li>
+            <a href="#tab-documentos" data-toggle="tab">Documentos</a>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab-categorias">
+           Categorias
+        </div>
+        <div class="tab-pane" id="tab-documentos">
+           Dcoumentos
+        </div>
+    </div>
+</div>
+            <!---<div class="col-12 marco-foto">
             <form action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}&a=upload_file" method="post" enctype="multipart/form-data">
 			<input type="file" name="archivo" id="archivo"></input>
 			<input type="submit" value="Subir archivo"></input>
             </form>
+            
+           </div>-->
         </div>
-    </div>
+    </section>
 {% endblock %}
 
-
+{% block scripts %}
+{% endblock %}

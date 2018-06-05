@@ -72,6 +72,7 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             /* Requerir login */
            // !$userSessionValid ? $controller->documentos() : $errController->permissions();
             $controller->documentos();
+            break;  
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();
             /* Requerir login */
