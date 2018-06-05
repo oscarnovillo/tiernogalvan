@@ -94,9 +94,11 @@ class CrudUsersController {
             }
         }
         $usuarios = $usersSevicios->getAllUsers();
+        $permisos = $usersSevicios->getAllRoles();
 
-            if($usuarios != null){
+            if($usuarios != null && $permisos != null){
                $parameters['usuarios'] = $usuarios;
+               $parameters['permisos'] = $permisos;
             }
             
         TwigViewer::getInstance()->viewPage($page,$parameters);

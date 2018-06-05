@@ -102,10 +102,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         default:
             //TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
             if($userSessionValid){
-                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE);
-                
+                $user = $_SESSION[Constantes::SESS_USER];
+                $parameters['mensaje'] = $user->nombre." ".$user->apellidos;
+                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE,$parameters);
             }else{
-                $parameters['mensaje'] = $_SESSION[Constantes::SESS_USER];
+                
                               
                 TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
             }    

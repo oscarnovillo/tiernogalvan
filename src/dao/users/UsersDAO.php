@@ -35,6 +35,29 @@ class UsersDAO {
 
         return $users;
     }
+    
+    public function getAllRolesDAO() {
+        
+        try{
+            
+            $users = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+            
+            $sql = "SELECT * FROM roles";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+            
+        } finally {  
+            $dbConnection->disconnect();
+        }
+
+        return $users;
+    }
 
     public function getAllUsersDAO() {
 
@@ -330,6 +353,31 @@ class UsersDAO {
         } finally {  
             $dbConnection->disconnect();
         }
+        return $incidencia;
+    }
+    
+    public function getPermisoUserDao($user){
+    
+        try{
+            
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
+                               . "from users u join permisos p "
+                               . "on u.id=:id ");
+            $stmt->bindParam(":id", $user->id);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
         return $incidencia;
     }
     

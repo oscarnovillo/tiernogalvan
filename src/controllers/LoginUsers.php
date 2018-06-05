@@ -50,8 +50,9 @@ class LoginUsers {
                         if($PasswordStorage->verify_password($pass, $userChecked->pass)){
                              
                             if($userChecked->activado === "1"){
-                                $parameters['mensaje'] = $userChecked->nombre." ".$userChecked->apellidos;
+                                $userChecked = $usersSevicios->getPermisoUser($userChecked);  
                                 $_SESSION[Constantes::SESS_USER] = $userChecked;
+                                $parameters['mensaje'] = $userChecked->nombre." ".$userChecked->apellidos;
                                 $page = ConstantesLoginUsers::LOGIN_PAGE;
                                 
                             }else{

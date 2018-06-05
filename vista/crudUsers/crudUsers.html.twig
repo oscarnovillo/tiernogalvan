@@ -121,10 +121,11 @@
             
             <div class="col-12 form-group">
                 <label for="id_rol">PERMISO:</label>
-                <select id="id_rol" name="id_rol" required class="form-control">
-                    <option value="1">Alumno</option>
-                    <option value="2">Profesor</option>
-                    <option value="3">Admin</option>  
+                <select id="id_rol" name="id_rol" class="form-control" required>
+                    <option disabled selected>Selecciona un permiso...</option>
+                    {% for permiso in permisos %}
+                        <option value="{{ permiso.id_rol }}">{{ permiso.descripcion }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
