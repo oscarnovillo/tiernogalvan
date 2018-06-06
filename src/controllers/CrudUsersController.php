@@ -10,6 +10,8 @@ use model\Users;
 use servicios\users\UsersServicios;
 use utils\PasswordStorage;
 
+use Respect\Validation\Validator as v;
+
 /**
  * Description of CrudUsersController
  *
@@ -99,6 +101,9 @@ class CrudUsersController {
             if($usuarios != null && $permisos != null){
                $parameters['usuarios'] = $usuarios;
                $parameters['permisos'] = $permisos;
+            }else{
+                $parameters['mensaje'] = ConstantesCrudUsers::USERS_NO;
+                $parameters['permisos'] = $permisos;
             }
             
         TwigViewer::getInstance()->viewPage($page,$parameters);

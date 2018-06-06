@@ -36,7 +36,7 @@ class ConstantesLoginUsers {
     const INVALID_USER = "Usuario inválido";
     const REGISTRO_ERROR = "Ha ocurrido un error al registrar";
     const PERMISO_FAIL = "La palabra clave es incorrecta";
-    const SENT_EMAIL = "Se acaba de mandar don email a tu correo con el código de activación";
+    const SENT_EMAIL = "Se acaba de mandar un email a tu correo con el código de activación";
     
     const ACTIVATE_USER = "activar";
     

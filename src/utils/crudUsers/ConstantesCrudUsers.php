@@ -14,17 +14,19 @@ class ConstantesCrudUsers {
     const INSERT_USER = "insert";
     const INSERT_YES = "Usuario insertado correctamente";
     const INSERT_ERROR = "No se ha podido insertar al usuario";
-    const INSERT_NO = "El usuario ya existeI";
+    const INSERT_NO = "El usuario ya existe";
     
     const UPDATE_USER = "update";
     const UPDATE_YES = "Usuario actualizado correctamente";
     const UPDATE_ERROR = "No se ha podido actualizar al usuario";
-    const UPDATE_NO = "El usuario ya existeU";
+    const UPDATE_NO = "El usuario ya existe";
     
     const DELETE_USER = "delete";
     const DELETE_YES = "Usuario borrado correctamente";
     const DELETE_ERROR = "No se ha podido borrar al usuario";
-    const DELETE_NO = "El usuario ya existeD";
+    const DELETE_NO = "El usuario ya existe";
+    
+    const USERS_NO = "No hay usuarios";
     
     const CRUD_PAGE = "crudUsers/crudUsers.html";
     

@@ -8,7 +8,10 @@ use utils\ConstantesPaginas;
 use utils\TwigViewer;
 use utils\PasswordStorage;
 use servicios\users\UsersServicios;
-use utils\Mailer;
+
+
+use utils\bolsaTrabajo\BuzonCorreo;
+
 
 /**
  * Description of LoginUsers
@@ -50,6 +53,9 @@ class LoginUsers {
                         if($PasswordStorage->verify_password($pass, $userChecked->pass)){
                              
                             if($userChecked->activado === "1"){
+                                
+                                $usersSevicios->updateFechaUser($userChecked);//Actualiza la fecha de logueo
+                                
                                 $userChecked = $usersSevicios->getPermisoUser($userChecked);  
                                 $_SESSION[Constantes::SESS_USER] = $userChecked;
                                 $parameters['mensaje'] = $userChecked->nombre." ".$userChecked->apellidos;
@@ -68,7 +74,7 @@ class LoginUsers {
                 
                 case ConstantesLoginUsers::REGISTER_USER:
                     
-                    $mailer = new Mailer();
+                    $correo = new BuzonCorreo();
                     
                     if($user->nick != null){
                     
@@ -96,18 +102,18 @@ class LoginUsers {
                                     $parameters['mensaje'] = ConstantesLoginUsers::PERMISO_FAIL;
                                     break;
                             }
+                            $user->codigo_activacion = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
                             $userChecked = $usersSevicios->addUser($user);
 
                             if($userChecked){
                                 
                                 $cod_act = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
                                 
-                                $mailer->sendMail($user->email, $user->nombre . " " . $user->apellidos, 
-                                        "Código de activación I.E.S. Enrique Tierno Galván", 
-                                        "Codigo de activación: esto es una prueba");
-
-
-                                //http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act."?nick=".$user->nick
+                                $correo->enviarCorreo($user->email, "probando", "registro", "correo de prueba");
+                                
+                               //$user->nombre . " " . $user->apellidos
+                                //"<a href='localhost:8000/index.php?c=login_users?a=activar?cod_act='.$cod_act.'?nick='.$user->nick'>Pulsa aqui</a>"
+                                //ttp://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act."?nick=".$user->nick
                                 $parameters['mensaje'] = ConstantesLoginUsers::SENT_EMAIL;
                                 
                             }else{

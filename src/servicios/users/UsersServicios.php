@@ -57,6 +57,11 @@ class UsersServicios {
         return $dao->updatePassDAO($user);
     }
     
+    public function updateFechaUser($user){
+        $dao = new UsersDAO();
+        return $dao->updateFechaUserDAO($user);
+    }
+    
     public function getPermisoUser($user){
         $dao = new UsersDAO();
         return $dao->getPermisoUserDao($user);

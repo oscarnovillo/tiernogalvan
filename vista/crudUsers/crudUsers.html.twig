@@ -5,7 +5,7 @@
     <div class="cuerpoCrud">
     <div class="contenedor colorCrud">
         <div class="listadoIzquierda">  
-        <h1>Listado de Usuarios</h1>
+            <h1>Listado de Usuarios:</h1>
         {% if mensaje != null %}
                 <h2 id="mensaje" onchange="cargar();">{{ mensaje }}</h2>
                 <script>
@@ -47,6 +47,7 @@
                         <th><span>Teléfono</span></th>
                         <th><span>Email</span></th>
                         <th><span>Nick</span></th>
+                        <th><span>Último Acceso</span></th>
                         <th><span>Activado</span></th>   
                         
                     </tr>
@@ -64,12 +65,13 @@
                             <td>{{ user.telefono }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.nick }}</td>
+                            <td>{{ user.ultimo_acceso }}</td>
                             <td>{{ user.activado }}</td>
                         </tr>
                     {% endfor %}
                 </table>
             {% else %}
-                <h1 class="rojoCrud">No Hay usuarios</h1>
+                <h1>&nbspNo hay usuarios</h1>
             {% endif %}
     </div>    
     <div class="contenedor colorCrud modUsers"> 
