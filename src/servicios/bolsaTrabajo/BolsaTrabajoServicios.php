@@ -21,7 +21,6 @@ use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\bolsaTrabajo\GenEmail;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\bolsaTrabajo\UploadHandler;
-use utils\ConstantesPaginas;
 
 
 class BolsaTrabajoServicios
@@ -341,15 +340,18 @@ class BolsaTrabajoServicios
             $registroPrevio = $this->comprobarApuntarOferta($idOferta, $idUser);
 
             if (!$registroPrevio) {
+                BuzonCorreo::getInstance()->setRemitenteNombre(ConfigBolsaTrabajo::RESPONSABLE_ORIGEN);
+
                 $ofertaDatos = $this->verOferta($idOferta);
                 if (is_object($ofertaDatos) && $ofertaDatos->EMAIL != null) {
-                    $servidor = new BuzonCorreo();
+                    //$servidor = new BuzonCorreo();
                     $aplicante = false;
                     if ($perfilUser[0]->EMAIL != null) {
                         //Enviamos correo de confirmación
                         $ofertaDatos->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaDatos->ID_OFERTA);
                         $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_ALUMN, (array)$ofertaDatos);
-                        $aplicante = $servidor->enviarCorreo($perfilUser[0]->EMAIL, $perfilUser[0]->NOMBRE, MensajesBT::ASUNTO_CONFIRM_OFERTA, $template);
+
+                        $aplicante = BuzonCorreo::getInstance()->enviarCorreo($perfilUser[0]->EMAIL, $perfilUser[0]->NOMBRE, MensajesBT::ASUNTO_CONFIRM_OFERTA, $template);
                     }
                     //enviamos correo a ofertante
                     $perfilUser[0]->TITULO = $ofertaDatos->TITULO;
@@ -358,7 +360,7 @@ class BolsaTrabajoServicios
                     $perfiObject = $perfilUser[0];
 
                     $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_EMPRESA, (array)$perfiObject);
-                    $receptor = $servidor->enviarCorreo($ofertaDatos->EMAIL, $ofertaDatos->EMPRESA, MensajesBT::ASUNTO_CONFIRM_OFERTA_EMPRESA, $template);
+                    $receptor = BuzonCorreo::getInstance()->enviarCorreo($ofertaDatos->EMAIL, $ofertaDatos->EMPRESA, MensajesBT::ASUNTO_CONFIRM_OFERTA_EMPRESA, $template);
 
                     if ($aplicante && $receptor) {
                         $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::APUNTARSE_TODO_CORRECTO);
@@ -485,7 +487,8 @@ class BolsaTrabajoServicios
     {
         $numEnviados = $this->numEmailsEnviados();
         $contador = 0;
-        $servidor = new BuzonCorreo();
+
+        BuzonCorreo::getInstance()->setRemitenteNombre(ConfigBolsaTrabajo::RESPONSABLE_ORIGEN);
         $horaActual = Carbon::now()->hour;
         if ($horaActual >= 23) {//reset diario
             $this->actualizarEmailsEnviados(0);
@@ -515,7 +518,7 @@ class BolsaTrabajoServicios
                         $ofertaTemp->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaTemp->ID_OFERTA);
                         $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_NUEVA_OFERTA_INFO, (array)$ofertaTemp);
 
-                        $isSend = $servidor->enviarCorreo($emailUser, $emailNombre, MensajesBT::ASUNTO_NUEVA_OFERTA, $template);
+                        $isSend = BuzonCorreo::getInstance()->enviarCorreo($emailUser, $emailNombre, MensajesBT::ASUNTO_NUEVA_OFERTA, $template);
 
                         if ($isSend) {
                             $dao->updateEnviarCorreosDB($ofertasAEnviar[$i][ConstantesBD::ID_NOTIFICAR]);

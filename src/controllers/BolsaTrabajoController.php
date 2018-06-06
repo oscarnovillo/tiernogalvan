@@ -27,7 +27,7 @@ class BolsaTrabajoController
     /**
      * Función principal encargada de repartir las operaciones que se realizan en la bolsa de trabajo
      */
-    //TODO - en construcción - migrar a base de datos común
+    //TODO - - migrar a base de datos común - mirar el campo de ID no concuerdan con las creadas
     public function bolsaTrabajoMain()
     {
 
