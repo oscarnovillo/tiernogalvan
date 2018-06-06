@@ -42,4 +42,9 @@ class VentasServicios {
         $dao = new VentasDAO();
         return $dao->editVenta($venta);
     }
+    
+    public function delVenta($id){
+        $dao = new VentasDAO();
+        return $dao->editVenta($id);
+    }
 }

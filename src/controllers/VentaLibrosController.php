@@ -90,12 +90,18 @@ class VentaLibrosController {
                     $ventaEditada = $ventasSevicios->editVenta($venta);
                     
                     if(!$ventaEditada){
-                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR;
+                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR_EDITAR;
                     }
                     break;
                 
                 case ConstantesVentas::ACCION_DEL_LIBRO:
+                    $id = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
                     
+                    $ventaEliminada = $ventasSevicios->delVenta($id);
+                    
+                    if(!$ventaEliminada){
+                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR_BORRAR;
+                    }
                     break;
                 
             }

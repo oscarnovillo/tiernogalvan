@@ -78,3 +78,8 @@ function editar(id, titulo, isbn, precio, asignatura, curso, estado){
     $("#curso_edit").val(curso);
     $("#estado_edit").val(estado);
 }
+
+function eliminar(id){
+    $("#id_venta_del").val(id);
+    $("#form_eliminar").submit();
+}

@@ -74,10 +74,16 @@
                                 <td><a href="javascript:void(0)" onclick="editar({{ venta.id }}, '{{ venta.titulo }}', '{{ venta.isbn }}', 
                                                                                '{{ venta.precio }}', '{{ venta.asignatura }}', '{{ venta.curso }}', 
                                                                                '{{ venta.estado }}');">Editar</a></td>
-                                <td><a href="javascript:void(0)">Eliminar</a></td>
+                                <td><a href="javascript:void(0)" onclick="eliminar({{ venta.id }})">Eliminar</a></td>
                             </tr>
                         {% endfor %}
                     </table>
+                    <form action="index.php" method="post" id="form_eliminar">
+                        <input type="hidden" name="c" value="venta_libros">
+                        <input type="hidden" name="a" value="del_libro">
+                        <input type="hidden" id="id_venta_del" name="id_venta">
+                    </form>
+                    
                     <div class="form_public">
                         <div id="cont_form_edit" class="row">
                             <span class="error_form" id="texto"></span>

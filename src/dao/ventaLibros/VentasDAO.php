@@ -112,4 +112,24 @@ class VentasDAO {
         $db->disconnect();
         return $actualizado;
     }
+    
+    public function delVenta($id){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $borrado;
+        
+        $stmt = $conn->prepare("DELETE FROM venta_libros WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        
+        if (($stmt->rowCount()) > 0){
+            $borrado = true;
+        }else{
+            $borrado = false;
+        }
+        
+        $db->disconnect();
+        return $borrado;
+    }
 }
