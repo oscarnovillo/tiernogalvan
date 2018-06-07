@@ -13,7 +13,7 @@ class DocumentosService {
     
     public function getDocumentos($categoria){
         $dao = new DocumentosDAO();
-        return $dao->getDocumentoCategoriaDAO($user);
+        return $dao->getDocumentoCategoriaDAO($categoria);
     }
     public function insertDocumento($documento,$categoria){
         $dao = new DocumentosDAO();

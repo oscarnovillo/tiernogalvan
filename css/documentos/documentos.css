@@ -12,4 +12,16 @@ and open the template in the editor.
     background-color: white;
 }
 
+.boton-mantenimiento{
+    
+    background-color: #008cba !important;;
+}
 
+#archivo{
+    margin-left:10px;
+    height:3.4em  ;    
+}
+
+.control-administracion{
+    padding-left: 0px;
+}
