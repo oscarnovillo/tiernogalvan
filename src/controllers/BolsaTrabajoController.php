@@ -31,7 +31,7 @@ class BolsaTrabajoController
     public function bolsaTrabajoMain()
     {
 
-        $idUser = $this->setIdUser(3);//TODO - temporal - mirar que permisos lleva
+        $idUser = $this->setIdUser(80);//TODO - temporal - mirar que permisos lleva
         $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         $tarea = filter_input(INPUT_GET, ConstantesBolsaTrabajo::TAREA);
         if (isset($action)) {
@@ -128,7 +128,7 @@ class BolsaTrabajoController
 
                         case ConstantesBolsaTrabajo::APUNTAR_OFERTA:
                             $idOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OFERTA);
-                            $servicios->apuntarEnOferta($idOferta,$this->getIdUser());
+                            $servicios->apuntarEnOferta($idOferta, $this->getIdUser());
 
                             break;
                     }
@@ -206,8 +206,10 @@ class BolsaTrabajoController
             if (is_object($newOfertaDB)) {
                 $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
                 $message->setLINK(MensajesBT::LINK_OFERTA_TRABAJO . $newOfertaDB->id_oferta);
-                echo json_encode($message);
+            } else {
+                $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA);
             }
+            echo json_encode($message);
 
         } else {
             http_response_code(Http::BAD_REQUEST);
@@ -376,7 +378,6 @@ class BolsaTrabajoController
     {
         $this->idUser = $idUser;
     }
-
 
 
 }//fin clase
