@@ -49,7 +49,7 @@ class BolsaTrabajoDAO
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
                 , ConstantesBD::ID_USER => $oferta->id_user_oferta
             ])
-            ->compile();
+            ->compile();//TODO - revisar que no pete por null
 
         $dbConnection = null;
         try {
@@ -90,7 +90,8 @@ class BolsaTrabajoDAO
 
         } catch (\Exception $exception) {
             $db->rollBack();
-            echo $exception->getMessage();
+            //echo $exception->getMessage();
+            $oferta= null;
         } finally {
             $dbConnection->disconnect();
         }
@@ -533,7 +534,7 @@ class BolsaTrabajoDAO
             ->compile();
 
         $paramentros = [
-            ConstantesBD::ID_PERFIL => null,//TODO - cambiar con base real
+            ConstantesBD::ID_PERFIL => $perfil->ID_PERFIL,
             ConstantesBD::NOMBRE => $perfil->NOMBRE
             , ConstantesBD::APELLIDOS => $perfil->APELLIDOS
             , ConstantesBD::FP_CODE => $perfil->FP_CODE

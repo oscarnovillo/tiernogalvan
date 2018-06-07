@@ -26,7 +26,7 @@ class ConfigBolsaTrabajo
 
 
     //Buzón de Correo
-    const MAIL_FROM = "awcrud@gmail.com";
+    const MAIL_FROM = "dawcrud@gmail.com";
     const MAIL_FROM_BOLSA_DE_TRABAJO = "el.tierno.galvan@gmail.com";
     const SMTP_SERVER = "smtp.gmail.com";
     const SMTP_PORT = 587;
