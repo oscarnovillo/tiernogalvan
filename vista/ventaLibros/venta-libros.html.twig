@@ -6,14 +6,8 @@
             {% if mensaje_reserva != null %}
                 <script>alert("{{ mensaje_reserva }}");</script>
             {% endif %}
-            {% if error_reserva != null %}
-                <h2 class="error_reserva">{{ error_reserva }}</h2>
-            {% endif %}
-            {% if mensaje_editar != null %}
-                <h2 class="error_reserva">{{ mensaje_editar }}</h2>
-            {% endif %}
-            {% if mensaje_publicacion != null %}
-                <h2 class="error_reserva">{{ mensaje_publicacion }}</h2>
+            {% if mensaje != null %}
+                <h2 class="error_reserva">{{ mensaje }}</h2>
             {% endif %}
             <h1><span onclick="verTodos()" class="seleccionado" id="texto_todos">Todos los libros</span></h1>
             <section class="cont_tabla" id="todos">
@@ -34,13 +28,14 @@
                                 <td>{{ venta.precio }}€</td>
                                 <td>{{ venta.asignatura }}</td>
                                 <td>{{ venta.curso }}</td>
-                                <td><button class="boton-contenido boton" onclick="reservar({{ venta.id }}, '{{ venta.id_vendedor }}')">Reservar</button></td>
+                                <td><button class="boton-contenido boton" onclick="reservar({{ venta.id }}, '{{ venta.id_vendedor }}', '{{ venta.titulo }}')">Reservar</button></td>
                             </tr>
                         {% endfor %}
                     </table>
                     <form action="index.php" method="post" id="form_res">
                         <input type="hidden" id="id_venta" name="id_venta">
                         <input type="hidden" id="id_vendedor" name="id_vendedor">
+                        <input type="hidden" id="titulo_reserva" name="titulo">
                         <input type="hidden" name="c" value="venta_libros">
                         <input type="hidden" name="a" value="res_libro">
                     </form>

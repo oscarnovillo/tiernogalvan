@@ -24,6 +24,8 @@ class ConstantesVentas{
     const PARAM_ASIGNATURA = "asignatura";
     const PARAM_CURSO = "curso";
     const PARAM_ESTADO = "estado";
+    
+    const EMAIL_SUBJECT = "Han reservado tu libro";
 }
 
 
