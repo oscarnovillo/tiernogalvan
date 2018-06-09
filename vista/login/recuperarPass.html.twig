@@ -5,8 +5,31 @@
     <div id="contenido" class="col-12">
         <div class="contenedor">
             <div class="col-12 marco-foto">
-                <h1>Recuperar Contraseña:</h1>
-                <p>Te enviaremos un email con los datos nuevos.</p>
+                <h1>Recuperación de Constraseña:</h1>
+                <p class="parrafoRecuperarPass">Te enviaremos un email con los datos nuevos.</p>
+                
+                <div id="mensajeRegistro">
+                {% if mensajeRegistro != null %}
+                    <h2 id="mensajeRegistro">{{ mensajeRegistro }}</h2>
+                    <script>
+                        $(document).ready(function(){
+                            setTimeout(function(){ $("#mensajeRegistro").fadeOut("slow"); }, 5000);
+                        });
+                            
+                    </script>
+                {% endif %}
+                </div>
+                <div id="mensajeRegistroError">
+                    {% if mensajeRegistroError != null %}
+                        <h2 id="mensajeRegistroError">{{ mensajeRegistroError }}</h2>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){ $("#mensajeRegistroError").fadeOut("slow"); }, 5000);
+                            });
+
+                        </script>
+                    {% endif %}
+                </div>
               
                 <div class="contForm">
                     <form action="index.php" method="post" id="crud_users">

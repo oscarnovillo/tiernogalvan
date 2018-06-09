@@ -53,6 +53,11 @@ class UsersServicios {
         return $dao->getUserByNickDAO($user);
     }
     
+    public function getUserByPass($pass){
+        $dao = new UsersDAO();
+        return $dao->getUserByPassDAO($pass);
+    }
+    
     public function activarCuenta($user){
         $dao = new UsersDAO();
         return $dao->activarCuentaDAO($user);
@@ -103,6 +108,21 @@ class UsersServicios {
      public function validarLogin($user){
         $validador = v::attribute(ConstantesLoginUsers::PARAM_PASS, v::stringType()->length(1, 100))
             ->attribute(ConstantesLoginUsers::PARAM_NICK, v::stringType()->length(1, 100));
+
+        return $validador->validate($user);
+    }
+    
+     public function validarRecuperarPass($user){
+        $validador = v::attribute(ConstantesLoginUsers::PARAM_NICK, v::stringType()->length(1, 100))
+            ->attribute(ConstantesLoginUsers::PARAM_EMAIL, v::email()->length(4, 80));
+
+        return $validador->validate($user);
+    }
+    
+    public function validarCambiarPass($user){
+        $validador = v::attribute(ConstantesLoginUsers::PARAM_PASS, v::stringType()->length(1, 100))
+            ->attribute(ConstantesLoginUsers::PARAM_NICK, v::stringType()->length(1, 100))
+            ->attribute(ConstantesLoginUsers::NUEVO_PASS, v::stringType()->length(1, 100));
 
         return $validador->validate($user);
     }
