@@ -47,9 +47,6 @@ class LoginUsers
                         $userChecked = $usersSevicios->getUserByNick($user);
 
                         if ($userChecked) {
-                            
-                            //$pass = $user->pass;
-                            //$hash = $PasswordStorage->create_hash($pass);
 
                             if ($PasswordStorage->verify_password($user->pass, $userChecked->pass)) {
 
@@ -107,6 +104,15 @@ class LoginUsers
                                     case Constantes::PERMISO_ADMIN:
                                         $user->id_rol = Constantes::ID_ROL_ADMIN;
                                         break;
+                                    
+                                    case Constantes::PERMISO_INCIDENCIAS_TIC:
+                                        $user->id_rol = Constantes::ID_INCIDENCIAS_TIC;
+                                        break;
+                                    
+                                    case Constantes::PERMISO_EMPRESA:
+                                        $user->id_rol = Constantes::ID_ROL_EMPRESA;
+                                        break;
+                                    
                                     default:
                                         $parameters['mensajeRegistroError'] = ConstantesLoginUsers::PERMISO_FAIL;
                                         break;
