@@ -62,9 +62,10 @@ function validar(formulario){
     return valido;
 }
 
-function reservar(id, id_vendedor){
+function reservar(id, id_vendedor, titulo){
     $("#id_venta").val(id);
     $("#id_vendedor").val(id_vendedor);
+    $("#titulo_reserva").val(titulo);
     $("#form_res").submit();
 }
 

@@ -5,12 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 namespace controllers;
 
 use utils\Constantes;
 use utils\ventaLibros\ConstantesVentas;
 use utils\TwigViewer;
+use utils\Mailer;
 use servicios\ventaLibros\VentasServicios;
 
 /**
@@ -25,7 +25,6 @@ class VentaLibrosController {
         $parameters = array();
         $ventasSevicios = new VentasServicios();
         $user = $_SESSION[Constantes::SESS_USER];
-        $id_usuario = $user->id;
         
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
@@ -34,7 +33,7 @@ class VentaLibrosController {
                 case ConstantesVentas::ACCION_ADD_LIBRO:
                     $venta = new \stdClass;
                     
-                    $venta->id_vendedor = $id_usuario;
+                    $venta->id_vendedor = $user->id;
                     $venta->email = $user->email;
                     $venta->titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
                     $venta->isbn = $_REQUEST[ConstantesVentas::PARAM_ISBN];
@@ -46,9 +45,9 @@ class VentaLibrosController {
                     $ventaCreada = $ventasSevicios->addVenta($venta);
                     
                     if($ventaCreada){
-                        $parameters['mensaje_publicacion'] = ConstantesVentas::VENTA_CORRECTA;
+                        $parameters['mensaje'] = ConstantesVentas::VENTA_CORRECTA;
                     }else{
-                        $parameters['mensaje_publicacion'] = ConstantesVentas::ERROR;
+                        $parameters['mensaje'] = ConstantesVentas::ERROR;
                     }
                     
                     break;
@@ -57,20 +56,27 @@ class VentaLibrosController {
                     $id_venta = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
                     $id_vendedor =(int)$_REQUEST[ConstantesVentas::PARAM_ID_VENDEDOR];
                     
-                    if($id_vendedor == $id_usuario){
-                        $parameters['error_reserva'] = ConstantesVentas::ERROR_MISMO_USER;
+                    if($id_vendedor == $user->id){
+                        $parameters['mensaje'] = ConstantesVentas::ERROR_MISMO_USER;
                     }else{
-                        $actualizado = $ventasSevicios->resVenta($id_venta, $id_usuario);
+                        $actualizado = $ventasSevicios->resVenta($id_venta, $user->id);
 
                         if($actualizado == true){
-                            /*Enviar email
-                            email = $_SESSION["email"];
-                            enviar(email); 
-                            o como sea xD   
-                            */
+                            $mailer = new Mailer();
+                            $vendedor = $ventasSevicios->getUser($id_vendedor);
+                            $nombre = $vendedor[0]->nombre . " " . $vendedor[0]->apellidos;
+                            $titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
+                            
+                            $cuerpoEmail = "<html><body><h2>Alguien ha reservado tu libro.</h2>"
+                                    . "<br><span>Tu libro \"" . $titulo . "\"</span>"
+                                    . "<br><span>Ponte en contacto a través del siguiente "
+                                    . "email: " . $user->email . "</span></body></html>";
+                            
+                            $mailer->sendMail($vendedor[0]->email, $nombre, ConstantesVentas::EMAIL_SUBJECT, $cuerpoEmail);
+                            
                             $parameters['mensaje_reserva'] = ConstantesVentas::VENTA_RESERVADA;
                         }else{
-                            $parameters['mensaje_reserva'] = ConstantesVentas::ERROR;
+                            $parameters['mensaje'] = ConstantesVentas::ERROR;
                         }
                     }
                     
@@ -90,7 +96,7 @@ class VentaLibrosController {
                     $ventaEditada = $ventasSevicios->editVenta($venta);
                     
                     if(!$ventaEditada){
-                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR_EDITAR;
+                        $parameters['mensaje'] = ConstantesVentas::ERROR_EDITAR;
                     }
                     break;
                 
@@ -100,18 +106,20 @@ class VentaLibrosController {
                     $ventaEliminada = $ventasSevicios->delVenta($id);
                     
                     if(!$ventaEliminada){
-                        $parameters['mensaje_editar'] = ConstantesVentas::ERROR_BORRAR;
+                        $parameters['mensaje'] = ConstantesVentas::ERROR_BORRAR;
                     }
                     break;
                 
             }
         }
+        
         $allVentas = $ventasSevicios->getAllVentas();
         if($allVentas != null){
             $parameters['allVentas'] = $allVentas;
+            $parameters['totalPages'] = count($allVentas);
         }
         
-        $misVentas = $ventasSevicios->getMisVentas($id_usuario);
+        $misVentas = $ventasSevicios->getMisVentas($user->id);
         if($misVentas != null){
             $parameters['misVentas'] = $misVentas;
         }
