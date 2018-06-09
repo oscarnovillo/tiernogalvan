@@ -54,10 +54,10 @@ class CrudUsersController {
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::INSERT_YES;
                         }else{
-                            $parameters['mensaje'] = ConstantesCrudUsers::INSERT_ERROR;
+                            $parameters['mensajeError'] = ConstantesCrudUsers::INSERT_ERROR;
                         }
                     }else{
-                        $parameters['mensaje'] = ConstantesCrudUsers::INSERT_NO;
+                        $parameters['mensajeError'] = ConstantesCrudUsers::INSERT_NO;
                     }
                     break;
                 
@@ -70,10 +70,10 @@ class CrudUsersController {
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_YES;
                         }else{
-                            $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_ERROR;
+                            $parameters['mensajeError'] = ConstantesCrudUsers::UPDATE_ERROR;
                         }
                     }else{
-                        $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_NO;
+                        $parameters['mensajeError'] = ConstantesCrudUsers::UPDATE_NO;
                     }
                     break;
                    
@@ -86,10 +86,10 @@ class CrudUsersController {
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::DELETE_YES;
                         }else{
-                            $parameters['mensaje'] = ConstantesCrudUsers::DELETE_ERROR;
+                            $parameters['mensajeError'] = ConstantesCrudUsers::DELETE_ERROR;
                         }
                     }else{
-                        $parameters['mensaje'] = ConstantesCrudUsers::DELETE_NO;
+                        $parameters['mensajeError'] = ConstantesCrudUsers::DELETE_NO;
                     }
                     break;
 

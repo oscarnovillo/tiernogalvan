@@ -6,16 +6,26 @@
     <div class="contenedor colorCrud">
         <div class="listadoIzquierda">  
             <h1>Listado de Usuarios:</h1>
-        {% if mensaje != null %}
-                <h2 id="mensaje" >{{ mensaje }}</h2>
-                <script>
-                    $(document).ready(function(){
-                        setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 5000);
-                    });
-                </script>
-        {% endif %}
+            
+                {% if mensaje != null %}
+                    <h2 id="mensajeCrud">{{ mensaje }}</h2>
+                    <script>
+                        $(document).ready(function(){
+                            setTimeout(function(){ $("#mensajeCrud").fadeOut("slow"); }, 5000);
+                        });
+                            
+                    </script>
+                {% endif %}
+                    {% if mensajeError != null %}
+                        <h2 id="mensajeError">{{ mensajeError }}</h2>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){ $("#mensajeError").fadeOut("slow"); }, 5000);
+                            });
+
+                        </script>
+                    {% endif %}
         </div>
-        
         <script>
             function cargarUser(id,nombre,apellidos,telefono,email,nick,id_rol){
                 document.getElementById("id_user").value=id;

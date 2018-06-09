@@ -116,11 +116,8 @@ class LoginUsers
 
                                 if ($userChecked) {
 
-                                    BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", "<a href='http://localhost:8000/index.php?c=login_users?a=activar&cod_act='.$user->codigo_activacion.'&nick='.$user->nick'>Pulsa aquí</a>");
+                                    BuzonCorreo::getInstance()->enviarCorreo($user->email, $user->nombre . " " . $user->apellidos, "registro", "<a href=http://localhost:8000/index.php?c=login_users&a=activar&cod_act=".$user->codigo_activacion."&nick=".$user->nick.">Para activar tu cuenta Pulsa Aquí</a>");
 
-                                    //$user->nombre . " " . $user->apellidos
-                                    //"<a href='http://localhost:8000/index.php?c=login_users?a=activar?cod_act='.$cod_act.'?nick='.$user->nick'>Pulsa aqui</a>"
-                                    //http://localhost:8000/index.php?c=login_users?a=activar?cod_act=".$cod_act."?nick=".$user->nick
                                     $parameters['mensajeRegistro'] = ConstantesLoginUsers::SENT_EMAIL;
 
                                 } else {
@@ -143,25 +140,26 @@ class LoginUsers
 
                     BuzonCorreo::getInstance()->setRemitenteNombre(ConstantesLoginUsers::ASUNTO_MAIL);
 
-                    $user->cod_act = $_REQUEST[ConstantesLoginUsers::COD_ACT];
+                    $cod_act = $_REQUEST[ConstantesLoginUsers::COD_ACT];
+                    $user->nick = $_REQUEST[ConstantesLoginUsers::PARAM_NICK];
+                    
+                    $userChecked = $usersSevicios->getUserByNick($user);
 
-                    $cod_ok = $usersSevicios->getCodAct($user);
+                    if ($cod_act === $userChecked->codigo_activacion) {
 
-                    if ($cod_ok) {
+                        $userChecked->activado = 1;
 
-                        $user->activado = 1;
-
-                        $activar = $usersSevicios->activarCuenta($user);
+                        $activar = $usersSevicios->activarCuenta($userChecked);
 
                         if ($activar) {
-                            BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", ConstantesLoginUsers::CUENTA_ACTIVADA);
+                            BuzonCorreo::getInstance()->enviarCorreo($userChecked->email, "probando", "registro", ConstantesLoginUsers::CUENTA_ACTIVADA);
 
                         } else {
-                            BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", ConstantesLoginUsers::ACTIVAR_FAIL);
+                            BuzonCorreo::getInstance()->enviarCorreo($userChecked->email, "probando", "registro", ConstantesLoginUsers::ACTIVAR_FAIL);
                         }
 
                     } else {
-                        BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", ConstantesLoginUsers::INVALID_COD);
+                        BuzonCorreo::getInstance()->enviarCorreo($userChecked->email, "probando", "registro", ConstantesLoginUsers::INVALID_COD);
                     }
 
                     break;
@@ -182,7 +180,7 @@ class LoginUsers
                                 $updateOk = $usersSevicios->updatePass($user);
 
                                 if ($updateOk) {
-                                    BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", "Tu nueva contraseña generada es : <a href='#'>$pass_created</a> <br> Tu Nick es : <a href='#'>$userChecked->nick</a>");
+                                    BuzonCorreo::getInstance()->enviarCorreo($user->email, "probando", "registro", "Tu nueva contraseña generada es : <a href='#'>$pass_created</a> (Puedes cambiarla en Ajustes de Usuario).<br> Tu Nick es : <a href='#'>$userChecked->nick</a>");
                                     $parameters['mensajeRegistro'] = ConstantesLoginUsers::EMAIL_SENT;
 
                                 } else {

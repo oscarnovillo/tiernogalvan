@@ -24,7 +24,7 @@ class ConstantesCrudUsers {
     const DELETE_USER = "delete";
     const DELETE_YES = "Usuario borrado correctamente";
     const DELETE_ERROR = "No se ha podido borrar al usuario";
-    const DELETE_NO = "El usuario ya existe";
+    const DELETE_NO = "El usuario no existe";
     
     const USERS_NO = "No hay usuarios";
     

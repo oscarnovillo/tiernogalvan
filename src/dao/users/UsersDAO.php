@@ -319,9 +319,9 @@ class UsersDAO {
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $stmt = $db->prepare("INSERT INTO users (activado) "
-                               . "VALUES (:activado) "
-                               . "WHERE nick = :nick");
+            $stmt = $db->prepare("UPDATE users "
+                               . "SET activado=:activado "
+                               . "WHERE nick=:nick");
             $stmt->bindParam(":activado", $user->activado);
             $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();
