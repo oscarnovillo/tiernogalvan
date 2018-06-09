@@ -152,6 +152,29 @@ class UsersDAO {
         return $incidencia;
     }
     
+    public function getUserByPassDAO($user){
+    
+        try{
+            
+            $incidencia = (object)[];
+            
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare("SELECT * FROM users WHERE pass=:pass");
+            $stmt->bindParam(":pass", $pass);
+            $stmt->execute();
+            $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
+            
+        } catch (\Exception $exception) {
+          
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
+        return $incidencia;
+    }
+    
     public function getUserDAO($user){
     
         try{
@@ -296,9 +319,9 @@ class UsersDAO {
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $stmt = $db->prepare("INSERT INTO users (activado) "
-                               . "VALUES (:activado) "
-                               . "WHERE nick = :nick");
+            $stmt = $db->prepare("UPDATE users "
+                               . "SET activado=:activado "
+                               . "WHERE nick=:nick");
             $stmt->bindParam(":activado", $user->activado);
             $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();

@@ -17,17 +17,17 @@
 
     <div class="cuerpo">
         <div class="contenido">
-            <h1 class="tareas_title">Tareas para alumnos</h1>
-            <p>Seleccione un curso para mostrar las tareas correspondientes.</p>
+            <h1 class="tareas_title">{{ textos.TareasParaAlumnos }}</h1>
+            <p>{{ textos.SeleccioneCursoMostrarTareas }}</p>
 
             {% if cursos %}
 
                 <table class="tareas_table table-striped">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Turno</th>
+                            <th>{{ textos.CampoNombre }}</th>
+                            <th>{{ textos.CampoTipo }}</th>
+                            <th>{{ textos.CampoTurno }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,18 +39,18 @@
                                             {{ curso.nombre_curso }}</a>
                                     </td>
                                     <td>
-                                        {% if curso.tipo == "ESO" %}E.S.O.
-                                        {% elseif curso.tipo == "BACH" %}Bachillerato
-                                        {% elseif curso.tipo == "FPB" %}F.P. Básica
-                                        {% elseif curso.tipo == "FPGM" %}F.P. Grado Medio
-                                        {% elseif curso.tipo == "FPGS" %}F.P. Grado Superior
+                                        {% if curso.tipo == "ESO" %}{{ textos.ESO }}
+                                        {% elseif curso.tipo == "BACH" %}{{ textos.BACH }}
+                                        {% elseif curso.tipo == "FPB" %}{{ textos.FPB }}
+                                        {% elseif curso.tipo == "FPGM" %}{{ textos.FPGM }}
+                                        {% elseif curso.tipo == "FPGS" %}{{ textos.FPGS }}
                                         {% else %}{{ curso.tipo }}
                                         {% endif %}
                                     </td>
                                     <td>
 
-                                        {% if curso.turno == "m" %}Mañana
-                                        {% elseif curso.turno == "t" %}Tarde
+                                        {% if curso.turno == "m" %}{{ textos.TurnoManana }}
+                                        {% elseif curso.turno == "t" %}{{ textos.TurnoTarde }}
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -60,14 +60,8 @@
                     </tbody>
                 </table>
             {% else %}   
-                <p class="cursiva">(No se han encontrado cursos)</p>
+                <p class="cursiva">{{ textos.NoHayCursos }}</p>
             {% endif %}
-
-
-            <hr>
-            <p class="cursiva">(TODO: implementar permisos correctamente)</p>
-            <p class="cursiva">(TODO: que el administrador pueda añadir cursos)</p>
-
         </div>
     </div>
 {% endblock %}
