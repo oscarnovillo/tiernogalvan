@@ -11,6 +11,10 @@ namespace utils\loginUsers;
 
 class ConstantesLoginUsers {
     
+    const ACCION_NO = "Parametro acción inválido APAGA EL PC Y SAL PITANDO";
+    
+    const MAL_CAMPO = "Tienes mal algún campo";
+    
     const PARAM_NICK = "nick";
     const PARAM_PASS = "pass";
     const PARAM_NOMBRE = "nombre";
@@ -23,6 +27,7 @@ class ConstantesLoginUsers {
     const REGISTER_USER = "registrar";
     const LOGIN_USER = "login";
     
+    /********PAGES*********/
     const LOGIN_PAGE = "login/inicio.html";
     const REGISTRO_PAGE = "login/registro.html";
     const START_PAGE = "index.html";

@@ -17,11 +17,6 @@
     margin-bottom: 15px !important;
 }
 
-#mensaje{
-    color:blue;
-    width: 100%;
-}
-
 .cuerpoCrud{
     padding-top: 15px;
 }
@@ -54,3 +49,30 @@
 .contForm{
    clear: both;
 }
+
+#mensaje{
+    color: blue;
+    width: 100%;
+    padding: 5px 0 15px 15px;
+}
+
+#mensajeRegistro{
+    color: blue;
+}
+
+#mensajeRegistroError{
+    
+    color: red;
+}
+
+#mensajeLogin{
+    color: blue;
+}
+
+#mensajeLoginError {
+    color: red;
+    padding: 0 0 0 30px;
+}
+
+
+

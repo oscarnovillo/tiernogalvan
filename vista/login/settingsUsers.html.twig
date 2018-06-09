@@ -6,12 +6,12 @@
         <div class="contenedor">
             <div class="col-12 marco-foto">
                 <h1>AJUSTES DE USUARIO</h1>
-                <p>CAMBIAR PASS:</p>
+                <h4>CAMBIAR PASS:</h4>
                 {% if mensaje != null %}
                     <h2 id="mensaje">{{ mensaje }}</h2>
                     <script>
                         $(document).ready(function(){
-                            setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 3000);
+                            setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 5000);
                         });
 
                     </script>

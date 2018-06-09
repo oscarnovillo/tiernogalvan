@@ -5,17 +5,9 @@
     <div id="contenido" class="col-12">
         <div class="contenedor">
             <div class="col-12 marco-foto">
-                <h1>Recuperar Contraseña</h1>
-                {% if mensaje != null %}
-                <h2 id="mensaje">{{ mensaje }}</h2>
-                <script>
-                    $(document).ready(function(){
-                        setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 3000);
-                    });
-                    
-                </script>
-            {% endif %}
-                
+                <h1>Recuperar Contraseña:</h1>
+                <p>Te enviaremos un email con los datos nuevos.</p>
+              
                 <div class="contForm">
                     <form action="index.php" method="post" id="crud_users">
                         <input type="hidden" name="c" value="login_users">
@@ -28,12 +20,14 @@
                             <label for="email_user">EMAIL:</label>
                             <input type="text" id="email_user" name="email" placeholder="email" class="form-control" required>
                         </div>
-                        <div class="col-12 col-sm-6 form-group">
-                        <input type="submit" value="enviar" class="boton-contenido">
+                        <div class="col-12 form-group">
+                        <input type="submit" value="Enviar" class="botonEnviarPass">
                         </div>        
                     </form>
                 </div>
             </div>   
         </div>
     </div>
+            
+            
 {% endblock %}

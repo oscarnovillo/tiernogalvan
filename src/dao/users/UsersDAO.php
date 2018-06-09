@@ -368,10 +368,11 @@ class UsersDAO {
             $db = $dbConnection->getConnection();
 
             $stmt = $db->prepare("UPDATE users "
-                    . "SET activado=:activado "
-                    . "WHERE nick=:nick ");
-            $stmt->bindParam(":activado", $user->activado);
+                    . "SET ultimo_acceso=:ultimo_acceso "
+                    . "WHERE nick=:nick");
+            $stmt->bindParam(":ultimo_acceso", $user->date);
             $stmt->bindParam(":nick", $user->nick);
+            $stmt->execute();
             $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
             

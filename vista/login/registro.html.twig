@@ -5,53 +5,66 @@
     <section id="contenido" class="col-12">
         <div class="contenedor">
             <div class="col-12 marco-foto">
-                <h1>Registro</h1>
-                {% if mensaje != null %}
-                    <h2 id="mensaje">{{ mensaje }}</h2>
+                <h1>Registro:</h1>
+                <div id="mensajeRegistro">
+                {% if mensajeRegistro != null %}
+                    <h2 id="mensajeRegistro">{{ mensajeRegistro }}</h2>
                     <script>
                         $(document).ready(function(){
-                            setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 3000);
+                            setTimeout(function(){ $("#mensajeRegistro").fadeOut("slow"); }, 5000);
                         });
-
+                            
                     </script>
                 {% endif %}
+                </div>
+                <div id="mensajeRegistroError">
+                    {% if mensajeRegistroError != null %}
+                        <h2 id="mensajeRegistroError">{{ mensajeRegistroError }}</h2>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){ $("#mensajeRegistroError").fadeOut("slow"); }, 5000);
+                            });
+
+                        </script>
+                    {% endif %}
+                </div>
                 <div class="contForm">
-                    <form action="index.php" method="post" id="crud_users">
+                    <form action="index.php" method="post" id="crud_users" onsubmit="return validarCliente();">
                         <input type="hidden" name="c" value="login_users">
                         <input type="hidden" id="id_user" name="id"> 
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="nombre_user">NOMBRE:</label>
+                            <label for="nombre_user">* NOMBRE:</label>
                             <input type="text" id="nombre_user" name="nombre" placeholder="nombre" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="apellidos_user">APELLIDOS:</label>
+                            <label for="apellidos_user">* APELLIDOS:</label>
                             <input type="text" id="apellidos_user" name="apellidos" placeholder="apellidos" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
                             <label for="telefono_user">TELEFONO:</label>
-                            <input type="text" id="telefono_user" name="telefono" placeholder="telefono" class="form-control" required>
+                            <input type="text" id="telefono_user" name="telefono" placeholder="telefono" class="form-control">
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="email_user">EMAIL:</label>
+                            <label for="email_user">* EMAIL:</label>
                             <input type="text" id="email_user" name="email" placeholder="email" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="nick_user">NICK:</label>
+                            <label for="nick_user">* NICK:</label>
                             <input type="text" id="nick_user" name="nick" placeholder="nick" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="pass_user">PASS:</label>
+                            <label for="pass_user">* PASS:</label>
                             <input type="password" id="pass_user" name="pass" placeholder="pass" class="form-control" required>
                         </div>
 
                         <div class="col-12 form-group">
-                            <label for="palabra_clave">PALABRA CLAVE:</label>
+                            <label for="palabra_clave">* PALABRA CLAVE:</label>
                             <input type="text" id="palabra_clave" name="palabra_clave" placeholder="palabra clave" class="form-control" required>
                         </div>
 
