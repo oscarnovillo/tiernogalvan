@@ -394,7 +394,8 @@ class UsersDAO {
 
             $stmt = $db->prepare("SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol "
                                . "from users u join permisos p "
-                               . "on u.id=:id ");
+                               . "on u.id = p.id_usuario "
+                               . "where u.id=:id ");
             $stmt->bindParam(":id", $user->id);
             $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
