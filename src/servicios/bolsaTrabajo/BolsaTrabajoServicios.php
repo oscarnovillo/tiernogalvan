@@ -70,6 +70,12 @@ class BolsaTrabajoServicios
         return $dao->getSizeOfertasDB();
     }
 
+    public function getPermisosBolsa($id_permiso)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->tienePermisosDB($id_permiso);
+    }
+
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;
@@ -191,6 +197,7 @@ class BolsaTrabajoServicios
     {
         $oferta->CREACION = $this->formatCreacion($oferta->CREACION);
         $oferta->DESCRIPCION = $this->formatTexto($oferta->DESCRIPCION, ConfigBolsaTrabajo::LONGITUD_TEXTO_DESCRIPCION);
+        $oferta->TITULO = htmlspecialchars($oferta->TITULO);
         return $oferta;
     }
 
@@ -205,7 +212,7 @@ class BolsaTrabajoServicios
     {
         if (strlen($texto) > $limit)
             $texto = substr($texto, 0, strrpos(substr($texto, 0, $limit), ' ')) . '...';
-        return $texto;
+        return htmlspecialchars($texto);
     }
 
     public function subirArchivo()

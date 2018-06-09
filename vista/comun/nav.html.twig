@@ -27,9 +27,18 @@
                     <li class="nav-item"><a class="nav-link"
                                             href="/index.php?c={{ constant('Utils\\Constantes::TAREAS_CONTROLLER') }}">Tareas
                             para alumnos</a></li>
-                    <li class="nav-item"><a class="nav-link"
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                             href="index.php?c={{ constant('Utils\\Constantes::BOLSA_TRABAJO_CONTROLLER') }}">Bolsa
-                            de Trabajo</a></li>
+                            de Trabajo</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="index.php?c={{ constant('Utils\\Constantes::BOLSA_TRABAJO_CONTROLLER') }}">Ofertas Publicadas</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=crear_oferta">Crear Oferta de trabajo</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=mis_ofertas&amp;id_owner=">Mis Ofertas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Mi perfil</a>
+                        </div>
+                    </li>
                     <li class="nav-item"><a class="nav-link"
                                             href="index.php?c={{ constant('Utils\\Constantes::CRUD_CONTROLLER') }}">Crud
                             Users</a></li>
