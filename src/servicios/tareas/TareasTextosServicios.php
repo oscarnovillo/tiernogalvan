@@ -13,6 +13,23 @@ class TareasTextosServicios {
         
         switch ($idioma) {
             case "es":
+                /* Textos lista de cursos */
+                $textos->TareasParaAlumnos = "Tareas para alumnos";
+                $textos->SeleccioneCursoMostrarTareas = "Seleccione un curso para mostrar las tareas correspondientes.";
+                $textos->CampoNombre = "Nombre";
+                $textos->CampoTipo = "Tipo";
+                $textos->CampoTurno = "Turno";
+                $textos->ESO = "E.S.O.";
+                $textos->BACH = "Bachillerato";
+                $textos->FPB = "F.P. Básica";
+                $textos->FPGM = "F.P. Grado Medio";
+                $textos->FPGS = "F.P. Grado Superior";
+                $textos->TurnoManana = "Mañana";
+                $textos->TurnoTarde = "Tarde";
+                $textos->NoHayCursos = "(No se han encontrado cursos)";
+                        
+                
+                
                 /* Título */
                 $textos->TareasParaAlumnosNoHayCurso = "Tareas para alumnos de... vaya, ha habido un error";
                 $textos->TareasParaAlumnosDe = "Tareas para alumnos de";
@@ -81,6 +98,23 @@ class TareasTextosServicios {
                 
                 break;
             case "en":
+                /* Textos lista de cursos */
+                $textos->TareasParaAlumnos = "Tasks for students";
+                $textos->SeleccioneCursoMostrarTareas = "Select a course to show its corresponding tasks.";
+                $textos->CampoNombre = "Name";
+                $textos->CampoTipo = "Type";
+                $textos->CampoTurno = "Shift";
+                $textos->ESO = "General Certificate of Secondary Education (GCSE)";
+                $textos->BACH = "General Certificate of Education (GCE)";
+                $textos->FPB = "Basic Vocational Training";
+                $textos->FPGM = "Vocational Education and Training (VET)";
+                $textos->FPGS = "Certificate of Higher Education (HNC)";
+                $textos->TurnoManana = "Morning";
+                $textos->TurnoTarde = "Afternoon";
+                $textos->NoHayCursos = "(No courses found)";
+                
+                
+
                 /* Título */
                 $textos->TareasParaAlumnosNoHayCurso = "Tasks for students of... oops, something happened";
                 $textos->TareasParaAlumnosDe = "Tasks for students of";

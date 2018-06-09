@@ -52,4 +52,29 @@ class TareasServicios {
         return $dao->getTareasCountFromCurso($id_curso, $hide_old);
     }
 
+    public function readBool($param_name, $default) {
+        $param = $default;
+        if (isset($_REQUEST[$param_name])) {
+            if ($_REQUEST[$param_name] == 1) {
+                $param = 1;
+            } else {
+                $param = 0;
+            }
+        }
+        return $param;
+    }
+
+    public function readPositivo($param_name, $default, $min, $max) {
+        $param = $default;
+
+        if (isset($_REQUEST[$param_name]) and is_numeric($_REQUEST[$param_name]) and $_REQUEST[$param_name] > $min) {
+            if ($_REQUEST[$param_name] > $max) {
+                $param = $max;
+            } else {
+                $param = intval($_REQUEST[$param_name]);
+            }
+        }
+
+        return $param;
+    }
 }

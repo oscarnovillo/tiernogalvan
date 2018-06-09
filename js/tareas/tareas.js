@@ -330,7 +330,6 @@ function recargarTabla() {
         limit: $("#param_limit").val(),
         pag: $("#param_pag").val(),
         hide_old: hide_old,
-        hola_tengo_permisos_de_edicion: true,
         recarga: true
     }
     , function (data) {
