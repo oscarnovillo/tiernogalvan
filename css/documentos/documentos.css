@@ -25,3 +25,20 @@ and open the template in the editor.
 .control-administracion{
     padding-left: 0px;
 }
+
+/*Organizar lista de documentos y categorias*/
+#lista-categorias{
+  list-style-type: none;
+  margin-left:10px; 
+}
+
+
+#lista-categorias li{   
+  margin:5spx; 
+}
+
+#lista-doc{
+  list-style-type: none;
+  margin-left:10px; 
+  margin-top:5px;
+}

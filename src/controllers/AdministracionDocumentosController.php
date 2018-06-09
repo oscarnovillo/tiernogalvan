@@ -177,7 +177,7 @@ class AdministracionDocumentosController{
                $lista_documentos = array();
                $lista_documentos = $documentos->getDocumentos($categoria->idCategorias);
                if($lista_documentos != -1){
-                   array_push($array_intermedio,$categoria->Categoria,$lista_documentos);
+                   array_push($array_intermedio,$categoria,$lista_documentos);
                    array_push($documentos_categoria,$array_intermedio); 
                }else{
                    return -1;
