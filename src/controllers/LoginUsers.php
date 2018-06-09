@@ -83,55 +83,64 @@ class LoginUsers
                     if ($user->nick != null) {
 
                         if($usersSevicios->validarUser($user)){
+                            
+                            if($usersSevicios->validarEmail($user)){
+                                
+                                if($usersSevicios->validarTelefono($user)){
 
-                            $userChecked = $usersSevicios->getUserByNick($user);
+                                    $userChecked = $usersSevicios->getUserByNick($user);
 
-                            if (!$userChecked) {
+                                    if (!$userChecked) {
 
-                                $user->pass = $PasswordStorage->create_hash($user->pass);
-                                $user->activado = 0;
+                                        $user->pass = $PasswordStorage->create_hash($user->pass);
+                                        $user->activado = 0;
 
-                                switch ($palabra_clave) {//FALTA ARREGLO
+                                        switch ($palabra_clave) {//FALTA ARREGLO
 
-                                    case Constantes::PERMISO_ALUMNO:
-                                        $user->id_rol = Constantes::ID_ROL_ALUMNO;
-                                        break;
+                                            case Constantes::PERMISO_ALUMNO:
+                                                $user->id_rol = Constantes::ID_ROL_ALUMNO;
+                                                break;
 
-                                    case Constantes::PERMISO_PROFESOR:
-                                        $user->id_rol = Constantes::ID_ROL_PROFESOR;
-                                        break;
+                                            case Constantes::PERMISO_PROFESOR:
+                                                $user->id_rol = Constantes::ID_ROL_PROFESOR;
+                                                break;
 
-                                    case Constantes::PERMISO_ADMIN:
-                                        $user->id_rol = Constantes::ID_ROL_ADMIN;
-                                        break;
-                                    
-                                    case Constantes::PERMISO_INCIDENCIAS_TIC:
-                                        $user->id_rol = Constantes::ID_INCIDENCIAS_TIC;
-                                        break;
-                                    
-                                    case Constantes::PERMISO_EMPRESA:
-                                        $user->id_rol = Constantes::ID_ROL_EMPRESA;
-                                        break;
-                                    
-                                    default:
-                                        $parameters['mensajeRegistroError'] = ConstantesLoginUsers::PERMISO_FAIL;
-                                        break;
+                                            case Constantes::PERMISO_ADMIN:
+                                                $user->id_rol = Constantes::ID_ROL_ADMIN;
+                                                break;
+
+                                            case Constantes::PERMISO_INCIDENCIAS_TIC:
+                                                $user->id_rol = Constantes::ID_INCIDENCIAS_TIC;
+                                                break;
+
+                                            case Constantes::PERMISO_EMPRESA:
+                                                $user->id_rol = Constantes::ID_ROL_EMPRESA;
+                                                break;
+
+                                            default:
+                                                $parameters['mensajeRegistroError'] = ConstantesLoginUsers::PERMISO_FAIL;
+                                                break;
+                                        }
+                                        $user->codigo_activacion = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
+                                        $userChecked = $usersSevicios->addUser($user);
+
+                                        if ($userChecked) {
+
+                                            BuzonCorreo::getInstance()->enviarCorreo($user->email, $user->nombre . " " . $user->apellidos, "registro", "<a href=http://localhost:8000/index.php?c=login_users&a=activar&cod_act=".$user->codigo_activacion."&nick=".$user->nick.">Para activar tu cuenta Pulsa Aquí</a>");
+
+                                            $parameters['mensajeRegistro'] = ConstantesLoginUsers::SENT_EMAIL;
+
+                                        } else {
+                                            $parameters['mensajeRegistroError'] = ConstantesLoginUsers::REGISTRO_ERROR;
+                                        }
+                                    }else{
+                                        $parameters['mensajeRegistroError'] = ConstantesLoginUsers::USER_EXISTE;
+                                    }
+                                }else{
+                                    $parameters['mensajeRegistroError'] = ConstantesLoginUsers::TELEFONO_MAL;
                                 }
-                                $user->codigo_activacion = $usersSevicios->random_code(ConstantesLoginUsers::TAMAÑO_RANDOM);
-                                $userChecked = $usersSevicios->addUser($user);
-
-                                if ($userChecked) {
-
-                                    BuzonCorreo::getInstance()->enviarCorreo($user->email, $user->nombre . " " . $user->apellidos, "registro", "<a href=http://localhost:8000/index.php?c=login_users&a=activar&cod_act=".$user->codigo_activacion."&nick=".$user->nick.">Para activar tu cuenta Pulsa Aquí</a>");
-
-                                    $parameters['mensajeRegistro'] = ConstantesLoginUsers::SENT_EMAIL;
-
-                                } else {
-                                    $parameters['mensajeRegistroError'] = ConstantesLoginUsers::REGISTRO_ERROR;
-                                }
-
                             }else{
-                                $parameters['mensajeRegistroError'] = ConstantesLoginUsers::REGISTRO_ERROR;
+                                $parameters['mensajeRegistroError'] = ConstantesLoginUsers::MAIL_MAL;
                             }
                         } else {
                             $parameters['mensajeRegistroError'] = ConstantesLoginUsers::INVALID_USER;

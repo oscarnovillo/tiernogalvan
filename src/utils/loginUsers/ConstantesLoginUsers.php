@@ -44,6 +44,9 @@ class ConstantesLoginUsers {
     const SENT_EMAIL = "Se acaba de mandar un email a tu correo con el código de activación";
     const INVALID_USER = "Usuario inválido";
     const REGISTRO_ERROR = "Ha ocurrido un error al registrar";
+    const USER_EXISTE = "El Usuario ya existe";
+    const TELEFONO_MAL = "El teléfono está mal";
+    const MAIL_MAL = "EL email está mal";
     
     //********ACTIVAR CASE*********//  
     const ACTIVATE_USER = "activar";
