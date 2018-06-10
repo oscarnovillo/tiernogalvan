@@ -1,33 +1,244 @@
 {% extends "index.html.twig" %}
 {% block content %}
-    <button type="button" id="abrir_modal_add_asignatura" class="btn btn-primary" data-target="modal_add_asignatura">Nueva Asignatura</button>
-    
-  <div class="modal" tabindex="-1" role="dialog" id="modal_add_asignatura">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Crear Asignatura</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
-            <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
-        </form>
-      </div>
-      <div class="modal-footer">
-            <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
-            <input type="button" class="btn btn-primary" name="cancelar" id="cancelar_envio" value="Cancelar">
-      </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modal_add_asignatura">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Asignatura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
+                        <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
+                        <select class = "col-sm-12" name="select_cursos_asignaturas" id="select_cursos_asignaturas">
+                            <option value="">&nbsp;</option>
+                            {% for curso in cursos %}
+                                <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
+                    <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_aviso_nombre_asignatura">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Asignatura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h4>
+                            Tenga en cuenta a la hora de poner el nombre de la asignatura que puede existir una asignatura con el mismo nombre,
+                            para evitar esto debería indicar también el curso al que pertenece la asignatura.
+                        </h4>
+                        <p>
+                            Ejemplo: Matematicas2ESO, Lenguaje de Marcas1DAW.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" name="aceptar" class="btn btn-primary" id="entendido" value="Entendido">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_aviso_borrar_asignatura">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Asignatura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h4 id="mensaje_borrado_total">
+
+                        </h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="botones_borrado_total">
+                        <input type="button" name="aceptar" class="btn btn-primary" id="borrado_total" value="Borrar de todas formas">
+                        <input type="button" name="aceptar" class="btn btn-primary" id="cancelar_borrado" value="Cancelar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_update_asignatura">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar Asignatura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="updateAsignatura" class="updateAsignatura" id="updateAsignatura">
+                        <input type="text" name="nombre_asignatura" id="nombre_asignatura_update" required="required">
+                        <select class = "col-sm-12" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer footer-modal">
+                    <div class="row">
+                        <div class="accion-update">
+                            <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_update" value="Aceptar">
+                            <input type="button" class="btn btn-primary cancelar" id="cancelar_envio_update" value="Cancelar">
+                        </div>
+                        <div class="accion-borrar">
+                            <input type="button" class="btn btn-primary" class="cancelar" id="borrar_asignatura" value="Borrar Asignatura">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_add_tema">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crear Tema</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="addAsignatura" class="addTema" id="addTema">
+                        <input type="text" name="nombre_tema" id="nombre_tema" required="required">
+                        <select class = "col-sm-12" name="select_evaluacion" id="select_evaluacion">
+                            <option value=""></option>
+                            <option value="1">Primera Evaluación</option>
+                            <option value="2">Segunda Evaluación</option>
+                            <option value="3">Tercera Evaluación</option>
+                        </select>
+                        <select class = "col-sm-12" name="select_asignaturas_temas" id="select_asignaturas_temas">
+                            <option value="">&nbsp;</option>
+                            {% for asignatura in asignaturas %}
+                                <option value="{{asignatura.ID}}">{{asignatura.NOMBRE}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_tema" value="Aceptar">
+                    <input type="button" class="btn btn-primary" class="cancelar" id="cancelar_envio" value="Cancelar">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contenido col-12">
+        <div class="container-fluid contenedor">
+            <div class="title-modales">
+                <h3>
+                    Seguimiento de Programaciones
+                </h3>
+            </div>
+            <div class="row fila-tabs">
+                <button type="button" id="mostrar_contenedor_index" class="btn btn-primary tab btn-seguimiento" data-target="div_contenedor_index">Índex</button>
+                <button type="button" id="mostrar_contenedor_asignaturas" class="btn btn-primary tab btn-seguimiento" data-target="contenedor_gestion_asignaturas">Gestión Asignaturas</button>
+            </div>
+            <div class="row">
+                <div class="div_contenedor_index col-12">
+                    <div class="row">
+                        <div class="title-modales">
+                            <h3>Gestión principal/Temas de las asignatura</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8" id="div-selects">
+                            <div class="col-sm-6">
+                                <label for="select_cursos">Listado Cursos</label>
+                                <select class = "col-sm-12" name="" id="select_cursos">
+                                    <option value="">&nbsp;</option>
+                                    {% for curso in cursos %}
+                                        <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="select_cursos">Listado Asignaturas</label>
+                                <select class="col-sm-12" name="" id="select_asignaturas">
+                                    <option value="">&nbsp;</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" id="contenedor_tabla_">
+                            <table id="id_temas_asignaturas" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Evaluacion</th>
+                                        <th>Realizado</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan = "3" >No hay datos</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="contenedor_gestion_asignaturas col-sm-12">
+                    <div class="row">
+                        <div class="title-modales">
+                            <h3>Gestión principal/Temas asignatura</h3>
+                        </div>
+                    </div>
+                    <div class="row botones_derecha">
+                        <button id="abrir_modal_add_asignatura" class="btn btn-primary" type="button">Nueva Asignatura</button>
+                        <button id="abrir_modal_add_tema" class="btn btn-primary" type="button">Nuevo Tema</button>
+                    </div>
+                    <table id="tabla_gestion_asignaturas" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asignatura in asignaturas %}
+                                <tr>
+                                    <td class="name_asignatura puntero" data-id="{{asignatura.ID}}">{{asignatura.NOMBRE}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script src="js/seguimientoProgramaciones/modales.js"></script>
+    <script src="js/seguimientoProgramaciones/crudAsignaturas.js"></script>
+    <script src="js/seguimientoProgramaciones/crudTemas.js"></script>
+    <script src="js/seguimientoProgramaciones/general.js"></script>
+    <script src="bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.js"></script>
     {% block scripts %}
-        <script src="js/seguimientoProgramaciones/modales.js"></script>
-        <script src="js/seguimientoProgramaciones/crudAsignaturas.js"></script>
-        <script src="bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.js"></script>
-    {%endblock%}
-    {% block styles %}
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="css/seguimientoProgramaciones/general_mio.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {%endblock%}
 {% endblock %}

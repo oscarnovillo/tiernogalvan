@@ -6,9 +6,17 @@
 $(document).ready(function(){
     $("#abrir_modal_add_asignatura").click(function(){
         $("#modal_add_asignatura").show();
+        $("#modal_aviso_nombre_asignatura").show();
+    });
+    $("#entendido").click(function(){
+        $("#modal_aviso_nombre_asignatura").hide();
+    })
+    $("#abrir_modal_add_tema").click(function(){
+        $("#modal_add_tema").show();
     })
     $(".close").click(function(){
         $("#modal_add_asignatura").hide();
-    })
+        $("#modal_add_tema").hide();
+    });
 });
 
