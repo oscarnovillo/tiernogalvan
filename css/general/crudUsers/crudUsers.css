@@ -17,11 +17,6 @@
     margin-bottom: 15px !important;
 }
 
-#mensaje{
-    color:blue;
-    width: 100%;
-}
-
 .cuerpoCrud{
     padding-top: 15px;
 }
@@ -54,3 +49,46 @@
 .contForm{
    clear: both;
 }
+
+#mensaje{
+    color: blue;
+    width: 100%;
+    padding: 5px 0 15px 15px;
+}
+
+#mensajeRegistro{
+    color: blue;
+}
+
+#mensajeRegistroError{
+    
+    color: red;
+}
+
+#mensajeLogin{
+    color: blue;
+}
+
+#mensajeLoginError {
+    color: red;
+    padding: 8px 0 0 12px;
+}
+#mensajeCrud{
+    color: blue;
+}
+#mensajeError{
+    color: red;
+}
+.tabla1{
+   display: table;
+   clear: both;
+   content: "";
+}
+
+#tabla td, #tabla th {
+    padding: .50rem;
+    vertical-align: top;
+    border-top: 1px solid #e9ecef;
+}
+
+

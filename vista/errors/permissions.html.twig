@@ -6,14 +6,16 @@
         <div class="contenedor colorCrud">
 
             <h1 class="text-center">Para acceder a esta página, primero debes identificarte.</h1>
-
-            <a class="boton-contenido text-white"
+            
+            {% if mensaje != null %}
+                <h2 id="mensaje">{{ mensaje }}</h2>
+                
+            {% endif %}
+            <img class="imgPermisoNo" src="/img/noAcess.png">
+            <a class="boton-permissions text-white"
                href="index.php?c={{ constant('Utils\\Constantes::HOME_CONTROLLER') }}">Volver al inicio</a>
         </div>
     </div>
 
 {% endblock %}
 
-{% block scripts %}
-    <script src="/js/crudUsers/crudUsers.js"></script>
-{% endblock %}

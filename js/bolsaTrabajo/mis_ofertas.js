@@ -241,7 +241,7 @@ function buildCodeModal(genericObject) {
         '</div>' +
         '<div class="form-group">' +
         '<label>Vacantes</label>' +
-        '<input type="text" class="form-control" placeholder="10" name="vacante_oferta" value="' + genericObject.VACANTES + '">' +
+        '<input type="text" class="form-control" placeholder="10" name="vacante_oferta" value="' + getCampo(genericObject.VACANTES) + '">' +
         '<small class="form-text text-muted">Cuántos puestos de empleo, quieres ofrecer</small>' +
         '</div>' +
         '<div class="form-group">' +
@@ -307,4 +307,14 @@ function getFecha(objString) {
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
     return now.getFullYear() + "-" + (month) + "-" + (day);
+}
+
+function getCampo(objString) {
+    var res;
+    if (objString == null) {
+        res = "";
+    } else {
+        res = objString;
+    }
+    return res;
 }

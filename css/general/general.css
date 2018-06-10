@@ -8,8 +8,11 @@
 @import url(blog.css);
 @import url(formulario.css);
 @import url(header.css);
+@import url(settings.css);
 @import url(crudUsers/crudUsers.css);
 @import url(pagInicio/pagInicio.css);
+@import url(pagRecuperarPass/recuperarPass.css);
+@import url(pagError/pagError.css);
 
 * {
     margin:0;
@@ -38,8 +41,11 @@ h2{
 }
 
 h3{
-  font-family: 'Righteous', serif !important;
+    font-family: 'Righteous', serif !important;
+  
 }
+
+
 
 h4{
   font-size: 15px;
@@ -124,5 +130,7 @@ main::after {
         width: 980px;
     }
 }
+
+
 
 

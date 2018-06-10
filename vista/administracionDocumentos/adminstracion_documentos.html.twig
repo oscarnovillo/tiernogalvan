@@ -1,0 +1,65 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/documentos/documentos.css">  
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+     <section id="contenido" class="col-12">
+        <div class="contenedor" id="container" class="col-12">
+            <div class="col-12">
+                <h1 class="documentos-direcion-title">Administracion documentos direccion</h1>
+            </div>
+           
+            <div id="mantenimiento-documentos" class="col-12">	
+                <form action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
+                    {% if categorias != null %}
+                        <select class="col-5" class="form-control " name="categoria">
+                            {% for categoria in categorias%}
+                                <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                    <input type="file" name="archivo" id="archivo" class="col-5 form-control "></input>
+                    <input type="hidden" name="a" value="upoload_file"/>
+                    <div class="col-12 control-administracion">
+                        <button type="button" id="boton-upload" class="btn btn-primary boton-mantenimiento ">Subir fichero</button>
+                        <button type="button" id="boton-modificar-categoria" class="btn btn-primary boton-mantenimiento ">Modificar categoria </button>
+                        <button type="button" id="boton-modificar-fichero" class="btn btn-primary boton-mantenimiento ">Modificar fichero</button>
+                    </div>
+                </form>
+            </div>
+                <div class="col-12">
+                {% if documentos_categoria != null %}
+                    <ul id="lista-categorias">
+                    {% for documento_categoria in documentos_categoria %}
+                        <li><a><h2 class="titulo-categoria" data-category-name="{{ documento_categoria.0.Categoria }}" id="{{ documento_categoria.0.idCategorias }}"><i class="fa fa-folder-open"></i>{{ documento_categoria.0.Categoria }}</h2></a>
+                        {% if documento_categoria.1 != null %}
+                            <ul id="lista-doc" class="{{ documento_categoria.0.Categoria }}" style="display:none;">
+                                {% for documento in documento_categoria.1 %}
+                                    <li>
+                                        <h4 data-category="{{ documento_categoria.0.idCategoria }}"><a> &nbsp;{{  documento.Documento }}</a></h4>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            
+           </div>
+            </div>
+            
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/documentos/documentos.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+{% endblock %}

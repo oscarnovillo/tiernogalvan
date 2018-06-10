@@ -8,69 +8,95 @@ use \utils\documentos;
 
 class DocumentosDAO{
    
-    public function getDocumentosDAO(){      
+    public function getDocumentosDAO(){         
+        $dbConnection = new DBConnection();      
         try{       
-            $documentos = (object)[];         
-            $dbConnection = new DBConnection();
+            $documentos = (object)[];
             $db = $dbConnection->getConnection();           
             $sql = documentos\ConstantesDocumentos::GET_DOCUMENTS;
             $stmt = $db->prepare($sql);
             $stmt->execute();
-            $documentos = $stmt->fetchAll(PDO::FETCH_OBJ);       
-        } catch (\Exception $exception) {          
+            $documentos = $stmt->fetchAll(PDO::FETCH_OBJ); 
+            return $documentos;
+        } catch (\Exception $exception) {   
+            return -1;
         } finally {  
             $dbConnection->disconnect();
         }
-        return $documentos;
+
     }
     
       public function getDocumentoCategoriaDAO($categoria){
+        $dbConnection = new DBConnection();
         try{
             $documentos_categoria = (object)[];
-            $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
             $sql = documentos\ConstantesDocumentos::GET_DOCUMENT_CATEGORY;
             $stmt = $db->prepare($sql);
-             $stmt->execute(array($categoria));
+            $stmt->execute(array($categoria));
             $documentos_categoria = $stmt->fetchAll(PDO::FETCH_OBJ);  
+            return $documentos_categoria; 
         } catch (\Exception $exception) {   
+            return -1;
         } finally {  
             $dbConnection->disconnect();
         }
-        return $documentos_categoria;
+       
     }
     
-    public function insertDocumentoDAO($documento,$ruta,$categoria) {
-        $id = "";
-        $sql = documentos\ConstantesDocumentos::INSERT_DOCUMENT;
+    public function insertDocumentoDAO($documento,$categoria) {
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($id,$documento,$ruta,$categoria));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $id = "";
+            $sql = documentos\ConstantesDocumentos::INSERT_DOCUMENT;
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($id,$documento,$categoria));
+            $filas = $stmt->rowCount();
+            $dbConnection->disconnect();
+            $last_id = $db->lastInsertId();
+            return $last_id;
+        } catch (\Exception $exception) {   
+            return -1;
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
     }
    
-    public function updateDocumentoDAO($id,$documento,$ruta,$categoria){
-        $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT;
+    public function updateDocumentoDAO($id,$documento){
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($documento, $ruta, $categoria,$id));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT;
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($documento,$id));
+            $filas = $stmt->rowCount();
+            $dbConnection->disconnect();
+            return $filas;
+        } catch (\Exception $exception) {   
+            return -1;
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
     } 
     
     public function deleteDocumentoDAO($id) {
-        $sql = documentos\ConstantesDocumentos::DELETE_DOCUMENT;
         $dbConnection = new DBConnection();
-        $db = $dbConnection->getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->execute(array($id));
-        $filas = $stmt->rowCount();
-        $dbConnection->disconnect();
-        return $filas;
+        try{
+            $sql = documentos\ConstantesDocumentos::DELETE_DOCUMENT;
+            $db = $dbConnection->getConnection();
+            $stmt = $db->prepare($sql);
+            $stmt->execute(array($id));
+            $filas = $stmt->rowCount();
+            $dbConnection->disconnect();
+            return $filas;
+        } catch (\Exception $exception) {   
+            return -1;
+        } finally {  
+            $dbConnection->disconnect();
+        }
+        
     }
 }

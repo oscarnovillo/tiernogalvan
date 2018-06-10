@@ -48,16 +48,42 @@ class TareasDAO {
         return $cursos;
     }
 
-    public function getAllTareasFromCurso($curso) {
+    public function getTareasFromCurso($curso, $order, $desc, $limit, $offset, $hide_old) {
         $sql = "SELECT *"
                 . " FROM tareas"
-                . " WHERE id_curso=?"
-                . " order by fecha";
+                . " WHERE id_curso=?";
+
+        if ($hide_old==1){
+            $sql = $sql . " and fecha >= CURDATE()";
+        }
+        
+        $sql = $sql . " order by ?";
+        
+        if ($desc==1){
+            $sql = $sql . " desc";
+        }
+        
+        if ($limit>=0 and $offset>=0){
+            $sql = $sql . " limit ?";
+            $sql = $sql . " offset ?";
+        }
 
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
         $stmt = $db->prepare($sql);
-        $stmt->execute(array($curso));
+        
+        $stmt->bindParam(1, $curso, PDO::PARAM_INT);
+        $stmt->bindParam(2, $order, PDO::PARAM_INT);
+        
+        if ($limit>=0 and $offset>=0){
+            $stmt->bindParam(3, $limit, PDO::PARAM_INT);
+            $stmt->bindParam(4, $offset, PDO::PARAM_INT);
+        }
+
+        $stmt->execute(); 
+            
+
+
 
         $tareas = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
@@ -147,4 +173,25 @@ class TareasDAO {
         return $count;
     }
     
+    
+    public function getTareasCountFromCurso($id_curso, $hide_old) {
+        $sql = "SELECT COUNT(*)"
+                . " FROM tareas"
+                . " WHERE id_curso=?";
+        
+        if ($hide_old==1){
+            $sql = $sql . " and fecha >= CURDATE()";
+        }
+        
+        $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array($id_curso));
+
+        $count = $stmt->fetchColumn();
+
+        $dbConnection->disconnect();
+
+        return $count;
+    }
 }

@@ -20,6 +20,9 @@ class ConstantesBD
     const TABLA_OFERTA_ESTUDIOS = "OFERTA_ESTUDIOS";
     const TABLA_PERFIL_ALUMNO = "PERFIL_ALUMNO";
     const TABLA_APUNTARSE_OFERTA = "APUNTARSE_OFERTA";
+    const TABLA_ENVIAR_OFERTAS = "ENVIAR_OFERTAS";
+    const TABLA_EMAIL_COUNTER_BT = "EMAIL_COUNTER_BT";
+    const TABLA_ACCESO_MODIFICAR_BT = "ACC_MODIFICAR_BT";
 
     /**
      * Columnas
@@ -42,6 +45,7 @@ class ConstantesBD
     const CADUCIDAD = "CADUCIDAD";
     const CREACION = "CREACION";
     const ID_USER = "ID_USER";
+    const DIFUNDIDA = "DIFUNDIDA";
 
     /**
      * Estudios centro
@@ -89,6 +93,21 @@ class ConstantesBD
      */
     const ID_APUNTAR = "ID_APUNTAR";
     const NOTIFICADO = "NOTIFICADO";
+
+
+    /**
+     * Tabla Enviar ofertas
+     */
+
+    const ID_NOTIFICAR = "ID_NOTIFICAR";
+
+    /*
+     *
+     * EMAIL counter
+     */
+    const ID_CONTADOR = "ID_CONTADOR";
+    const NUM = "NUM";
+    const ID_PERMISO = "ID_PERMISO";
 
 
 }//FIN CLASE

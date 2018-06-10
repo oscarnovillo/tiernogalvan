@@ -1,108 +1,200 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    {% if alert %}
-        <div class="alert {{ alert.type }}">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{ alert.message }}
-        </div>
-    {% endif %}
-    <button id="btnAgregarIncidencia" type="button" class="center-button boton-contenido col-4">Agregar incidencia
-    </button>
-    <table id="incidencias" class="display" data-stripe-classes="[]">
-        <thead>
-        <tr>
-            {% if permiso == "ADMIN" %}
-                <th></th>
+    <section id="contenido" class="col-12">
+        <div class="contenedor">
+            {% if alert %}
+                <div class="alert {{ alert.type }}">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{ alert.message }}
+                </div>
             {% endif %}
-            <th>Incidencia</th>
-            <th>Solicitado por</th>
-            <th>Estado</th>
-            <th>Departamento</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for incidencia in incidencias %}
-            <tr class="estado-{{ incidencia.estado }}">
-                <td>{{ incidencia.fecha }}</td>
-                <td>{{ incidencia.nombre }}</td>
-                <td>{{ incidencia.solicitante }}</td>
-                <td data-order="{{ incidencia.estado }}">
-                    {% if incidencia.estado == "proceso" %}
-                        <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
-                    {% elseif incidencia.estado == "completado" %}
-                        <img alt="Completado." src="/img/maintenance/complete.png"/> Completado.
-                    {% elseif incidencia.estado == "sinempezar" %}
-                        <img alt="Sin empezar." src="/img/maintenance/alarm.png"/> Sin empezar.
-                    {% else %}
-                        <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
-                    {% endif %}
-                </td>
-                <td>{{ incidencia.departName }}</td>
-                {% if permiso == "ADMIN" %}
-                    <td>
-                    {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
-                        <div class="dropdown">
-                            <button class="boton-contenido">Marcar como...</button>
-                            <div class="dropdown-content">
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
-                                    proceso</a>
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
-                                    empezar</a>
-                            </div>
+
+            <!-- / Begin Body -->
+            <div class='swanky col-sm-12 col-lg-4'>
+                <!-- /////////// Begin Dropdown //////////// -->
+                <div class='swanky_wrapper'>
+                    <input id='Dashboard' name='radio' type='radio'>
+                    <label for='Dashboard'>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/dash.png'>
+                        <span>Dashboard</span>
+                        <div class='lil_arrow'></div>
+                        <div class='bar'></div>
+                        <div class='swanky_wrapper__content'>
+                            <ul>
+                                <li>Tools</li>
+                                <li>Reports</li>
+                                <li>Analytics</li>
+                                <li>Code Blocks</li>
+                            </ul>
                         </div>
-                    {% elseif incidencia.estado == "completado" %}
-                        Completado por: {{ incidencia.completado_por_nombre }}
-                    {% endif %}
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-
-        </tbody>
-    </table>
-
-    <div id="agregarIncidencia" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close-modal">&times;</span>
-                <h2>Agregar incidencia</h2>
+                    </label>
+                    <input id='Sales' name='radio' type='radio'>
+                    <label for='Sales'>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/del.png'>
+                        <span>Sales</span>
+                        <div class='lil_arrow'></div>
+                        <div class='bar'></div>
+                        <div class='swanky_wrapper__content'>
+                            <ul>
+                                <li>New Sales</li>
+                                <li>Expired Sales</li>
+                                <li>Sales Reports</li>
+                                <li>Deliveries</li>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id='Messages' name='radio' type='radio'>
+                    <label for='Messages'>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/mess.png'>
+                        <span>Messages</span>
+                        <div class='lil_arrow'></div>
+                        <div class='bar'></div>
+                        <div class='swanky_wrapper__content'>
+                            <ul>
+                                <li>Inbox</li>
+                                <li>Outbox</li>
+                                <li>Sent</li>
+                                <li>Archived</li>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id='Users' name='radio' type='radio'>
+                    <label for='Users'>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/users.png'>
+                        <span>Users</span>
+                        <div class='lil_arrow'></div>
+                        <div class='bar'></div>
+                        <div class='swanky_wrapper__content'>
+                            <ul>
+                                <li>New User</li>
+                                <li>User Groups</li>
+                                <li>Permissions</li>
+                                <li>Passwords</li>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id='Settings' radio='radio' type='radio'>
+                    <label for='Settings'>
+                        <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/set.png'>
+                        <span>Settings</span>
+                        <div class='lil_arrow'></div>
+                        <div class='swanky_wrapper__content'>
+                            <ul>
+                                <li>Databases</li>
+                                <li>Design</li>
+                                <li>Change User</li>
+                                <li>Log Out</li>
+                            </ul>
+                        </div>
+                    </label>
+                </div>
+                <!-- /////////// End Dropdown //////////// -->
             </div>
-            <div class="modal-body">
-                <form action="index.php">
-                    <input type="hidden" name="c" value="maintenance">
-                    <input type="hidden" name="a" value="insert">
-                    <label for="incidencia">Incidencia</label>
-                    <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia"
-                           autocomplete="off">
-                    <label for="departamento">Departamento</label>
-                    <select id="departamento" name="departamento">
-                        <option disabled selected>Selecciona un departamento...</option>
-                        {% for departamento in departamentos %}
-                            <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Enviar incidencia">
-                </form>
+
+
+            <table id="incidencias" class="display mdl-data-table" data-stripe-classes="[]">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Incidencia</th>
+                    <th>Solicitado por</th>
+                    <th>Estado</th>
+                    <th>Departamento</th>
+                    {% if permiso == "ADMIN" %}
+                        <th></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for incidencia in incidencias %}
+                    <tr class="estado-{{ incidencia.estado }}">
+                        <td>{{ incidencia.fecha }}</td>
+                        <td>{{ incidencia.nombre }}</td>
+                        <td>{{ incidencia.solicitante }}</td>
+                        <td data-order="{{ incidencia.estado }}">
+                            {% if incidencia.estado == "proceso" %}
+                                <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
+                            {% elseif incidencia.estado == "completado" %}
+                                <img alt="Completado." src="/img/maintenance/complete.png"/> Completado.
+                            {% elseif incidencia.estado == "sinempezar" %}
+                                <img alt="Sin empezar." src="/img/maintenance/alarm.png"/> Sin empezar.
+                            {% else %}
+                                <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
+                            {% endif %}
+                        </td>
+                        <td>{{ incidencia.departName }}</td>
+                        {% if permiso == "ADMIN" %}
+                            <td>
+                                {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
+                                    <div class="dropdown">
+                                        <button class="boton-contenido">Marcar como...</button>
+                                        <div class="dropdown-content">
+                                            <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
+                                            <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
+                                                proceso</a>
+                                            <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
+                                                empezar</a>
+                                        </div>
+                                    </div>
+                                {% elseif incidencia.estado == "completado" %}
+                                    Completado por: {{ incidencia.completado_por_nombre }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+            <div id="agregarIncidencia" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Agregar incidencia</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form action="index.php">
+                            <input type="hidden" name="c" value="maintenance">
+                            <input type="hidden" name="a" value="insert">
+                            <label for="incidencia">Incidencia</label>
+                            <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia"
+                                   autocomplete="off">
+                            <label for="departamento">Departamento</label>
+                            <select id="departamento" name="departamento">
+                                <option disabled selected>Selecciona un departamento...</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Enviar incidencia">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
+    </section>
 {% endblock %}
 {% block styles %}
     <!-- Bloque de estilos, se añadirán al final de los bases -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/material/material.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+    <link rel="https://cdn.datatables.net/1.10.16/css/dataTables.material.min.css">
     <link rel="stylesheet" href="/css/maintenance/crud.css">
     <link rel="stylesheet" href="/css/maintenance/modales.css">
     <link rel="stylesheet" href="/css/maintenance/alerts.css">
 {% endblock %}
 {% block scripts %}
     <!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
+    <script src="/js/material/material.js"></script>
     <script type="text/javascript"
-            src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
+            src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
     <script src="/js/maintenance/crud.js"></script>
     <script src="/js/maintenance/modales.js"></script>
     <script src="/js/maintenance/alerts.js"></script>

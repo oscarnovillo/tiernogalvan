@@ -1,0 +1,12 @@
+#boxSettingsL{
+   float: left; 
+}
+
+#boxSettingsR{
+   float: right; 
+}
+
+#parrafoSettings{
+    display: block;
+    clear: both;
+}

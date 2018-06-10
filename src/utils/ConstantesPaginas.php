@@ -29,5 +29,6 @@ class ConstantesPaginas
     const CRUD_PAGE = "crudUsers/crudUsers.html";
     const SEGUIMIENTO_PROGRAMACIONES = "seguimientoProgramaciones/seguimiento_programaciones.html";
 
+    const ADMINISTRACION_DOCUMENTOS = "administracionDocumentos/adminstracion_documentos.html";
 
 }

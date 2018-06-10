@@ -37,6 +37,8 @@ class Constantes
     const PERMISO_ALUMNO = "alumno";
     const PERMISO_PROFESOR = "profesor";
     const PERMISO_ADMIN = "admin";
+    const PERMISO_INCIDENCIAS_TIC = "incidencias tic";
+    const PERMISO_EMPRESA = "EMPRESA";
     
     /**
      * id_rol.
@@ -44,6 +46,9 @@ class Constantes
     const ID_ROL_ALUMNO = 1;
     const ID_ROL_PROFESOR = 2;
     const ID_ROL_ADMIN = 3;
+    const ID_INCIDENCIAS_TIC = 4;
+    const ID_ROL_EMPRESA = 5;
     
+    const CARPETA_DOCUMENTOS_DIRECCION  = "/DocumentosDireccion";
     const SEGUIMIENTO_PROGRAMACIONES_CONTROLLER = "seguimiento_programaciones";
 }

@@ -9,6 +9,7 @@
 namespace dao\bolsaTrabajo;
 
 
+use Carbon\Carbon;
 use config\ConfigBolsaTrabajo;
 use dao\DBConnection;
 use Josantonius\File\File;
@@ -18,6 +19,7 @@ use model\EstudiosCentroTrabajo;
 use model\OfertaTrabajo;
 use model\PerfilBolsaTrabajo;
 use utils\bolsaTrabajo\ConstantesBD;
+use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use function Latitude\QueryBuilder\alias;
 use function Latitude\QueryBuilder\field;
 use function Latitude\QueryBuilder\fn;
@@ -41,7 +43,7 @@ class BolsaTrabajoDAO
                 , ConstantesBD::EMAIL => $oferta->email_oferta
                 , ConstantesBD::TELEFONO => $oferta->telefono_oferta
                 , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
-                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::VACANTES => ($oferta->vacante_oferta == "") ? null : $oferta->vacante_oferta
                 , ConstantesBD::SALARIO => $oferta->salario_oferta
                 , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
@@ -88,7 +90,8 @@ class BolsaTrabajoDAO
 
         } catch (\Exception $exception) {
             $db->rollBack();
-            echo $exception->getMessage();
+            //echo $exception->getMessage();
+            $oferta = null;
         } finally {
             $dbConnection->disconnect();
         }
@@ -322,7 +325,11 @@ class BolsaTrabajoDAO
         return $numOfertas;
     }
 
-
+    /**
+     * Recupera los códigos de los ciclos de FP por ID_OFERTA
+     * @param $idOferta
+     * @return object
+     */
     public function getFpTitulosByIdOferta($idOferta)
     {
 
@@ -391,7 +398,7 @@ class BolsaTrabajoDAO
                 , ConstantesBD::EMAIL => $oferta->email_oferta
                 , ConstantesBD::TELEFONO => $oferta->telefono_oferta
                 , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
-                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::VACANTES => ($oferta->vacante_oferta == "") ? null : $oferta->vacante_oferta
                 , ConstantesBD::SALARIO => $oferta->salario_oferta
                 , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
@@ -475,6 +482,39 @@ class BolsaTrabajoDAO
 
     }
 
+    public function deleteOldOfertasDB()
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory->delete(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->subMonth(3)->toDateTimeString()))
+            ->andWhere(field(ConstantesBD::CADUCIDAD)->notBetween(Carbon::now()->toDateTimeString(), Carbon::now()->addMonth(3)->toDateTimeString()))
+            ->orWhere(field(ConstantesBD::CADUCIDAD)->eq(Carbon::now()->toDateString()))
+            ->compile();
+
+        $dbConnection = null;
+        $resultado = false;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+            $resultado = $stmt->rowCount();
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $resultado;
+
+    }
+
     /**
      *
      * Usuarios
@@ -494,7 +534,7 @@ class BolsaTrabajoDAO
             ->compile();
 
         $paramentros = [
-            ConstantesBD::ID_PERFIL => null,//TODO - cambiar con base real
+            ConstantesBD::ID_PERFIL => $perfil->ID_PERFIL,
             ConstantesBD::NOMBRE => $perfil->NOMBRE
             , ConstantesBD::APELLIDOS => $perfil->APELLIDOS
             , ConstantesBD::FP_CODE => $perfil->FP_CODE
@@ -761,6 +801,279 @@ class BolsaTrabajoDAO
         }
 
         return $response;
+    }
+
+    /**
+     * Recupera todas las ofertas de trabajo que no han sido difundidas por correo
+     * @return array|null
+     */
+    public function getAllOfertasANotificarDB()
+    {
+
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select(ConstantesBD::ID_OFERTA)
+            ->from(ConstantesBD::TABLA_OFERTA)
+            ->where(field(ConstantesBD::DIFUNDIDA)->eq(0))
+            ->compile();
+
+        $dbConnection = null;
+        $ofertasDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $ofertasDB = $stmt->fetchAll(\PDO::FETCH_CLASS, OfertaTrabajo::class);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $ofertasDB;
+    }
+
+    public function getAllUsersANotificarDB($idFpCode)
+    {
+
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select(ConstantesBD::ID_PERFIL)
+            ->from(ConstantesBD::TABLA_PERFIL_ALUMNO)
+            ->where(field(ConstantesBD::RECIBIR_OFERTAS)->eq(1))
+            ->andWhere(field(ConstantesBD::FP_CODE)->eq($idFpCode))
+            ->compile();
+
+        $dbConnection = null;
+        $usersDB = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $usersDB = $stmt->fetchAll(\PDO::FETCH_CLASS, PerfilBolsaTrabajo::class);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $usersDB;
+    }
+
+    public function agregarEnviarOfertas($idOferta, $usersId)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $response = true;
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
+
+            //insert tabla Enviar Ofertas
+            $query = $factory->insert(ConstantesBD::TABLA_ENVIAR_OFERTAS)
+                ->columns(ConstantesBD::ID_OFERTA, ConstantesBD::ID_USER);
+            foreach ($usersId as $idUser) {
+                $query->values($idOferta, $idUser);
+            }
+            $query->compile();
+            $stmt = $db->prepare($query->sql($engine));
+            $stmt->execute($query->params($engine));
+
+            //update oferta
+            $queryUpdate = $factory->update(ConstantesBD::TABLA_OFERTA, [
+                ConstantesBD::DIFUNDIDA => 1
+            ])->where(field(ConstantesBD::ID_OFERTA)->eq($idOferta))
+                ->compile();
+
+            $stmt = $db->prepare($queryUpdate->sql());
+            $stmt->execute($queryUpdate->params());
+
+            $db->commit();
+
+
+        } catch (\Exception $exception) {
+            $db->rollBack();
+            $response = false;
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
+
+
+    }
+
+
+    public function getCounterEmailDB()
+    {
+
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select(ConstantesBD::NUM)
+            ->from(ConstantesBD::TABLA_EMAIL_COUNTER_BT)
+            ->where(field(ConstantesBD::ID_CONTADOR)->eq(ConstantesBolsaTrabajo::CONTADOR))
+            ->compile();
+
+        $dbConnection = null;
+        $contador = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar Ofertas de Trabajo
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $contador = $stmt->fetch(\PDO::FETCH_NUM);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $contador[0];
+    }
+
+    public function updateCounterEmailDB($num)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->update(ConstantesBD::TABLA_EMAIL_COUNTER_BT, [
+                ConstantesBD::NUM => $num
+            ])->where(field(ConstantesBD::ID_CONTADOR)->eq(ConstantesBolsaTrabajo::CONTADOR))
+            ->compile();
+
+        $response = true;
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            //update en la tabla email counter
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+
+        } catch (\Exception $exception) {
+            $response = false;
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
+
+    }
+
+    public function getEmailNoNotificadosDB($limite)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_ENVIAR_OFERTAS)
+            ->where(field(ConstantesBD::NOTIFICADO)->eq(0))
+            ->limit($limite)
+            ->compile();
+
+        $dbConnection = null;
+        $noNotificados = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            //recuperar enviar Ofertas
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $noNotificados = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $noNotificados;
+    }
+
+    public function updateEnviarCorreosDB($ID_NOTIFICAR)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $response = true;
+        $dbConnection = null;
+        try {
+
+            $dbConnection = new DBConnection();
+
+            $db = $dbConnection->getConnection();
+
+            //update enviar oferta
+            $queryUpdate = $factory->update(ConstantesBD::TABLA_ENVIAR_OFERTAS, [
+                ConstantesBD::NOTIFICADO => 1
+            ])->where(field(ConstantesBD::ID_NOTIFICAR)->eq($ID_NOTIFICAR))
+                ->compile();
+
+            $stmt = $db->prepare($queryUpdate->sql());
+            $stmt->execute($queryUpdate->params());
+
+
+        } catch (\Exception $exception) {
+
+            $response = false;
+            //echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+
+        return $response;
+
+    }
+    public function tienePermisosDB($id_permiso)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_ACCESO_MODIFICAR_BT)
+            ->where(field(ConstantesBD::ID_PERMISO)->eq($id_permiso))
+            ->compile();
+
+        $dbConnection = null;
+        $permisos = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $permisos = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        } catch (\Exception $exception) {
+            //echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $permisos;
     }
 
 }//fin clase

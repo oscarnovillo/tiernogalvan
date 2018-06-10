@@ -9,46 +9,57 @@
           <div class="col-m-4 marco-foto">
             <h1>Los mejores alumnos y profesores están en este centro</h1>
             <p>Puedes acceder a información pública de forma anónima y a información privada mediante usuario y contraseña</p>
-            {% if mensaje != null %}
-                <h2 id="mensaje">{{ mensaje }}</h2>
-                <script>
-                    $(document).ready(function(){
-                        setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 3000);
-                    });
-                    
-                </script>
-            {% endif %}
             <button type="button" class="boton-contenido">Acceso público</button>
             <button type="button" class="boton-contenido" onclick="openVentana()">Acceso Restringido</button> 
+            {% if mensaje != null %}
+                    <h2 id="mensaje">{{ mensaje }}</h2>
+                    <script>
+                        $(document).ready(function(){
+                            setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 5000);        
+                        });
+
+                    </script>
+                {% endif %}
+                {% if mensajeLoginError != null %}
+                    <h2 id="mensajeLoginError">{{ mensajeLoginError }}</h2>
+                    <script>
+                        $(document).ready(function(){
+                            setTimeout(function(){ $("#mensajeLoginError").fadeOut("slow"); }, 5000);
+                        });
+
+                    </script>
+                {% endif %}
             <div class="ventana">
               <div class="form">
                 <div class="cerrar"><a onclick="closeVentana()">cerrar X</a></div>
                 <form class="form-ventana" action="index.php" method="post" id="login_users">
-                    <h1>Login</h1>
+                    <h1>Entrar:</h1>
                   <div>
                       <input type="hidden" name="c" value="login_users">
-                    <div class="col-12">
-                        <span>Nick:</span>
-                        <input type="text" id="nick_user" name="nick" placeholder="nick" required>
+                    <div class="col-12 contInput">
+                        <span>Usuario:</span>
+                        <input type="text" id="nick_user" name="nick" placeholder="usuario" required>
                     </div>
-                    <div class="col-12">
-                        <span>Pass:</span>
+                    <div class="col-12 contInput">
+                        <span>Contraseña:</span>
                         <input type="Password" name="pass" required>
                     </div>
-                      <div class="col-12">
+                      <div class="col-12 enviarLogin">
                         <button type="submit" name="a" value="login" class="signupbtn">Entrar</button>
                     </div>
                   </div>
                 </form>
-                <p>Si has olvidado la contraseña <a href="index.php?c=login_users&a=recuperarPass">Pulsa aquí</a></p>
+                
+                <p class="pPass">Si has olvidado el Nick o la Contraseña <a href="index.php?c=login_users&a=recuperarPass">Pulsa aquí</a></p>
                 <div class="border"></div>
                 <form class="form-ventana" action="index.php" method="post" id="login_user">
-                    <h1>Registrarse</h1>
+                    <h1>Registrarse:</h1>
+                    <p class="pPass">Necesitarás una palabra clave proporcionada por el centro</p>
                   <div>
                       <input type="hidden" name="c" value="login_users">
                     
                       <div class="col-12">
-                        <button type="submit" name="a" value="registrar" class="signupbtn">Entrar</button>
+                        <button type="submit" name="a" value="registrar" class="signupbtn enviarLogin">Enviar</button>
                     </div>
                   </div>
                 </form>
@@ -80,5 +91,11 @@
             </div>
           </div>
         </section>
-
+                 
    {% endblock %}
+   
+{% block scripts %}
+     <script src="/js/slideslow.js"></script>
+{% endblock %} 
+   
+   

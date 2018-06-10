@@ -4,37 +4,38 @@
 {% block content %}
     <div id="build_modal_response"></div>
     <div class="p-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 border border-info border border-info rounded">
+        <div class="">
+            <div class="row contenedor">
+                <div class="col-md-8 bg-white border border-info border border-info rounded">
                     <h2 id="titulo_oferta" contenteditable="false">{{ TITULO }}</h2>
                     <h5 class="text-secondary">Descripción</h5>
-                    <p class="border border-info rounded" id="descripcion_oferta">{{ DESCRIPCION }}</p>
+                    <p class=" border-info rounded" id="descripcion_oferta">{{ DESCRIPCION }}</p>
                     <h5 class="text-secondary">Requisitos</h5>
-                    <p class="border border-info rounded" id="requisitos_oferta">{{ REQUISITOS }}</p>
+                    <p class="border-info rounded" id="requisitos_oferta">{{ REQUISITOS }}</p>
                     <h5 class="text-secondary">Ciclos Compatibles con la oferta</h5>
-                    <ul class="">
+                    <ul class="list-group">
                         {% for fp in FPTARGETS %}
-                            <li class="border border-info rounded" id="fp_oferta"> {{ fp.TITULO }} </li>
+                            <li class="list-group-item" id="fp_oferta"> {{ fp.TITULO }} </li>
                         {% endfor %}
 
                     </ul>
                     <h5 class="text-secondary">Empresa Responsable</h5>
-                    <p class="border border-info rounded" id="empresa_oferta">{{ EMPRESA }}</p>
+                    <p class=" border-info rounded" id="empresa_oferta">{{ EMPRESA }}</p>
                     <h5 class="text-secondary">Web del anunciante/Enlace con información relevante</h5>
-                    <p class="border border-info rounded" id="web_oferta">{{ WEB }}</p>
+                    <p class=" border-info rounded" id="web_oferta">
+                        <a target="_blank" href="{{ WEB }}">{{ WEB }}</a></p>
                     <h5 class="text-secondary">E-mail de contacto</h5>
-                    <p class="border border-info rounded" id="email_oferta">{{ EMAIL }}</p>
+                    <p class=" border-info rounded" id="email_oferta">{{ EMAIL }}</p>
                     <h5 class="text-secondary">Teléfono de contacto</h5>
-                    <p class="border border-info rounded" id="telefono_oferta">{{ TELEFONO }}</p>
+                    <p class=" border-info rounded" id="telefono_oferta">{{ TELEFONO }}</p>
                     <h5 class="text-secondary">Número de Vacantes Disponibles</h5>
-                    <p class="border border-info rounded" id="vacante_oferta">{{ VACANTES }}</p>
-                    <h5 class="text-secondary">Salario mensual aproximado [€]</h5>
-                    <p class="border border-info rounded" id="salario_oferta">{{ SALARIO }}</p>
+                    <p class=" border-info rounded" id="vacante_oferta">{{ VACANTES }}</p>
+                    <h5 class="text-secondary">Salario</h5>
+                    <p class=" border-info rounded" id="salario_oferta">{{ SALARIO }}</p>
                     <h5 class="text-secondary">Localización</h5>
-                    <p class="border border-info rounded" id="localizacion_oferta">{{ LOCALIZACION }}</p>
+                    <p class=" border-info rounded" id="localizacion_oferta">{{ LOCALIZACION }}</p>
                     <h5 class="text-secondary">Fecha de Creación Oferta</h5>
-                    <p class="border border-info rounded" id="creacion_oferta">{{ CREACION }}</p>
+                    <p class=" border-info rounded" id="creacion_oferta">{{ CREACION }}</p>
                 </div>
                 <div class="col-md-4">
                     <h3 class="">Estas Interesad@ en esta Oferta de Trabajo?</h3>

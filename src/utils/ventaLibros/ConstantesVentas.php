@@ -13,6 +13,8 @@ class ConstantesVentas{
     const VENTA_CORRECTA = "Tu libro se ha puesto a la venta.";
     const VENTA_RESERVADA = "Tu reserva se ha realizado correctamente. Hemos informado al vendedor para que se ponga en contacto contigo.";
     const ERROR_MISMO_USER = "No puedes reservar tus propios libros.";
+    const ERROR_EDITAR = "No se ha podido editar la publicación.";
+    const ERROR_BORRAR = "No se ha podido borrar la publicación.";
     
     const PARAM_ID_VENTA = "id_venta";
     const PARAM_ID_VENDEDOR = "id_vendedor";
@@ -21,6 +23,9 @@ class ConstantesVentas{
     const PARAM_PRECIO = "precio";
     const PARAM_ASIGNATURA = "asignatura";
     const PARAM_CURSO = "curso";
+    const PARAM_ESTADO = "estado";
+    
+    const EMAIL_SUBJECT = "Han reservado tu libro";
 }
 
 

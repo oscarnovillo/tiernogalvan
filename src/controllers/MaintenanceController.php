@@ -9,7 +9,6 @@ use utils\maintenance\Utils;
 use utils\Mailer;
 use utils\TwigViewer;
 use servicios\session\SessionServicios;
-
 class MaintenanceController
 {
 
@@ -21,7 +20,7 @@ class MaintenanceController
          * Revisar el rango, para saber si es un TIC o no.
          * Si es TIC, puede marcar el estado de las consultas.
          */
-        $rango = $session->checkUserPermission(4) ? "ADMIN" : "USER";
+        $rango = $session->checkUserPermission("incidencias_tic") ? "ADMIN" : "USER";
 
         $page = ConstantesMaintenance::MAINTENANCE_CRUD;
         $parameters = array();
