@@ -95,7 +95,7 @@ class MaintenanceDAO
         $stmt = $db->prepare("UPDATE incidencias SET estado=:estado,completado_por=:usrid WHERE id=:id");
         $stmt->bindParam(":estado", $estado);
         $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":usrid", $_SESSION[Constantes::SESS_USER]);
+        $stmt->bindParam(":usrid", $_SESSION[Constantes::SESS_USER]->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;

@@ -38,7 +38,6 @@ session_start();
  * En cada controlador se comprueba si se requiere login o no.
  */
 /*
- * TODO: HACER CRUD DE DEPARTAMENTOS.
  */
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
 {
