@@ -42,13 +42,13 @@ class BolsaTrabajoController
                 case ConstantesBolsaTrabajo::CREAR_OFERTA_TRABAJO:
 
 
-                    if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::INSERT) {
+                    if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::INSERT && $this->tienePermisosAcceso($this->getIdUser())) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::NUEVA_OFERTA);
                         $datos = json_decode($datos);
                         $this->crearOfertaForm($datos);
 
-                    } else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
+                    } else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE && $this->tienePermisosAcceso($this->getIdUser())) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::UPDATE_OFERTA);
                         $datos = json_decode($datos);
@@ -71,7 +71,7 @@ class BolsaTrabajoController
                     break;
                 case ConstantesBolsaTrabajo::BORRAR_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_POST, ConstantesBolsaTrabajo::ID_OFERTA);
-                    if (v::numeric()->validate($idOferta)) {
+                    if (v::numeric()->validate($idOferta) && $this->tienePermisosAcceso($this->getIdUser())) {
                         $this->borrarOferta($idOferta, $this->getIdUser());
                     } else {
                         echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
@@ -81,10 +81,10 @@ class BolsaTrabajoController
 
                 case ConstantesBolsaTrabajo::MIS_OFERTAS_TRABAJO:
                     $idOwnerOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OWNER_OFERTA);
-                    if (v::numeric()->validate($idOwnerOferta)) {
+                    if (v::numeric()->validate($idOwnerOferta) && $this->tienePermisosAcceso($idOwnerOferta)) {
                         $this->misOferta($idOwnerOferta);
                     } else {
-                        $this->irAlIndex();
+                        $this->irErrorPermisos();
                     }
 
                     break;
@@ -191,17 +191,18 @@ class BolsaTrabajoController
 
             TwigViewer::getInstance()->viewPage($page, (array)$estudios);
         } else {
-            $this->irAlIndex();
+            $this->irErrorPermisos();
         }
     }
 
     public function editarPerfilVista()
     {
+
         $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
-        if (v::numeric()->validate($idPerfil)) {
+        if (v::numeric()->validate($idPerfil) && $this->tienePermisosAcceso($idPerfil)) {
             $this->editarPerfil($idPerfil);
         } else {
-            $this->irAlIndex();
+            $this->irErrorPermisos();
         }
     }
 
@@ -263,7 +264,7 @@ class BolsaTrabajoController
             $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
             TwigViewer::getInstance()->viewPage($page, (array)$ofertasVista);
         } else {
-            $this->irAlIndex();
+            $this->irErrorPermisos();
         }
 
     }
@@ -274,13 +275,16 @@ class BolsaTrabajoController
         $servicios = new BolsaTrabajoServicios();
 
         $miPerfilDB = $servicios->getMiPerfil($idPerfil);
-        $miPerfilDB[0]->FP_CODE = $servicios->recuperarNombreCiclo($miPerfilDB[0]->FP_CODE);
-        $miPerfilDB[0]->RECIBIR_OFERTAS = $servicios->definirInfoOferta($miPerfilDB[0]->RECIBIR_OFERTAS);
-        $miPerfilDB[0]->BUSCA_TRABAJO = $servicios->definirInfoTrabajo($miPerfilDB[0]->BUSCA_TRABAJO);
-        $miPerfilDB[0]->ULTIMA_EDICION = $servicios->formatCreacion($miPerfilDB[0]->ULTIMA_EDICION);
         $perfilBundle = (object)[];
+        if (is_array($miPerfilDB) && !empty($miPerfilDB)) {
+            $miPerfilDB[0]->FP_CODE = $servicios->recuperarNombreCiclo($miPerfilDB[0]->FP_CODE);
+            $miPerfilDB[0]->RECIBIR_OFERTAS = $servicios->definirInfoOferta($miPerfilDB[0]->RECIBIR_OFERTAS);
+            $miPerfilDB[0]->BUSCA_TRABAJO = $servicios->definirInfoTrabajo($miPerfilDB[0]->BUSCA_TRABAJO);
+            $miPerfilDB[0]->ULTIMA_EDICION = $servicios->formatCreacion($miPerfilDB[0]->ULTIMA_EDICION);
 
-        $perfilBundle->PERFIL_DATA = $miPerfilDB;
+
+            $perfilBundle->PERFIL_DATA = $miPerfilDB;
+        }
         TwigViewer::getInstance()->viewPage($page, (array)$perfilBundle);
 
     }
@@ -306,6 +310,12 @@ class BolsaTrabajoController
     {
         $page = ConstantesPaginas::INDEX;
         TwigViewer::getInstance()->viewPage($page);
+    }
+
+    public function irErrorPermisos()
+    {
+        $errController = new ErrorController();
+        $errController->forbiddenAccess();
     }
 
 
@@ -360,36 +370,43 @@ class BolsaTrabajoController
 
     private function insertOrUpdatePerfilForm($datos)
     {
-
-        $servicios = new BolsaTrabajoServicios();
-        if ($servicios->validarPerfil($datos)) {
-            $datos = $servicios->actualizarPerfil($datos);
-            if (is_object($datos)) {
-                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
-                $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
-                echo json_encode($message);
+        if ($this->tienePermisosAcceso($datos->ID_PERFIL)) {
+            $servicios = new BolsaTrabajoServicios();
+            if ($servicios->validarPerfil($datos)) {
+                $datos = $servicios->actualizarPerfil($datos);
+                if (is_object($datos)) {
+                    $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
+                    $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
+                    echo json_encode($message);
+                } else {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));
+                }
             } else {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
+
             }
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
-
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS));
         }
     }
 
     private function insertOrUpdatePerfilFormConfig($datosConfig)
     {
-        $servicios = new BolsaTrabajoServicios();
+        if ($this->tienePermisosAcceso($datosConfig->ID_PERFIL)) {
+            $servicios = new BolsaTrabajoServicios();
 
-        if ($servicios->validarPerfilConfig($datosConfig)) {
-            if ($servicios->actualizarPerfilConfig($datosConfig)) {
-                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
-                echo json_encode($message);
+            if ($servicios->validarPerfilConfig($datosConfig)) {
+                if ($servicios->actualizarPerfilConfig($datosConfig)) {
+                    $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
+                    echo json_encode($message);
+                } else {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_CONFIG_USER));
+                }
             } else {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_CONFIG_USER));
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
             }
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS));
         }
     }
 
@@ -446,6 +463,16 @@ class BolsaTrabajoController
             $this->setIdRol($permiso->ID_PERMISO);
         }
 
+    }
+
+    public function getUserSession()
+    {
+        return $_SESSION[Constantes::SESS_USER];
+    }
+
+    public function tienePermisosAcceso($id_user)
+    {
+        return $this->getUserSession()->id == $this->getIdUser() && $this->getIdUser() == $id_user;
     }
 
 }//fin clase

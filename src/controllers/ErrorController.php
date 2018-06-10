@@ -17,4 +17,9 @@ class ErrorController
         TwigViewer::getInstance()->viewPage("errors/permissions.html");
     }
 
+    public function forbiddenAccess()
+    {
+        TwigViewer::getInstance()->viewPage("errors/forbidden-access.html");
+    }
+
 }

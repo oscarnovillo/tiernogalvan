@@ -33,10 +33,17 @@
                             de Trabajo</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="index.php?c={{ constant('Utils\\Constantes::BOLSA_TRABAJO_CONTROLLER') }}">Ofertas Publicadas</a>
+                            {% if userOnline == true %}
+                                {% if bolsa_permisos == true %}
                             <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=crear_oferta">Crear Oferta de trabajo</a>
-                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=mis_ofertas&amp;id_owner=">Mis Ofertas</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=mis_ofertas&amp;id_owner={{ user_keys.id }}">Mis Ofertas</a>
+                                {% endif %}
+                            {% endif %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Mi perfil</a>
+                            {% if userOnline == true and bolsa_permisos == false %}
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&a=editar_perfil&id_perfil={{ user_keys.id }}">Editar mi perfil</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&a=mi_perfil&id_perfil={{ user_keys.id }}">Ver mi perfil</a>
+                            {% endif %}
                         </div>
                     </li>
                     <li class="nav-item"><a class="nav-link"

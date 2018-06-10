@@ -398,7 +398,7 @@ class BolsaTrabajoDAO
                 , ConstantesBD::EMAIL => $oferta->email_oferta
                 , ConstantesBD::TELEFONO => $oferta->telefono_oferta
                 , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
-                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::VACANTES => ($oferta->vacante_oferta == "") ? null : $oferta->vacante_oferta
                 , ConstantesBD::SALARIO => $oferta->salario_oferta
                 , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta

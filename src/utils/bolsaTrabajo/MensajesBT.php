@@ -33,6 +33,7 @@ class MensajesBT
     const ERROR_FALLO_INTERNO = "Error en el servidor, por favor refresca la página(F5) y vuelve a intentarlo";
     const ERROR_FALLO_CONFIG_USER = "Error en el servidor, para modificar estas opciones, primero tienes que rellenar los datos del perfil";
     const ERROR_FALLO_IDENTIFICADOR_USER = "Fallo en la identificación del usuari@, hemos perdido tu identificador de usuari@, por favor refresca o vuelve a iniciar sesión";
+    const ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS = "Fallo en la identificación del usuari@, no tienes permisos para realizar esta operación";
 
 
     const TIEMPO_TRANSCURRIDO = "Hace %d días";

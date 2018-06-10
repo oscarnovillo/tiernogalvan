@@ -55,6 +55,7 @@ class ConstantesBolsaTrabajo
     const ID_PERFIL_PERSONA = "id_perfil";
 
     const TIPO_PERMISO = "TIPO_PERMISO";
+    const BOLSA_PERMISOS = "bolsa_permisos";
 
     /**
      * tareas

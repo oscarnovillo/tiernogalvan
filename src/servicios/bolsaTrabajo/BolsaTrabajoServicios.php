@@ -306,7 +306,7 @@ class BolsaTrabajoServicios
     public function definirInfoOferta($RECIBIR_OFERTAS)
     {
         $responseText = null;
-        if ($RECIBIR_OFERTAS == 0) {
+        if ($RECIBIR_OFERTAS == 1) {
             $responseText = MensajesBT::RECIBIR_OFERTAS_OK;
         } else {
             $responseText = MensajesBT::RECIBIR_OFERTAS_NO;
@@ -317,7 +317,7 @@ class BolsaTrabajoServicios
     public function definirInfoTrabajo($BUSCA_TRABAJO)
     {
         $responseText = null;
-        if ($BUSCA_TRABAJO == 0) {
+        if ($BUSCA_TRABAJO == 1) {
             $responseText = MensajesBT::BUSCA_TRABAJO_OK;
         } else {
             $responseText = MensajesBT::BUSCA_TRABAJO_NO;

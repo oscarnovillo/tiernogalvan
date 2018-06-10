@@ -8,6 +8,7 @@
 
 namespace utils;
 
+use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\Constantes;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -17,21 +18,29 @@ use Twig\Environment;
  *
  * @author user
  */
-class TwigViewer {
+class TwigViewer
+{
 
     //put your code here
     private static $_instance;
     private $loader;
     private $twig;
 
-    private function __construct() {
+    private function __construct()
+    {
 
         $this->loader = new FilesystemLoader(Constantes::TWIG_FOLDER);
-        $this->twig = new Environment($this->loader);
+        $this->twig = new Environment($this->loader, array(
+            'debug' => true
+        ));
+        $this->twig->addExtension(new \Twig_Extension_Debug());
         $this->twig->addGlobal('userOnline', isset($_SESSION[Constantes::SESS_USER]));
+        $this->twig->addGlobal('user_keys', $_SESSION[Constantes::SESS_USER]);
+        $this->twig->addGlobal(ConstantesBolsaTrabajo::BOLSA_PERMISOS, isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO]));
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
 
         if (!isset(self::$_instance)) {
             self::$_instance = new TwigViewer();
@@ -44,7 +53,8 @@ class TwigViewer {
         return self::$_instance;
     }
 
-    public function viewPage($page, $parameters = NULL) {
+    public function viewPage($page, $parameters = NULL)
+    {
         if ($parameters == NULL) {
             $parameters = array();
         }
