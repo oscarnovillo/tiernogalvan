@@ -445,7 +445,7 @@ class BolsaTrabajoController
     public function setCredencialesUser(): void
     {
         $sesion = $_SESSION[Constantes::SESS_USER];
-        $permiso = $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO];
+        $permiso = ($this->getTipoPermisoSession() != null) ? $this->getTipoPermisoSession() : null;
         if (isset($sesion)) {
             $this->setIdUser($sesion->id);
             if (!isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO])) {
@@ -468,6 +468,11 @@ class BolsaTrabajoController
     public function getUserSession()
     {
         return $_SESSION[Constantes::SESS_USER];
+    }
+
+    public function getTipoPermisoSession()
+    {
+        return $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO];
     }
 
     public function tienePermisosAcceso($id_user)

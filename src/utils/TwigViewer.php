@@ -30,7 +30,7 @@ class TwigViewer
     {
 
         $this->loader = new FilesystemLoader(Constantes::TWIG_FOLDER);
-        $this->twig = new Environment($this->loader, array(
+        $this->twig = new Environment($this->loader, array(//TODO - quitar al finalizar desarrollo
             'debug' => true
         ));
         $this->twig->addExtension(new \Twig_Extension_Debug());
