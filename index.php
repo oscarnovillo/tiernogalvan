@@ -65,13 +65,14 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
             /* Requerir login */
-            !$userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
+            $userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
             break;
         case Constantes::DOCUMENTOS_CONTROLLER:
             $controller = new AdministracionDocumentosController();
             /* Requerir login */
            // !$userSessionValid ? $controller->documentos() : $errController->permissions();
             $controller->documentos();
+            break;  
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();
             /* Requerir login */
@@ -102,10 +103,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         default:
             //TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
             if($userSessionValid){
-                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE);
-                
+                $user = $_SESSION[Constantes::SESS_USER];
+                $parameters['mensaje'] = $user->nombre." ".$user->apellidos;
+                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE,$parameters);
             }else{
-                $parameters['mensaje'] = $_SESSION[Constantes::SESS_USER];
+                
                               
                 TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
             }    

@@ -2,6 +2,7 @@
 
 {% block styles %}
     <link rel="stylesheet" href="/css/tareas/tareas.css">
+    <link rel="stylesheet" href="/css/tareas/loader.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 
@@ -13,7 +14,9 @@
 
 {% block content %}
 
-    <div id='cargando'></div>
+    <div id='cargando'>
+        <div id="loader"></div>
+    </div>
 
     <div class="cuerpo">
         <div class="contenido">
@@ -46,9 +49,6 @@
 
             <!-- Botón Volver -->
             <button onclick="location.href = '/index.php?c=tareas';" type="button" class="boton-contenido">{{ textos.Volver }}</button>
-            
-            <!-- TODO: Esto no hará falta cuando haya permisos -->
-            <a href="/index.php?c=tareas&a=ver_curso&id_curso={{ id_curso }}&hola_tengo_permisos_de_edicion=1">"Obtener permisos de edición" (para pruebas)</a>
         </div>
 
         <!-- Textos pasados del php a Javascript -->

@@ -21,7 +21,6 @@ use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\bolsaTrabajo\GenEmail;
 use utils\bolsaTrabajo\MensajesBT;
 use utils\bolsaTrabajo\UploadHandler;
-use utils\ConstantesPaginas;
 
 
 class BolsaTrabajoServicios
@@ -71,6 +70,12 @@ class BolsaTrabajoServicios
         return $dao->getSizeOfertasDB();
     }
 
+    public function getPermisosBolsa($id_permiso)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->tienePermisosDB($id_permiso);
+    }
+
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;
@@ -79,7 +84,7 @@ class BolsaTrabajoServicios
             ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
             ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::email()->length(4, 80)))
             ->attribute(ConstantesBolsaTrabajo::EMPRESA_OFERTA, v::optional(v::stringType()->length(3, 60)))
-            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 80)))
+            ->attribute(ConstantesBolsaTrabajo::WEB_OFERTA, v::optional(v::stringType()->length(4, 200)))
             ->attribute(ConstantesBolsaTrabajo::LOCALIZACION_OFERTA, v::optional(v::stringType()->length(3, 85)))
             ->attribute(ConstantesBolsaTrabajo::TELEFONO_OFERTA, v::optional(v::stringType()->length(8, 15)))
             ->attribute(ConstantesBolsaTrabajo::VACANTE_OFERTA, v::optional(v::numeric()))
@@ -192,6 +197,7 @@ class BolsaTrabajoServicios
     {
         $oferta->CREACION = $this->formatCreacion($oferta->CREACION);
         $oferta->DESCRIPCION = $this->formatTexto($oferta->DESCRIPCION, ConfigBolsaTrabajo::LONGITUD_TEXTO_DESCRIPCION);
+        $oferta->TITULO = htmlspecialchars($oferta->TITULO);
         return $oferta;
     }
 
@@ -206,7 +212,7 @@ class BolsaTrabajoServicios
     {
         if (strlen($texto) > $limit)
             $texto = substr($texto, 0, strrpos(substr($texto, 0, $limit), ' ')) . '...';
-        return $texto;
+        return htmlspecialchars($texto);
     }
 
     public function subirArchivo()
@@ -300,7 +306,7 @@ class BolsaTrabajoServicios
     public function definirInfoOferta($RECIBIR_OFERTAS)
     {
         $responseText = null;
-        if ($RECIBIR_OFERTAS == 0) {
+        if ($RECIBIR_OFERTAS == 1) {
             $responseText = MensajesBT::RECIBIR_OFERTAS_OK;
         } else {
             $responseText = MensajesBT::RECIBIR_OFERTAS_NO;
@@ -311,7 +317,7 @@ class BolsaTrabajoServicios
     public function definirInfoTrabajo($BUSCA_TRABAJO)
     {
         $responseText = null;
-        if ($BUSCA_TRABAJO == 0) {
+        if ($BUSCA_TRABAJO == 1) {
             $responseText = MensajesBT::BUSCA_TRABAJO_OK;
         } else {
             $responseText = MensajesBT::BUSCA_TRABAJO_NO;
@@ -341,15 +347,18 @@ class BolsaTrabajoServicios
             $registroPrevio = $this->comprobarApuntarOferta($idOferta, $idUser);
 
             if (!$registroPrevio) {
+                BuzonCorreo::getInstance()->setRemitenteNombre(ConfigBolsaTrabajo::RESPONSABLE_ORIGEN);
+
                 $ofertaDatos = $this->verOferta($idOferta);
                 if (is_object($ofertaDatos) && $ofertaDatos->EMAIL != null) {
-                    $servidor = new BuzonCorreo();
+                    //$servidor = new BuzonCorreo();
                     $aplicante = false;
                     if ($perfilUser[0]->EMAIL != null) {
                         //Enviamos correo de confirmación
                         $ofertaDatos->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaDatos->ID_OFERTA);
                         $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_ALUMN, (array)$ofertaDatos);
-                        $aplicante = $servidor->enviarCorreo($perfilUser[0]->EMAIL, $perfilUser[0]->NOMBRE, MensajesBT::ASUNTO_CONFIRM_OFERTA, $template);
+
+                        $aplicante = BuzonCorreo::getInstance()->enviarCorreo($perfilUser[0]->EMAIL, $perfilUser[0]->NOMBRE, MensajesBT::ASUNTO_CONFIRM_OFERTA, $template);
                     }
                     //enviamos correo a ofertante
                     $perfilUser[0]->TITULO = $ofertaDatos->TITULO;
@@ -358,7 +367,7 @@ class BolsaTrabajoServicios
                     $perfiObject = $perfilUser[0];
 
                     $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_CONFIRMACION_OFERTA_EMPRESA, (array)$perfiObject);
-                    $receptor = $servidor->enviarCorreo($ofertaDatos->EMAIL, $ofertaDatos->EMPRESA, MensajesBT::ASUNTO_CONFIRM_OFERTA_EMPRESA, $template);
+                    $receptor = BuzonCorreo::getInstance()->enviarCorreo($ofertaDatos->EMAIL, $ofertaDatos->EMPRESA, MensajesBT::ASUNTO_CONFIRM_OFERTA_EMPRESA, $template);
 
                     if ($aplicante && $receptor) {
                         $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::APUNTARSE_TODO_CORRECTO);
@@ -433,6 +442,7 @@ class BolsaTrabajoServicios
                         if (is_array($userANotificar) && !empty($userANotificar)) {
                             foreach ($userANotificar as $code) {
                                 array_push($usersId, $code->ID_PERFIL);
+                                echo sprintf(MensajesBT::USER_AGREGADO_COLA, $code->ID_PERFIL) . PHP_EOL;
                             }
                         } else {
                             //No hay perfiles
@@ -484,7 +494,8 @@ class BolsaTrabajoServicios
     {
         $numEnviados = $this->numEmailsEnviados();
         $contador = 0;
-        $servidor = new BuzonCorreo();
+
+        BuzonCorreo::getInstance()->setRemitenteNombre(ConfigBolsaTrabajo::RESPONSABLE_ORIGEN);
         $horaActual = Carbon::now()->hour;
         if ($horaActual >= 23) {//reset diario
             $this->actualizarEmailsEnviados(0);
@@ -514,7 +525,7 @@ class BolsaTrabajoServicios
                         $ofertaTemp->LINK_OFERTA = $this->formatearOfertaURLEmail(MensajesBT::LINK_OFERTA_TRABAJO, $ofertaTemp->ID_OFERTA);
                         $template = GenEmail::getInstance()->renderTemplate(ConstantesBolsaTrabajo::TEMPLATE_NUEVA_OFERTA_INFO, (array)$ofertaTemp);
 
-                        $isSend = $servidor->enviarCorreo($emailUser, $emailNombre, MensajesBT::ASUNTO_NUEVA_OFERTA, $template);
+                        $isSend = BuzonCorreo::getInstance()->enviarCorreo($emailUser, $emailNombre, MensajesBT::ASUNTO_NUEVA_OFERTA, $template);
 
                         if ($isSend) {
                             $dao->updateEnviarCorreosDB($ofertasAEnviar[$i][ConstantesBD::ID_NOTIFICAR]);
@@ -527,12 +538,14 @@ class BolsaTrabajoServicios
                 }//fin for
 
                 $dao->updateCounterEmailDB($numEnviados + $contador);
+
             }
 
 
         } else {
             //Te has pasado del límite
         }
+        echo sprintf(MensajesBT::NUM_CORREOS_ENVIADOS, $contador);
 
     }
 
@@ -543,10 +556,11 @@ class BolsaTrabajoServicios
      *
      */
 
-    //TODO - pendiente de pulir el borrado
-    public function borrarViejasOfertas(){
+    public function borrarViejasOfertas()
+    {
         $dao = new BolsaTrabajoDAO();
-        $dao->deleteOldOfertasDB();
+        $filas = $dao->deleteOldOfertasDB();
+        echo sprintf(MensajesBT::NUM_REGISTROS_BORRADOS, $filas);
     }
 
 

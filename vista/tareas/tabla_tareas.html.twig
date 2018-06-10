@@ -24,7 +24,6 @@
     <!-- BODY -->
     <tbody id="tbody_recarga">
 
-        <!-- Pinta los datos si existen -->
         {% if tareas %}
             {% for tarea in tareas %}
                 <tr id="fila_tarea{{ tarea.id_tarea }}">
@@ -159,8 +158,8 @@
         {% endif %}
 
 
-        <!-- AÑADIR NUEVA FILA (aparece al pinchar botón) -->
         {% if permiso_edicion == 1 %}
+            <!-- AÑADIR NUEVA FILA (aparece al pinchar botón) -->
             <tr id="fila_tareaNueva" style="display:none">
 
                 <!-- Descripción -->

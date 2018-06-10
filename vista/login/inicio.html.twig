@@ -6,12 +6,18 @@
         <div class="contenedor">
           <div class="col-m-4 marco-foto">
             <h1>Bienvenido:</h1>
-            {% if mensaje != null %}
-                <h2 id="mensaje">{{ mensaje }}</h2>
-                
-            {% endif %}
-            <a href="index.php?c=login_users&a=cambiarPass"><img class="imgSetings" src="/img/setings.png"></a>
-            <p>Puedes acceder a información pública de forma anónima y a información privada mediante usuario y contraseña</p>
+            <div id="boxSettingsL">
+                {% if mensaje != null %}
+                    <h2 id="mensaje">{{ mensaje }}</h2>
+
+                {% endif %}
+            </div>
+            <div id="boxSettingsR">
+                <a href="index.php?c=login_users&a=cambiar_pass"><img class="imgSetings" src="/img/setings.png"></a>
+            </div>
+            <div id="parrafoSettings">
+                <p>Puedes acceder a información pública de forma anónima y a información privada mediante usuario y contraseña</p>
+            </div>
           </div>
           <div class="portada col-m-8 marco-foto">
             <div class="contenido-foto">
@@ -39,3 +45,8 @@
           </div>
         </section>
 {% endblock %}
+
+
+{% block scripts %}
+     <script src="/js/slideslow.js"></script>
+{% endblock %} 

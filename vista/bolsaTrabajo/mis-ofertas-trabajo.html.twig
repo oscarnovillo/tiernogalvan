@@ -5,7 +5,7 @@
     <div id="build_modal"></div>
     <div id="build_modal_response"></div>
     <div class="p-1">
-        <div class="container">
+        <div class="contenedor">
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="display-4">Mis Ofertas</h1>
@@ -23,8 +23,8 @@
                         {% for oferta in misOfertas %}
 
                             <tr>
-                                <td class="text-center">{{ oferta.idOferta|escape }}</td>
-                                <td class="text-center">{{ oferta.titulo|e }}</td>
+                                <td class="text-center">  {{ oferta.idOferta|escape }}</td>
+                                <td class="text-center"><a href="index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta={{oferta.idOferta  }}" >{{ oferta.titulo|e }}</a></td>
                                 <td>
                                     <a class="btn btn-outline-primary w-100 p-0 m-1"
                                        data-toggle="modal" id="editar_oferta_button" onclick="editarOferta('{{ oferta.idOferta|escape }}')">Editar</a>

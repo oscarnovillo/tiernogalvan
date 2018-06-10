@@ -4,7 +4,7 @@
 {% block content %}
     <div id="build_modal"></div>
     <div class="py-4">
-        <div class="container">
+        <div class="contenedor">
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="display-4">Datos Personales</h1>
@@ -19,15 +19,15 @@
                     <p class="lead">Experiencia</p>
                     <p class="" id="experiencia_persona">{{ PERFIL_DATA[0].EXPERIENCIA |escape }}</p>
                     <p class="lead">Perfíl Externo</p>
-                    <a class="nav-link" href="{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}" target="_blank"
+                    <a class="" href="{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}" target="_blank"
                        id="perfil_externo_persona">{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}</a>
                     <p class="lead">Enlaces de Interés</p>
-                    <a class="nav-link" href="{{ PERFIL_DATA[0].LINK_INTERES |escape }}"
+                    <a class="" href="{{ PERFIL_DATA[0].LINK_INTERES |escape }}"
                        target="_blank" id="enlace_persona">{{ PERFIL_DATA[0].LINK_INTERES |escape }}</a>
                 </div>
                 <div class="col-md-4">
                     <img class="img-fluid d-block rounded mx-auto" src="
-                     {% set imgurl = "https://i.imgur.com/dqZvAQ4.jpg" %}
+                     {% set imgurl = "img/user.png" %}
                                  {% if PERFIL_DATA[0].FOTO == null or PERFIL_DATA[0].FOTO == "" %}
                                  {{ imgurl }}
                                  {% else %}

@@ -6,34 +6,47 @@
         <div class="contenedor">
             <div class="col-12 marco-foto">
                 <h1>AJUSTES DE USUARIO</h1>
-                <p>CAMBIAR PASS:</p>
-                {% if mensaje != null %}
-                    <h2 id="mensaje">{{ mensaje }}</h2>
+                <h2>CAMBIAR PASS:</h2>
+                <div id="mensajeRegistro">
+                {% if mensajeRegistro != null %}
+                    <h2 id="mensajeRegistro">{{ mensajeRegistro }}</h2>
                     <script>
                         $(document).ready(function(){
-                            setTimeout(function(){ $("#mensaje").fadeOut("slow"); }, 3000);
+                            setTimeout(function(){ $("#mensajeRegistro").fadeOut("slow"); }, 5000);
                         });
-
+                            
                     </script>
                 {% endif %}
+                </div>
+                <div id="mensajeRegistroError">
+                    {% if mensajeRegistroError != null %}
+                        <h2 id="mensajeRegistroError">{{ mensajeRegistroError }}</h2>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){ $("#mensajeRegistroError").fadeOut("slow"); }, 5000);
+                            });
+
+                        </script>
+                    {% endif %}
+                </div>
                 <div class="contForm">
                     <form action="index.php" method="post" id="crud_users">
                         <input type="hidden" name="c" value="login_users">
-                        <input type="hidden" name="a" value="cambiarPass"> 
+                        <input type="hidden" name="a" value="cambiar_pass"> 
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="nick_user">NICK:</label>
-                            <input type="text" id="nick_user" name="nick" placeholder="nick" class="form-control" required>
+                            <label for="nick_user">USUARIO:</label>
+                            <input type="text" id="nick_user" name="nick" placeholder="usuario" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="pass_user">PASS:</label>
+                            <label for="pass_user">CONTRASEÑA:</label>
                             <input type="text" id="pass_user" name="pass" placeholder="contraseña actual" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">
-                            <label for="pass_user">NUEVO PASS:</label>
-                            <input type="text" id="pass_user" name="new_pass" placeholder="nueva contraseña" class="form-control" required>
+                            <label for="pass_user">NUEVA CONTRASEÑA:</label>
+                            <input type="text" id="pass_user" name="nuevo_pass" placeholder="nueva contraseña" class="form-control" required>
                         </div>
 
                         <div class="col-12 col-sm-6 col-lg-4 form-group">

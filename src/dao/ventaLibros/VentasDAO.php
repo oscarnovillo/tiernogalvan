@@ -44,9 +44,10 @@ class VentasDAO {
         $db = new DBConnection();
         $conn = $db->getConnection();
         
-        $ventas = $conn->prepare("SELECT * FROM venta_libros WHERE estado != 'Reservado'");
-        $ventas->setFetchMode(PDO::FETCH_ASSOC);
-        $ventas->execute();
+        $stmt = $conn->prepare("SELECT * FROM venta_libros WHERE estado != 'Reservado'");
+        $stmt->execute();
+        
+        $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
         
         $db->disconnect();
         return $ventas;
@@ -111,5 +112,39 @@ class VentasDAO {
         
         $db->disconnect();
         return $actualizado;
+    }
+    
+    public function delVenta($id){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $borrado;
+        
+        $stmt = $conn->prepare("DELETE FROM venta_libros WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        
+        if (($stmt->rowCount()) > 0){
+            $borrado = true;
+        }else{
+            $borrado = false;
+        }
+        
+        $db->disconnect();
+        return $borrado;
+    }
+    
+    public function getUser($id){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        
+        $user = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        $db->disconnect();
+        return $user;
     }
 }

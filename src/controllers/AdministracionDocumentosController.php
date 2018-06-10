@@ -16,6 +16,8 @@ class AdministracionDocumentosController{
     public function documentos() {
         $categorias = new CategoriasService(); 
         $documentos = new DocumentosService();
+        
+        $controller = new AdministracionDocumentosController();
         /*
          * Se permite crear categorias a los usuarios de administracion
          * y guardar ficheros en ellas
@@ -30,7 +32,7 @@ class AdministracionDocumentosController{
         if($getcategorias != -1){
             $parameters['categorias'] = $getcategorias;
 
-            $categoriasdocumentos = getCategoryDocuments();
+            $categoriasdocumentos = $controller->getCategoryDocuments();
             if($categoriasdocumentos != -1){
                 $parameters['documentos_categoria'] = $categoriasdocumentos;
                 if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
@@ -173,9 +175,9 @@ class AdministracionDocumentosController{
            foreach($categorias_creadas as $categoria){
                $array_intermedio = array();
                $lista_documentos = array();
-               $lista_documentos = $documentos->getDocumentos($categoria->idCategoria);
+               $lista_documentos = $documentos->getDocumentos($categoria->idCategorias);
                if($lista_documentos != -1){
-                   array_push($array_intermedio,$categoria->Categoria,$lista_documentos);
+                   array_push($array_intermedio,$categoria,$lista_documentos);
                    array_push($documentos_categoria,$array_intermedio); 
                }else{
                    return -1;

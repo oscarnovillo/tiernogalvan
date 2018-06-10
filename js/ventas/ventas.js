@@ -62,9 +62,10 @@ function validar(formulario){
     return valido;
 }
 
-function reservar(id, id_vendedor){
+function reservar(id, id_vendedor, titulo){
     $("#id_venta").val(id);
     $("#id_vendedor").val(id_vendedor);
+    $("#titulo_reserva").val(titulo);
     $("#form_res").submit();
 }
 
@@ -77,4 +78,9 @@ function editar(id, titulo, isbn, precio, asignatura, curso, estado){
     $("#asignatura_edit").val(asignatura);
     $("#curso_edit").val(curso);
     $("#estado_edit").val(estado);
+}
+
+function eliminar(id){
+    $("#id_venta_del").val(id);
+    $("#form_eliminar").submit();
 }
