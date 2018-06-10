@@ -472,7 +472,11 @@ class BolsaTrabajoController
 
     public function getTipoPermisoSession()
     {
-        return $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO];
+        $tipoPermiso = null;
+        if (isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO])) {
+            $tipoPermiso = $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO];
+        }
+        return $tipoPermiso;
     }
 
     public function tienePermisosAcceso($id_user)
