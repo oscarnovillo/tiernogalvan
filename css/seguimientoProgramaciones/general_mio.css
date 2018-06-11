@@ -1,0 +1,59 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07-jun-2018, 22:59:22
+    Author     : Sergio
+*/
+
+.contenedor_gestion_asignaturas{
+    display:none;
+}
+.botones_derecha{
+    float:right;
+    margin-bottom:20px;
+}
+.contenedor_global{
+    margin-left: 13.65%;
+}
+.btn-seguimiento{
+    border-radius: 0px;
+    height:5em;
+    background: white;
+    color:#008cba;
+}
+.div_contenedor_index,.contenedor_gestion_asignaturas{
+    background: white;
+}
+.footer-modal{
+    text-align:center;
+}
+.accion-update{
+    margin-right:10em;
+}
+.accion-borrar{
+    margin-right:1em;
+}
+#mostrar_contenedor_asignaturas{
+    float:right;
+}
+#div-selects{
+    margin-left: 15%;
+}
+.title-modales{
+    margin-left:27%;
+}
+.puntero{
+    cursor:pointer;
+}
+.border-fila{
+    border:2px solid #e9ecef;
+}
+td,th{
+    text-align:center;
+}
+.botones_borrado_total{
+    float:left !important;
+}

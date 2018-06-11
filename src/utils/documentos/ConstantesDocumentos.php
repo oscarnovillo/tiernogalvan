@@ -18,5 +18,6 @@ class ConstantesDocumentos{
     const MODIFICAR_FICHERO = "modifciar_fichero";
     const DOCUMENTO = "documento";
     const IDDOCUMENTO = "iddocumento";
-    const OLDDOCUMENT = "olddocument";
+    const OLD_DOCUMENT ="fichero_antiguo";
+    
 }
