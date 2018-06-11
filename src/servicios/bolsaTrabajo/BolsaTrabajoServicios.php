@@ -442,7 +442,7 @@ class BolsaTrabajoServicios
                         if (is_array($userANotificar) && !empty($userANotificar)) {
                             foreach ($userANotificar as $code) {
                                 array_push($usersId, $code->ID_PERFIL);
-                                echo sprintf(MensajesBT::USER_AGREGADO_COLA, $code->ID_PERFIL) . PHP_EOL;
+                                echo nl2br(" \n " . sprintf(MensajesBT::USER_AGREGADO_COLA, $code->ID_PERFIL));
                             }
                         } else {
                             //No hay perfiles
