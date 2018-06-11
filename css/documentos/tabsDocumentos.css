@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10-jun-2018, 17:41:30
+    Author     : DAW
+*/
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: 0.3px solid #ccc;
+     border-bottom: 0px;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    
+    background-color: #f1f1f1;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;   
+
+    
+}
+
+.active{
+    background-color: white !important;
+}
+
+.form-administracion{
+    margin-top:1em;
+    margin-left: 1em;
+}
+
+.input-right{
+    margin-left : 1em;
+}
+

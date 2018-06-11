@@ -39,6 +39,5 @@ and open the template in the editor.
 
 #lista-doc{
   list-style-type: none;
-  margin-left:10px; 
-  margin-top:5px;
+  margin-left:3em; 
 }

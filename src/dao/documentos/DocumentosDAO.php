@@ -44,19 +44,27 @@ class DocumentosDAO{
        
     }
     
-    public function insertDocumentoDAO($documento,$categoria) {
+    public function insertDocumentoDAO($documento,$idcategoria,$categoria) {
         $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
         try{
             $id = "";
             $sql = documentos\ConstantesDocumentos::INSERT_DOCUMENT;
-            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($id,$documento,$categoria));
+            $stmt->execute(array($id,$documento['name'],$idcategoria));
             $filas = $stmt->rowCount();
             $dbConnection->disconnect();
             $last_id = $db->lastInsertId();
+            if(move_uploaded_file($documento['name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $_FILES['archivo']['name'])){
+                $db->commit();
+            }else{
+                $db->rollback();
+                return -1;;
+            }
             return $last_id;
         } catch (\Exception $exception) {   
+            $db->rollback();
             return -1;
         } finally {  
             $dbConnection->disconnect();
@@ -64,15 +72,23 @@ class DocumentosDAO{
         
     }
    
-    public function updateDocumentoDAO($id,$documento){
+    public function updateDocumentoDAO($id,$documento,$categoria,$old){
         $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
         try{
-            $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT;
-            $db = $dbConnection->getConnection();
+            $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT; 
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($documento,$id));
             $filas = $stmt->rowCount();
-            $dbConnection->disconnect();
+            $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$old;
+            $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+            if (rename($old,$new)){
+               $db->commit();
+            }else{
+               $db->rollback();
+               return -1;
+            }
             return $filas;
         } catch (\Exception $exception) {   
             return -1;
@@ -82,17 +98,25 @@ class DocumentosDAO{
         
     } 
     
-    public function deleteDocumentoDAO($id) {
+    public function deleteDocumentoDAO($id,$categoria,$documento) {
         $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
         try{
             $sql = documentos\ConstantesDocumentos::DELETE_DOCUMENT;
-            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($id));
             $filas = $stmt->rowCount();
-            $dbConnection->disconnect();
-            return $filas;
-        } catch (\Exception $exception) {   
+            $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+            if (unlink($path)){
+                $db->commit();
+                return $filas;
+            }else{
+                $db->rollback();
+                return -1;
+            }
+        } catch (\Exception $exception) { 
+            $db->rollback();
             return -1;
         } finally {  
             $dbConnection->disconnect();

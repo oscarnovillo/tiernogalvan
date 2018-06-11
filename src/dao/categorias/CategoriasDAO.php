@@ -27,16 +27,26 @@ class CategoriasDAO{
     
     public function insertCategoriaDAO($categoria) {
         $dbConnection = new DBConnection();
-        try{
+        $db = $dbConnection->getConnection();
+        try{                 
             $id = "";
-            $sql = categorias\ConstantesCategorias::INSERT_CATEGORY;
-            $db = $dbConnection->getConnection();
+            $sql = categorias\ConstantesCategorias::INSERT_CATEGORY; 
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($id, $categoria));
             $filas = $stmt->rowCount();
             $last_id = $db->lastInsertId();
+            $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$nombre_categoria;
+            if (mkdir($path)){
+                $db->commit();
+            }else{
+                $db->rollback();
+                return -1;
+            }
             return $last_id;
         }catch(\Exception $exception){
+            
+            
             return -1;
         }finally{
             $dbConnection->disconnect();
@@ -44,17 +54,26 @@ class CategoriasDAO{
         
     }
    
-    public function updateCategoriaDAO($categoria){
+    public function updateCategoriaDAO($categoria,$idcategoria,$old_category){
         $dbConnection = new DBConnection();
-        try{
+        $db = $dbConnection->getConnection();
+        $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$old_category;
+        $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
+        try{                      
             $sql = categorias\ConstantesCategorias::UPDATE_CATEGORY;
-            $db = $dbConnection->getConnection();
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($categoria));
+            $stmt->execute(array($categoria,$idcategoria));
             $filas = $stmt->rowCount();
-            $dbConnection->disconnect();
+            if (rename($old,$new)){
+                $db->commit();
+            }else{
+                return -1;
+            }
+                
             return $filas;
         }catch(\Exception $exception){
+            $db->rollback();
             return -1;
         }finally{
             $dbConnection->disconnect();
