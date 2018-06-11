@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use config\Config;
 use servicios\maintenance\MaintenanceServicios;
 use utils\Constantes;
 use utils\maintenance\ConstantesMaintenance;
@@ -11,7 +12,6 @@ use utils\TwigViewer;
 use servicios\session\SessionServicios;
 class MaintenanceController
 {
-
     public function crud()
     {
 
@@ -21,7 +21,6 @@ class MaintenanceController
          * Si es TIC, puede marcar el estado de las consultas.
          */
         $rango = $session->checkUserPermission("incidencias_tic") ? "ADMIN" : "USER";
-
         $page = ConstantesMaintenance::MAINTENANCE_CRUD;
         $parameters = array();
         $maintenanceServicios = new MaintenanceServicios();
@@ -64,9 +63,11 @@ class MaintenanceController
                      */
                     $actualUser = $session->getActualUser();
                     $mailer->sendMail($actualUser->email, $actualUser->nombre . " " . $actualUser->apellidos, "Insertada nueva incidencia", "Motivo de la incidencia: " . $incidencia);
-                    $tics = $maintenanceServicios->getAllTics();
-                    foreach ($tics as $tic) {
-                        $mailer->sendMail($tic->email, $tic->nombre . " " . $tic->apellidos, "Insertada nueva incidencia", "Motivo de la incidencia: " . $incidencia);
+                    if (Config::SEND_MAIL_ADMIN_ALERT) {
+                        $tics = $maintenanceServicios->getAllTics();
+                        foreach ($tics as $tic) {
+                            $mailer->sendMail($tic->email, $tic->nombre . " " . $tic->apellidos, "Insertada nueva incidencia", "Motivo de la incidencia: " . $incidencia);
+                        }
                     }
                     $usuario = $_SESSION[Constantes::SESS_USER];
                     if (!$departamento) {

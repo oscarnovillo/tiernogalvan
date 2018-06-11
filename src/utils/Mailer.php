@@ -19,11 +19,12 @@ class Mailer
             $mail->Password = Config::MAIL_PASSWORD;
             $mail->Port = Config::MAIL_PORT;
 
-            $mail->setFrom('alumno1@iesquevedo.es', 'IES Enrique Tierno Galván');//contacto@iestiernogalvan.es
+            $mail->setFrom(Config::MAIL_USER, CONFIG::MAIL_NAME);
             $mail->addAddress($reciperEmail, $reciperName);
-            $mail->addReplyTo('alumno1@iesquevedo.es', 'Information');//contacto@iestiernogalvan.es
-            $mail->addCC('alumno1@iesquevedo.es');//contacto@iestiernogalvan.es
-            $mail->addBCC('alumno1@iesquevedo.es');//contacto@iestiernogalvan.es
+            $mail->addReplyTo(Config::MAIL_USER, CONFIG::MAIL_NAME);
+            $mail->addCC(Config::MAIL_USER);
+            $mail->addBCC(Config::MAIL_USER);
+            $mail->CharSet = 'UTF-8';
 
             //Content
             $mail->isHTML(true);
@@ -33,7 +34,7 @@ class Mailer
 
             $mail->send();
         } catch (Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            //echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
     }
 }

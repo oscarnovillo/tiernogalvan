@@ -71,58 +71,36 @@
             </div>
 
 
-            <table id="incidencias" class="display mdl-data-table" data-stripe-classes="[]">
+            <table id="usuarios" class="display mdl-data-table" data-stripe-classes="[]">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th>Incidencia</th>
-                    <th>Solicitado por</th>
-                    <th>Estado</th>
-                    <th>Departamento</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
                     {% if permiso == "ADMIN" %}
                         <th></th>
                     {% endif %}
                 </tr>
                 </thead>
                 <tbody>
-                {% for incidencia in incidencias %}
+                {% for usuario in usuarios %}
                     <tr class="estado-{{ incidencia.estado }}">
-                        <td>{{ incidencia.fecha }}</td>
-                        <td>{{ incidencia.nombre }}</td>
-                        <td>{{ incidencia.solicitante }}</td>
-                        <td data-order="{{ incidencia.estado }}">
-                            {% if incidencia.estado == "proceso" %}
-                                <i class="material-icons center-icon">cloud_upload</i> En proceso.
-                            {% elseif incidencia.estado == "completado" %}
-                                <i class="material-icons center-icon">cloud_done</i> Completado.
-                            {% elseif incidencia.estado == "sinempezar" %}
-                                <i class="material-icons center-icon">cloud_queue</i> Sin empezar.
-                            {% else %}
-                                <i class="material-icons center-icon">cloud_off</i> Desconocido.
-                            {% endif %}
-                        </td>
-                        <td>{{ incidencia.departName }}</td>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.apellidos }}, {{ usuario.nombre }}</td>
                         {% if permiso == "ADMIN" %}
                             <td>
-                                {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
-                                    <div class="dropdown">
-                                        <button class="mdl-button bg-white mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                                            Marcar como..
+                                {% if usuario.is_tic %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ usuario.id }}&{{ param.mark_as }}=inactivo">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                            Remover de usuario TIC
                                         </button>
-                                        <ul>
-                                            <li>
-                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
-                                            </li>
-                                            <li>
-                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
-                                                    proceso</a></li>
-                                            <li>
-                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
-                                                    empezar</a></li>
-                                        </ul>
-                                    </div>
-                                {% elseif incidencia.estado == "completado" %}
-                                    Completado por: {{ incidencia.completado_por_nombre }}
+                                    </a>
+                                {% endif %}
+                                {% if not usuario.is_tic %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ usuario.id }}&{{ param.mark_as }}=activo">
+                                        <button class="mdl-button mdl-color--light-blue bg-white mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                            Mover a usuario TIC
+                                        </button>
+                                    </a>
                                 {% endif %}
                             </td>
                         {% endif %}
@@ -131,34 +109,6 @@
 
                 </tbody>
             </table>
-
-            <div id="agregarIncidencia" class="modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span class="close-modal">&times;</span>
-                        <h2>Agregar incidencia</h2>
-                    </div>
-                    <div class="modal-body">
-                        <form action="index.php">
-                            <input type="hidden" name="c"
-                                   value="{{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}">
-                            <input type="hidden" name="a" value="insert">
-                            <label for="incidencia">Incidencia</label>
-                            <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia"
-                                   autocomplete="off">
-                            <label for="departamento">Departamento</label>
-                            <select id="departamento" name="departamento">
-                                <option disabled selected>Selecciona un departamento...</option>
-                                {% for departamento in departamentos %}
-                                    <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="submit" value="Enviar incidencia">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 {% endblock %}
 {% block styles %}
@@ -181,7 +131,6 @@
             src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript"
             src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
-    <script src="/js/maintenance/crud.js"></script>
-    <script src="/js/maintenance/modales.js"></script>
+    <script src="/js/ticusers/crud.js"></script>
     <script src="/js/maintenance/alerts.js"></script>
 {% endblock %}

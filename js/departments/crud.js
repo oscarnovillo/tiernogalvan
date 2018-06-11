@@ -1,6 +1,6 @@
 var maintenanceTable;
 $(document).ready(function () {
-    maintenanceTable = $('#incidencias').DataTable({
+    maintenanceTable = $('#departamentos').DataTable({
         "lengthChange": false,
         "pagingType": "numbers",
         "language": {
@@ -8,18 +8,11 @@ $(document).ready(function () {
         },
         "asStripClasses": [],
         "responsive": true,
-        "columnDefs": [
-            {
-                "targets": [ 0 ],
-                "visible": false,
-                "searchable": false
-            }
-        ],
         "pageLength": 5,
         "bAutoWidth": false,
-        "order": [[3, "desc"], [0, "desc"]],
+        "order": [[1, "asc"]],
         "initComplete": function (settings, json) {
-            $("#incidencias_filter").find("label").contents().first()[0].textContent = '';
+            $("#departamentos_filter").find("label").contents().first()[0].textContent = '';
             $(maintenanceTable.table().container()).addClass('col-sm-12 col-lg-8');
             $(maintenanceTable.table().container()).find(".mdl-grid").eq(0).addClass('col-12');
             $(maintenanceTable.table().container()).find(".mdl-cell").eq(0).remove();
@@ -28,8 +21,8 @@ $(document).ready(function () {
 
             $(maintenanceTable.table().container()).find(".mdl-grid").eq(1).addClass('col-12');
             $(maintenanceTable.table().container()).find(".mdl-grid").eq(2).addClass('col-12');
-            $(maintenanceTable.table().container()).find("#incidencias_info").remove();
+            $(maintenanceTable.table().container()).find("#departamentos_info").remove();
         }
     });
-    $("#Incidencias").click();
+    $("#Departamentos").click();
 });

@@ -17,7 +17,8 @@ use utils\TwigViewer;
 use servicios\session\SessionServicios;
 use controllers\ErrorController;
 use controllers\LogoutController;
-
+use controllers\DepartmentsController;
+use controllers\TicUsersController;
 
 /*
  * Mostrar errores sólo si es en localhost, a modo de debugging.
@@ -36,8 +37,6 @@ session_start();
 /*
  * Inicializar session de datos del usuario.
  * En cada controlador se comprueba si se requiere login o no.
- */
-/*
  */
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
 {
@@ -58,6 +57,16 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             break;
         case Constantes::MAINTENANCE_CONTROLLER:
             $controller = new MaintenanceController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::DEPARTMENTS_CONTROLLER:
+            $controller = new DepartmentsController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::TIC_USERS_CONTROLLER:
+            $controller = new TicUsersController();
             /* Requerir login */
             $userSessionValid ? $controller->crud() : $errController->permissions();
             break;
