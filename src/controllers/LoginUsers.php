@@ -160,7 +160,7 @@ class LoginUsers
                     
                     $userChecked = $usersSevicios->getUserByNick($user);
 
-                    if ($cod_act === $userChecked->codigo_activacion) {
+                    if (strcmp($cod_act , $userChecked->codigo_activacion)) {
 
                         $userChecked->activado = 1;
 
