@@ -50,7 +50,8 @@ class CrudUsersController {
             if($user->pass != null || $user->pass != ""){
                 $user->pass = $PasswordStorage->create_hash($user->pass);
             }else{
-                $user->pass = null;
+                $userChecked = $usersSevicios->getUser($user);
+                $user->pass = $userChecked->pass;
             }
             
             switch ($action) {
