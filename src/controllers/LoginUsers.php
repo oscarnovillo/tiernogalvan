@@ -52,7 +52,7 @@ class LoginUsers
 
                                 if ($userChecked->activado === "1") {
 
-                                    $userChecked->date = date("Y-m-d");
+                                    $userChecked->date = date("Y-m-d H:i:s");
 
                                     $usersSevicios->updateFechaUser($userChecked);
 

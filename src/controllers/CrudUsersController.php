@@ -38,11 +38,13 @@ class CrudUsersController {
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
             $user->telefono = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL));
             $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
-            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
-            $user->pass = $PasswordStorage->create_hash($user->pass);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
             $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
+            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
+            if($user->pass != null || $user->pass != ""){
+                $user->pass = $PasswordStorage->create_hash($user->pass);
+            }
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
