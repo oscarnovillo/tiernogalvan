@@ -47,18 +47,19 @@ class CrudUsersController {
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
             $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
-            if($user->pass != null || $user->pass != ""){
-                $user->pass = $PasswordStorage->create_hash($user->pass);
-            }else{
-                $userChecked = $usersSevicios->getUser($user);
-                $user->pass = $userChecked->pass;
-            }
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
                     if(!$userChecked){
+                        
+                        if($user->pass != null || $user->pass != ""){
+                            $user->pass = $PasswordStorage->create_hash($user->pass);
+                        }else{
+                            $user->pass = $userChecked->pass;
+                        }
+                        
                         $userChecked = $usersSevicios->addUser($user);
                         
                         if($userChecked){
