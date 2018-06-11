@@ -5,6 +5,7 @@ namespace dao\categorias;
 use dao\DBConnection;
 use PDO;
 use \utils\categorias;
+use utils\Constantes;
 
 class CategoriasDAO{
 
@@ -33,20 +34,17 @@ class CategoriasDAO{
             $sql = categorias\ConstantesCategorias::INSERT_CATEGORY; 
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($id, $categoria));
-            $filas = $stmt->rowCount();
-            $last_id = $db->lastInsertId();
-            $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$nombre_categoria;
-            if (mkdir($path)){
+            $stmt->execute(array( $categoria));
+            $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
+            if (mkdir($path, 0777, true)){
                 $db->commit();
             }else{
                 $db->rollback();
                 return -1;
             }
-            return $last_id;
+            return True;
         }catch(\Exception $exception){
-            
-            
+            $db->rollback();
             return -1;
         }finally{
             $dbConnection->disconnect();

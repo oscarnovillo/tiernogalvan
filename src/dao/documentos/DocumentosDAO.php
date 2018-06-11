@@ -5,7 +5,7 @@ namespace dao\documentos;
 use dao\DBConnection;
 use PDO;
 use \utils\documentos;
-
+use utils\Constantes;
 class DocumentosDAO{
    
     public function getDocumentosDAO(){         
@@ -48,20 +48,17 @@ class DocumentosDAO{
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
         try{
-            $id = "";
             $sql = documentos\ConstantesDocumentos::INSERT_DOCUMENT;
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($id,$documento['name'],$idcategoria));
-            $filas = $stmt->rowCount();
-            $last_id = $db->lastInsertId();
+            $stmt->execute(array($documento['name'],$idcategoria));
             if(move_uploaded_file($documento['name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $_FILES['archivo']['name'])){
                 $db->commit();
             }else{
                 $db->rollback();
                 return -1;;
             }
-            return $last_id;
+            return true;
         } catch (\Exception $exception) {   
             $db->rollback();
             return -1;

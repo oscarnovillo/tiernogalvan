@@ -11,7 +11,10 @@ $(document).ready(function () {
         });
 
          $('#boton-upload').on('click', function(){
-             $('#action').attr('value','upload_file');
+             var categoria = $('#select-categorias').text();
+             $('.hidden-categoria').attr('value',categoria.trim());
+             console.log(categoria.trim());
+             $("form#subir-documento").submit();
          });
          
          
@@ -23,9 +26,9 @@ $(document).ready(function () {
              $('#action').attr('value','modificar_fichero');
          });
          
-         $('#boton-crear-categoria').on('click', function(){
-             $('#action').attr('value','crear-categoria');
-         });
+         /*$('#boton-crear-categoria').on('click', function(){
+             $('#action').attr('value','crear_categoria');
+         });*/
 
     }
 );
