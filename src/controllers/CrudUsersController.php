@@ -49,6 +49,8 @@ class CrudUsersController {
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             if($user->pass != null || $user->pass != ""){
                 $user->pass = $PasswordStorage->create_hash($user->pass);
+            }else{
+                $user->pass = null;
             }
             
             switch ($action) {
