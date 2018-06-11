@@ -15,13 +15,13 @@ class DocumentosService {
         $dao = new DocumentosDAO();
         return $dao->getDocumentoCategoriaDAO($categoria);
     }
-    public function insertDocumento($documento,$categoria){
+    public function insertDocumento($documento,$idcategoria,$categoria){
         $dao = new DocumentosDAO();
-        return $dao->insertDocumentoDAO($documento,$categoria);
+        return $dao->insertDocumentoDAO($documento,$idcategoria,$categoria);
     }
-    public function updateDocumento($id,$documento){
+    public function updateDocumento($id,$documento,$categoria, $old){
         $dao = new DocumentosDAO();
-        return $dao->updateDocumentoDAO($id,$document,$categoria);
+        return $dao->updateDocumentoDAO($id,$document,$categoria,$old);
     }
     public function deleteDocumento($id){
         $dao = new DocumentosDAO();

@@ -15,6 +15,7 @@ $(document).ready(function () {
                 "searchable": false
             }
         ],
+        "pageLength": 5,
         "bAutoWidth": false,
         "order": [[3, "desc"], [0, "desc"]],
         "initComplete": function (settings, json) {
@@ -30,4 +31,5 @@ $(document).ready(function () {
             $(maintenanceTable.table().container()).find("#incidencias_info").remove();
         }
     });
+    $("#Incidencias").click();
 });

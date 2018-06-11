@@ -1,0 +1,136 @@
+{% extends "index.html.twig" %}
+
+{% block content %}
+    <section id="contenido" class="col-12">
+        <div class="contenedor">
+            {% if alert %}
+                <div class="alert {{ alert.type }}">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    {{ alert.message }}
+                </div>
+            {% endif %}
+
+            <div class="submenu col-sm-12 col-lg-4">
+                <div class="submenu_wrapper">
+                    <input id="Incidencias" name="radio" type="radio">
+                    <label for="Incidencias">
+                        <i class="material-icons">assignment_late</i>
+                        <span>Incidencias</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&op=add">
+                                    <li>Agregar incidencia</li>
+                                </a>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&op=view">
+                                    <li>Ver incidencias</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id="Departamentos" name="radio" type="radio">
+                    <label for="Departamentos">
+                        <i class="material-icons">video_label</i>
+                        <span>Departamentos</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                {% if permiso == "ADMIN" %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=add">
+                                        <li>Agregar departamento</li>
+                                    </a>
+                                {% endif %}
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=view">
+                                    <li>Ver departamentos</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id="TIC_USERS" name="radio" type="radio">
+                    <label for="TIC_USERS">
+                        <i class="material-icons">person</i>
+                        <span>Usuarios TIC</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                {% if permiso == "ADMIN" %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::CRUD_CONTROLLER') }}">
+                                        <li>Agregar usuarios TIC</li>
+                                    </a>
+                                {% endif %}
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&op=view">
+                                    <li>Ver usuarios TIC</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+
+            <table id="usuarios" class="display mdl-data-table" data-stripe-classes="[]">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    {% if permiso == "ADMIN" %}
+                        <th></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for usuario in usuarios %}
+                    <tr class="estado-{{ incidencia.estado }}">
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.apellidos }}, {{ usuario.nombre }}</td>
+                        {% if permiso == "ADMIN" %}
+                            <td>
+                                {% if usuario.is_tic %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ usuario.id }}&{{ param.mark_as }}=inactivo">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                            Remover de usuario TIC
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                {% if not usuario.is_tic %}
+                                    <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ usuario.id }}&{{ param.mark_as }}=activo">
+                                        <button class="mdl-button mdl-color--light-blue bg-white mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                            Mover a usuario TIC
+                                        </button>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+    </section>
+{% endblock %}
+{% block styles %}
+    <!-- Bloque de estilos, se añadirán al final de los bases -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/material/material.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+    <link rel="https://cdn.datatables.net/1.10.16/css/dataTables.material.min.css">
+    <link rel="stylesheet" href="/css/maintenance/crud.css">
+    <link rel="stylesheet" href="/css/maintenance/modales.css">
+    <link rel="stylesheet" href="/css/maintenance/alerts.css">
+{% endblock %}
+{% block scripts %}
+    <!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
+    <script src="/js/submenu.js"></script>
+    <script src="/js/material/material.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
+    <script src="/js/ticusers/crud.js"></script>
+    <script src="/js/maintenance/alerts.js"></script>
+{% endblock %}

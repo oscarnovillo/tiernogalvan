@@ -10,6 +10,22 @@ $(document).ready(function () {
             $(valor).toggle(); 
         });
 
+         $('#boton-upload').on('click', function(){
+             $('#action').attr('value','upload_file');
+         });
+         
+         
+         $('#boton-modificar-categoria').on('click', function(){
+             $('#action').attr('value','modificar_categoria');
+         });
+         
+         $('#boton-modificar-fichero').on('click', function(){
+             $('#action').attr('value','modificar_fichero');
+         });
+         
+         $('#boton-crear-categoria').on('click', function(){
+             $('#action').attr('value','crear-categoria');
+         });
 
     }
 );
