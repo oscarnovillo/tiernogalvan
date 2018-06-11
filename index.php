@@ -10,6 +10,7 @@ use controllers\LoginUsers;
 use controllers\CrudUsersController;
 use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
+use controllers\SeguimientoProgramaciones;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\loginUsers\ConstantesLoginUsers;
@@ -17,7 +18,8 @@ use utils\TwigViewer;
 use servicios\session\SessionServicios;
 use controllers\ErrorController;
 use controllers\LogoutController;
-
+use controllers\DepartmentsController;
+use controllers\TicUsersController;
 
 /*
  * Mostrar errores sólo si es en localhost, a modo de debugging.
@@ -36,9 +38,6 @@ session_start();
 /*
  * Inicializar session de datos del usuario.
  * En cada controlador se comprueba si se requiere login o no.
- */
-/*
- * TODO: HACER CRUD DE DEPARTAMENTOS.
  */
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
 {
@@ -62,10 +61,20 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             /* Requerir login */
             $userSessionValid ? $controller->crud() : $errController->permissions();
             break;
+        case Constantes::DEPARTMENTS_CONTROLLER:
+            $controller = new DepartmentsController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::TIC_USERS_CONTROLLER:
+            $controller = new TicUsersController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
             /* Requerir login */
-            !$userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
+            $userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
             break;
         case Constantes::DOCUMENTOS_CONTROLLER:
             $controller = new AdministracionDocumentosController();
@@ -94,6 +103,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             /* Requerir login */
             //$userSessionValid ? $controller->login() : $errController->permissions();
             $controller->login();
+            break;
+        case Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER:
+            $controller = new SeguimientoProgramaciones();
+            //$userSessionValid ? $controller->seguimientoProgramacionesPrincipal() : $errController->permissions();
+            $controller->seguimientoProgramacionesPrincipal();
             break;
         case Constantes::DISCONNECT_CONTROLLER:
             $controller = new LogoutController();

@@ -8,6 +8,7 @@
 
 namespace controllers;
 
+use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use model\GenericMessage;
 use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
@@ -23,15 +24,17 @@ class BolsaTrabajoController
 {
 
     public $idUser;
+    public $idRol;
 
     /**
      * Función principal encargada de repartir las operaciones que se realizan en la bolsa de trabajo
      */
-    //TODO - - migrar a base de datos común - mirar el campo de ID no concuerdan con las creadas
+
     public function bolsaTrabajoMain()
     {
 
-        $idUser = $this->setIdUser(80);//TODO - temporal - mirar que permisos lleva
+        $this->setCredencialesUser();
+
         $action = filter_input(INPUT_GET, Constantes::PARAMETER_NAME_ACTION);
         $tarea = filter_input(INPUT_GET, ConstantesBolsaTrabajo::TAREA);
         if (isset($action)) {
@@ -39,13 +42,13 @@ class BolsaTrabajoController
                 case ConstantesBolsaTrabajo::CREAR_OFERTA_TRABAJO:
 
 
-                    if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::INSERT) {
+                    if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::INSERT && $this->tienePermisosAcceso($this->getIdUser())) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::NUEVA_OFERTA);
                         $datos = json_decode($datos);
                         $this->crearOfertaForm($datos);
 
-                    } else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE) {
+                    } else if (isset($tarea) && $tarea === ConstantesBolsaTrabajo::UPDATE && $this->tienePermisosAcceso($this->getIdUser())) {
 
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::UPDATE_OFERTA);
                         $datos = json_decode($datos);
@@ -68,7 +71,7 @@ class BolsaTrabajoController
                     break;
                 case ConstantesBolsaTrabajo::BORRAR_OFERTA_TRABAJO:
                     $idOferta = filter_input(INPUT_POST, ConstantesBolsaTrabajo::ID_OFERTA);
-                    if (v::numeric()->validate($idOferta)) {
+                    if (v::numeric()->validate($idOferta) && $this->tienePermisosAcceso($this->getIdUser())) {
                         $this->borrarOferta($idOferta, $this->getIdUser());
                     } else {
                         echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
@@ -78,10 +81,10 @@ class BolsaTrabajoController
 
                 case ConstantesBolsaTrabajo::MIS_OFERTAS_TRABAJO:
                     $idOwnerOferta = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_OWNER_OFERTA);
-                    if (v::numeric()->validate($idOwnerOferta)) {
+                    if (v::numeric()->validate($idOwnerOferta) && $this->tienePermisosAcceso($idOwnerOferta)) {
                         $this->misOferta($idOwnerOferta);
                     } else {
-                        $this->irAlIndex();
+                        $this->irErrorPermisos();
                     }
 
                     break;
@@ -181,41 +184,53 @@ class BolsaTrabajoController
 
     public function crearOfertaVista()
     {
-        $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
-        $estudios = $this->cargarCiclosFP();
+        $rol = $this->getIdRol();
+        if (isset($rol)) {
+            $page = ConstantesPaginas::CREAR_OFERTA_PAGE;
+            $estudios = $this->cargarCiclosFP();
 
-        TwigViewer::getInstance()->viewPage($page, (array)$estudios);
+            TwigViewer::getInstance()->viewPage($page, (array)$estudios);
+        } else {
+            $this->irErrorPermisos();
+        }
     }
 
     public function editarPerfilVista()
     {
+
         $idPerfil = filter_input(INPUT_GET, ConstantesBolsaTrabajo::ID_PERFIL_PERSONA);
-        if (v::numeric()->validate($idPerfil)) {
+        if (v::numeric()->validate($idPerfil) && $this->tienePermisosAcceso($idPerfil)) {
             $this->editarPerfil($idPerfil);
         } else {
-            $this->irAlIndex();
+            $this->irErrorPermisos();
         }
     }
 
     public function crearOfertaForm($datos)
     {
-        $servicios = new BolsaTrabajoServicios();
-        if ($servicios->tratarParametrosOferta($datos)) {
-            $datos->id_user_oferta = $this->getIdUser();
-            $newOfertaDB = $servicios->insertNuevaOferta($datos);
-            if (is_object($newOfertaDB)) {
-                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
-                $message->setLINK(MensajesBT::LINK_OFERTA_TRABAJO . $newOfertaDB->id_oferta);
+        $rol = $this->getIdRol();
+        if (isset($rol)) {
+            $servicios = new BolsaTrabajoServicios();
+            if ($servicios->tratarParametrosOferta($datos)) {
+                $datos->id_user_oferta = $this->getIdUser();
+                $newOfertaDB = $servicios->insertNuevaOferta($datos);
+                if (is_object($newOfertaDB)) {
+                    $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::INSERCION_ACEPTADA);
+                    $message->setLINK(MensajesBT::LINK_OFERTA_TRABAJO . $newOfertaDB->id_oferta);
+                } else {
+                    $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA);
+                    http_response_code(Http::BAD_REQUEST);
+                }
+                echo json_encode($message);
+
             } else {
-                $message = new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA);
+                http_response_code(Http::BAD_REQUEST);
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA));
             }
-            echo json_encode($message);
-
         } else {
-            http_response_code(Http::BAD_REQUEST);
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA));
+            http_response_code(Http::FORBIDDEN);
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::INSERCION_DENEGADA_PERMISOS));
         }
-
 
     }
 
@@ -239,13 +254,18 @@ class BolsaTrabajoController
 
     public function misOferta($idOwner)
     {
-        $servicios = new BolsaTrabajoServicios();
-        $misOfertasDB = $servicios->misOfertas($idOwner);
+        $rol = $this->getIdRol();
+        if (isset($rol)) {
+            $servicios = new BolsaTrabajoServicios();
+            $misOfertasDB = $servicios->misOfertas($idOwner);
 
-        $ofertasVista = (object)[];
-        $ofertasVista->misOfertas = $misOfertasDB;
-        $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
-        TwigViewer::getInstance()->viewPage($page, (array)$ofertasVista);
+            $ofertasVista = (object)[];
+            $ofertasVista->misOfertas = $misOfertasDB;
+            $page = ConstantesPaginas::MIS_OFERTAS_PAGE;
+            TwigViewer::getInstance()->viewPage($page, (array)$ofertasVista);
+        } else {
+            $this->irErrorPermisos();
+        }
 
     }
 
@@ -255,13 +275,16 @@ class BolsaTrabajoController
         $servicios = new BolsaTrabajoServicios();
 
         $miPerfilDB = $servicios->getMiPerfil($idPerfil);
-        $miPerfilDB[0]->FP_CODE = $servicios->recuperarNombreCiclo($miPerfilDB[0]->FP_CODE);
-        $miPerfilDB[0]->RECIBIR_OFERTAS = $servicios->definirInfoOferta($miPerfilDB[0]->RECIBIR_OFERTAS);
-        $miPerfilDB[0]->BUSCA_TRABAJO = $servicios->definirInfoTrabajo($miPerfilDB[0]->BUSCA_TRABAJO);
-        $miPerfilDB[0]->ULTIMA_EDICION = $servicios->formatCreacion($miPerfilDB[0]->ULTIMA_EDICION);
         $perfilBundle = (object)[];
+        if (is_array($miPerfilDB) && !empty($miPerfilDB)) {
+            $miPerfilDB[0]->FP_CODE = $servicios->recuperarNombreCiclo($miPerfilDB[0]->FP_CODE);
+            $miPerfilDB[0]->RECIBIR_OFERTAS = $servicios->definirInfoOferta($miPerfilDB[0]->RECIBIR_OFERTAS);
+            $miPerfilDB[0]->BUSCA_TRABAJO = $servicios->definirInfoTrabajo($miPerfilDB[0]->BUSCA_TRABAJO);
+            $miPerfilDB[0]->ULTIMA_EDICION = $servicios->formatCreacion($miPerfilDB[0]->ULTIMA_EDICION);
 
-        $perfilBundle->PERFIL_DATA = $miPerfilDB;
+
+            $perfilBundle->PERFIL_DATA = $miPerfilDB;
+        }
         TwigViewer::getInstance()->viewPage($page, (array)$perfilBundle);
 
     }
@@ -289,6 +312,12 @@ class BolsaTrabajoController
         TwigViewer::getInstance()->viewPage($page);
     }
 
+    public function irErrorPermisos()
+    {
+        $errController = new ErrorController();
+        $errController->forbiddenAccess();
+    }
+
 
     public function cargarCiclosFP()
     {
@@ -300,66 +329,84 @@ class BolsaTrabajoController
 
     private function updateOfertaForm($datos)
     {
-        $servicios = new BolsaTrabajoServicios();
-        if ($servicios->tratarParametrosOferta($datos)) {
-            //comprobar si devuelve un error
-            $ofertaDB = $servicios->actualizarOferta($datos);
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA));
+        $rol = $this->getIdRol();
+        if (isset($rol)) {
+            $servicios = new BolsaTrabajoServicios();
+            if ($servicios->tratarParametrosOferta($datos)) {
+                //comprobar si devuelve un error
+                $ofertaDB = $servicios->actualizarOferta($datos);
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA));
 
+            } else {
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ACTUALIZACION_DENEGADA));
+            }
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ACTUALIZACION_DENEGADA));
+            http_response_code(Http::FORBIDDEN);
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ACTUALIZACION_DENEGADA_PERMISOS));
         }
 
     }
 
     private function borrarOferta($idOferta, $idOwner)
     {
-        $servicios = new BolsaTrabajoServicios();
-        if (v::numeric()->validate($idOwner)) {
+        $rol = $this->getIdRol();
+        if (isset($rol)) {
+            $servicios = new BolsaTrabajoServicios();
+            if (v::numeric()->validate($idOwner)) {
 
-            if ($servicios->borrarOferta($idOferta, $idOwner)) {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::BORRAR_ACEPTADA));
+                if ($servicios->borrarOferta($idOferta, $idOwner)) {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::BORRAR_ACEPTADA));
+                } else {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::BORRAR_DENEGADA));
+                }
+
             } else {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::BORRAR_DENEGADA));
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER));
             }
-
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER));
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::BORRAR_DENEGADA_PERMISOS));
         }
     }
 
     private function insertOrUpdatePerfilForm($datos)
     {
-
-        $servicios = new BolsaTrabajoServicios();
-        if ($servicios->validarPerfil($datos)) {
-            $datos = $servicios->actualizarPerfil($datos);
-            if (is_object($datos)) {
-                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
-                $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
-                echo json_encode($message);
+        if ($this->tienePermisosAcceso($datos->ID_PERFIL)) {
+            $servicios = new BolsaTrabajoServicios();
+            if ($servicios->validarPerfil($datos)) {
+                $datos = $servicios->actualizarPerfil($datos);
+                if (is_object($datos)) {
+                    $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
+                    $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
+                    echo json_encode($message);
+                } else {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));
+                }
             } else {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
+
             }
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
-
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS));
         }
     }
 
     private function insertOrUpdatePerfilFormConfig($datosConfig)
     {
-        $servicios = new BolsaTrabajoServicios();
+        if ($this->tienePermisosAcceso($datosConfig->ID_PERFIL)) {
+            $servicios = new BolsaTrabajoServicios();
 
-        if ($servicios->validarPerfilConfig($datosConfig)) {
-            if ($servicios->actualizarPerfilConfig($datosConfig)) {
-                $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
-                echo json_encode($message);
+            if ($servicios->validarPerfilConfig($datosConfig)) {
+                if ($servicios->actualizarPerfilConfig($datosConfig)) {
+                    $message = new GenericMessage(MensajesBT::OPERACION_ACEPTADA, MensajesBT::ACTUALIZACION_ACEPTADA);
+                    echo json_encode($message);
+                } else {
+                    echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_CONFIG_USER));
+                }
             } else {
-                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_CONFIG_USER));
+                echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
             }
         } else {
-            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
+            echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS));
         }
     }
 
@@ -379,5 +426,62 @@ class BolsaTrabajoController
         $this->idUser = $idUser;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIdRol()
+    {
+        return $this->idRol;
+    }
+
+    /**
+     * @param mixed $idRol
+     */
+    public function setIdRol($idRol): void
+    {
+        $this->idRol = $idRol;
+    }
+
+    public function setCredencialesUser(): void
+    {
+        $sesion = $_SESSION[Constantes::SESS_USER];
+        $permiso = ($this->getTipoPermisoSession() != null) ? $this->getTipoPermisoSession() : null;
+        if (isset($sesion)) {
+            $this->setIdUser($sesion->id);
+            if (!isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO])) {
+                $servicios = new BolsaTrabajoServicios();
+                $permisos = $servicios->getPermisosBolsa($sesion->id_rol);
+                if (is_array($permisos) && !empty($permisos)) {
+                    $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO] = $permisos[0];
+                    $this->setIdRol($permisos[0]->ID_PERMISO);
+                }
+            }
+
+
+        }
+        if (isset($permiso)) {
+            $this->setIdRol($permiso->ID_PERMISO);
+        }
+
+    }
+
+    public function getUserSession()
+    {
+        return $_SESSION[Constantes::SESS_USER];
+    }
+
+    public function getTipoPermisoSession()
+    {
+        $tipoPermiso = null;
+        if (isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO])) {
+            $tipoPermiso = $_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO];
+        }
+        return $tipoPermiso;
+    }
+
+    public function tienePermisosAcceso($id_user)
+    {
+        return $this->getUserSession()->id == $this->getIdUser() && $this->getIdUser() == $id_user;
+    }
 
 }//fin clase

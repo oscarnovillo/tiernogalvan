@@ -25,6 +25,8 @@ class Constantes
     const DOCUMENTOS_CONTROLLER = "documentos";
     const CONTABILIDAD_CONTROLLER = "contabilidad";
     const DISCONNECT_CONTROLLER = "disconnect";
+    const DEPARTMENTS_CONTROLLER = "departments";
+    const TIC_USERS_CONTROLLER = "tic_users";
 
     /**
      * Variables de sesión.
@@ -50,4 +52,5 @@ class Constantes
     const ID_ROL_EMPRESA = 5;
     
     const CARPETA_DOCUMENTOS_DIRECCION  = "/DocumentosDireccion";
+    const SEGUIMIENTO_PROGRAMACIONES_CONTROLLER = "seguimiento_programaciones";
 }

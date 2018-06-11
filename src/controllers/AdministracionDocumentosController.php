@@ -44,17 +44,10 @@ class AdministracionDocumentosController{
                                 $nombre_categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
                                 $respuesta = $categorias->inserCategoria($nombre_categoria);
                                 if( $respuesta > 0){
-                                    $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$nombre_categoria;
-                                    if (mkdir(path)){
                                         $parameters['correcto'] = "Categoria creada correctamente";
                                     }else{
-                                        $categorias->deleteCategoria($respuesta);
                                         $parameters['error'] = "Error al crear la categoria";
                                     }
-
-                                }else{
-                                    $parameters['error'] = "Error al crear la categoria";
-                                } 
                             }else{
                                     $parameters['error'] = "Error al crear la categoria";
                                 }  
@@ -66,14 +59,9 @@ class AdministracionDocumentosController{
                                 if ( isset($_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])) {
                                     $categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
                                     $idcategoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
-                                    $respuesta = $documentos->insertDocumento($_FILES['archivo']['name'],$categoria);
+                                    $respuesta = $documentos->insertDocumento($_FILES['archivo'],$idcategoria, $categoria);
                                     if($respuesta > 0){
-                                        if(move_uploaded_file($_FILES['archivo']['tmp_name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION ."/". $_FILES['archivo']['name'])){
                                             $parameters['correcto'] = "El fichero se ha subido correctamente";
-                                        }else{
-                                            $documentos->deleteDocumento($respuesta);
-                                            $parameters['error'] = "No ha podido subirse el fichero";
-                                        }
                                     }else{
                                          $parameters['error'] = "No ha podido subirse el fichero";
                                     }
@@ -87,16 +75,10 @@ class AdministracionDocumentosController{
                                 $id_documento = $_REQUEST[ConstantesDocumentos::IDDOCUMENTO];
                                 $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
                                 $documento = $_REQUEST[ConstantesDocumentos::DOCUMENTO];
-                                $respuesta = $documentos->deleteDocumento($id_documento);
+                                $respuesta = $documentos->deleteDocumento($id_documento,$categoria,$documento);
                                 if( $respuesta > 0){
-                                    $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
-                                    if (unlink($path)){
+                                    
                                         $parameters['correcto'] = "Fichero borrado correctamente";
-                                    }else{
-                                        $categorias->deleteCategoria($respuesta);
-                                        $parameters['error'] = "Error al borrar el fichero";
-                                    }
-
                                 }else{
                                     $parameters['error'] = "Error al borrar el fichero";
                                 } 
@@ -110,17 +92,9 @@ class AdministracionDocumentosController{
                                 $documento = $_REQUEST[ConstantesDocumentos::DOCUMENTO];
                                 $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
                                 $documento_antiguo = $_REQUEST[ConstantesDocumentos::OLDDOCUMENT];
-                                $respuesta = $documentos->updateDocumento($id_documento, $documento);
-                                if( $respuesta > 0){
-                                    $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento_antiguo;
-                                    $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
-                                    if (rename($old,$new)){
-                                        $parameters['correcto'] = "Fichero modificado correctamente";
-                                    }else{
-                                         $documentos->updateDocumento($id_documento, $documento_antiguo);
-                                        $parameters['error'] = "Error al modificar el fichero";
-                                    }
-
+                                $respuesta = $documentos->updateDocumento($id_documento, $documento,$categoria,$documento_antiguo);
+                                if( $respuesta > 0){                              
+                                    $parameters['correcto'] = "Fichero modificado correctamente";
                                 }else{
                                     $parameters['error'] = "Error al modificar el fichero";
                                 } 
@@ -129,20 +103,13 @@ class AdministracionDocumentosController{
                             } 
                         break;
                         case ConstantesCategorias::MODIFICAR_CATEGORIA:
-                             if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::OLDCATEGORY])){
-                                
+                             if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::OLD_CATEGORY])){
+                                $categoria_antigua = $_REQUEST[ConstantesCategorias::OLD_CATEGORY];
                                 $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
-                                $categoria_antigua = $_REQUEST[ConstantesCategorias::OLDCATEGORY];
-                                $respuesta = $categorias->updateCategoria($id_documento, $categoria);
-                                if( $respuesta > 0){
-                                    $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria_antigua;
-                                    $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
-                                    if (rename($old,$new)){
+                                $id_categoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
+                                $respuesta = $categorias->updateCategoria($id_categoria, $categoria,$categoria_antigua);
+                                if( $respuesta > 0){                              
                                         $parameters['correcto'] = "Carpeta modificada correctamente";
-                                    }else{
-                                        $categorias->updateCategoria($id_documento, $categoria_antigua);
-                                        $parameters['error'] = "Error al modificar la carpeta";
-                                    }
                                 }else{
                                     $parameters['error'] = "Error al modificar la carpeta";
                                 }
@@ -177,7 +144,7 @@ class AdministracionDocumentosController{
                $lista_documentos = array();
                $lista_documentos = $documentos->getDocumentos($categoria->idCategorias);
                if($lista_documentos != -1){
-                   array_push($array_intermedio,$categoria->Categoria,$lista_documentos);
+                   array_push($array_intermedio,$categoria,$lista_documentos);
                    array_push($documentos_categoria,$array_intermedio); 
                }else{
                    return -1;

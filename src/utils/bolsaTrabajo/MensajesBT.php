@@ -19,9 +19,12 @@ class MensajesBT
     const BORRAR_ACEPTADA = "Hemos borrado los datos correctamente";
 
     const INSERCION_DENEGADA = "Fallo en la creación, por favor revisa que todos los campos cumplen sus reglas";
+    const INSERCION_DENEGADA_PERMISOS = "Fallo en la creación, no tienes permisos para realizar esta operación";
     const INSERCION_DENEGADA_FALLO_DB = "Fallo en la creación, por favor revisa que todos los campos cumplen sus reglas y trata de rellenar todos los campos";
     const ACTUALIZACION_DENEGADA = "Fallo en la actualización de los datos, por favor revisa que todos los campos cumplen sus reglas";
+    const ACTUALIZACION_DENEGADA_PERMISOS = "Fallo en la actualización de los datos, no tienes permisos para realizar esta operación";
     const BORRAR_DENEGADA = "Fallo borrando los datos, por favor inténtalo otra vez";
+    const BORRAR_DENEGADA_PERMISOS = "Fallo borrando los datos, no tienes permisos para realizar esta operación";
 
     const LINK_OFERTA_TRABAJO = "index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta=";
     const LINK_PERFIL_USER = "index.php?c=bolsa_trabajo&a=mi_perfil&id_perfil=";
@@ -30,6 +33,7 @@ class MensajesBT
     const ERROR_FALLO_INTERNO = "Error en el servidor, por favor refresca la página(F5) y vuelve a intentarlo";
     const ERROR_FALLO_CONFIG_USER = "Error en el servidor, para modificar estas opciones, primero tienes que rellenar los datos del perfil";
     const ERROR_FALLO_IDENTIFICADOR_USER = "Fallo en la identificación del usuari@, hemos perdido tu identificador de usuari@, por favor refresca o vuelve a iniciar sesión";
+    const ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS = "Fallo en la identificación del usuari@, no tienes permisos para realizar esta operación";
 
 
     const TIEMPO_TRANSCURRIDO = "Hace %d días";

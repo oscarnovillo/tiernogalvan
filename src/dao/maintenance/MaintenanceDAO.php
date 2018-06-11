@@ -29,7 +29,7 @@ class MaintenanceDAO
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT * FROM departamentos");
+        $stmt = $db->prepare("SELECT * FROM departamentos WHERE activo=1");
         $stmt->execute();
         $departamentos = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
@@ -41,7 +41,7 @@ class MaintenanceDAO
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT u.* FROM users u JOIN permisos p ON p.id_rol=4");
+        $stmt = $db->prepare("SELECT u.* FROM users u JOIN permisos p ON (p.id_rol=4 AND p.id_usuario=u.id)");
         $stmt->execute();
         $tics = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
@@ -81,7 +81,7 @@ class MaintenanceDAO
         $db = $dbConnection->getConnection();
         $stmt = $db->prepare("INSERT INTO incidencias (nombre,solicitado_por,departamento,fecha) VALUES (:nombre,:solicitado_por,:departamento,now())");
         $stmt->bindParam(":nombre", $incidencia);
-        $stmt->bindParam(":solicitado_por", $usuario);
+        $stmt->bindParam(":solicitado_por", $usuario->id);
         $stmt->bindParam(":departamento", $departamento->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
@@ -95,7 +95,7 @@ class MaintenanceDAO
         $stmt = $db->prepare("UPDATE incidencias SET estado=:estado,completado_por=:usrid WHERE id=:id");
         $stmt->bindParam(":estado", $estado);
         $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":usrid", $_SESSION[Constantes::SESS_USER]);
+        $stmt->bindParam(":usrid", $_SESSION[Constantes::SESS_USER]->id);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;

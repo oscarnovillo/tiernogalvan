@@ -67,15 +67,15 @@ function crearContainer() {
                     '                                    <h5 class="mb-1">' + item.TITULO + '</h5>' +
                     '                                    <small>' + item.CREACION + '</small>' +
                     '                                </div>' +
-                    '                                <p class="mb-1">' + item.DESCRIPCION + '</p>' +
+                    '                                <p class="mb-1 dont-break-out">' + item.DESCRIPCION + '</p>' +
                     '                            </a>';
                 swt += 1;
 
             });
             dataHtml += '</div>';
 
-
             container.prev().html(dataHtml);
+
         }
     });
 }

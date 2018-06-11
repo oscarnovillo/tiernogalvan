@@ -1,3 +1,5 @@
+/* Preloader siempre primero, para que se visualice antes */
+@import url(preloader.css);
 @import url('https://fonts.googleapis.com/css?family=Crete+Round|Merriweather|Josefin+Sans|Montserrat|Vollkorn');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Righteous');
 /*@import url(menu.css);*/

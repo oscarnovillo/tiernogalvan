@@ -70,6 +70,12 @@ class BolsaTrabajoServicios
         return $dao->getSizeOfertasDB();
     }
 
+    public function getPermisosBolsa($id_permiso)
+    {
+        $dao = new BolsaTrabajoDAO();
+        return $dao->tienePermisosDB($id_permiso);
+    }
+
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;
@@ -191,6 +197,7 @@ class BolsaTrabajoServicios
     {
         $oferta->CREACION = $this->formatCreacion($oferta->CREACION);
         $oferta->DESCRIPCION = $this->formatTexto($oferta->DESCRIPCION, ConfigBolsaTrabajo::LONGITUD_TEXTO_DESCRIPCION);
+        $oferta->TITULO = htmlspecialchars($oferta->TITULO);
         return $oferta;
     }
 
@@ -205,7 +212,7 @@ class BolsaTrabajoServicios
     {
         if (strlen($texto) > $limit)
             $texto = substr($texto, 0, strrpos(substr($texto, 0, $limit), ' ')) . '...';
-        return $texto;
+        return htmlspecialchars($texto);
     }
 
     public function subirArchivo()
@@ -299,7 +306,7 @@ class BolsaTrabajoServicios
     public function definirInfoOferta($RECIBIR_OFERTAS)
     {
         $responseText = null;
-        if ($RECIBIR_OFERTAS == 0) {
+        if ($RECIBIR_OFERTAS == 1) {
             $responseText = MensajesBT::RECIBIR_OFERTAS_OK;
         } else {
             $responseText = MensajesBT::RECIBIR_OFERTAS_NO;
@@ -310,7 +317,7 @@ class BolsaTrabajoServicios
     public function definirInfoTrabajo($BUSCA_TRABAJO)
     {
         $responseText = null;
-        if ($BUSCA_TRABAJO == 0) {
+        if ($BUSCA_TRABAJO == 1) {
             $responseText = MensajesBT::BUSCA_TRABAJO_OK;
         } else {
             $responseText = MensajesBT::BUSCA_TRABAJO_NO;
@@ -344,7 +351,7 @@ class BolsaTrabajoServicios
 
                 $ofertaDatos = $this->verOferta($idOferta);
                 if (is_object($ofertaDatos) && $ofertaDatos->EMAIL != null) {
-                    //$servidor = new BuzonCorreo();
+
                     $aplicante = false;
                     if ($perfilUser[0]->EMAIL != null) {
                         //Enviamos correo de confirmación

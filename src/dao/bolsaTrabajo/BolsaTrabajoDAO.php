@@ -43,13 +43,13 @@ class BolsaTrabajoDAO
                 , ConstantesBD::EMAIL => $oferta->email_oferta
                 , ConstantesBD::TELEFONO => $oferta->telefono_oferta
                 , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
-                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::VACANTES => ($oferta->vacante_oferta == "") ? null : $oferta->vacante_oferta
                 , ConstantesBD::SALARIO => $oferta->salario_oferta
                 , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
                 , ConstantesBD::ID_USER => $oferta->id_user_oferta
             ])
-            ->compile();//TODO - revisar que no pete por null
+            ->compile();
 
         $dbConnection = null;
         try {
@@ -91,7 +91,7 @@ class BolsaTrabajoDAO
         } catch (\Exception $exception) {
             $db->rollBack();
             //echo $exception->getMessage();
-            $oferta= null;
+            $oferta = null;
         } finally {
             $dbConnection->disconnect();
         }
@@ -398,7 +398,7 @@ class BolsaTrabajoDAO
                 , ConstantesBD::EMAIL => $oferta->email_oferta
                 , ConstantesBD::TELEFONO => $oferta->telefono_oferta
                 , ConstantesBD::REQUISITOS => $oferta->requisitos_oferta
-                , ConstantesBD::VACANTES => $oferta->vacante_oferta
+                , ConstantesBD::VACANTES => ($oferta->vacante_oferta == "") ? null : $oferta->vacante_oferta
                 , ConstantesBD::SALARIO => $oferta->salario_oferta
                 , ConstantesBD::LOCALIZACION => $oferta->localizacion_oferta
                 , ConstantesBD::CADUCIDAD => $oferta->caducidad_oferta
@@ -1039,13 +1039,41 @@ class BolsaTrabajoDAO
         } catch (\Exception $exception) {
 
             $response = false;
-            echo $exception->getMessage();
+            //echo $exception->getMessage();
         } finally {
             $dbConnection->disconnect();
         }
 
         return $response;
 
+    }
+    public function tienePermisosDB($id_permiso)
+    {
+        $engine = new MySqlEngine();
+        $factory = new QueryFactory($engine);
+        $query = $factory
+            ->select()
+            ->from(ConstantesBD::TABLA_ACCESO_MODIFICAR_BT)
+            ->where(field(ConstantesBD::ID_PERMISO)->eq($id_permiso))
+            ->compile();
+
+        $dbConnection = null;
+        $permisos = null;
+        try {
+
+            $dbConnection = new DBConnection();
+            $db = $dbConnection->getConnection();
+
+            $stmt = $db->prepare($query->sql());
+            $stmt->execute($query->params());
+            $permisos = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        } catch (\Exception $exception) {
+            //echo $exception->getMessage();
+        } finally {
+            $dbConnection->disconnect();
+        }
+        return $permisos;
     }
 
 }//fin clase

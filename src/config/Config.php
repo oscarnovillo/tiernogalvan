@@ -14,13 +14,20 @@ class Config
 {
 
     const MAIL_SERVER = "smtp.gmail.com";
-    const MAIL_USER = "alumno1@iesquevedo.es";
-    const MAIL_PASSWORD = "alumnodam2";
+    const MAIL_USER = "el.tierno.galvan@gmail.com";
+    const MAIL_NAME = 'IES Enrique Tierno Galván';
+    const MAIL_PASSWORD = "nohay2sin3";
     const MAIL_PORT = 587;
+
+    /*
+     * La configuración de aquí abajo cita si se debe alertar cuando
+     * se agregue una incidencia a los TIC's y admins por email a modo de notificación
+     * o no.
+     */
+    const SEND_MAIL_ADMIN_ALERT = true;
 
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";
     const DB_DATABASE = "appbanco";
-
 }
