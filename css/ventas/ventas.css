@@ -85,3 +85,24 @@ h2{
     color: #008CBA;
     cursor: default;
 }
+
+.texto_filtro{
+    margin-right: 10px; 
+    font-weight: bold;
+}
+
+#cont_filtro{
+    padding: 10px;
+    color: white;
+    background-color: #008CBA;
+}
+
+#cont_filtro select{
+    margin: 0px 15px 0px 0px !important;
+}
+
+.buscar{
+    color: black;
+    background-color: white;
+    max-width: 150px !important;
+}

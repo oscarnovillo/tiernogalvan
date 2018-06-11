@@ -11,6 +11,46 @@
             {% endif %}
             <h1><span onclick="verTodos()" class="seleccionado" id="texto_todos">Todos los libros</span></h1>
             <section class="cont_tabla" id="todos">
+                <div id="cont_filtro">
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="c" value="venta_libros">
+                        <input type="hidden" name="a" value="filtrar">
+                        
+                        <span class="texto_filtro">Filtrar por:</span>
+                    
+                        <span>Asignatura</span>
+                        <select id="asignatura_filtro" name="filtro_asig" onchange="parametrosPag('{{ numVentas }}')">
+                            <option value="cualquiera">Cualquiera</option>
+                            <option value="Matemáticas">Matemáticas</option>
+                            <option value="Lengua">Lengua</option>
+                            <option value="FOL">FOL</option>
+                            <option value="C. sociales">C. sociales</option>
+                        </select>
+
+                        <span>Curso</span>
+                        <select id="curso_filtro" name="filtro_curso" onchange="parametrosPag('{{ numVentas }}')">
+                            <option value="cualquiera">Cualquiera</option>
+                            <option value="4 ESO">4º ESO</option>
+                            <option value="1 BACH">1º BACH</option>
+                            <option value="2 BACH">2º BACH</option>
+                            <option value="1 DAW">1º DAW</option>
+                            <option value="2 DAW">2º DAW</option>
+                        </select>
+
+                        <span class="texto_filtro">Ordenar por:</span>
+                        <select id="orden_filtro" name="orden" onchange="parametrosPag('{{ numVentas }}')">
+                            <option value="fecha_publicacion">Fecha publicación</option>
+                            <option value="titulo">Titulo</option>
+                            <option value="precio">Precio</option>
+                            <option value="asignatura">Asignatura</option>
+                            <option value="curso">Curso</option>
+                        </select>
+
+                        <input type="submit" value="Buscar" class="boton-contenido boton buscar">
+                        <input type="button" value="Limpiar" class="boton-contenido boton buscar" onclick="resetFiltro()">
+                    </form>
+                </div>
+                <br>
                 {% if allVentas != null %}
                     <table class="table table-striped">
                         <tr>
@@ -32,6 +72,9 @@
                             </tr>
                         {% endfor %}
                     </table>
+                    
+                    <ul id="numPags"></ul>
+                    
                     <form action="index.php" method="post" id="form_res">
                         <input type="hidden" id="id_venta" name="id_venta">
                         <input type="hidden" id="id_vendedor" name="id_vendedor">
@@ -39,6 +82,13 @@
                         <input type="hidden" name="c" value="venta_libros">
                         <input type="hidden" name="a" value="res_libro">
                     </form>
+                    <script>
+                        $(document).ready(function(){
+                            cargarFiltro('{{ asig }}', '{{ curso }}', '{{ orden }}');
+                            parametrosPag('{{ numVentas }}');
+                            cambiarPag('{{ pageActu }}');
+                        });
+                    </script>
                 {% else %}
                     <h2>No hay libros a la venta</h2>
                 {% endif %}
@@ -199,13 +249,19 @@
             </section>
         </div>
     </div>
-    
+    <script>
+        $(document).ready(function(){
+            cargarFiltro('{{ asig }}', '{{ curso }}', '{{ orden }}');
+        });
+    </script>
 {% endblock %}
 
 {% block styles %}
     <link rel="stylesheet" href="/css/ventas/ventas.css">
+    <link type="text/css" rel="stylesheet" href="/css/ventas/simplePagination.css"/>
 {% endblock %}
 
 {% block scripts %}
     <script src="/js/ventas/ventas.js"></script>
+    <script type="text/javascript" src="/js/ventas/jquery.simplePagination.js"></script>
 {% endblock %}

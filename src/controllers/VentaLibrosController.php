@@ -113,11 +113,42 @@ class VentaLibrosController {
             }
         }
         
-        $allVentas = $ventasSevicios->getAllVentas();
+        if(isset($_REQUEST[ConstantesVentas::PARAM_FILTRO_ASIG])){
+            $filt_asig = $_REQUEST[ConstantesVentas::PARAM_FILTRO_ASIG];
+        }else{
+            $filt_asig = "cualquiera";
+        }
+        
+        if(isset($_REQUEST[ConstantesVentas::PARAM_FILTRO_CURSO])){
+            $filt_curso = $_REQUEST[ConstantesVentas::PARAM_FILTRO_CURSO];
+        }else{
+            $filt_curso = "cualquiera";
+        }
+        
+        if(isset($_REQUEST[ConstantesVentas::PARAM_ORDEN])){
+            $orden = $_REQUEST[ConstantesVentas::PARAM_ORDEN];
+        }else{
+            $orden = "fecha_publicacion";
+        }
+        $parameters['asig'] = $filt_asig;
+        $parameters['curso'] = $filt_curso;
+        $parameters['orden'] = $orden;
+        
+        if(isset($_REQUEST[ConstantesVentas::PARAM_PAGINA])){
+            $numPag = $_REQUEST[ConstantesVentas::PARAM_PAGINA];
+        }else{
+            $numPag = "1";
+        }
+        
+        $numVentas = count($ventasSevicios->getNumVentas($filt_asig, $filt_curso));
+        
+        $allVentas = $ventasSevicios->getAllVentas($filt_asig, $filt_curso, $orden, $numPag);
         if($allVentas != null){
             $parameters['allVentas'] = $allVentas;
-            $parameters['totalPages'] = count($allVentas);
         }
+        
+        $parameters['numVentas'] = $numVentas;
+        $parameters['pageActu'] = $numPag;
         
         $misVentas = $ventasSevicios->getMisVentas($user->id);
         if($misVentas != null){

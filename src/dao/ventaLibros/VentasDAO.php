@@ -40,11 +40,24 @@ class VentasDAO {
         return $insertado;
     }
     
-    public function getAllVentas(){
+    public function getAllVentas($filt_asig, $filt_curso, $orden, $numPag){
         $db = new DBConnection();
         $conn = $db->getConnection();
         
-        $stmt = $conn->prepare("SELECT * FROM venta_libros WHERE estado != 'Reservado'");
+        $sql = "SELECT * FROM venta_libros WHERE estado != 'Reservado'";
+        
+        if($filt_asig != "cualquiera"){
+            $sql = $sql . " AND asignatura = '" . $filt_asig . "'";
+        }
+        
+        if($filt_curso != "cualquiera"){
+            $sql = $sql . " AND curso = '" . $filt_curso . "'";
+        }
+        
+        $sql = $sql . " ORDER BY " . $orden . " ASC LIMIT 5 OFFSET " . ($numPag-1)*5;
+        
+        
+        $stmt = $conn->prepare($sql);
         $stmt->execute();
         
         $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -146,5 +159,28 @@ class VentasDAO {
         
         $db->disconnect();
         return $user;
+    }
+    
+    public function getNumVentas($filt_asig, $filt_curso){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $sql = "SELECT * FROM venta_libros WHERE estado != 'Reservado'";
+        
+        if($filt_asig != "cualquiera"){
+            $sql = $sql . " AND asignatura = '" . $filt_asig . "'";
+        }
+        
+        if($filt_curso != "cualquiera"){
+            $sql = $sql . " AND curso = '" . $filt_curso . "'";
+        }
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        
+        $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        $db->disconnect();
+        return $ventas;
     }
 }
