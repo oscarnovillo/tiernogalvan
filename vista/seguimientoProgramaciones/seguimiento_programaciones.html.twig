@@ -11,20 +11,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
+                        <label for="nombre_asignatura" class="col-sm-3">Nombre Asignatura</label>
                         <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
+
+
+                        <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
                         <select class = "col-sm-12" name="select_cursos_asignaturas" id="select_cursos_asignaturas">
                             <option value="">&nbsp;</option>
                             {% for curso in cursos %}
                                 <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
                             {% endfor %}
                         </select>
+
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
-                    <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                    <form>
+                        <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
+                        <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -49,7 +58,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" name="aceptar" class="btn btn-primary" id="entendido" value="Entendido">
+                    <form>
+                        <input type="button" name="aceptar" class="btn btn-primary" id="entendido" value="Entendido">
+                    </form>
                 </div>
             </div>
         </div>
@@ -72,8 +83,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="botones_borrado_total">
-                        <input type="button" name="aceptar" class="btn btn-primary" id="borrado_total" value="Borrar de todas formas">
-                        <input type="button" name="aceptar" class="btn btn-primary" id="cancelar_borrado" value="Cancelar">
+                        <form>
+                            <input type="button" name="aceptar" class="btn btn-primary" id="borrado_total" value="Borrar de todas formas">
+                            <input type="button" name="aceptar" class="btn btn-primary cancelar" id="cancelar_borrado" value="Cancelar">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -88,24 +101,34 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <form name="updateAsignatura" class="updateAsignatura" id="updateAsignatura">
-                        <input type="text" name="nombre_asignatura" id="nombre_asignatura_update" required="required">
-                        <select class = "col-sm-12" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
+                        <label for="nombre_asignatura_update" class="col-sm-3">Nombre Asignatura</label>
+                        <input type="text" name="nombre_asignatura" class="col-sm-8" id="nombre_asignatura_update" required="required">
+
+                        <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
+                        <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
                         </select>
+
                     </form>
                 </div>
                 <div class="modal-footer footer-modal">
                     <div class="row">
                         <div class="accion-update">
-                            <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_update" value="Aceptar">
-                            <input type="button" class="btn btn-primary cancelar" id="cancelar_envio_update" value="Cancelar">
+                            <form>
+                                <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_update" value="Aceptar">
+                                <input type="button" class="btn btn-primary cancelar" id="cancelar_envio_update" value="Cancelar">
+                            </form>
                         </div>
                         <div class="accion-borrar">
-                            <input type="button" class="btn btn-primary" class="cancelar" id="borrar_asignatura" value="Borrar Asignatura">
+                            <form>
+                                <input type="button" class="btn btn-primary" id="borrar_asignatura" value="Borrar Asignatura">
+                            </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -120,13 +143,18 @@
                 </div>
                 <div class="modal-body">
                     <form name="addAsignatura" class="addTema" id="addTema">
-                        <input type="text" name="nombre_tema" id="nombre_tema" required="required">
+                        <label for="nombre_tema" class="col-sm-3">Nombre Unidad</label>
+                        <input type="text" name="nombre_tema" id="nombre_tema" class="col-sm-8" required="required">
+
+                        <label for="select_evaluacion" class="col-sm-3">Evaluación</label>
                         <select class = "col-sm-12" name="select_evaluacion" id="select_evaluacion">
                             <option value=""></option>
                             <option value="1">Primera Evaluación</option>
                             <option value="2">Segunda Evaluación</option>
                             <option value="3">Tercera Evaluación</option>
                         </select>
+
+                        <label for="select_asignaturas_temas" class="col-sm-3">Asignaturas</label>
                         <select class = "col-sm-12" name="select_asignaturas_temas" id="select_asignaturas_temas">
                             <option value="">&nbsp;</option>
                             {% for asignatura in asignaturas %}
@@ -137,13 +165,84 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_tema" value="Aceptar">
-                    <input type="button" class="btn btn-primary" class="cancelar" id="cancelar_envio" value="Cancelar">
+                    <div class="row izquierda">
+                        <form>
+                            <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_tema" value="Aceptar">
+                            <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog" id="modal_update_tema">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modificar Tema</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="updateTema" class="updateTema" id="updateTema">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="nombre_tema_update" class="col-sm-3">Nombre Unidad</label>
+                                <input type="text" name="nombre_tema" class="col-sm-8" id="nombre_tema_update" data-id="31" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_evaluacion_update" class="col-sm-3">Evaluación</label>
+                                <select class = "col-sm-8" name="select_evaluacion_update" id="select_evaluacion_update">
+                                    <option value=""></option>
+                                    <option value="1">Primera Evaluación</option>
+                                    <option value="2">Segunda Evaluación</option>
+                                    <option value="3">Tercera Evaluación</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_asignaturas_temas_update" class="col-sm-3">Asignatura</label>
+                                <select class = "col-sm-8" name="select_asignaturas_temas_update" id="select_asignaturas_temas_update">
+                                    <option value="">&nbsp;</option>
+                                    <option value="30">Nuevisima</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_asignaturas_temas_update" class="col-sm-3">Comentario</label>
+                                <textarea rows="4" cols="50" id="comentario_tema" class="col-sm-8">
+                                </textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="accion-update">
+                            <form>
+                                <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_tema_update" value="Aceptar">
+                                <input type="button" class="btn btn-primary cancelar" id="cancelar_tema_update" value="Cancelar">
+                            </form>
+                        </div>
+                        <div class="accion-borrar">
+                            <form>
+                                <input type="button" class="btn btn-primary" id="borrar_unidad" value="Borrar Asignatura">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="contenido col-12">
         <div class="container-fluid contenedor">
             <div class="title-modales">
@@ -195,6 +294,15 @@
                                 <tbody>
                                     <tr>
                                         <td colspan = "3" >No hay datos</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="abrir-modal-update-tema puntero" data-id="31" data-estado="0" >Tema</td>
+                                        <td>2</td>
+                                        <td data-estado="0">
+                                            <form id="form_marcar_hecho">
+                                                <input type="checkbox" id="cambiar_estado_unidad" data-id="31">
+                                            </form>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

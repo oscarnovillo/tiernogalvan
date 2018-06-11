@@ -58,11 +58,11 @@ class seguimientoServices {
     }
     public function borrar_unidad_trabajo($unidad_trabajo){
         $dao = new crudUnidadesTrabajo();
-        return $dao->borrar_asignatura($unidad_trabajo);
+        return $dao->borrar_unidad_trabajo($unidad_trabajo);
     }
     public function leer_unidad_trabajo(){
         $dao = new crudUnidadesTrabajo();
-        return $dao->get_all_asignaturas();
+        return $dao->leer_unidad_trabajo();
     }
     public function get_unidad_asignatura($id_asignatura){
         $dao = new crudUnidadesTrabajo();

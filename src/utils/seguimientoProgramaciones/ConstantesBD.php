@@ -30,10 +30,10 @@ class ConstantesBD {
     const update_asignatura_curso = "UPDATE CURSOS_ASIGNATURAS SET ID_CURSO = ? WHERE ID_ASIGNATURA = ?";
     const borrar_asignatura = "DELETE FROM ASIGNATURAS WHERE ID = ?";
     const borrar_asignatura_curso = "DELETE FROM CURSOS_ASIGNATURAS WHERE ID_ASIGNATURA = ?";
-    const update_unidad = "UPDATE FROM UNIDADES_TRABAJO SET NOMBRE = ?,EVALUACION=? WHERE ID = ?";
-    const update_unidad_asignatura = "UPDATE FROM ASIGNATURA_UNIDADTRABAJO SET ID_ASIGNATURA = ? WHERE ID_UNIDAD_TRABAJO = ?";
+    const update_unidad = "UPDATE UNIDADES_TRABAJO SET NOMBRE = ?,EVALUACION=?,COMENTARIO=? WHERE ID = ?";
+    const update_unidad_asignatura = "UPDATE ASIGNATURA_UNIDADTRABAJO SET ID_ASIGNATURA = ? WHERE ID_UNIDAD_TRABAJO = ?";
     const borrar_unidad = "DELETE FROM UNIDADES_TRABAJO WHERE ID = ?";
     const borrar_unidad_asignatura = "DELETE FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_UNIDAD_TRABAJO = ?";
     const get_unidades_asignatura = "SELECT * FROM unidades_trabajo where unidades_trabajo.ID IN (SELECT ID_UNIDAD_TRABAJO FROM asignatura_unidadtrabajo where ID_ASIGNATURA=?)";
-    const modificar_estado_tema = "UPDATE FROM UNIDADES_TRABAJO SET UNIDAD_HECHA = ? WHERE ID  = ?";
+    const modificar_estado_tema = "UPDATE UNIDADES_TRABAJO SET UNIDAD_HECHA = ? WHERE ID  = ?";
 }
