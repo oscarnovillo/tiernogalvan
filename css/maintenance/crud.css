@@ -33,55 +33,6 @@ button.center-button {
     position: relative;
     margin-top: 1.5em;
 }
-/* Style The Dropdown Button */
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #f1f1f1
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
 .estado-proceso > td {
     background-color: #3399ff !important;
     color: white
@@ -97,6 +48,13 @@ button.center-button {
     color: white
 }
 
+.center-icon {
+    vertical-align: middle;
+}
+
+td > .dropdown {
+    text-align: left
+}
 table .boton-contenido {
     background-color: white;
     color: dimgray;
@@ -152,7 +110,7 @@ input[type=search] {
     text-align: center;
 }
 
-.swanky_wrapper__content > ul > li:last-child {
+.submenu_wrapper__content > ul > li:last-child {
     margin-bottom: 40px;
 }
 
@@ -164,12 +122,47 @@ td {
     text-align: center
 }
 
-.dropdown-content a {
-    border-bottom: 1px solid
+.dropdown {
+    position: relative;
+    cursor: pointer
 }
 
-.dropdown-content a:last-child {
-    border-bottom: none
+.dropdown ul {
+    z-index: 100;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    top: 2.6em;
+    transition: all 0.3s ease;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dropdown ul li {
+    display: block;
+    width: 100%;
+}
+
+.dropdown ul li a {
+    color: rgba(0, 0, 0, .7);
+    text-decoration: none;
+    width: 100%;
+    padding: 1em 18px;
+    display: inline-block;
+    white-space: pre;
+    box-sizing: border-box;
+}
+
+.dropdown ul li a:hover {
+    background: #ebebeb;
+}
+
+.dropdown:hover ul {
+    -webkit-transform: scale(1);
+    transform: scale(1);
 }
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700,300);
@@ -202,21 +195,38 @@ label {
     width: auto;
 }
 
-body .swanky {
+body .submenu {
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
 }
 
-body .swanky_wrapper {
+label {
+    margin-bottom: 0;
+}
+
+label.active {
+    margin-bottom: 10px;
+}
+
+#header {
+    margin-top: -25px;
+}
+
+body .submenu_wrapper {
     height: auto;
     overflow: hidden;
     border-radius: 4px;
     background: #2a394f;
 }
 
-body .swanky_wrapper label {
+.submenu a > li {
+    color: #eff4fa;
+    text-decoration: none
+}
+
+body .submenu_wrapper label {
     padding: 25px;
     float: left;
     height: 72px;
@@ -226,31 +236,32 @@ body .swanky_wrapper label {
     color: #eff4fa;
     transition: text-indent .15s, height .3s;
     box-sizing: border-box;
+    text-align: left;
 }
 
-body .swanky_wrapper label img {
-    margin-right: 10px;
+body .submenu_wrapper label i {
     position: relative;
-    top: 2px;
-    width: 16px;
+    top: -0.1em;
+    width: 3em;
+    float: left
 }
 
-body .swanky_wrapper label span {
+body .submenu_wrapper label span {
     position: relative;
     top: -3px;
 }
 
-body .swanky_wrapper label:hover {
+body .submenu_wrapper label:hover {
     background: #212e41;
     border-bottom: 1px solid #2A394F;
     text-indent: 4px;
 }
 
-body .swanky_wrapper label:hover .bar {
+body .submenu_wrapper label:hover .bar {
     width: 100%;
 }
 
-body .swanky_wrapper label .bar {
+body .submenu_wrapper label .bar {
     width: 0px;
     transition: width .15s;
     height: 2px;
@@ -261,7 +272,7 @@ body .swanky_wrapper label .bar {
     left: 0;
 }
 
-body .swanky_wrapper label .lil_arrow {
+body .submenu_wrapper label .lil_arrow {
     width: 5px;
     height: 5px;
     transition: -webkit-transform 0.8s;
@@ -278,7 +289,7 @@ body .swanky_wrapper label .lil_arrow {
     transform: rotate(45deg);
 }
 
-body .swanky_wrapper__content {
+body .submenu_wrapper__content {
     position: absolute;
     display: none;
     overflow: hidden;
@@ -286,7 +297,7 @@ body .swanky_wrapper__content {
     width: 100%;
 }
 
-body .swanky_wrapper__content li {
+body .submenu_wrapper__content li {
     width: 100%;
     opacity: 0;
     left: -100%;
@@ -298,18 +309,32 @@ body .swanky_wrapper__content li {
     position: relative;
 }
 
-body .swanky_wrapper__content li:hover {
+body .submenu_wrapper__content li:hover {
     background: #0c93e4;
     box-shadow: 3px 0px #126CA1 inset;
     transition: box-shadow .3s linear, text-indent .3s linear;
     text-indent: 31px;
 }
 
-body .swanky_wrapper__content .clear {
+body .submenu_wrapper__content .clear {
     clear: both;
 }
 
-input[type='radio']:checked + label .swanky_wrapper__content {
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0
+}
+
+.mdl-cell {
+    margin: 0;
+    padding: 0;
+}
+
+.mdl-cell--12-col {
+    width: 100%
+}
+
+input[type='radio']:checked + label .submenu_wrapper__content {
+    height: 150px;
     display: block;
     top: 68px;
     border-bottom: 1px solid #212e41;
@@ -327,7 +352,7 @@ input[type="radio"]:checked + label > .lil_arrow {
 }
 
 input[type='radio']:checked + label {
-    height: 325px;
+    height: 205px;
     background: #212e41;
     text-indent: 4px;
     transition-property: height;

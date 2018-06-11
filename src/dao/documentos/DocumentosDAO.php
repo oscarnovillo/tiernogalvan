@@ -54,7 +54,6 @@ class DocumentosDAO{
             $stmt = $db->prepare($sql);
             $stmt->execute(array($id,$documento['name'],$idcategoria));
             $filas = $stmt->rowCount();
-            $dbConnection->disconnect();
             $last_id = $db->lastInsertId();
             if(move_uploaded_file($documento['name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $_FILES['archivo']['name'])){
                 $db->commit();

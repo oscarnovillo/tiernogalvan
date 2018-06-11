@@ -5,7 +5,7 @@ namespace controllers;
 use servicios\maintenance\SessionServicios;
 use utils\bolsaTrabajo\ConstantesBolsaTrabajo;
 use utils\Constantes;
-use utils\maintenance\ConstantesMaintenance;
+use utils\maintenance\ConstantesDepartments;
 use utils\maintenance\Utils;
 use utils\Mailer;
 use utils\TwigViewer;

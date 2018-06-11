@@ -29,7 +29,7 @@ class MaintenanceDAO
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT * FROM departamentos");
+        $stmt = $db->prepare("SELECT * FROM departamentos WHERE activo=1");
         $stmt->execute();
         $departamentos = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
@@ -41,7 +41,7 @@ class MaintenanceDAO
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("SELECT u.* FROM users u JOIN permisos p ON p.id_rol=4");
+        $stmt = $db->prepare("SELECT u.* FROM users u JOIN permisos p ON (p.id_rol=4 AND p.id_usuario=u.id)");
         $stmt->execute();
         $tics = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
