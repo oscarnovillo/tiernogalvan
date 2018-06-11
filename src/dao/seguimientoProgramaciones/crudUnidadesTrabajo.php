@@ -5,7 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace dao\seguimientoProgramaciones;
+
 /**
  * Description of crudUnidadesTrabajo
  *
@@ -15,14 +17,16 @@ use utils\seguimientoProgramaciones\ConstantesBD;
 use dao\DBConnection;
 use utils\seguimientoProgramaciones\constantesMensajes;
 use PDO;
+
 class crudUnidadesTrabajo {
-    public function crear_unidad_trabajo($unidad_trabajo_crear){
+
+    public function crear_unidad_trabajo($unidad_trabajo_crear) {
         $mensaje = new \stdClass;
         $unidad_trabajo_crear->hecho = 0;
         $connectionDB = new DBConnection();
         $conn = $connectionDB->getConnection();
-        try{
-            if ($this->comprobar_unidad_trabajo($unidad_trabajo_crear)==0){
+        try {
+            if ($this->comprobar_unidad_trabajo($unidad_trabajo_crear) == 0) {
                 $conn->beginTransaction();
                 $stmt = $conn->prepare(ConstantesBD::insert_tema);
                 $stmt->bindParam(1, $unidad_trabajo_crear->nombre);
@@ -36,36 +40,38 @@ class crudUnidadesTrabajo {
                 $stmt->execute();
                 $conn->commit();
                 $mensaje->exito = constantesMensajes::INSERCION_HECHA_TEMA;
-            }
-            else{
+            } else {
                 $mensaje->error = constantesMensajes::ERROR_UNIDAD_DUPLICADA;
             }
-        }catch(\Exception $ex){
-            if ($conn != null){
+        } catch (\Exception $ex) {
+            if ($conn != null) {
                 $conn->rollback();
             }
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
             echo json_encode($mensaje);
-        }finally{
+        } finally {
             $connectionDB->disconnect();
         }
         return json_encode($mensaje);
     }
-    public function leer_unidad_trabajo(){
-        try{
-        $connectionDB = new DBConnection();
-        $conn = $connectionDB->getConnection();
-        $stmt = $conn->prepare(ConstantesBD::select_all_unidTrabajo);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt->execute();
-        $unidades_trabajo = $stmt->fetchAll(PDO::FETCH_OBJ);
-        return $unidades_trabajo;
-        }catch(\Exception $ex){
-        }finally{
+
+    public function leer_unidad_trabajo() {
+        try {
+            $connectionDB = new DBConnection();
+            $conn = $connectionDB->getConnection();
+            $stmt = $conn->prepare(ConstantesBD::select_all_unidTrabajo);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute();
+            $unidades_trabajo = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $unidades_trabajo;
+        } catch (\Exception $ex) {
+            
+        } finally {
             $connectionDB->disconnect();
         }
     }
-    public function modificar_unidad_trabajo($unidad_trabajo){
+
+    public function modificar_unidad_trabajo($unidad_trabajo) {
         $asignaturaObjeto = new \stdClass;
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
@@ -75,7 +81,8 @@ class crudUnidadesTrabajo {
             $stmt = $conn->prepare(ConstantesBD::update_unidad);
             $stmt->bindParam(1, $unidad_trabajo->nombre);
             $stmt->bindParam(2, $unidad_trabajo->evaluacion);
-            $stmt->bindParam(2, $unidad_trabajo->id);
+            $stmt->bindParam(3, $unidad_trabajo->comentario);
+            $stmt->bindParam(4, $unidad_trabajo->id);
             $stmt->execute();
             $stmt = $conn->prepare(ConstantesBD::update_unidad_asignatura);
             $stmt->bindParam(1, $unidad_trabajo->id_asignatura);
@@ -86,24 +93,25 @@ class crudUnidadesTrabajo {
         } catch (\Exception $ex) {
             $conn->rollback();
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
-            echo json_encode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }
         return json_encode($mensaje);
     }
-    public function borrar_unidad_trabajo($unidad_trabajo){
+
+    public function borrar_unidad_trabajo($unidad_trabajo) {
         $asignaturaObjeto = new \stdClass;
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
         $conn = $connectionDB->getConnection();
         try {
             $conn->beginTransaction();
-            $stmt = $conn->prepare(ConstantesBD::borrar_unidad_asignatura);
-            $stmt->bindParam(1, $unidad_trabajo->id_asignatura);
-            $stmt->execute();
+
             $stmt = $conn->prepare(ConstantesBD::borrar_unidad);
-            $stmt->bindParam(1, $unidad_trabajo->id_asignatura);
+            $stmt->bindParam(1, $unidad_trabajo->id_unidad);
+            $stmt->execute();
+            $stmt = $conn->prepare(ConstantesBD::borrar_unidad_asignatura);
+            $stmt->bindParam(1, $unidad_trabajo->id_unidad);
             $stmt->execute();
             $conn->commit();
             $mensaje->exito = constantesMensajes::BORRADO_HECHO;
@@ -117,13 +125,13 @@ class crudUnidadesTrabajo {
                 $mensaje->error = constantesMensajes::ERROR_GENERAL;
             }
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
-            echo json_encode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }
         return json_encode($mensaje);
     }
-    public function get_unidades_por_asignatura($id_asignatura){
+
+    public function get_unidades_por_asignatura($id_asignatura) {
         $asignaturaObjeto = new \stdClass;
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
@@ -135,51 +143,53 @@ class crudUnidadesTrabajo {
             $unidades_trabajo = $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (\Exception $ex) {
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
-            echo json_encode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }
         return $unidades_trabajo;
     }
-    public function modificar_estado_tema($unidad_trabajo_modificar){
+
+    public function modificar_estado_tema($unidad_trabajo_modificar) {
         $objetoUnidad = new \stdClass;
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
         $conn = $connectionDB->getConnection();
         $estado = 0;
         try {
-            if ($unidad_trabajo_modificar->estado == "true"){
-                $estado = 1;
-            }
             $stmt = $conn->prepare(ConstantesBD::modificar_estado_tema);
+            if (isset($unidad_trabajo_modificar->estado)) {
+                if (intval($unidad_trabajo_modificar->estado) == 1) {
+                    $estado = 1;
+                }
+            }
             $stmt->bindParam(1, $estado);
             $stmt->bindParam(2, $unidad_trabajo_modificar->id);
             $stmt->execute();
             $mensaje->exito = constantesMensajes::ESTADO_TEMA_MODIFICADO_EXITO;
         } catch (\Exception $ex) {
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
-            echo json_encode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }
         return json_encode($mensaje);
     }
-    public function comprobar_unidad_trabajo($unidTrabajo_comprobar){
+
+    public function comprobar_unidad_trabajo($unidTrabajo_comprobar) {
         $mensaje = new \stdClass;
         $cuenta_columnas = "";
-        try{
+        try {
             $connectionDB = new DBConnection();
             $conn = $connectionDB->getConnection();
-            $result = $conn->prepare(ConstantesBD::ID_TEMAS_MISMO_NOMBRE); 
+            $result = $conn->prepare(ConstantesBD::ID_TEMAS_MISMO_NOMBRE);
             $result->bindParam(1, $unidTrabajo_comprobar->nombre);
-            $result->execute(); 
+            $result->execute();
             $id_curso = $result->fetchColumn();
-            if ($id_curso != ""){
-                $result = $conn->prepare(ConstantesBD::comprobar_unidad_asignatura); 
+            if ($id_curso != "") {
+                $result = $conn->prepare(ConstantesBD::comprobar_unidad_asignatura);
                 $result->bindParam(1, $unidTrabajo_comprobar->id_asignatura);
                 $result->bindParam(2, $id_curso);
-                $result->execute(); 
-                $cuenta_columnas=$result->fetchColumn(); 
+                $result->execute();
+                $cuenta_columnas = $result->fetchColumn();
             }
             return $cuenta_columnas;
         } catch (Exception $ex) {
@@ -187,4 +197,5 @@ class crudUnidadesTrabajo {
             echo json_encode($mensaje);
         }
     }
+
 }

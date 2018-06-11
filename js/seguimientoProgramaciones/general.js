@@ -113,32 +113,40 @@ $(document).ready(function () {
                             var celda3 = document.createElement("td");
                             celda1.setAttribute("class", "abrir-modal-update-tema puntero");
                             celda1.setAttribute("data-id", parseodata.unidades[tema].ID);
+                            celda1.setAttribute("data-estado", parseodata.unidades[tema].UNIDAD_HECHA);
+                            celda1.setAttribute("data-comentario", parseodata.unidades[tema].COMENTARIO);
+                            celda1.setAttribute("data-nombre", parseodata.unidades[tema].NOMBRE);
+                            celda1.setAttribute("data-eva", parseodata.unidades[tema].EVALUACION)
                             celda1.innerHTML = parseodata.unidades[tema].NOMBRE;
                             celda2.innerHTML = parseodata.unidades[tema].EVALUACION;
                             if (parseInt(parseodata.unidades[tema].UNIDAD_HECHA) == 1) {
                                 var formulario = document.createElement("form");
-                                formulario.setAttribute("name", "form_estado");
-                                formulario.setAttribute("id", "form_estado");
-                                var checkbox = document.createElement("checkbox");
-                                checkbox.setAttribute("class", "marcar_hecho");
-                                checkbox.setAttribute("data-id", parseodata.unidades[tema].ID);
-                                checkbox.setAttribute("checked", "checked");
+                                formulario.setAttribute("id","form_marcar_hecho");
+                                var checkbox = document.createElement("input");
+                                checkbox.setAttribute("type","checkbox");
+                                checkbox.setAttribute("id","cambiar_estado_unidad");
+                                checkbox.setAttribute("data-id",parseodata.unidades[tema].ID);
+                                checkbox.setAttribute("checked","checked");
                                 formulario.appendChild(checkbox);
                                 celda3.appendChild(formulario);
+                                celda3.setAttribute("data-estado", "1");
                             } else {
                                 var formulario = document.createElement("form");
-                                formulario.setAttribute("name", "form_estado");
-                                formulario.setAttribute("id", "form_estado");
-                                var checkbox = document.createElement("checkbox");
-                                checkbox.setAttribute("class", "marcar_hecho");
-                                checkbox.setAttribute("data-id", parseodata.unidades[tema].ID);
+                                formulario.setAttribute("id","form_marcar_hecho");
+                                var checkbox = document.createElement("input");
+                                checkbox.setAttribute("type","checkbox");
+                                checkbox.setAttribute("id","cambiar_estado_unidad");
+                                checkbox.setAttribute("data-id",parseodata.unidades[tema].ID);
                                 formulario.appendChild(checkbox);
                                 celda3.appendChild(formulario);
+                                celda3.setAttribute("data-estado", "0");
                             }
                             fila.appendChild(celda1);
                             fila.appendChild(celda2);
                             fila.appendChild(celda3);
                             tabla.appendChild(fila);
+                            
+                            $("table").delegate(".abrir-modal-update-tema","click",fn_mostrar_modal_upt_temas);
                         }
                     } else {
                         var fila = document.createElement("tr");

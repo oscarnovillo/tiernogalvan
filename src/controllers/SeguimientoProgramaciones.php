@@ -128,7 +128,7 @@ class SeguimientoProgramaciones {
                             $servicios = new seguimientoServices();
                             $borrar = $servicios->parseo_json($json_asignatura);
                             if ($borrar->id_unidad != "") {
-                                $asignatura_borrada = $servicios->borrar_asignatura($servicios->parseo_json($json_asignatura));
+                                $asignatura_borrada = $servicios->borrar_unidad_trabajo($servicios->parseo_json($json_asignatura));
                                 echo $asignatura_borrada;
                             } else {
                                 $mensaje->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;
@@ -187,8 +187,8 @@ class SeguimientoProgramaciones {
                     $json_unidad = $_REQUEST[seguiminetoConstantes::OBJETO_UNIDAD_JSON];
                     $servicios = new seguimientoServices();
                     $objetoUnidad = $servicios->parseo_json($json_unidad);
-                    if ($objetoUnidad->id != "" && $objetoUnidad->estado != "") {
-                        $unidad_actualizada = $servicios->modificar_unidad_trabajo($servicios->parseo_json($json_unidad));
+                    if ($objetoUnidad->id != "") {
+                        $unidad_actualizada = $servicios->modificar_estado_tema($servicios->parseo_json($json_unidad));
                         echo $unidad_actualizada;
                     } else {
                         $mensaje->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;

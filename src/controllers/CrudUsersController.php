@@ -9,6 +9,7 @@ use utils\TwigViewer;
 use model\Users;
 use servicios\users\UsersServicios;
 use utils\PasswordStorage;
+use servicios\session\SessionServicios;
 
 use Respect\Validation\Validator as v;
 
@@ -21,11 +22,15 @@ use Respect\Validation\Validator as v;
 class CrudUsersController {
     
     public function crud(){
-        
-        $page = ConstantesCrudUsers::CRUD_PAGE;
-        $usersSevicios = new UsersServicios();
-        $parameters = array();
-        
+     
+        $session = new SessionServicios();
+ 
+        if (isset($_SESSION[Constantes::SESS_USER]->id_rol) && $_SESSION[Constantes::SESS_USER]->id_rol == Constantes::ID_ROL_ADMIN) {
+          
+            $page = ConstantesCrudUsers::CRUD_PAGE;
+            $usersSevicios = new UsersServicios();
+            $parameters = array();
+       
         $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
         
         if (isset($action)) {
@@ -38,17 +43,23 @@ class CrudUsersController {
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
             $user->telefono = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_TEL));
             $user->email = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_EMAIL);
-            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
-            $user->pass = $PasswordStorage->create_hash($user->pass);
             $user->nick = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NICK);
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
             $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
+            $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
             
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
                     $userChecked = $usersSevicios->getUser($user);
                     
                     if(!$userChecked){
+                        
+                        if($user->pass != null || $user->pass != ""){
+                            $user->pass = $PasswordStorage->create_hash($user->pass);
+                        }else{
+                            $user->pass = $userChecked->pass;
+                        }
+                        
                         $userChecked = $usersSevicios->addUser($user);
                         
                         if($userChecked){
@@ -105,7 +116,10 @@ class CrudUsersController {
                 $parameters['mensaje'] = ConstantesCrudUsers::USERS_NO;
                 $parameters['permisos'] = $permisos;
             }
-            
-        TwigViewer::getInstance()->viewPage($page,$parameters);
+            TwigViewer::getInstance()->viewPage($page,$parameters);
+        }else{
+            $page = "errors/permissions.html";
+            TwigViewer::getInstance()->viewPage($page);
+        }
     }
 }

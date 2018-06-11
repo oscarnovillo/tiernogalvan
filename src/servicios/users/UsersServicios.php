@@ -97,15 +97,24 @@ class UsersServicios {
         $validador = v::attribute(ConstantesLoginUsers::PARAM_PASS, v::stringType()->length(1, 100))
             ->attribute(ConstantesLoginUsers::PARAM_NICK, v::stringType()->length(1, 100))
             ->attribute(ConstantesLoginUsers::PARAM_NOMBRE, v::stringType()->length(1, 100))
-            ->attribute(ConstantesLoginUsers::PARAM_APELLIDOS, v::stringType()->length(1, 100))
-            ->attribute(ConstantesLoginUsers::PARAM_TELEFONO,v::optional(v::numeric()->length(4, 15)))
-            ->attribute(ConstantesLoginUsers::PARAM_EMAIL, v::email()->length(4, 80));
-            //->attribute(ConstantesLoginUsers::PARAM_PALABRA_CLAVE, v::stringType()->length(1, 100));
+            ->attribute(ConstantesLoginUsers::PARAM_APELLIDOS, v::stringType()->length(1, 100));
+            
+        return $validador->validate($user);
+    }
+    
+    public function validarEmail($user){
+        $validador = v::attribute(ConstantesLoginUsers::PARAM_EMAIL, v::email()->length(4, 80));
 
         return $validador->validate($user);
     }
     
-     public function validarLogin($user){
+    public function validarTelefono($user){
+        $validador = v::attribute(ConstantesLoginUsers::PARAM_TELEFONO,v::optional(v::numeric()->length(4, 15)));
+
+        return $validador->validate($user);
+    }
+    
+    public function validarLogin($user){
         $validador = v::attribute(ConstantesLoginUsers::PARAM_PASS, v::stringType()->length(1, 100))
             ->attribute(ConstantesLoginUsers::PARAM_NICK, v::stringType()->length(1, 100));
 
