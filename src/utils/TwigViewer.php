@@ -30,12 +30,14 @@ class TwigViewer
     {
 
         $this->loader = new FilesystemLoader(Constantes::TWIG_FOLDER);
-        $this->twig = new Environment($this->loader, array(
+        $this->twig = new Environment($this->loader, array(//TODO - quitar al finalizar desarrollo
             'debug' => true
         ));
         $this->twig->addExtension(new \Twig_Extension_Debug());
         $this->twig->addGlobal('userOnline', isset($_SESSION[Constantes::SESS_USER]));
-        $this->twig->addGlobal('user_keys', $_SESSION[Constantes::SESS_USER]);
+        if (isset($_SESSION[Constantes::SESS_USER])){
+            $this->twig->addGlobal('user_keys', $_SESSION[Constantes::SESS_USER]);
+        }
         $this->twig->addGlobal(ConstantesBolsaTrabajo::BOLSA_PERMISOS, isset($_SESSION[ConstantesBolsaTrabajo::TIPO_PERMISO]));
     }
 

@@ -2,9 +2,10 @@ footer {
   text-align: center;
 }
 
-footer .contenedor {
+footer > .contenedor {
     background: #fff;
-    padding: 25px 15px 15px 15px;
+    margin-bottom: 1em;
+    padding: 25px 15px 5px 15px;
 }
 
 footer .contenedor a img {

@@ -351,7 +351,7 @@ class BolsaTrabajoServicios
 
                 $ofertaDatos = $this->verOferta($idOferta);
                 if (is_object($ofertaDatos) && $ofertaDatos->EMAIL != null) {
-                    //$servidor = new BuzonCorreo();
+
                     $aplicante = false;
                     if ($perfilUser[0]->EMAIL != null) {
                         //Enviamos correo de confirmación

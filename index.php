@@ -10,6 +10,7 @@ use controllers\LoginUsers;
 use controllers\CrudUsersController;
 use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
+use controllers\SeguimientoProgramaciones;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\loginUsers\ConstantesLoginUsers;
@@ -38,7 +39,6 @@ session_start();
  * En cada controlador se comprueba si se requiere login o no.
  */
 /*
- * TODO: HACER CRUD DE DEPARTAMENTOS.
  */
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
 {
@@ -94,6 +94,11 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             /* Requerir login */
             //$userSessionValid ? $controller->login() : $errController->permissions();
             $controller->login();
+            break;
+        case Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER:
+            $controller = new SeguimientoProgramaciones();
+            //$userSessionValid ? $controller->seguimientoProgramacionesPrincipal() : $errController->permissions();
+            $controller->seguimientoProgramacionesPrincipal();
             break;
         case Constantes::DISCONNECT_CONTROLLER:
             $controller = new LogoutController();

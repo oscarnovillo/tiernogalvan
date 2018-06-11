@@ -50,4 +50,5 @@ class Constantes
     const ID_ROL_EMPRESA = 5;
     
     const CARPETA_DOCUMENTOS_DIRECCION  = "/DocumentosDireccion";
+    const SEGUIMIENTO_PROGRAMACIONES_CONTROLLER = "seguimiento_programaciones";
 }
