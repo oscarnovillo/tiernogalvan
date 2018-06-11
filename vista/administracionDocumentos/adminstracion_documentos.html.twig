@@ -22,8 +22,8 @@
                 </div>  
                 <div id="Categorias" class="tabcontent col-12">
                     <form name="crear-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                      <input type="text" max-length="20"  id="titulo-categoria" class="col-5 form-control " placeholder="Introduzca el nombre de la categoria a crear"/>
-                      <input type="hidden" id="action" name="a" value="s"/>
+                      <input type="text" max-length="20" name="categoria" id="titulo-categoria" class="col-5 form-control " placeholder="Introduzca el nombre de la categoria a crear"/>
+                      <input type="hidden" id="action" name="a" value="insert-category"/>
                       <div class="col-12 control-administracion">
                           <button type="button" id="boton-crear-categoria" class="btn btn-primary boton-mantenimiento ">Crear categoria</button>
                           <button type="button" id="modificar-categoria" data-modal-target="mantener-categorias" class="btn btn-primary boton-mantenimiento open-modal">Administrar categorias </button>
