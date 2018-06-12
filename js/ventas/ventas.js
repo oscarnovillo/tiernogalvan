@@ -84,3 +84,29 @@ function eliminar(id){
     $("#id_venta_del").val(id);
     $("#form_eliminar").submit();
 }
+
+function cargarFiltro(asig, curso, orden){
+    document.getElementById("asignatura_filtro").value = asig;
+    document.getElementById("curso_filtro").value = curso;
+    document.getElementById("orden_filtro").value = orden;
+}
+
+function resetFiltro(){
+    document.getElementById("asignatura_filtro").value = 'cualquiera';
+    document.getElementById("curso_filtro").value = 'cualquiera';
+    document.getElementById("orden_filtro").value = 'fecha_publicacion';
+}
+
+function parametrosPag (numVentas) {
+    $("#numPags").pagination({
+        items: parseInt(numVentas),
+        itemsOnPage: 5,
+        cssStyle: 'light-theme',
+        displayedPages: 3,
+        hrefTextPrefix: '?c=venta_libros&filtro_asig=' + $("#asignatura_filtro").val() + '&filtro_curso=' + $("#curso_filtro").val() + '&orden=' + $("#orden_filtro").val() + '&page='
+    });
+}
+
+function cambiarPag(numPag){
+    $("#numPags").pagination('selectPage', parseInt(numPag));
+}

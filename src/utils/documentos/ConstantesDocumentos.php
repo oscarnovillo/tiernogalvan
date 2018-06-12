@@ -10,7 +10,7 @@ namespace utils\documentos;
 class ConstantesDocumentos{
     const GET_DOCUMENTS = "SELECT * FROM documentos order by Documento";
     const GET_DOCUMENT_CATEGORY = "SELECT * FROM documentos WHERE idCategoria = ? order by Documento";
-    const INSERT_DOCUMENT = "INSERT INTO documentos(idDocumento, Documento,idCategoria) VALUES (?,?,?)";
+    const INSERT_DOCUMENT = "INSERT INTO documentos(Documento,idCategoria) VALUES (?,?)";
     const UPDATE_DOCUMENT = "UPDATE documentos SET Documento=? WHERE  idDocumento=?";
     const DELETE_DOCUMENT ="DELETE FROM documentos WHERE idDocumento = ?";
     const SUBIDA_FICHERO = "upload_file";
@@ -19,5 +19,6 @@ class ConstantesDocumentos{
     const DOCUMENTO = "documento";
     const IDDOCUMENTO = "iddocumento";
     const OLD_DOCUMENT ="fichero_antiguo";
+    const BORRAR_DOCUMENTO_CATEGORIA = "DELETE FROM DOCUMENTOS WHERE idCategoria = ?";
     
 }

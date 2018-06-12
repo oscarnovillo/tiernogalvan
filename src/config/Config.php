@@ -25,7 +25,8 @@ class Config
      * o no.
      */
     const SEND_MAIL_ADMIN_ALERT = true;
-
+    
+   
     const DB_SERVER_NAME = "db4free.net:3307";
     const DB_USER_NAME = "appbanco";
     const DB_PASSWORD = "appbanco";

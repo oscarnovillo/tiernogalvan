@@ -11,21 +11,26 @@ $(document).ready(function () {
         });
 
          $('#boton-upload').on('click', function(){
-             $('#action').attr('value','upload_file');
+             var categoria = $('#select-categorias').text();
+             $('.hidden-categoria').attr('value',categoria.trim());
+             console.log(categoria.trim());
+             $("form#subir-documento").submit();
          });
          
-         
-         $('#boton-modificar-categoria').on('click', function(){
-             $('#action').attr('value','modificar_categoria');
+         $('.boton-mantenimiento-category').on('click', function(){
+             var categoria = $('#categoria-modificar').text();
+             $('#hidden-categoria-modificar').attr('value',categoria.trim());
+             console.log(categoria.trim());
+             $("form#update-categoria").submit();
          });
          
          $('#boton-modificar-fichero').on('click', function(){
              $('#action').attr('value','modificar_fichero');
          });
          
-         $('#boton-crear-categoria').on('click', function(){
-             $('#action').attr('value','crear-categoria');
-         });
+         /*$('#boton-crear-categoria').on('click', function(){
+             $('#action').attr('value','crear_categoria');
+         });*/
 
     }
 );
