@@ -10,8 +10,8 @@ namespace utils\categorias;
 class ConstantesCategorias{
     const GET_CATEGORIES = "SELECT * FROM categorias order by Categoria";
     const INSERT_CATEGORY = "INSERT INTO categorias(Categoria) VALUES (?)";
-    const UPDATE_CATEGORY = "UPDATE categorias SET Categoria=? WHERE Categoria = ?" ;
-    const DELETE_CATEGORY ="DELETE FROM categorias WHERE idCategoria = ?";
+    const UPDATE_CATEGORY = "UPDATE categorias SET Categoria=? WHERE idCategorias = ?" ;
+    const DELETE_CATEGORY ="DELETE FROM categorias WHERE idCategorias = ?";
     const CREAR_CATEGORIA = "crear_categoria";
     const NOMBRE_CATEGORIA = "categoria";
     const ID_CATEGORIA = "idcategoria";
@@ -19,4 +19,13 @@ class ConstantesCategorias{
     const OLD_CATEGORY = "categoria_antigua";
     const BORRAR_CATEGORIA = "borrar_categoria";
     
+    const ERROR_INSERT_CATEGORIA = "Error al crear una nueva categoria";
+    const ERROR_UPDATE_CATEGORIA = "Error al modificar la categoria";
+    const ERROR_DELETE_CATEGORIA = "Error al borrar la categoria";
+    const ERROR_GET_CATEGORIA = "Error al mostrar los datos de las categorias";
+    
+    
+    const CATEGORIA_CREADA = "La categoria se ha creado correctamente";
+    const CATEGORIA_ACTUALIZADA = "La categoria se ha actualizado correctamente";
+    const CATEGORIA_BORRADA = "La categoria se ha borrado correctamente";
 }

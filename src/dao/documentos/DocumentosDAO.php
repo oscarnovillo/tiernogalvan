@@ -52,7 +52,7 @@ class DocumentosDAO{
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($documento['name'],$idcategoria));
-            if(move_uploaded_file($documento['tmp_name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $documento['tmp_name'])){
+            if(move_uploaded_file($documento['tmp_name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $documento['name'])){
                 $db->commit();
             }else{
                 $db->rollback();
@@ -68,17 +68,25 @@ class DocumentosDAO{
         
     }
    
-    public function updateDocumentoDAO($id,$documento,$categoria,$old){
+    public function updateDocumentoDAO($id,$documento,$categoria,$old,$idcategoria){
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
+        $new = "";
+        
         try{
             $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT; 
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($documento,$id));
-            $filas = $stmt->rowCount();
+            $stmt->execute(array($documento,$id,$idcategoria));
+            
             $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$old;
-            $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+            if (strpos($documento, '.') !== false){
+                $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+            }else{
+                $pos = strpos($old,".",0);
+                $extension = substr($old,$pos);
+                $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento.'.'.$extension;
+            }
             if (rename($old,$new)){
                $db->commit();
             }else{

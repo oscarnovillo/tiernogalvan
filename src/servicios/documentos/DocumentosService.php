@@ -19,9 +19,9 @@ class DocumentosService {
         $dao = new DocumentosDAO();
         return $dao->insertDocumentoDAO($documento,$idcategoria,$categoria);
     }
-    public function updateDocumento($id,$documento,$categoria, $old){
+    public function updateDocumento($id,$documento,$categoria, $old,$idcategoria){
         $dao = new DocumentosDAO();
-        return $dao->updateDocumentoDAO($id,$document,$categoria,$old);
+        return $dao->updateDocumentoDAO($id,$documento,$categoria,$old,$idcategoria);
     }
     public function deleteDocumento($id){
         $dao = new DocumentosDAO();

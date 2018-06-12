@@ -34,7 +34,8 @@
                 <div id="Documentos" class="tabcontent col-12">
                     <form name="subir-documento" id="subir-documento" class="form-administracion" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
                       {% if categorias != null %}
-                          <select class="col-6" class="form-control " id="select-categorias" name="idcategoria">
+                          <select class="col-6" id="select-categorias" name="idcategoria">
+                              <option  value="">--Seleccione una categoria--</option>
                               {% for categoria in categorias%}
                                   <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
                               {% endfor %}
@@ -87,37 +88,38 @@
                         <button class="tablinks" data-element='borrar-category'> Borrar categoría</button>
                     </div>
                     <div id="modificar-category" class="tabcontent col-12" >
-                        <form name="update-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
+                        <form name="update-categoria"  id="update-categoria"  action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
                             {% if categorias != null %}
-                                <select class="col-5" id="categoria-modificar" class="form-control " name="idcategoria">
-                                    <option name="idcategoria" value="">--Seleccione una categoria--</option>
-                                    {% for categoria in categorias%}
-                                        <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                         
-                          <input type="text" max-length="20"  id="titulo-categoria" class="col-5 form-control input-right" placeholder="Introduzca el nombre de la nueva categoria"/>
-                          <input type="hidden" id="action-modificar" name="a" value="modificar_categoria"/>
-                          <input type="hidden" id="hidden-categoria-modificar" name="categoria" value=""/>
-                          <div class="col-12 control-administracion">
-                              <button type="button" id="boton-actualizar-categoria" class="btn btn-primary boton-mantenimiento-category ">Actualizar categoria</button>
-                          </div>
-                        </form>
-                    </div>
-                    <div id="borrar-category" class="tabcontent col-12" >
-                        <form name="modificar-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                            {% if categorias != null %}
-                                <select class="col-5" class="form-control " name="categoria">
+                                <select class="col-5" id="categoria-modificar"  name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
                                         <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
                                     {% endfor %}
                                 </select>
                             {% endif %}
-                          <input type="hidden" id="action-borrar" name="a" value="s"/>
+                         
+                          <input type="text" max-length="20"  id="titulo-categoria" class="col-5 form-control input-right" name="categoria" placeholder="Introduzca el nombre de la nueva categoria"/>
+                          <input type="hidden" id="action-modificar" name="a" value="modificar_categoria"/>
+                          <input type="hidden" id="hidden-categoria-modificar" name="categoria_antigua" value=""/>
                           <div class="col-12 control-administracion">
-                              <button type="button" id="boton-borrar-categoria" class="btn btn-primary boton-mantenimiento ">Borrar categoria</button>
+                              <button type="button" id="boton-actualizar-categoria" class="btn btn-primary boton-mantenimiento ">Actualizar categoria</button>
+                          </div>
+                        </form>
+                    </div>
+                    <div id="borrar-category" class="tabcontent col-12" >
+                        <form name="borrar-categoria" id="borrar-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
+                            {% if categorias != null %}
+                                <select class="col-5"  id="select-borrar-categoria" name="idcategoria">
+                                    <option value="">--Seleccione una categoria--</option>
+                                    {% for categoria in categorias%}
+                                        <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                          <input type="hidden" id="action-borrar" name="a" value="borrar_categoria"/>
+                          <input type="hidden" id="hidden-categoria-borrar" name="categoria" value=""/>
+                          <div class="col-12 control-administracion">
+                              <button type="button" id="boton-borrar-categoria" data-modal-target="confirm_borrar_categoria" class="btn btn-primary boton-mantenimiento open-modal">Borrar categoria</button>
                           </div>
                         </form>
                     </div>      
@@ -138,31 +140,41 @@
                         <button class="tablinks" data-element='borrar-document'> Borrar documento</button>
                     </div>
                     <div id="modificar-document" class="tabcontent col-12" >
-                        <form name="modificar-documento" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
+                        <form name="modificar-documento" id="modificar-documento" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
                             {% if categorias != null %}
-                                <select class="col-5" class="form-control " name="categoria">
+                                <select class="col-5 " id="select-categoria-doc-modificar" name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
                                         <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
                                     {% endfor %}
                                 </select>
+                                
+                                <select class="col-5  select-doc input-right" id="select-doc-modificar" name="iddocumento">
+                                </select>
                             {% endif %}
                             <!-- AJAX PARA MOSTRAR LOS DOCUMENTOS DE LA CATEGORIA -->
-                          <input type="text" max-length="20"  id="titulo-categoria" class="col-5 form-control input-right" placeholder="Introduzca el nombre del nuevo documento"/>
-                          <input type="hidden" id="action-modificar" name="a" value="s"/>
+                            </br>
+                            </br></br>
+                            
+                          <input type="text" max-length="20"  id="nombre-documento" name="documento" class="col-5 form-control" placeholder="Introduzca el nombre del nuevo documento"/>
+                          <input type="hidden" id="action-modificar" name="a" value="modificar_fichero"/>
+                          <input type="hidden" id="documento_antiguo" name="fichero_antiguo" value=""/>
+                          <input type="hidden" id="categoria-fichero" name="categoria" value=""/>
                           <div class="col-12 control-administracion">
-                              <button type="button" id="boton-actualizar-categoria" class="btn btn-primary boton-mantenimiento ">Actualizar documento</button>
+                              <button type="button" id="boton-actualizar-documento" class="btn btn-primary boton-mantenimiento ">Actualizar documento</button>
                           </div>
                         </form>
                     </div>
                     <div id="borrar-document" class="tabcontent col-12" >
                         <form name="borrar-documento" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
                             {% if categorias != null %}
-                                <select class="col-5" class="form-control " name="categoria">
+                                <select class="col-5 select-categoria-doc" id="select-categoria-doc-borrar" name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
                                         <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
                                     {% endfor %}
+                                </select>
+                                <select class="col-5  select-doc" id="select-doc-borrar" name="iddocumento">
                                 </select>
                             {% endif %}
                           <input type="hidden" id="action-borrar" name="a" value="s"/>
@@ -174,6 +186,23 @@
                 </div>
             </div>
         </div>
+                          
+        <div id="confirm_borrar_categoria" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h2>Borrar categoria</h2>
+                    <span data-modal="confirm_borrar_categoria" class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <h2>La categoria que intenta borrar puede contener documentos estas seguro de borrarla?</h2>
+                    <div class="col-12 control-administracion">
+                        <button type="button" id="btn-borrar-categoria" class="btn btn-primary boton-mantenimiento ">Aceptar</button>
+                        <button type="button" id="cerrar-borrar-categoria" data-modal="confirm_borrar_categoria" class="btn btn-primary boton-mantenimientos">Rechazar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
                             
 {% endblock %}
 
@@ -181,5 +210,6 @@
     <script src="/js/documentos/documentos.js"></script>
     <script src="/js/documentos/modal.js"></script>
     <script src="/js/documentos/tabsDocumentos.js"></script>
+    <script src="bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.js"></script>
 {% endblock %}
  

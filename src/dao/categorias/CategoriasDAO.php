@@ -5,6 +5,7 @@ namespace dao\categorias;
 use dao\DBConnection;
 use PDO;
 use \utils\categorias;
+use \utils\documentos;
 use utils\Constantes;
 
 class CategoriasDAO{
@@ -36,7 +37,9 @@ class CategoriasDAO{
             $stmt = $db->prepare($sql);
             $stmt->execute(array( $categoria));
             $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
+            
             if (mkdir($path, 0777, true)){
+                chmod($path,0777);
                 $db->commit();
             }else{
                 $db->rollback();
@@ -91,14 +94,26 @@ class CategoriasDAO{
             $stmt2 = $db->prepare($sql2);
             $stmt2->execute(array($id));
             $stmt->execute(array($id));
-            $filas2 = $stmt2->rowCount();
-            $filas = $stmt->rowCount();
-            if (unlink($path)){
-                $db->commit();
-                return $filas;
+            if(chmod($path,0777)){
+                $objects = scandir($path); 
+                foreach ($objects as $object) { 
+                    if ($object != "." && $object != "..") { 
+                      if (is_dir($path."/".$object))
+                        rmdir($path."/".$object);
+                      else
+                        unlink($path."/".$object); 
+                    } 
+                }
+                if (rmdir($path)){
+                    $db->commit();
+                    return True;
+                }else{
+                    $db->rollback();
+                    return -1;
+                }
             }else{
-                $db->rollback();
-                return -1;
+                 $db->rollback();
+                    return -1;
             }
         }catch(\Exception $exception){
             $db->rollback();
@@ -107,4 +122,6 @@ class CategoriasDAO{
             $dbConnection->disconnect();
         }
     }
+    
+    
 }

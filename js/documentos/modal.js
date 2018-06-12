@@ -22,7 +22,11 @@ $(document).ready(function(){
         $(modal).css('display', 'none');
         $("#defaultOpen").click();
     });
-    
+    $('#cerrar-borrar-categoria').on('click', function(){
+        var modal = "#"+ $(this).attr('data-modal');
+        $(modal).css('display', 'none');
+        $("#defaultOpen").click();
+    });
    
 });
 

@@ -38,12 +38,12 @@ class AdministracionDocumentosController{
                         $nombre_categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
                         $respuesta = $categorias->inserCategoria($nombre_categoria);
                         if( $respuesta > 0){
-                                $parameters['correcto'] = "Categoria creada correctamente";
+                                $parameters['correcto'] = ConstantesCategorias::CATEGORIA_CREADA;
                             }else{
-                                $parameters['error'] = "Error al crear la categoria";
+                                $parameters['error'] = ConstantesCategorias::ERROR_INSERT_CATEGORIA;
                             }
                     }else{
-                            $parameters['error'] = "Error al crear la categoria";
+                            $parameters['error'] = ConstantesCategorias::ERROR_INSERT_CATEGORIA;
                         }  
                 break;
                 case ConstantesDocumentos::SUBIDA_FICHERO: 
@@ -55,12 +55,12 @@ class AdministracionDocumentosController{
                             $idcategoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
                             $respuesta = $documentos->insertDocumento($_FILES['archivo'],$idcategoria, $categoria);
                             if($respuesta > 0){
-                                    $parameters['correcto'] = "El fichero se ha subido correctamente";
+                                    $parameters['correcto'] = ConstantesDocumentos::DOCUMENTO_CREADO;
                             }else{
-                                 $parameters['error'] = "No ha podido subirse el fichero";
+                                 $parameters['error'] = ConstantesDocumentos::ERROR_INSERT_DOCUMENTO;
                             }
                         }else{
-                                 $parameters['error'] = "No ha podido subirse el fichero";
+                                 $parameters['error'] = ConstantesDocumentos::ERROR_INSERT_DOCUMENTO;
                         }
                     }
                 break;
@@ -72,59 +72,70 @@ class AdministracionDocumentosController{
                         $respuesta = $documentos->deleteDocumento($id_documento,$categoria,$documento);
                         if( $respuesta > 0){
 
-                                $parameters['correcto'] = "Fichero borrado correctamente";
+                                $parameters['correcto'] = ConstantesDocumentos::DOCUMENTO_BORRADO;
                         }else{
-                            $parameters['error'] = "Error al borrar el fichero";
+                            $parameters['error'] = ConstantesDocumentos::ERROR_DELETE_DOCUMENTO;
                         } 
                     }else{
-                        $parameters['error'] = "Error al borrar el fichero";
+                        $parameters['error'] = ConstantesDocumentos::ERROR_DELETE_DOCUMENTO;
                     }   
                 break;
                 case ConstantesDocumentos::MODIFICAR_FICHERO: 
-                    if ( isset($_REQUEST[ConstantesDocumentos::IDDOCUMENTO]) && isset($_REQUEST[ConstantesDocumentos::DOCUMENTO]) && isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesDocumentos::OLDDOCUMENT])) {
+                    if ( isset($_REQUEST[ConstantesDocumentos::IDDOCUMENTO]) && isset($_REQUEST[ConstantesDocumentos::DOCUMENTO]) && isset($_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA]) && isset($_REQUEST[ConstantesDocumentos::OLD_DOCUMENT])) {
                         $id_documento = $_REQUEST[ConstantesDocumentos::IDDOCUMENTO];
                         $documento = $_REQUEST[ConstantesDocumentos::DOCUMENTO];
-                        $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
-                        $documento_antiguo = $_REQUEST[ConstantesDocumentos::OLDDOCUMENT];
-                        $respuesta = $documentos->updateDocumento($id_documento, $documento,$categoria,$documento_antiguo);
+                        $categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
+                        $idcategoria =$_REQUEST[ConstantesCategorias::ID_CATEGORIA];
+                        $documento_antiguo = $_REQUEST[ConstantesDocumentos::OLD_DOCUMENT];
+                        $respuesta = $documentos->updateDocumento($id_documento, $documento,$categoria,$documento_antiguo,$idcategoria);
                         if( $respuesta > 0){                              
-                            $parameters['correcto'] = "Fichero modificado correctamente";
+                            $parameters['correcto'] = ConstantesDocumentos::DOCUMENTO_ACTUALIZADO;
                         }else{
-                            $parameters['error'] = "Error al modificar el fichero";
+                            $parameters['error'] = ConstantesDocumentos::ERROR_UPDATE_DOCUMENTO;
                         } 
                     }else{
-                        $parameters['error'] = "Error al modificar el fichero";
+                        $parameters['error'] = ConstantesDocumentos::ERROR_UPDATE_DOCUMENTO;
                     } 
                 break;
                 case ConstantesCategorias::MODIFICAR_CATEGORIA:
-                     if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::OLD_CATEGORY])){
+                     if (isset($_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::OLD_CATEGORY])){
                         $categoria_antigua = $_REQUEST[ConstantesCategorias::OLD_CATEGORY];
-                        $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
+                        $categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
                         $id_categoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
-                        $respuesta = $categorias->updateCategoria($id_categoria, $categoria,$categoria_antigua);
+                        $respuesta = $categorias->updateCategoria($categoria,$id_categoria, $categoria_antigua);
                         if( $respuesta > 0){                              
-                                $parameters['correcto'] = "Carpeta modificada correctamente";
+                                $parameters['correcto'] = ConstantesCategorias::CATEGORIA_ACTUALIZADA;
                         }else{
-                            $parameters['error'] = "Error al modificar la carpeta";
+                            $parameters['error'] = ConstantesCategorias::ERROR_UPDATE_CATEGORIA;
                         }
                      }else{
-                        $parameters['error'] = "Error al modificar la carpeta";
+                        $parameters['error'] = ConstantesCategorias::ERROR_UPDATE_CATEGORIA;
                      }
                 break;
                 case ConstantesCategorias::BORRAR_CATEGORIA:
-                     if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])){
-                        $ajax=true;
-                        $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
+                     if (isset($_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])){
+                        
+                        $categoria = $_REQUEST[ConstantesCategorias::NOMBRE_CATEGORIA];
                         $id_categoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
                         $respuesta = $categorias->deleteCategoria($id_categoria, $categoria);
                         if( $respuesta > 0){                              
-                                $parameters['correcto'] = "Carpeta borrada correctamente";
+                                $parameters['correcto'] = ConstantesCategorias::CATEGORIA_BORRADA;
                         }else{
-                            $parameters['error'] = "Error al borrar la carpeta";
+                            $parameters['error'] = ConstantesCategorias::ERROR_DELETE_CATEGORIA;
                         }
                      }else{
-                        $parameters['error'] = "Error al borrar la carpeta";
+                        $parameters['error'] = ConstantesCategorias::ERROR_DELETE_CATEGORIA;
                      }
+                break;
+                case ConstantesDocumentos::DOCUMENTOS_CATEGORIA:
+                    if (isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])){
+                       $id = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
+                       $ajax = true;
+                       $listaDocumentos =$controller->getDocumentsFromCategory($id);
+                       echo json_encode($listaDocumentos);
+                    }else{
+                       echo ConstantesDocumentos::ERROR_GET_DOCUMENTO;
+                    }
                 break;
             }
         }
@@ -134,13 +145,13 @@ class AdministracionDocumentosController{
         if($getcategorias != -1){
             $parameters['categorias'] = $getcategorias;
         }else{
-            $parameters['error'] = "No se han encontrado categorias";
+            $parameters['error'] = ConstantesCategorias::ERROR_GET_CATEGORIA;
         }
         $categoriasdocumentos = $controller->getCategoryDocuments();
         if($categoriasdocumentos != -1){
             $parameters['documentos_categoria'] = $categoriasdocumentos;
         }else{
-        $parameters['error'] = "No se han encontrado categorias ni documentos";
+            $parameters['error'] = ConstantesDocumentos::ERROR_GET_DOCUMENTO;
         }
         if($ajax == false)
             TwigViewer::getInstance()->viewPage($page, $parameters);
@@ -176,6 +187,10 @@ class AdministracionDocumentosController{
     public function getDocumentsFromCategory($idcategoria){
         $documentos = new DocumentosService();
         $lista_documentos = $documentos->getDocumentos($idcategoria);
-        return $lista_documentos;
+        if($lista_documentos != -1){
+            return $lista_documentos;
+        }else{
+           return 'Error al recuperar los documentos de la categoria';
+        }
     }
 }
