@@ -28,7 +28,7 @@ class AdministracionDocumentosController{
         
         $page = ConstantesPaginas::ADMINISTRACION_DOCUMENTOS;
         
-        
+        $ajax = false;
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
             switch ($action) {
@@ -113,7 +113,7 @@ class AdministracionDocumentosController{
                 break;
                 case ConstantesCategorias::BORRAR_CATEGORIA:
                      if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])){
-                        
+                        $ajax=true;
                         $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
                         $id_categoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
                         $respuesta = $categorias->deleteCategoria($id_categoria, $categoria);
@@ -142,7 +142,8 @@ class AdministracionDocumentosController{
         }else{
         $parameters['error'] = "No se han encontrado categorias ni documentos";
         }
-        TwigViewer::getInstance()->viewPage($page, $parameters);
+        if($ajax == false)
+            TwigViewer::getInstance()->viewPage($page, $parameters);
     }
     
     
