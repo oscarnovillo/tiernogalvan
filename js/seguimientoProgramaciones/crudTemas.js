@@ -36,7 +36,6 @@ function fn_crear_tema() {
                 });
                 location.reload(true);
             } else {
-                console.log(parseodata.error);
                 $.notify({
                     message: parseodata.error
                 }, {
@@ -79,7 +78,6 @@ function fn_update_unidad() {
         data: {'json_unidad': unidad},
         type: "POST",
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.error === undefined) {
                 $.notify({
@@ -194,13 +192,11 @@ function marcar_como_hecho_tema(){
         'id':$(this).attr("data-id"),
         'estado':estado
     });
-    alert(tema);
     $.ajax({
         url:"/index.php?c=seguimiento_programaciones&destino=unidades_trabajo&a=modificar_estado_tema",
         data:{'json_unidad':tema},
         type:"POST",
         success: function(data){
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.error === undefined) {
                 $.notify({

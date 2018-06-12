@@ -101,7 +101,6 @@ $(document).ready(function () {
             type: "POST",
             success: function (data) {
                 var parseodata = JSON.parse(data);
-                console.log(parseodata.unidades[0]);
                 if (parseodata.error === undefined) {
                     if (parseodata.unidades[0] !== undefined) {
                         for (tema in parseodata.unidades) {
