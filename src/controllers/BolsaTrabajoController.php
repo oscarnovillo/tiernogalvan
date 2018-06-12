@@ -152,7 +152,7 @@ class BolsaTrabajoController
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO);
                         $datosConfig = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO_CONFIG);
                         $userID = $this->getIdUser();
-                        if ($datos != null) {
+                        if ($datos != null) {//TODO - revisar esto
                             $datos = json_decode($datos);
                             $datos->ID_PERFIL = $userID;
                             $this->insertOrUpdatePerfilForm($datos);
@@ -379,13 +379,16 @@ class BolsaTrabajoController
                     $message->setLINK(MensajesBT::LINK_PERFIL_USER . $datos->ID_PERFIL);
                     echo json_encode($message);
                 } else {
+                    http_response_code(Http::BAD_REQUEST);
                     echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_INTERNO));
                 }
             } else {
+                http_response_code(Http::BAD_REQUEST);
                 echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR));
 
             }
         } else {
+            http_response_code(Http::BAD_REQUEST);
             echo json_encode(new GenericMessage(MensajesBT::OPERACION_DENEGADA, MensajesBT::ERROR_FALLO_IDENTIFICADOR_USER_PERMISOS));
         }
     }
