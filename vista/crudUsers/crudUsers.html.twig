@@ -30,24 +30,9 @@
                             $(document).ready(function(){
                                 setTimeout(function(){ $("#mensajeError").fadeOut("slow"); }, 5000);
                             });
-
                         </script>
                     {% endif %}
         </div>
-        <script>
-            function cargarUser(id,nombre,apellidos,telefono,email,nick,id_rol){
-                document.getElementById("id_user").value=id;
-                document.getElementById("nombre_user").value=nombre;
-                document.getElementById("apellidos_user").value=apellidos; 
-                document.getElementById("telefono_user").value=telefono;
-                document.getElementById("email_user").value=email;
-                document.getElementById("nick_user").value=nick;
-                document.getElementById("id_rol").value=id_rol;
-            }
-        
-        </script>
-        
-        
         
         <div class="modificarDerecha">
             <div class="divDescarga">
@@ -76,19 +61,25 @@
                     {% for user in usuarios %}
                         <tr>
                             <td>
-                                <input type="button" value="cargar" 
-                               onclick="cargarUser({{ user.id }}, '{{ user.nombre }}', 
+                                <a type="button" value="cargar" 
+                                    onclick="cargarUser({{ user.id }}, '{{ user.nombre }}', 
                                            '{{ user.apellidos }}','{{ user.telefono }}',
                                            '{{ user.email }}',
-                                           '{{ user.nick }}','{{ user.id_rol }}')"/></td>
-                            <td class="colorTD">{{ user.id_rol }}</td>
+                                           '{{ user.nick }}','{{ user.nombre_rol }}')" 
+                                    href="#viajarUsuarios">cargar</a></td>
+                            <td class="colorTD">{{ user.nombre_rol }}</td>
                             <td class="colorTD">{{ user.nombre }}</td>
                             <td>{{ user.apellidos }}</td>
                             <td>{{ user.telefono }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.nick }}</td>
-                            <td>{{ user.ultimo_acceso|date('d-m-Y H:i:s') }}</td>
-                            <td>{{ user.activado }}</td>
+                            <td>{{ user.ultimo_acceso|date('d-m-Y') }}</td>
+                             
+                            {% set color = (user.activado) > 0 ? 'green' : 'red' %}  
+                            <td style="color: {{ color }};">{{ user.activado }}</td>
+                               
+                           
+                           
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -119,12 +110,12 @@
         <div class="modificarDerecha">
             <div class="divDescarga">
 
-                <a href="#subirMenu"><img class="imgDescarga" src="/img/crudUsers/descarga.png">volver a menú</a>
+                <a href="#subirMenu"><img class="imgDescarga" src="/img/crudUsers/subir.png">volver a menú</a>
             </div>
             
         </div>
     <div class="contForm">
-        <form action="index.php" method="post" id="crud_users">
+        <form action="index.php" method="post" id="crud_users" name="viajarUsuarios">
             <input type="hidden" name="c" value="crud_users">
             <input type="hidden" id="id_user" name="id"> 
 
@@ -159,11 +150,11 @@
             </div>
             
             <div class="col-12 form-group">
-                <label for="id_rol">PERMISO:</label>
-                <select id="id_rol" name="id_rol" class="form-control" required>
-                    <option disabled selected>Selecciona un permiso...</option>
+                <label for="nombre_rol">PERMISO:</label>
+                <select id="nombre_rol" name="nombre_rol" class="form-control" required>
+                    <option>Selecciona un permiso...</option>
                     {% for permiso in permisos %}
-                        <option value="{{ permiso.id_rol }}">{{ permiso.descripcion }}</option>
+                        <option value="{{ permiso.nombre_rol }}">{{ permiso.nombre_rol }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -187,6 +178,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="/js/crudUsers/crud_users.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>

@@ -68,9 +68,12 @@ class UsersDAO {
             $dbConnection = new DBConnection();
             $db = $dbConnection->getConnection();
 
-            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol, u.activado, u.ultimo_acceso "
-                . "from users u join permisos p "
-                . "on u.id = p.id_usuario ";
+            $sql = "SELECT u.id, u.nombre, u.apellidos, u.email, u.telefono, u.pass, u.nick, p.id_rol, u.activado, u.ultimo_acceso, r.nombre_rol "
+                . "FROM users u "
+                . "INNER JOIN permisos p "
+                . "ON u.id = p.id_usuario "
+                . "INNER JOIN roles r "
+                . "ON p.id_rol = r.id_rol";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $users = $stmt->fetchAll(PDO::FETCH_OBJ);
