@@ -58,7 +58,7 @@
         </div>
         <div class="tabla1">
             {% if usuarios != null %}
-                <table class="table table-striped" id="tabla">
+                <table class="table table-striped table-bordered" id="tabla">
                     <thead>
                         <tr>
                             <th><span>Cargar Usuario</span></th>
@@ -72,8 +72,8 @@
                             <th><span>Activado</span></th>   
                         </tr>
                     </thead>
-                    {% for user in usuarios %}
                     <tbody>
+                    {% for user in usuarios %}
                         <tr>
                             <td>
                                 <input type="button" value="cargar" 
@@ -90,8 +90,8 @@
                             <td>{{ user.ultimo_acceso }}</td>
                             <td>{{ user.activado }}</td>
                         </tr>
-                    </tbody>
                     {% endfor %}
+                    </tbody>
                     <tfoot>
                         <tr>
                             <th><span>Cargar Usuario</span></th>
