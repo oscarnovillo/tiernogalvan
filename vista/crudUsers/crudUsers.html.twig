@@ -87,7 +87,7 @@
                             <td>{{ user.telefono }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.nick }}</td>
-                            <td>{{ user.ultimo_acceso }}</td>
+                            <td>{{ user.ultimo_acceso|date('d-m-Y H:i:s') }}</td>
                             <td>{{ user.activado }}</td>
                         </tr>
                     {% endfor %}
