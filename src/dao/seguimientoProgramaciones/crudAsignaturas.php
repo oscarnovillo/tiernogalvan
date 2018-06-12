@@ -153,6 +153,9 @@ class crudAsignaturas {
         $conn = $connectionDB->getConnection();
         try {
             $conn->beginTransaction();
+            $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_unidad);
+            $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
+            $stmt->execute();
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_curso);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();
