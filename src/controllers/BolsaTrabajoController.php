@@ -8,7 +8,6 @@
 
 namespace controllers;
 
-use dao\bolsaTrabajo\BolsaTrabajoDAO;
 use model\GenericMessage;
 use Respect\Validation\Validator as v;
 use servicios\bolsaTrabajo\BolsaTrabajoServicios;
@@ -152,7 +151,7 @@ class BolsaTrabajoController
                         $datos = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO);
                         $datosConfig = filter_input(INPUT_GET, ConstantesBolsaTrabajo::EDITAR_PERFIL_TRABAJO_CONFIG);
                         $userID = $this->getIdUser();
-                        if ($datos != null) {//TODO - revisar esto
+                        if ($datos != null) {
                             $datos = json_decode($datos);
                             $datos->ID_PERFIL = $userID;
                             $this->insertOrUpdatePerfilForm($datos);
