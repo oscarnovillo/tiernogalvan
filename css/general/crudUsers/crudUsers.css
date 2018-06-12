@@ -91,4 +91,42 @@
     border-top: 1px solid #e9ecef;
 }
 
+#tabla_filter{
+    float: right !important;
+}
 
+.next{
+    top: auto !important;
+}
+
+.tabla1{
+    clear: both !important;
+    overflow: auto !important;
+}
+
+.dataTables_length{
+    float: left !important;
+}
+
+#tabla thead{
+    cursor: pointer;
+}
+
+#tabla a{
+    cursor: pointer;
+    width: 100%;
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+        margin: 6px 0px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+    /* border: 2px solid #008CBA; */
+}

@@ -34,6 +34,7 @@ class ConstantesBD {
     const update_unidad_asignatura = "UPDATE ASIGNATURA_UNIDADTRABAJO SET ID_ASIGNATURA = ? WHERE ID_UNIDAD_TRABAJO = ?";
     const borrar_unidad = "DELETE FROM UNIDADES_TRABAJO WHERE ID = ?";
     const borrar_unidad_asignatura = "DELETE FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_UNIDAD_TRABAJO = ?";
+    const borrar_asignatura_unidad = "DELETE FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_ASIGNATURA = ?";
     const get_unidades_asignatura = "SELECT * FROM unidades_trabajo where unidades_trabajo.ID IN (SELECT ID_UNIDAD_TRABAJO FROM asignatura_unidadtrabajo where ID_ASIGNATURA=?)";
     const modificar_estado_tema = "UPDATE UNIDADES_TRABAJO SET UNIDAD_HECHA = ? WHERE ID  = ?";
 }

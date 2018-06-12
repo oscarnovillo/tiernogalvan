@@ -106,8 +106,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             break;
         case Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER:
             $controller = new SeguimientoProgramaciones();
-            //$userSessionValid ? $controller->seguimientoProgramacionesPrincipal() : $errController->permissions();
-            $controller->seguimientoProgramacionesPrincipal();
+            $userSessionValid ? $controller->seguimientoProgramacionesPrincipal() : $errController->permissions();
+            //$controller->seguimientoProgramacionesPrincipal();
             break;
         case Constantes::DISCONNECT_CONTROLLER:
             $controller = new LogoutController();

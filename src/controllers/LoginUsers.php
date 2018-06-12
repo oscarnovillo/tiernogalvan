@@ -27,7 +27,7 @@ class LoginUsers
 
         $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
 
-        if (isset($action)) { 
+        if (isset($action)) {
 
             $PasswordStorage = new PasswordStorage();
             $user = new \stdClass;
@@ -83,9 +83,9 @@ class LoginUsers
                     if ($user->nick != null) {
 
                         if($usersSevicios->validarUser($user)){
-                            
+
                             if($usersSevicios->validarEmail($user)){
-                                
+
                                 if($usersSevicios->validarTelefono($user)){
 
                                     $userChecked = $usersSevicios->getUserByNick($user);
@@ -126,7 +126,7 @@ class LoginUsers
 
                                         if ($userChecked) {
 
-                                            BuzonCorreo::getInstance()->enviarCorreo($user->email, $user->nombre . " " . $user->apellidos, "registro", "<a href=http://localhost:8000/index.php?c=login_users&a=activar&cod_act=".$user->codigo_activacion."&nick=".$user->nick.">Para activar tu cuenta Pulsa Aquí</a>");
+                                            BuzonCorreo::getInstance()->enviarCorreo($user->email, $user->nombre . " " . $user->apellidos, "registro", "<a href=".$this->formatearURLEmail("index.php?c=login_users&a=activar&cod_act=",$user->codigo_activacion)."&nick=".$user->nick.">Para activar tu cuenta Pulsa Aquí</a>");
 
                                             $parameters['mensajeRegistro'] = ConstantesLoginUsers::SENT_EMAIL;
 
@@ -145,7 +145,7 @@ class LoginUsers
                         } else {
                             $parameters['mensajeRegistroError'] = ConstantesLoginUsers::INVALID_USER;
                         }
-                    } 
+                    }
                     $page = ConstantesLoginUsers::REGISTRO_PAGE;
 
 
@@ -157,7 +157,7 @@ class LoginUsers
 
                     $cod_act = $_REQUEST[ConstantesLoginUsers::COD_ACT];
                     $user->nick = $_REQUEST[ConstantesLoginUsers::PARAM_NICK];
-                    
+
                     $userChecked = $usersSevicios->getUserByNick($user);
 
                     if (strcmp($cod_act , $userChecked->codigo_activacion)) {
@@ -183,8 +183,8 @@ class LoginUsers
 
                     BuzonCorreo::getInstance()->setRemitenteNombre("Recuperar Contraseña");
 
-                    if ($user->nick != null) {    
-                    
+                    if ($user->nick != null) {
+
                         if($usersSevicios->validarRecuperarPass($user)){
 
                             $userChecked = $usersSevicios->getUserByNick($user);
@@ -207,26 +207,26 @@ class LoginUsers
                             }
                         }else{
                             $parameters['mensajeRegistroError'] = ConstantesLoginUsers::MAL_CAMPO;
-                        }    
+                        }
 
                 }
                 $page = ConstantesLoginUsers::RECUPERAR_PAGE;
                 break;
 
                 case ConstantesLoginUsers::CHANGE_PASS:
-                    
+
                     if ($user->nick != null) {
-                        
+
                         $user->nuevo_pass = $_REQUEST[ConstantesLoginUsers::NUEVO_PASS];
-                        
+
                         if($usersSevicios->validarCambiarPass($user)){
-                        
+
                             $userChecked = $usersSevicios->getUserByNick($user);
 
                             if ($userChecked) {
-                                   
+
                                 if($PasswordStorage->verify_password($user->pass, $userChecked->pass)){
-                                
+
                                     $user->pass = $PasswordStorage->create_hash($user->nuevo_pass);
                                     $updateOk = $usersSevicios->updatePass($user);
 
@@ -244,14 +244,20 @@ class LoginUsers
                             }
                         }else{
                             $parameters['mensajeRegistroError'] = ConstantesLoginUsers::MAL_CAMPO;
-                        }    
+                        }
 
                     }
                     $page = ConstantesLoginUsers::SETTINGS_PAGE;
                         break;
             }
-                 
+
         }
         TwigViewer::getInstance()->viewPage($page, $parameters);
+    }
+    private function formatearURLEmail($ruta, $codigo_activacion)
+    {
+        $protocol = stripos($_SERVER['SERVER_PROTOCOL'], 'https') === true ? 'https://' : 'http://';
+        return $protocol . $_SERVER['HTTP_HOST'] . '/' . $ruta . $codigo_activacion;
+
     }
 }

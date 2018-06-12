@@ -36,7 +36,6 @@ function fn_crear_tema() {
                 });
                 location.reload(true);
             } else {
-                console.log(parseodata.error);
                 $.notify({
                     message: parseodata.error
                 }, {
@@ -79,7 +78,6 @@ function fn_update_unidad() {
         data: {'json_unidad': unidad},
         type: "POST",
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.error === undefined) {
                 $.notify({
@@ -120,13 +118,22 @@ function fn_update_unidad() {
         }
     });
 }
-function fn_mostrar_modal_upt_temas(nombre_tema, id_tema,estado,comentario,eva){
+function fn_mostrar_modal_upt_temas(){
     var formulario = document.getElementById("updateTema");
-    console.log(nombre_tema);
     $("#nombre_tema_update").val($(this).attr("data-nombre"));
     $("#nombre_tema_update").attr("data-id",$(this).attr("data-id"));
     $("#comentario_tema").val($(this).attr("data-comentario"));
-    $("#select_asignaturas_temas_update").val($(this).attr("data-eva"));
+    
+    // SELECCIONAR ASIGNATURA DEL TEMA EN EL SELECT
+    $("#select_evaluacion_update").val($(this).attr("data-eva"));
+    var texto = $("#select_evaluacion_update option:selected").text();
+    $("#select_evaluacion_update option:selected").text(texto + "------------")
+    
+    // SELECCIONAR ASIGNATURA DEL TEMA EN EL SELECT
+    $("#select_asignaturas_temas_update").val($(this).attr("data-asig"));
+    var texto = $("#select_asignaturas_temas_update option:selected").text();
+    $("#select_asignaturas_temas_update option:selected").text(texto + "------------");
+    
     $("#modal_update_tema").show();
 }
 function fn_borrar_unidad(){
@@ -185,13 +192,11 @@ function marcar_como_hecho_tema(){
         'id':$(this).attr("data-id"),
         'estado':estado
     });
-    alert(tema);
     $.ajax({
         url:"/index.php?c=seguimiento_programaciones&destino=unidades_trabajo&a=modificar_estado_tema",
         data:{'json_unidad':tema},
         type:"POST",
         success: function(data){
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.error === undefined) {
                 $.notify({

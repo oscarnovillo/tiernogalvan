@@ -13,17 +13,24 @@
                 <div class="modal-body">
 
                     <form name="addAsignatura" class="addAsignatura" id="addAsignatura">
-                        <label for="nombre_asignatura" class="col-sm-3">Nombre Asignatura</label>
-                        <input type="text" name="nombre_asignatura" id="nombre_asignatura" required="required">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="nombre_asignatura" class="col-sm-3">Nombre Asignatura</label>
+                                <input type="text" name="nombre_asignatura" id="nombre_asignatura" class="col-sm-8" required="required">
+                            </div>
+                        </div>
 
-
-                        <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
-                        <select class = "col-sm-12" name="select_cursos_asignaturas" id="select_cursos_asignaturas">
-                            <option value="">&nbsp;</option>
-                            {% for curso in cursos %}
-                                <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
+                                <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas">
+                                    <option value="">&nbsp;</option>
+                                    {% for curso in cursos %}
+                                        <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
 
                     </form>
                 </div>
@@ -104,12 +111,20 @@
 
                 <div class="modal-body">
                     <form name="updateAsignatura" class="updateAsignatura" id="updateAsignatura">
-                        <label for="nombre_asignatura_update" class="col-sm-3">Nombre Asignatura</label>
-                        <input type="text" name="nombre_asignatura" class="col-sm-8" id="nombre_asignatura_update" required="required">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="nombre_asignatura_update" data-id="21" class="col-sm-3">Nombre Asignatura</label>
+                                <input type="text" name="nombre_asignatura" class="col-sm-8" id="nombre_asignatura_update" required="required">
+                            </div>
+                        </div>
 
-                        <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
-                        <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
-                        </select>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
+                                <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
+                                </select>
+                            </div>
+                        </div>
 
                     </form>
                 </div>
@@ -143,25 +158,37 @@
                 </div>
                 <div class="modal-body">
                     <form name="addAsignatura" class="addTema" id="addTema">
-                        <label for="nombre_tema" class="col-sm-3">Nombre Unidad</label>
-                        <input type="text" name="nombre_tema" id="nombre_tema" class="col-sm-8" required="required">
 
-                        <label for="select_evaluacion" class="col-sm-3">Evaluación</label>
-                        <select class = "col-sm-12" name="select_evaluacion" id="select_evaluacion">
-                            <option value=""></option>
-                            <option value="1">Primera Evaluación</option>
-                            <option value="2">Segunda Evaluación</option>
-                            <option value="3">Tercera Evaluación</option>
-                        </select>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="nombre_tema" class="col-sm-3">Nombre Unidad</label>
+                                <input type="text" name="nombre_tema" id="nombre_tema" class="col-sm-8" required="required">
+                            </div>
+                        </div>
 
-                        <label for="select_asignaturas_temas" class="col-sm-3">Asignaturas</label>
-                        <select class = "col-sm-12" name="select_asignaturas_temas" id="select_asignaturas_temas">
-                            <option value="">&nbsp;</option>
-                            {% for asignatura in asignaturas %}
-                                <option value="{{asignatura.ID}}">{{asignatura.NOMBRE}}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_evaluacion" class="col-sm-3">Evaluación</label>
+                                <select class = "col-sm-8" name="select_evaluacion" id="select_evaluacion">
+                                    <option value=""></option>
+                                    <option value="1">Primera Evaluación</option>
+                                    <option value="2">Segunda Evaluación</option>
+                                    <option value="3">Tercera Evaluación</option>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="select_asignaturas_temas" class="col-sm-3">Asignaturas</label>
+                                <select class = "col-sm-8" name="select_asignaturas_temas" id="select_asignaturas_temas">
+                                    <option value="">&nbsp;</option>
+                                    {% for asignatura in asignaturas %}
+                                        <option value="{{asignatura.ID}}">{{asignatura.NOMBRE}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -212,6 +239,9 @@
                                 <select class = "col-sm-8" name="select_asignaturas_temas_update" id="select_asignaturas_temas_update">
                                     <option value="">&nbsp;</option>
                                     <option value="30">Nuevisima</option>
+                                    {%for asignatura in asignaturas %}
+                                        <option value="{{ asignatura.ID }} ">{{ asignatura.NOMBRE }} </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -295,15 +325,6 @@
                                     <tr>
                                         <td colspan = "3" >No hay datos</td>
                                     </tr>
-                                    <tr>
-                                        <td class="abrir-modal-update-tema puntero" data-id="31" data-estado="0" >Tema</td>
-                                        <td>2</td>
-                                        <td data-estado="0">
-                                            <form id="form_marcar_hecho">
-                                                <input type="checkbox" id="cambiar_estado_unidad" data-id="31">
-                                            </form>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -338,15 +359,16 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script src="js/seguimientoProgramaciones/modales.js"></script>
     <script src="js/seguimientoProgramaciones/crudAsignaturas.js"></script>
     <script src="js/seguimientoProgramaciones/crudTemas.js"></script>
     <script src="js/seguimientoProgramaciones/general.js"></script>
     <script src="bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.js"></script>
+    <script src="../../bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     {% block scripts %}
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="css/seguimientoProgramaciones/general_mio.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     {%endblock%}
 {% endblock %}

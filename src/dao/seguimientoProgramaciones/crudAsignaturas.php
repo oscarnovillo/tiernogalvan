@@ -38,7 +38,7 @@ class crudAsignaturas {
                 $stmt->bindParam(2, $asignatura_crear->id_curso);
                 $stmt->execute();
                 $conn->commit();
-                $exito = constantesMensajes::INSERCION_HECHA;
+                $mensaje->exito = constantesMensajes::INSERCION_HECHA;
             } else {
                 $mensaje->error = constantesMensajes::ERROR_ASIGNATURA_DUPLICADA;
             }
@@ -55,10 +55,7 @@ class crudAsignaturas {
         } finally {
             $connectionDB->disconnect();
         }
-        $asignaturaObjeto->exito = constantesMensajes::INSERCION_HECHA;
-        $asignaturaObjeto->nombre = $asignatura_crear->nombre;
-        $json_asignatura = json_encode($asignaturaObjeto);
-        return $json_asignatura;
+        return json_encode($mensaje);
     }
 
     public function get_all_asignaturas() {
@@ -156,6 +153,9 @@ class crudAsignaturas {
         $conn = $connectionDB->getConnection();
         try {
             $conn->beginTransaction();
+            $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_unidad);
+            $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
+            $stmt->execute();
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_curso);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();

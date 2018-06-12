@@ -21,9 +21,7 @@ $(document).ready(function () {
     $(".name_asignatura").on("click", function () {
         fn_mostrar_modal_actualizar($(this).text(), $(this).attr("data-id"));
     });
-    $(".borrado_total").on("click", function () {
-        fn_borrado_total_asignatura();
-    });
+    $("#borrado_total").click(fn_borrado_total_asignatura);
     
     
     $("#cancelar_borrado").click(function(){
@@ -52,7 +50,6 @@ function fn_mostrar_modal_actualizar(nombre_asig, id_asig) {
         type: "POST",
         data: {'json_asignatura': asignatura},
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.curso_asignatura[0] !== undefined) {
                 $("#select_cursos_asignaturas_edit").append($('<option>', {
@@ -154,7 +151,6 @@ function fn_update_asignatura() {
         data: {'json_asignatura': asignatura_act},
         type: "POST",
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
             if (parseodata.error === undefined) {
                 $.notify({
@@ -205,9 +201,7 @@ function fn_borrar_asignatura() {
         data: {'json_asignatura': asignatura},
         type: "POST",
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
-            console.log(parseodata)
             if (parseodata.ferror === undefined) {
                 if (parseodata.error === undefined) {
                     $.notify({
@@ -234,7 +228,6 @@ function fn_borrar_asignatura() {
                     });
                 }
             } else {
-                console.log(parseodata.ferror);
                 $("#mensaje_borrado_total").text(parseodata.ferror);
                 $("#modal_aviso_borrar_asignatura").show();
                 $("#modal_update_asignatura").hide();
@@ -257,20 +250,18 @@ function fn_borrar_asignatura() {
 }
 
 function fn_borrado_total_asignatura(){
-    alert();
     var asignatura = JSON.stringify({
         'id_asignatura': $(this).attr("data-id"),
     });
     $.ajax({
-        url: "/index.php?c=seguimiento_programaciones&a=borrado_total",
-        data: {'json_asignatura': asignatura_act},
+        url: "/index.php?c=seguimiento_programaciones&a=borrado_total&destino=asginaturas",
+        data: {'json_asignatura': asignatura},
         type: "POST",
         success: function (data) {
-            console.log(data);
             var parseodata = JSON.parse(data);
-            if (parseodata.error === undefined) {
+            if (parseodata.mensaje.error === undefined) {
                 $.notify({
-                    message: parseodata.exito
+                    message: parseodata.mensaje.exito
                 }, {
                     type: 'success',
                     placement: {
@@ -282,7 +273,7 @@ function fn_borrado_total_asignatura(){
                 location.reload(true);
             } else {
                 $.notify({
-                    message: parseodata.error
+                    message: parseodata.mensaje.error
                 }, {
                     type: 'danger',
                     placement: {

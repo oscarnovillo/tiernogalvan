@@ -79,7 +79,7 @@ class BolsaTrabajoServicios
     public function validarOferta($ofertaNueva)
     {
         $isValid = false;
-        $validador = v::attribute(ConstantesBolsaTrabajo::TITULO_OFERTA, v::stringType()->length(10, 200))
+        $validador = v::attribute(ConstantesBolsaTrabajo::TITULO_OFERTA, v::stringType()->length(5, 200))
             ->attribute(ConstantesBolsaTrabajo::DESCRIPCION_OFERTA, v::stringType()->length(10, 1000))
             ->attribute(ConstantesBolsaTrabajo::REQUISITOS_OFERTA, v::stringType()->length(10, 800))
             ->attribute(ConstantesBolsaTrabajo::EMAIL_OFERTA, v::optional(v::email()->length(4, 80)))
