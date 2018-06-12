@@ -10,14 +10,14 @@
                     <h1 class="display-4">Datos Personales</h1>
                     <h1 class=""
                         id="nombre_persona">{{ PERFIL_DATA[0].NOMBRE |e }} {{ PERFIL_DATA[0].APELLIDOS |escape }}</h1>
-                    <p class="lead">Ciclo Formativo:</p>  PD:
+                    <p class="lead">Ciclo Formativo:</p>
                     <ul class="list-group">
                         <li class="list-group-item">{{ PERFIL_DATA[0].FP_CODE |escape }}</li>
                     </ul>
                     <p class="lead">Información</p>
-                    <p class="" id="comentario_persona">{{ PERFIL_DATA[0].COMENTARIO |escape }}</p>
+                    <p class="" id="comentario_persona">{{ PERFIL_DATA[0].COMENTARIO |escape|nl2br }}</p>
                     <p class="lead">Experiencia</p>
-                    <p class="" id="experiencia_persona">{{ PERFIL_DATA[0].EXPERIENCIA |escape }}</p>
+                    <p class="" id="experiencia_persona">{{ PERFIL_DATA[0].EXPERIENCIA |escape |nl2br }}</p>
                     <p class="lead">Perfíl Externo</p>
                     <a class="" href="{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}" target="_blank"
                        id="perfil_externo_persona">{{ PERFIL_DATA[0].PERFIL_EXTERNO |escape }}</a>

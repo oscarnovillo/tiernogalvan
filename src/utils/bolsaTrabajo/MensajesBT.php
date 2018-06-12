@@ -29,7 +29,7 @@ class MensajesBT
     const LINK_OFERTA_TRABAJO = "index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta=";
     const LINK_PERFIL_USER = "index.php?c=bolsa_trabajo&a=mi_perfil&id_perfil=";
 
-    const ERROR_FALLO_IDENTIFICADOR = "Fallo en la identificación de parametros, por favor estas enviando paramentros erróneos";
+    const ERROR_FALLO_IDENTIFICADOR = "Fallo en la identificación de parametros,estas enviando datos erróneos";
     const ERROR_FALLO_INTERNO = "Error en el servidor, por favor refresca la página(F5) y vuelve a intentarlo";
     const ERROR_FALLO_CONFIG_USER = "Error en el servidor, para modificar estas opciones, primero tienes que rellenar los datos del perfil";
     const ERROR_FALLO_IDENTIFICADOR_USER = "Fallo en la identificación del usuari@, hemos perdido tu identificador de usuari@, por favor refresca o vuelve a iniciar sesión";

@@ -1047,6 +1047,7 @@ class BolsaTrabajoDAO
         return $response;
 
     }
+
     public function tienePermisosDB($id_permiso)
     {
         $engine = new MySqlEngine();

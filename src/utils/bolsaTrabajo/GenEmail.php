@@ -13,6 +13,11 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use utils\Constantes;
 
+/**
+ * Se encarga de generar un template a enviar por correo
+ * Class GenEmail
+ * @package utils\bolsaTrabajo
+ */
 class GenEmail
 {
     //put your code here
