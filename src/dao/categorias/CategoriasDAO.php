@@ -58,6 +58,7 @@ class CategoriasDAO{
         $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$old_category;
         $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
         try{                      
+            
             $sql = categorias\ConstantesCategorias::UPDATE_CATEGORY;
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
@@ -78,17 +79,29 @@ class CategoriasDAO{
         }
     } 
     
-    public function deleteCategoriaDAO($id) {
+    public function deleteCategoriaDAO($id,$categoria) {
         $dbConnection = new DBConnection();
+         $db = $dbConnection->getConnection();
         try{
-            $sql = categorias\ConstantesCategorias::DELETE_CATEGORY;            
-            $db = $dbConnection->getConnection();
+            $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
+            $sql = categorias\ConstantesCategorias::DELETE_CATEGORY;      
+            $sql2 = documentos\ConstantesDocumentos::BORRAR_DOCUMENTO_CATEGORIA;
+            $db->beginTransaction();
             $stmt = $db->prepare($sql);
+            $stmt2 = $db->prepare($sql2);
+            $stmt2->execute(array($id));
             $stmt->execute(array($id));
+            $filas2 = $stmt2->rowCount();
             $filas = $stmt->rowCount();
-            $dbConnection->disconnect();
-            return $filas;
+            if (unlink($path)){
+                $db->commit();
+                return $filas;
+            }else{
+                $db->rollback();
+                return -1;
+            }
         }catch(\Exception $exception){
+            $db->rollback();
             return -1;
         }finally{
             $dbConnection->disconnect();

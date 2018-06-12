@@ -17,9 +17,11 @@ $(document).ready(function () {
              $("form#subir-documento").submit();
          });
          
-         
-         $('#boton-modificar-categoria').on('click', function(){
-             $('#action').attr('value','modificar_categoria');
+         $('.boton-mantenimiento-category').on('click', function(){
+             var categoria = $('#categoria-modificar').text();
+             $('#hidden-categoria-modificar').attr('value',categoria.trim());
+             console.log(categoria.trim());
+             $("form#update-categoria").submit();
          });
          
          $('#boton-modificar-fichero').on('click', function(){

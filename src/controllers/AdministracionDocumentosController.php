@@ -111,6 +111,21 @@ class AdministracionDocumentosController{
                         $parameters['error'] = "Error al modificar la carpeta";
                      }
                 break;
+                case ConstantesCategorias::BORRAR_CATEGORIA:
+                     if (isset($_REQUEST[ConstantesCategorias::CATEGORIA]) && isset($_REQUEST[ConstantesCategorias::ID_CATEGORIA])){
+                        
+                        $categoria = $_REQUEST[ConstantesCategorias::CATEGORIA];
+                        $id_categoria = $_REQUEST[ConstantesCategorias::ID_CATEGORIA];
+                        $respuesta = $categorias->deleteCategoria($id_categoria, $categoria);
+                        if( $respuesta > 0){                              
+                                $parameters['correcto'] = "Carpeta borrada correctamente";
+                        }else{
+                            $parameters['error'] = "Error al borrar la carpeta";
+                        }
+                     }else{
+                        $parameters['error'] = "Error al borrar la carpeta";
+                     }
+                break;
             }
         }
             
@@ -155,5 +170,11 @@ class AdministracionDocumentosController{
         }else{
            return -1;
         }
+    }
+    
+    public function getDocumentsFromCategory($idcategoria){
+        $documentos = new DocumentosService();
+        $lista_documentos = $documentos->getDocumentos($idcategoria);
+        return $lista_documentos;
     }
 }

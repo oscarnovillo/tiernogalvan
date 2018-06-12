@@ -52,7 +52,7 @@ class DocumentosDAO{
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($documento['name'],$idcategoria));
-            if(move_uploaded_file($documento['name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $_FILES['archivo']['name'])){
+            if(move_uploaded_file($documento['tmp_name'],Constantes::CARPETA_DOCUMENTOS_DIRECCION."/".$categoria ."/". $documento['tmp_name'])){
                 $db->commit();
             }else{
                 $db->rollback();

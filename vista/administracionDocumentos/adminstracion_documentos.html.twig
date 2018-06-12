@@ -87,10 +87,10 @@
                         <button class="tablinks" data-element='borrar-category'> Borrar categoría</button>
                     </div>
                     <div id="modificar-category" class="tabcontent col-12" >
-                        <form name="modificar-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
+                        <form name="update-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
                             {% if categorias != null %}
-                                <select class="col-5" class="form-control " name="categoria">
-                                    <option value="">--Seleccione una categoria--</option>
+                                <select class="col-5" id="categoria-modificar" class="form-control " name="idcategoria">
+                                    <option name="idcategoria" value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
                                         <option value="{{ categoria.idCategorias }}">{{ categoria.Categoria}}</option>
                                     {% endfor %}
@@ -98,9 +98,10 @@
                             {% endif %}
                          
                           <input type="text" max-length="20"  id="titulo-categoria" class="col-5 form-control input-right" placeholder="Introduzca el nombre de la nueva categoria"/>
-                          <input type="hidden" id="action-modificar" name="a" value="s"/>
+                          <input type="hidden" id="action-modificar" name="a" value="modificar_categoria"/>
+                          <input type="hidden" id="hidden-categoria-modificar" name="categoria" value=""/>
                           <div class="col-12 control-administracion">
-                              <button type="button" id="boton-actualizar-categoria" class="btn btn-primary boton-mantenimiento ">Actualizar categoria</button>
+                              <button type="button" id="boton-actualizar-categoria" class="btn btn-primary boton-mantenimiento-category ">Actualizar categoria</button>
                           </div>
                         </form>
                     </div>

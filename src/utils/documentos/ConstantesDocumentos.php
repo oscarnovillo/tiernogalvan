@@ -19,5 +19,6 @@ class ConstantesDocumentos{
     const DOCUMENTO = "documento";
     const IDDOCUMENTO = "iddocumento";
     const OLD_DOCUMENT ="fichero_antiguo";
+    const BORRAR_DOCUMENTO_CATEGORIA = "DELETE FROM DOCUMENTOS WHERE idCategoria = ?";
     
 }

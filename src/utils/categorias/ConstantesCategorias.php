@@ -17,5 +17,6 @@ class ConstantesCategorias{
     const ID_CATEGORIA = "idcategoria";
     const MODIFICAR_CATEGORIA = "modificar_categoria";
     const OLD_CATEGORY = "categoria_antigua";
+    const BORRAR_CATEGORIA = "borrar_categoria";
     
 }
