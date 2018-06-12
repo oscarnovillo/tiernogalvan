@@ -20,24 +20,24 @@ use Respect\Validation\Validator as v;
  */
 
 class CrudUsersController {
-    
+
     public function crud(){
-     
+
         $session = new SessionServicios();
- 
+
         if (isset($_SESSION[Constantes::SESS_USER]->id_rol) && $_SESSION[Constantes::SESS_USER]->id_rol == Constantes::ID_ROL_ADMIN) {
-          
+
             $page = ConstantesCrudUsers::CRUD_PAGE;
             $usersSevicios = new UsersServicios();
             $parameters = array();
-       
+
         $action = filter_input(INPUT_POST, Constantes::PARAMETER_NAME_ACTION);
-        
+
         if (isset($action)) {
-            
+
             $user = new \stdClass;
             $PasswordStorage = new PasswordStorage();
-            
+
             $user->id = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_ID));
             $user->nombre = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_NAME);
             $user->apellidos = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_LASTNAME);
@@ -47,21 +47,15 @@ class CrudUsersController {
             $user->id_rol = intval (filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PERMISSION));
             $user->activado = ConstantesCrudUsers::PARAM_ACTIVADO;
             $user->pass = filter_input(INPUT_POST, ConstantesCrudUsers::PARAM_PASS);
-            
+
             switch ($action) {
                 case ConstantesCrudUsers::INSERT_USER:
                     $userChecked = $usersSevicios->getUser($user);
-                    
+
                     if(!$userChecked){
-                        
-                        if($user->pass != null || $user->pass != ""){
-                            $user->pass = $PasswordStorage->create_hash($user->pass);
-                        }else{
-                            $user->pass = $userChecked->pass;
-                        }
-                        
+                        $user->pass = $PasswordStorage->create_hash($user->pass);
                         $userChecked = $usersSevicios->addUser($user);
-                        
+
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::INSERT_YES;
                         }else{
@@ -71,13 +65,19 @@ class CrudUsersController {
                         $parameters['mensajeError'] = ConstantesCrudUsers::INSERT_NO;
                     }
                     break;
-                
+
                 case ConstantesCrudUsers::UPDATE_USER:
                     $userChecked = $usersSevicios->getUser($user);
-                    
+
                     if($userChecked){
+                        if($user->pass != null || $user->pass != ""){
+                            $user->pass = $PasswordStorage->create_hash($user->pass);
+                        }else{
+                            $user->pass = $userChecked->pass;
+                        }
+
                         $userChecked = $usersSevicios->updateUser($user);
-                        
+
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::UPDATE_YES;
                         }else{
@@ -87,13 +87,13 @@ class CrudUsersController {
                         $parameters['mensajeError'] = ConstantesCrudUsers::UPDATE_NO;
                     }
                     break;
-                   
+
                 case ConstantesCrudUsers::DELETE_USER:
                     $userChecked = $usersSevicios->getUser($user);
-                    
+
                     if($userChecked){
                         $userChecked = $usersSevicios->deleteUser($user);
-                        
+
                         if($userChecked){
                             $parameters['mensaje'] = ConstantesCrudUsers::DELETE_YES;
                         }else{

@@ -24,6 +24,10 @@ class ConstantesVentas{
     const PARAM_ASIGNATURA = "asignatura";
     const PARAM_CURSO = "curso";
     const PARAM_ESTADO = "estado";
+    const PARAM_FILTRO_ASIG = "filtro_asig";
+    const PARAM_FILTRO_CURSO = "filtro_curso";
+    const PARAM_ORDEN = "orden";
+    const PARAM_PAGINA = "page";
     
     const EMAIL_SUBJECT = "Han reservado tu libro";
 }

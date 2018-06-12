@@ -16,4 +16,4 @@ use servicios\bolsaTrabajo\BolsaTrabajoServicios;
 
 $servicios = new BolsaTrabajoServicios();
 
-$servicios->borrarViejasOfertas();//TODO - mostrar cambios por pantalla para presentación
+$servicios->borrarViejasOfertas();
