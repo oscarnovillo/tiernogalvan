@@ -7,7 +7,7 @@ var tabla_temas = "";
 var tabla_asignaturas = "";
 var curso = "";
 $(document).ready(function () {
-    tabla_asignaturas = $("#tabla_gestion_asignaturas").DataTable();
+   // tabla_asignaturas = $("#tabla_gestion_asignaturas").DataTable();
     $(".tab").css("border", "0px");
     $("#mostrar_contenedor_index").css("background", "white");
     $("#mostrar_contenedor_index").css("color", "#008cba");
@@ -116,7 +116,8 @@ $(document).ready(function () {
                             celda1.setAttribute("data-estado", parseodata.unidades[tema].UNIDAD_HECHA);
                             celda1.setAttribute("data-comentario", parseodata.unidades[tema].COMENTARIO);
                             celda1.setAttribute("data-nombre", parseodata.unidades[tema].NOMBRE);
-                            celda1.setAttribute("data-eva", parseodata.unidades[tema].EVALUACION)
+                            celda1.setAttribute("data-eva", parseodata.unidades[tema].EVALUACION);
+                            celda1.setAttribute("data-asig", asignatura);
                             celda1.innerHTML = parseodata.unidades[tema].NOMBRE;
                             celda2.innerHTML = parseodata.unidades[tema].EVALUACION;
                             if (parseInt(parseodata.unidades[tema].UNIDAD_HECHA) == 1) {

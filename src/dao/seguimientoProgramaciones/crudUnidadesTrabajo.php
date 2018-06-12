@@ -143,6 +143,7 @@ class crudUnidadesTrabajo {
             $unidades_trabajo = $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (\Exception $ex) {
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
+            echo json_decode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }

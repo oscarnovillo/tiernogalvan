@@ -165,7 +165,7 @@ class SeguimientoProgramaciones {
                                 echo json_encode($cursosObjeto);
                             } else {
                                 $cursosObjeto->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;
-                                echo $cursosObjeto;
+                                echo json_encode($cursosObjeto);
                             }
                             break;
                         case seguiminetoConstantes::UNIDADES:
@@ -177,7 +177,7 @@ class SeguimientoProgramaciones {
                                 echo json_encode($unidadesObjeto);
                             } else {
                                 $unidadesObjeto->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;
-                                echo $unidadesObjeto;
+                                echo json_encode($unidadesObjeto);;
                             }
                             break;
                     endswitch;
@@ -199,14 +199,15 @@ class SeguimientoProgramaciones {
                     $asignaturaObjeto = new \stdClass;
                     $id_asignatura = $_REQUEST[seguiminetoConstantes::OBJETO_ASIGNATURA_JSON];
                     $servicios = new seguimientoServices();
+                    echo $_REQUEST[seguiminetoConstantes::OBJETO_ASIGNATURA_JSON];
                     $id_asignatura_id = $servicios->parseo_json($id_asignatura);
                     if ($id_asignatura_id->id_asignatura != "") {
                         $servicios = new seguimientoServices();
-                        $asignaturaObjeto->unidades = $servicios->borrado_total($id_asignatura);
-                        echo json_encode($unidadesObjeto);
+                        $asignaturaObjeto->mensaje = $servicios->borrado_total($id_asignatura);
+                        echo $asignaturaObjeto;
                     } else {
                         $asignaturaObjeto->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;
-                        echo $asignaturaObjeto;
+                        echo json_encode($asignaturaObjeto);
                     }
                     break;
             endswitch;

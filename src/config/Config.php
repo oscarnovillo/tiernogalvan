@@ -31,5 +31,4 @@ class Config
     const DB_PASSWORD = "appbanco";
     const DB_DATABASE = "appbanco";
     
-    
 }

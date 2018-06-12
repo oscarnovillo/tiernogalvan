@@ -21,9 +21,7 @@ $(document).ready(function () {
     $(".name_asignatura").on("click", function () {
         fn_mostrar_modal_actualizar($(this).text(), $(this).attr("data-id"));
     });
-    $(".borrado_total").on("click", function () {
-        fn_borrado_total_asignatura();
-    });
+    $("#borrado_total").click(fn_borrado_total_asignatura);
     
     
     $("#cancelar_borrado").click(function(){
@@ -257,20 +255,20 @@ function fn_borrar_asignatura() {
 }
 
 function fn_borrado_total_asignatura(){
-    alert();
     var asignatura = JSON.stringify({
         'id_asignatura': $(this).attr("data-id"),
     });
+    console.log($(this));
     $.ajax({
-        url: "/index.php?c=seguimiento_programaciones&a=borrado_total",
-        data: {'json_asignatura': asignatura_act},
+        url: "/index.php?c=seguimiento_programaciones&a=borrado_total&destino=asginaturas",
+        data: {'json_asignatura': asignatura},
         type: "POST",
         success: function (data) {
             console.log(data);
             var parseodata = JSON.parse(data);
-            if (parseodata.error === undefined) {
+            if (parseodata.mensaje.error === undefined) {
                 $.notify({
-                    message: parseodata.exito
+                    message: parseodata.mensaje.exito
                 }, {
                     type: 'success',
                     placement: {
@@ -282,7 +280,7 @@ function fn_borrado_total_asignatura(){
                 location.reload(true);
             } else {
                 $.notify({
-                    message: parseodata.error
+                    message: parseodata.mensaje.error
                 }, {
                     type: 'danger',
                     placement: {
