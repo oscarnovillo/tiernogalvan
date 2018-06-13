@@ -15,7 +15,7 @@ use servicios\seguimientoProgramaciones\seguimientoServices;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\TwigViewer;
-
+use controllers\ErrorController;
 /**
  * Description of SeguimientoProgramaciones
  *
@@ -24,9 +24,10 @@ use utils\TwigViewer;
 class SeguimientoProgramaciones {
 
     public function seguimientoProgramacionesPrincipal() {
+        $errController = new ErrorController();
         $parametros = array();
         $id_rol = $_SESSION[Constantes::SESS_USER]->id_rol;
-        if ($id_rol == Constantes::ID_ROL_PROFESOR){
+        if ($id_rol == Constantes::ID_ROL_PROFESOR || $id_rol == Constantes::ID_ROL_ADMIN){
             if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION]) && $_REQUEST[seguiminetoConstantes::DESTINO]) {
                 $accion = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
                 $destino = $_REQUEST[seguiminetoConstantes::DESTINO];
