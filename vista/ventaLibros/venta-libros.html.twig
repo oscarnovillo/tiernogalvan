@@ -118,7 +118,8 @@
                                     <td>{{ venta.precio }}€</td>
                                     <td>{{ venta.asignatura }}</td>
                                     <td>{{ venta.curso }}</td>
-                                    <td>{{ venta.estado }}</td>
+                                    {% set color = venta.estado == 'Reservado' ? 'indianred' : '#43a047' %}
+                                    <td style="color: {{ color }};">{{ venta.estado }}</td>
                                     <td><a href="javascript:void(0)" onclick="editar({{ venta.id }}, '{{ venta.titulo }}', '{{ venta.isbn }}', 
                                                                                    '{{ venta.precio }}', '{{ venta.asignatura }}', '{{ venta.curso }}', 
                                                                                    '{{ venta.estado }}');">Editar</a></td>
@@ -137,7 +138,7 @@
                         <div id="cont_form_edit" class="row">
                             <span class="error_form" id="texto"></span>
                             <br>
-                            <form action="index.php" method="post" id="form_editar" onsubmit="return validar(this)">
+                            <form action="index.php" method="post" id="form_editar" onsubmit="return validar2(this)">
                                 <input type="hidden" name="c" value="venta_libros">
                                 <input type="hidden" name="a" value="edit_libro">
                                 <input type="hidden" id="id_venta_edit" name="id_venta">

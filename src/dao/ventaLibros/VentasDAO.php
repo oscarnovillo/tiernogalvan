@@ -127,6 +127,54 @@ class VentasDAO {
         return $actualizado;
     }
     
+    public function completarVenta($venta, $vendedor, $comprador){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $conn->beginTransaction();
+        
+        $actualizado = false;
+        try{
+            $fecha = date("Y-m-d");
+            
+            $stmt = $conn->prepare("INSERT INTO registro_ventas (id_vend, email_vend, id_comp, email_comp, titulo, precio, fecha_venta) VALUES (?,?,?,?,?,?,?)");
+            $stmt->bindParam(1, $vendedor->id);
+            $stmt->bindParam(2, $vendedor->email);
+            $stmt->bindParam(3, $comprador->id);
+            $stmt->bindParam(4, $comprador->email);
+            $stmt->bindParam(5, $venta->titulo);
+            $stmt->bindParam(6, $venta->precio);
+            $stmt->bindParam(7, $fecha);
+            $stmt->execute();
+            
+            $stmt = $conn->prepare("DELETE FROM venta_libros WHERE id = ?");
+            $stmt->bindParam(1, $venta->id);
+            $stmt->execute();
+            
+            $conn->commit();
+            $actualizado = true;
+        }catch(Exception $e){
+            $actualizado = false;
+            $conn->rollBack();
+        }
+        $db->disconnect();
+        return $actualizado;
+    }
+    
+    public function getVentaById($id){
+        $db = new DBConnection();
+        $conn = $db->getConnection();
+        
+        $stmt = $conn->prepare("SELECT * FROM venta_libros WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        
+        $venta = $stmt->fetchAll(PDO::FETCH_OBJ);
+        
+        $db->disconnect();
+        return $venta;
+    }
+    
     public function delVenta($id){
         $db = new DBConnection();
         $conn = $db->getConnection();
