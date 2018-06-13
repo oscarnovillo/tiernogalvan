@@ -111,7 +111,7 @@ function borrar(id) {
 }
 
 
-function restaurarCampoSiVacio(campo, id) {
+function restaurar_campo(campo, id) {
     if ($("#" + campo + id).val() == '') {
         $("#" + campo + id).val($("#" + campo + "_original" + id).val())
         $("#btns_" + campo + id).hide();
