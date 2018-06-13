@@ -99,32 +99,34 @@
             <h1><span onclick="verMios()" id="texto_mios">Mis libros</span></h1>
             <section class="cont_tabla" id="mios">    
                 {% if misVentas != null %}
-                    <table class="table table-striped">
-                        <tr>
-                            <th><span>Titulo</span></th>
-                            <th><span>ISBN</span></th>
-                            <th><span>Precio</span></th>
-                            <th><span>Asignatura</span></th>
-                            <th><span>Curso</span></th>
-                            <th><span>Estado</span></th>
-                            <th><span>Editar</span></th>
-                            <th><span>Eliminar</span></th>
-                        </tr>
-                        {% for venta in misVentas %}
+                    <div style="overflow-x:auto;">
+                        <table class="table table-striped">
                             <tr>
-                                <td>{{ venta.titulo }}</td>
-                                <td>{{ venta.isbn }}</td>
-                                <td>{{ venta.precio }}€</td>
-                                <td>{{ venta.asignatura }}</td>
-                                <td>{{ venta.curso }}</td>
-                                <td>{{ venta.estado }}</td>
-                                <td><a href="javascript:void(0)" onclick="editar({{ venta.id }}, '{{ venta.titulo }}', '{{ venta.isbn }}', 
-                                                                               '{{ venta.precio }}', '{{ venta.asignatura }}', '{{ venta.curso }}', 
-                                                                               '{{ venta.estado }}');">Editar</a></td>
-                                <td><a href="javascript:void(0)" onclick="eliminar({{ venta.id }})">Eliminar</a></td>
+                                <th><span>Titulo</span></th>
+                                <th><span>ISBN</span></th>
+                                <th><span>Precio</span></th>
+                                <th><span>Asignatura</span></th>
+                                <th><span>Curso</span></th>
+                                <th><span>Estado</span></th>
+                                <th><span>Editar</span></th>
+                                <th><span>Eliminar</span></th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            {% for venta in misVentas %}
+                                <tr>
+                                    <td>{{ venta.titulo }}</td>
+                                    <td>{{ venta.isbn }}</td>
+                                    <td>{{ venta.precio }}€</td>
+                                    <td>{{ venta.asignatura }}</td>
+                                    <td>{{ venta.curso }}</td>
+                                    <td>{{ venta.estado }}</td>
+                                    <td><a href="javascript:void(0)" onclick="editar({{ venta.id }}, '{{ venta.titulo }}', '{{ venta.isbn }}', 
+                                                                                   '{{ venta.precio }}', '{{ venta.asignatura }}', '{{ venta.curso }}', 
+                                                                                   '{{ venta.estado }}');">Editar</a></td>
+                                    <td><a href="javascript:void(0)" onclick="eliminar({{ venta.id }})">Eliminar</a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                     <form action="index.php" method="post" id="form_eliminar">
                         <input type="hidden" name="c" value="venta_libros">
                         <input type="hidden" name="a" value="del_libro">
