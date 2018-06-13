@@ -114,11 +114,9 @@
                                                 <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
                                             </li>
                                             <li>
-                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
-                                                    proceso</a></li>
+                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En proceso</a></li>
                                             <li>
-                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
-                                                    empezar</a></li>
+                                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin empezar</a></li>
                                         </ul>
                                     </div>
                                 {% elseif incidencia.estado == "completado" %}
