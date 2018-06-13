@@ -97,7 +97,7 @@ class CategoriasDAO{
             $stmt2 = $db->prepare($sql2);
             $stmt2->execute(array($id));
             $stmt->execute(array($id));
-            if(chmod($path,0777)){
+            
                 $objects = scandir($path); 
                 foreach ($objects as $object) { 
                     if ($object != "." && $object != "..") { 
@@ -114,10 +114,7 @@ class CategoriasDAO{
                     $db->rollback();
                     return -1;
                 }
-            }else{
-                 $db->rollback();
-                    return -1;
-            }
+            
         }catch(\Exception $exception){
             $db->rollback();
             return -1;
