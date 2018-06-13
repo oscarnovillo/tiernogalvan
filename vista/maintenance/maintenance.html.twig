@@ -37,11 +37,9 @@
                         <div class="bar"></div>
                         <div class="submenu_wrapper__content">
                             <ul>
-                                {% if permiso == "ADMIN" %}
                                     <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=add">
                                         <li>Agregar departamento</li>
                                     </a>
-                                {% endif %}
                                 <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=view">
                                     <li>Ver departamentos</li>
                                 </a>
@@ -56,11 +54,9 @@
                         <div class="bar"></div>
                         <div class="submenu_wrapper__content">
                             <ul>
-                                {% if permiso == "ADMIN" %}
                                     <a href="/index.php?c={{ constant('Utils\\Constantes::CRUD_CONTROLLER') }}">
                                         <li>Agregar usuarios TIC</li>
                                     </a>
-                                {% endif %}
                                 <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&op=view">
                                     <li>Ver usuarios TIC</li>
                                 </a>
