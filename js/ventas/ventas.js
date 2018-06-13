@@ -81,8 +81,11 @@ function editar(id, titulo, isbn, precio, asignatura, curso, estado){
 }
 
 function eliminar(id){
-    $("#id_venta_del").val(id);
-    $("#form_eliminar").submit();
+    var del = confirm("¿Quieres eliminar este libro?");
+    if(del == true){
+        $("#id_venta_del").val(id);
+        $("#form_eliminar").submit();
+    }
 }
 
 function cargarFiltro(asig, curso, orden){
