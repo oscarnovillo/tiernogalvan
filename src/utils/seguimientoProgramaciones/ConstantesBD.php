@@ -24,7 +24,7 @@ class ConstantesBD {
     const ID_TEMAS_MISMO_NOMBRE = "SELECT id FROM UNIDADES_TRABAJO WHERE NOMBRE = ?";
     const GET_ALL_CURSOS = "SELECT * FROM cursos";
     const insert_curso_asignatura = "INSERT INTO CURSOS_ASIGNATURAS (ID_ASIGNATURA,ID_CURSO) VALUES(?,?)";
-    const get_asignaturas_curso = "SELECT * FROM asignaturas where id IN (SELECT ID_ASIGNATURA FROM cursos_asignaturas where ID_CURSO=?)";
+    const get_asignaturas_curso = "SELECT * FROM ASIGNATURAS where id IN (SELECT ID_ASIGNATURA FROM cursos_asignaturas where ID_CURSO=?)";
     const comprobar_unidad_asignatura = "SELECT COUNT(*) FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_ASIGNATURA = ? AND ID_UNIDAD_TRABAJO = ?";
     const get_curso_asignatura = "select id_curso, nombre_curso from cursos where id_curso in (SELECT id_curso from cursos_asignaturas where id_asignatura = ?)";
     const update_asignatura_curso = "UPDATE CURSOS_ASIGNATURAS SET ID_CURSO = ? WHERE ID_ASIGNATURA = ?";
