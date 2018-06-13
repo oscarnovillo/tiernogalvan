@@ -58,6 +58,30 @@ function validar(formulario){
         $("#error_form").html("Rellena todos los campos correctamente.");
         $("#error_form").fadeIn(100);
     }
+    alert(parseFloat(formulario.precio.value));
+    if(parseFloat(formulario.precio.value) <= 0){
+        valido = false;
+        $("#error_form").html("No se puede poner ese precio.");
+        $("#error_form").fadeIn(100);
+    }
+    
+    return valido;
+}
+
+function validar2(formulario){
+    var valido = true;
+    
+    if(formulario.titulo.value == "" || !/[a-zA-Z0-9]/.test(formulario.titulo.value)){
+        valido = false;
+        $("#texto").html("Rellena todos los campos correctamente.");
+        $("#texto").fadeIn(100);
+    }
+    
+    if(parseFloat(formulario.precio.value) <= 0){
+        valido = false;
+        $("#texto").html("No se puede poner ese precio.");
+        $("#texto").fadeIn(100);
+    }
     
     return valido;
 }

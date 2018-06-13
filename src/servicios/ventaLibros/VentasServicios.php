@@ -43,6 +43,16 @@ class VentasServicios {
         return $dao->editVenta($venta);
     }
     
+    public function completarVenta($venta, $vendedor, $comprador){
+        $dao = new VentasDAO();
+        return $dao->completarVenta($venta, $vendedor, $comprador);
+    }
+    
+    public function getVentaById($id){
+        $dao = new VentasDAO();
+        return $dao->getVentaById($id);
+    }
+    
     public function delVenta($id){
         $dao = new VentasDAO();
         return $dao->delVenta($id);

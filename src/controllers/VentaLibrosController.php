@@ -67,9 +67,9 @@ class VentaLibrosController {
                             $nombre = $vendedor[0]->nombre . " " . $vendedor[0]->apellidos;
                             $titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
                             
-                            $cuerpoEmail = "<html><body><h2>Alguien ha reservado tu libro.</h2>"
-                                    . "<br><span>Tu libro \"" . $titulo . "\"</span>"
-                                    . "<br><span>Ponte en contacto a través del siguiente "
+                            $cuerpoEmail = "<html><body><h2>Alguien ha reservado tu libro \"" . $titulo . "\".</h2>"
+                                    . "<br><span>Ahora solo tienes que concretar la venta.</span>"
+                                    . "<br><span>Ponte en contacto con el comprador a través del siguiente "
                                     . "email: " . $user->email . "</span></body></html>";
                             
                             $mailer->sendMail($vendedor[0]->email, $nombre, ConstantesVentas::EMAIL_SUBJECT, $cuerpoEmail);
@@ -85,19 +85,40 @@ class VentaLibrosController {
                 case ConstantesVentas::ACCION_EDIT_LIBRO:
                     $venta = new \stdClass;
                     
-                    $venta->id = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
-                    $venta->titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
-                    $venta->isbn = $_REQUEST[ConstantesVentas::PARAM_ISBN];
-                    $venta->precio = floatval($_REQUEST[ConstantesVentas::PARAM_PRECIO]);
-                    $venta->asignatura = $_REQUEST[ConstantesVentas::PARAM_ASIGNATURA];
-                    $venta->curso = $_REQUEST[ConstantesVentas::PARAM_CURSO];
-                    $venta->estado = $_REQUEST[ConstantesVentas::PARAM_ESTADO];
+                    if($_REQUEST[ConstantesVentas::PARAM_ESTADO] != "Vendido"){
+                        $venta->id = $_REQUEST[ConstantesVentas::PARAM_ID_VENTA];
+                        $venta->titulo = $_REQUEST[ConstantesVentas::PARAM_TITULO];
+                        $venta->isbn = $_REQUEST[ConstantesVentas::PARAM_ISBN];
+                        $venta->precio = floatval($_REQUEST[ConstantesVentas::PARAM_PRECIO]);
+                        $venta->asignatura = $_REQUEST[ConstantesVentas::PARAM_ASIGNATURA];
+                        $venta->curso = $_REQUEST[ConstantesVentas::PARAM_CURSO];
+                        $venta->estado = $_REQUEST[ConstantesVentas::PARAM_ESTADO];
+                        
+                        $ventaEditada = $ventasSevicios->editVenta($venta);
                     
-                    $ventaEditada = $ventasSevicios->editVenta($venta);
-                    
-                    if(!$ventaEditada){
-                        $parameters['mensaje'] = ConstantesVentas::ERROR_EDITAR;
+                        if($ventaEditada){
+                            $parameters['mensaje'] = ConstantesVentas::VENTA_EDITADA;
+                        }else{
+                            $parameters['mensaje'] = ConstantesVentas::ERROR_EDITAR;
+                        }
+                    }else{
+                        $venta = $ventasSevicios->getVentaById($_REQUEST[ConstantesVentas::PARAM_ID_VENTA]);
+                        if($venta[0]->id_comprador != null){
+                            $vendedor = $ventasSevicios->getUser($venta[0]->id_vendedor);
+                            $comprador = $ventasSevicios->getUser($venta[0]->id_comprador);
+
+                            $completarVenta = $ventasSevicios->completarVenta($venta[0], $vendedor[0], $comprador[0]);
+
+                            if($completarVenta){
+                                $parameters['mensaje'] = ConstantesVentas::VENTA_EDITADA;
+                            }else{
+                                $parameters['mensaje'] = ConstantesVentas::ERROR_EDITAR;
+                            }
+                        }else{
+                            $parameters['mensaje'] = ConstantesVentas::ERROR_VENDER;
+                        }
                     }
+                        
                     break;
                 
                 case ConstantesVentas::ACCION_DEL_LIBRO:
