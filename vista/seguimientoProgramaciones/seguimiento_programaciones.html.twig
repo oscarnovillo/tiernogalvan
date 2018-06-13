@@ -41,7 +41,7 @@
                 <div class="modal-footer">
                     <form>
                         <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio" value="Aceptar">
-                        <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                        <input type="button" class="btn btn-primary cancelar" id="cancelar_envio_1" value="Cancelar">
                     </form>
                 </div>
 
@@ -126,6 +126,14 @@
                             <div class="col-sm-12">
                                 <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
                                 <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas_edit">
+                                    <option value="">&nbsp;</option>
+                                    {% if cursos and cursos != null %}
+                                        {% for curso in cursos %}
+                                            <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">No hay datos</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -203,7 +211,7 @@
                     <div class="row izquierda">
                         <form>
                             <input type="button" name="aceptar" class="btn btn-primary" id="aceptar_envio_tema" value="Aceptar">
-                            <input type="button" class="btn btn-primary cancelar" id="cancelar_envio" value="Cancelar">
+                            <input type="button" class="btn btn-primary cancelar" id="cancelar_envio_2" value="Cancelar">
                         </form>
                     </div>
                 </div>
@@ -243,7 +251,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <label for="select_asignaturas_temas_update" class="col-sm-3">Comentario</label>
+                                <label for="comentario_tema" class="col-sm-3">Comentario</label>
                                 <textarea rows="4" cols="50" id="comentario_tema" class="col-sm-8">
                                 </textarea>
                             </div>
@@ -344,7 +352,7 @@
                     <div class="col-sm-8" id="div-selects-ga">
                         <div class="col-sm-6">
                             <label for="select_cursos">Listado Cursos</label>
-                            <select class = "col-sm-12" name="" id="select_cursos">
+                            <select class = "col-sm-12" name="" id="select_cursos-g-a">
                                 <option value="">&nbsp;</option>
                                 {% if cursos and cursos != null %}
                                     {% for curso in cursos %}
@@ -370,7 +378,7 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <button id="abrir_modal_asignatura_tema" class="btn btn-primary col-sm-12" type="button">Nueva Asignatura</button>
+                                    <button id="abrir_modal_add_asignatura" class="btn btn-primary col-sm-12" type="button">Nueva Asignatura</button>
                                 </td>
                             </tr>
                         </tbody>

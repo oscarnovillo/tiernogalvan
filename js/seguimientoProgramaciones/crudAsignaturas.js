@@ -18,9 +18,7 @@ $(document).ready(function () {
     $("#borrar_asignatura").click(function () {
         fn_borrar_asignatura();
     });
-    $(".name_asignatura").on("click", function () {
-        fn_mostrar_modal_actualizar($(this).text(), $(this).attr("data-id"));
-    });
+    $(".name_asignatura").click(fn_mostrar_modal_actualizar);
     $("#borrado_total").click(fn_borrado_total_asignatura);
     
     
@@ -38,56 +36,6 @@ $(document).ready(function () {
             });
     });
 });
-function fn_mostrar_modal_actualizar(nombre_asig, id_asig) {
-    $("#modal_update_asignatura").show();
-    $("#nombre_asignatura_update").val(nombre_asig);
-    $("#nombre_asignatura_update").attr("data-id", id_asig);
-    var asignatura = JSON.stringify({
-        'id_asignatura': id_asig
-    });
-    $.ajax({
-        url: "/index.php?c=seguimiento_programaciones&destino=get_cursos_asignaturas&a=get_asignatura_curso",
-        type: "POST",
-        data: {'json_asignatura': asignatura},
-        success: function (data) {
-            var parseodata = JSON.parse(data);
-            if (parseodata.curso_asignatura[0] !== undefined) {
-                $("#select_cursos_asignaturas_edit").append($('<option>', {
-                    value: parseodata.curso_asignatura[0].id_curso,
-                    text: parseodata.curso_asignatura[0].nombre_curso + "----------------------------"
-                }));
-            }
-            if (parseodata.error === undefined) {
-                for (curso in parseodata.cursos) {
-                    if (parseodata.curso_asignatura[0] !== undefined) {
-                        if (parseodata.cursos[curso].id_curso != parseodata.curso_asignatura[0].id_curso) {
-                            $("#select_cursos_asignaturas_edit").append($('<option>', {
-                                value: parseodata.cursos[curso].id_curso,
-                                text: parseodata.cursos[curso].nombre_curso
-                            }));
-                        }
-                    } else {
-                        $("#select_cursos_asignaturas_edit").append($('<option>', {
-                            value: parseodata.cursos[curso].id_curso,
-                            text: parseodata.cursos[curso].nombre_curso
-                        }));
-                    }
-                }
-            } else {
-                $.notify({
-                    message: parseodata.error
-                }, {
-                    type: 'danger',
-                    placement: {
-                        from: "bottom",
-                        align: "right"
-                    },
-                    z_index: 10000,
-                });
-            }
-        }
-    });
-}
 function fn_crear_asignatura() {
     datos = JSON.stringify({
         "nombre": $("#nombre_asignatura").val(),
@@ -110,7 +58,11 @@ function fn_crear_asignatura() {
                     },
                     z_index: 10000,
                 });
-                location.reload(true);
+                $("#addAsignatura")[0].reset();
+                $(".modal").hide();
+                if ($("#select_cursos-g-a").val() != ""){
+                    cambiar_tabla_asignaturas();
+                }
             } else {
                 $.notify({
                     message: parseodata.error
@@ -163,7 +115,8 @@ function fn_update_asignatura() {
                     },
                     z_index: 10000,
                 });
-                location.reload(true);
+                $(".modal").hide();
+                cambiar_tabla_asignaturas();
             } else {
                 $.notify({
                     message: parseodata.error
@@ -214,7 +167,8 @@ function fn_borrar_asignatura() {
                         },
                         z_index: 10000,
                     });
-                    location.reload(true);
+                $(".modal").hide();
+                cambiar_tabla_asignaturas();
                 } else {
                     $.notify({
                         message: parseodata.error
@@ -245,6 +199,7 @@ function fn_borrar_asignatura() {
                 },
                 z_index: 10000,
             });
+            
         }
     });
 }
@@ -270,7 +225,8 @@ function fn_borrado_total_asignatura(){
                     },
                     z_index: 10000,
                 });
-                location.reload(true);
+                $(".modal").hide();
+                cambiar_tabla_asignaturas();
             } else {
                 $.notify({
                     message: parseodata.mensaje.error
@@ -282,6 +238,7 @@ function fn_borrado_total_asignatura(){
                     },
                     z_index: 10000,
                 });
+                $(".modal").hide();
             }
         },
         error: function (data) {
@@ -295,6 +252,10 @@ function fn_borrado_total_asignatura(){
                 },
                 z_index: 10000,
             });
+                $(".modal").hide();
         }
     });
+}
+function fn_mostrar_modal_crear(){
+    $("#modal_aviso_nombre_asignatura").show();
 }

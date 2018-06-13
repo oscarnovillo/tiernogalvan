@@ -28,6 +28,7 @@ class constantesMensajes {
     const BORRADO_HECHO = "La asignatura se ha borrado correctamente";
     const BORRADO_FORZADO_MENSAJE = "Esta asignatura tiene ¿Está seguro que desea borrarla?";
     
-    
+    const BORRADO_HECHO_UNIDAD = "La unidad de trabajo se ha borrado correctamente";
+    const ACTUALIZACION_HECHA_UNIDAD = "La unidad de trabajo se ha actualizado correctamente";
     const ESTADO_TEMA_MODIFICADO_EXITO = "El estado del tema se ha modificado con exito";
 }

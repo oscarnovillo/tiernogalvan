@@ -60,7 +60,7 @@ class crudAsignaturas {
 
     public function get_all_asignaturas() {
         $mensaje = new \stdClass;
-        try{
+        try {
             $connectionDB = new DBConnection();
             $conn = $connectionDB->getConnection();
             $stmt = $conn->prepare(ConstantesBD::select_all_asignaturas);
@@ -68,8 +68,8 @@ class crudAsignaturas {
             $asignaturas = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $asignaturas;
         } catch (Exception $ex) {
-
-        }finally{
+            
+        } finally {
             $connectionDB->disconnect();
         }
     }
@@ -99,7 +99,7 @@ class crudAsignaturas {
 
     public function get_asignaturas_curso($id_curso) {
         $mensaje = new \stdClass;
-        try{
+        try {
             $connectionDB = new DBConnection();
             $conn = $connectionDB->getConnection();
             $stmt = $conn->prepare(ConstantesBD::get_asignaturas_curso);
@@ -108,7 +108,8 @@ class crudAsignaturas {
             $asignaturas = $stmt->fetchAll(PDO::FETCH_OBJ);
             return $asignaturas;
         } catch (Exception $ex) {
-        } finally{
+            
+        } finally {
             $connectionDB->disconnect();
         }
     }
@@ -126,15 +127,15 @@ class crudAsignaturas {
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();
-            //$conn->commit();
+            $conn->commit();
             $mensaje->exito = constantesMensajes::BORRADO_HECHO;
         } catch (\Exception $ex) {
             if (strstr($ex->getMessage(), 'a foreign key')) {
-                //$conn->rollback();
+                $conn->rollback();
                 $mensaje->ferror = constantesMensajes::BORRADO_FORZADO_MENSAJE;
                 $mensaje->id = $asignatura_borrar->id_asignatura;
             } else {
-                //$conn->rollback();
+                $conn->rollback();
                 $mensaje->error = constantesMensajes::ERROR_GENERAL;
             }
         } finally {
@@ -142,37 +143,55 @@ class crudAsignaturas {
         }
         return json_encode($mensaje);
     }
-    public function borrado_total($asignatura_borrar){
-        $asignaturaObjeto = new \stdClass;
+
+    public function borrado_total($asignatura_borrar) {
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
         $conn = $connectionDB->getConnection();
         try {
             $conn->beginTransaction();
+            
+            /*
             $stmt = $conn->prepare(ConstantesBD::get_unidades_asignatura_id);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
-            $unidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt = $conn->prepare(ConstantesBD::borrar_unidades_trabajo);
-            $stmt->bindParam(1, $unidades);
             $stmt->execute();
-            $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_unidad);
-            $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
+            $unidades = $stmt->fetchAll(PDO::FETCH_NUM);
+            echo var_dump($unidades);
+            
+            $stmt = $conn->prepare(ConstantesBD::borrar_unidad);
+            $stmt->bindParam(1, array($unidades[0]));
             $stmt->execute();
+            */
+            
+            $stmt1 = $conn->prepare(ConstantesBD::borrar_asignatura_unidad);
+            $stmt1->bindParam(1, $asignatura_borrar->id_asignatura);
+            $stmt1->execute();
+            
+            
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_curso);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();
-            $stmt = $conn->prepare(ConstantesBD::borrar_asignatura);
-            $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
-            $stmt->execute();
+            
+            
+            
+            $stmt2 = $conn->prepare(ConstantesBD::borrar_asignatura);
+            $stmt2->bindParam(1, $asignatura_borrar->id_asignatura);
+            $stmt2->execute();
+            
+            
             $conn->commit();
             $mensaje->exito = constantesMensajes::BORRADO_HECHO;
         } catch (\Exception $ex) {
+            //echo $ex->getMessage();
+            $conn->rollback();
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
+            echo json_encode($mensaje);
         } finally {
             $connectionDB->disconnect();
         }
         return json_encode($mensaje);
     }
+
     public function comprobar_asignatura($asignatura_comprobar) {
         $mensaje = new \stdClass;
         try {
@@ -186,7 +205,7 @@ class crudAsignaturas {
         } catch (Exception $ex) {
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
             echo json_encode($mensaje);
-        } finally{
+        } finally {
             $connectionDB->disconnect();
         }
     }

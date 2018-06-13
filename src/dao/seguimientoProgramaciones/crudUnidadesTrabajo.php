@@ -85,7 +85,7 @@ class crudUnidadesTrabajo {
             $stmt->bindParam(4, $unidad_trabajo->id);
             $stmt->execute();
             $conn->commit();
-            $mensaje->exito = constantesMensajes::ACTUALIZACION_HECHA;
+            $mensaje->exito = constantesMensajes::ACTUALIZACION_HECHA_UNIDAD;
         } catch (\Exception $ex) {
             $conn->rollback();
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
@@ -110,7 +110,7 @@ class crudUnidadesTrabajo {
             $stmt->bindParam(1, $unidad_trabajo->id_unidad);
             $stmt->execute();
             $conn->commit();
-            $mensaje->exito = constantesMensajes::BORRADO_HECHO;
+            $mensaje->exito = constantesMensajes::BORRADO_HECHO_UNIDAD;
         } catch (\Exception $ex) {
             if (strstr($ex, 'Foreign Key')) {
                 $conn->rollback();

@@ -203,12 +203,11 @@ class SeguimientoProgramaciones {
                         $asignaturaObjeto = new \stdClass;
                         $id_asignatura = $_REQUEST[seguiminetoConstantes::OBJETO_ASIGNATURA_JSON];
                         $servicios = new seguimientoServices();
-                        echo $_REQUEST[seguiminetoConstantes::OBJETO_ASIGNATURA_JSON];
                         $id_asignatura_id = $servicios->parseo_json($id_asignatura);
                         if ($id_asignatura_id->id_asignatura != "") {
                             $servicios = new seguimientoServices();
-                            $asignaturaObjeto->mensaje = $servicios->borrado_total($id_asignatura);
-                            echo $asignaturaObjeto;
+                            $asignaturaObjeto->mensaje = $servicios->borrado_total($id_asignatura_id);
+                            echo json_encode($asignaturaObjeto);
                         } else {
                             $asignaturaObjeto->error = \utils\seguimientoProgramaciones\constantesMensajes::PARAMETROS_NO_RECIBIDOS;
                             echo json_encode($asignaturaObjeto);
