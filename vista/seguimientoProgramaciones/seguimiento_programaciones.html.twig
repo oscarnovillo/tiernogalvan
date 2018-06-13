@@ -25,9 +25,13 @@
                                 <label for="select_cursos_asignaturas" class="col-sm-3">Cursos</label>
                                 <select class = "col-sm-8" name="select_cursos_asignaturas" id="select_cursos_asignaturas">
                                     <option value="">&nbsp;</option>
-                                    {% for curso in cursos %}
-                                        <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
-                                    {% endfor %}
+                                    {% if cursos and cursos != null %}
+                                        {% for curso in cursos %}
+                                            <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                        {% endfor %}
+                                     {% else %}
+                                        <option value="">No hay datos</option>
+                                     {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -183,9 +187,13 @@
                                 <label for="select_asignaturas_temas" class="col-sm-3">Asignaturas</label>
                                 <select class = "col-sm-8" name="select_asignaturas_temas" id="select_asignaturas_temas">
                                     <option value="">&nbsp;</option>
-                                    {% for asignatura in asignaturas %}
-                                        <option value="{{asignatura.ID}}">{{asignatura.NOMBRE}}</option>
-                                    {% endfor %}
+                                    {% if asignaturas and asignaturas != null %}
+                                        {% for asignatura in asignaturas %}
+                                            <option value="{{asignatura.ID}}">{{asignatura.NOMBRE}}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">No hay datos</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -239,9 +247,13 @@
                                 <select class = "col-sm-8" name="select_asignaturas_temas_update" id="select_asignaturas_temas_update">
                                     <option value="">&nbsp;</option>
                                     <option value="30">Nuevisima</option>
-                                    {%for asignatura in asignaturas %}
-                                        <option value="{{ asignatura.ID }} ">{{ asignatura.NOMBRE }} </option>
-                                    {% endfor %}
+                                    {% if asignaturas and asignaturas != null %}
+                                        {%for asignatura in asignaturas %}
+                                            <option value="{{ asignatura.ID }} ">{{ asignatura.NOMBRE }} </option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">No hay datos</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -297,9 +309,13 @@
                                 <label for="select_cursos">Listado Cursos</label>
                                 <select class = "col-sm-12" name="" id="select_cursos">
                                     <option value="">&nbsp;</option>
-                                    {% for curso in cursos %}
-                                        <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
-                                    {% endfor %}
+                                    {% if cursos and cursos != null %}
+                                        {% for curso in cursos %}
+                                            <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="">No hay datos</option>
+                                    {% endif %}
                                 </select>
                             </div>
                             <div class="col-sm-6">
@@ -348,11 +364,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for asignatura in asignaturas %}
+                            {% if asignatura and asignaturas != null %}
+                                {% for asignatura in asignaturas %}
+                                    <tr>
+                                        <td class="name_asignatura puntero" data-id="{{asignatura.ID}}">{{asignatura.NOMBRE}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
                                 <tr>
-                                    <td class="name_asignatura puntero" data-id="{{asignatura.ID}}">{{asignatura.NOMBRE}}</td>
+                                    <td class="name_asignatura puntero" colspan="3">No hay datos</td>
                                 </tr>
-                            {% endfor %}
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
