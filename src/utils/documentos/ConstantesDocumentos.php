@@ -19,7 +19,7 @@ class ConstantesDocumentos{
     const DOCUMENTO = "documento";
     const IDDOCUMENTO = "iddocumento";
     const OLD_DOCUMENT ="fichero_antiguo";
-    const BORRAR_DOCUMENTO_CATEGORIA = "DELETE FROM DOCUMENTOS WHERE idCategoria = ?";
+    const BORRAR_DOCUMENTO_CATEGORIA = "DELETE FROM documentos WHERE idCategoria = ?";
     const DOCUMENTOS_CATEGORIA = "doc_categoria";
     
     const ERROR_INSERT_DOCUMENTO = "Error al subir el documento";
