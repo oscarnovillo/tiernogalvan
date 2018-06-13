@@ -7,7 +7,6 @@ var tabla_temas = "";
 var tabla_asignaturas = "";
 var curso = "";
 $(document).ready(function () {
-    tabla_asignaturas = $("#tabla_gestion_asignaturas").DataTable();
     $(".tab").css("border", "0px");
     $("#mostrar_contenedor_index").css("background", "white");
     $("#mostrar_contenedor_index").css("color", "#008cba");
@@ -100,16 +99,25 @@ $(document).ready(function () {
             data: {"id_asignatura": asignatura},
             type: "POST",
             success: function (data) {
+                var evaluaciones = ["", "Primera Evaluación", "Segunda Evaluación", "Tercera Evaljuación"];
                 var parseodata = JSON.parse(data);
                 if (parseodata.error === undefined) {
                     if (parseodata.unidades[0] !== undefined) {
                         for (tema in parseodata.unidades) {
                             /*tabla_temas.row.add([parseodata.unidades[tema].NOMBRE, parseodata.unidades[tema].EVALUACION, parseodata.unidades[tema].UNIDAD_HECHA]).draw()*/
                             var fila = document.createElement("tr");
+                            var filaboton = document.createElement("tr");
                             fila.style.border = "1px solid #e9ecef";
                             var celda1 = document.createElement("td");
                             var celda2 = document.createElement("td");
                             var celda3 = document.createElement("td");
+                            var celdaBoton = document.createElement("td");
+                            var boton = document.createElement("button");
+                            boton.appendChild(document.createTextNode("Crear Tema"));
+                            boton.setAttribute("value", "Crear Tema");
+                            boton.setAttribute("id", "abrir_modal_add_tema");
+                            boton.setAttribute("class", "btn btn-primary col-sm-12");
+                            boton.setAttribute("type", "button");
                             celda1.setAttribute("class", "abrir-modal-update-tema puntero");
                             celda1.setAttribute("data-id", parseodata.unidades[tema].ID);
                             celda1.setAttribute("data-estado", parseodata.unidades[tema].UNIDAD_HECHA);
@@ -118,25 +126,27 @@ $(document).ready(function () {
                             celda1.setAttribute("data-eva", parseodata.unidades[tema].EVALUACION);
                             celda1.setAttribute("data-asig", asignatura);
                             celda1.innerHTML = parseodata.unidades[tema].NOMBRE;
-                            celda2.innerHTML = parseodata.unidades[tema].EVALUACION;
+                            celda2.innerHTML = evaluaciones[parseodata.unidades[tema].EVALUACION];
+                            celdaBoton.setAttribute("colspan", "3");
+                            celdaBoton.appendChild(boton);
                             if (parseInt(parseodata.unidades[tema].UNIDAD_HECHA) == 1) {
                                 var formulario = document.createElement("form");
-                                formulario.setAttribute("id","form_marcar_hecho");
+                                formulario.setAttribute("id", "form_marcar_hecho");
                                 var checkbox = document.createElement("input");
-                                checkbox.setAttribute("type","checkbox");
-                                checkbox.setAttribute("id","cambiar_estado_unidad");
-                                checkbox.setAttribute("data-id",parseodata.unidades[tema].ID);
-                                checkbox.setAttribute("checked","checked");
+                                checkbox.setAttribute("type", "checkbox");
+                                checkbox.setAttribute("id", "cambiar_estado_unidad");
+                                checkbox.setAttribute("data-id", parseodata.unidades[tema].ID);
+                                checkbox.setAttribute("checked", "checked");
                                 formulario.appendChild(checkbox);
                                 celda3.appendChild(formulario);
                                 celda3.setAttribute("data-estado", "1");
                             } else {
                                 var formulario = document.createElement("form");
-                                formulario.setAttribute("id","form_marcar_hecho");
+                                formulario.setAttribute("id", "form_marcar_hecho");
                                 var checkbox = document.createElement("input");
-                                checkbox.setAttribute("type","checkbox");
-                                checkbox.setAttribute("id","cambiar_estado_unidad");
-                                checkbox.setAttribute("data-id",parseodata.unidades[tema].ID);
+                                checkbox.setAttribute("type", "checkbox");
+                                checkbox.setAttribute("id", "cambiar_estado_unidad");
+                                checkbox.setAttribute("data-id", parseodata.unidades[tema].ID);
                                 formulario.appendChild(checkbox);
                                 celda3.appendChild(formulario);
                                 celda3.setAttribute("data-estado", "0");
@@ -144,17 +154,34 @@ $(document).ready(function () {
                             fila.appendChild(celda1);
                             fila.appendChild(celda2);
                             fila.appendChild(celda3);
+                            filaboton.appendChild(celdaBoton);
                             tabla.appendChild(fila);
+                            tabla.appendChild(filaboton);
+
+                            $("table").delegate(".abrir-modal-update-tema", "click", fn_mostrar_modal_upt_temas);
+                            $("table").delegate("#abrir_modal_add_tema", "click", fn_mostrar_modal_nuevo_tema);
+                            $("table").delegate("#cambiar_estado_unidad", "click", marcar_como_hecho_tema);
                             
-                            $("table").delegate(".abrir-modal-update-tema","click",fn_mostrar_modal_upt_temas);
                         }
                     } else {
                         var fila = document.createElement("tr");
+                        var filaboton = document.createElement("tr");
                         var celda = document.createElement("td");
-                        celda.setAttribute("colspan","3");
+                        var celdaBoton = document.createElement("td");
+                        var boton = document.createElement("button");
+                        boton.setAttribute("value", "Crear Tema");
+                        boton.appendChild(document.createTextNode("Crear Tema"));
+                        boton.setAttribute("id", "abrir_modal_add_tema");
+                        boton.setAttribute("class", "btn btn-primary col-sm-12");
+                        boton.setAttribute("type", "button");
+                        celda.setAttribute("colspan", "3");
                         celda.innerHTML = "No hay datos";
+                        celdaBoton.setAttribute("colspan", "3");
+                        celdaBoton.appendChild(boton);
                         fila.appendChild(celda);
+                        filaboton.appendChild(celdaBoton);
                         tabla.appendChild(fila);
+                        tabla.appendChild(filaboton);
                     }
                 } else {
                     $.notify({
@@ -184,3 +211,7 @@ $(document).ready(function () {
         });
     });
 });
+
+function fn_mostrar_modal_nuevo_tema() {
+    $("#modal_add_tema").show();
+}

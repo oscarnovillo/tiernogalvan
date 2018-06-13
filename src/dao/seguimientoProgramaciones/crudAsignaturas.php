@@ -85,10 +85,6 @@ class crudAsignaturas {
             $stmt->bindParam(1, $asignatura_modificar->nombre);
             $stmt->bindParam(2, $asignatura_modificar->id_asignatura);
             $stmt->execute();
-            $stmt = $conn->prepare(ConstantesBD::update_asignatura_curso);
-            $stmt->bindParam(1, $asignatura_modificar->id_curso);
-            $stmt->bindParam(2, $asignatura_modificar->id_asignatura);
-            $stmt->execute();
             $conn->commit();
             $mensaje->exito = constantesMensajes::ACTUALIZACION_HECHA;
         } catch (\Exception $ex) {
@@ -122,11 +118,11 @@ class crudAsignaturas {
         $mensaje = new \stdClass;
         $connectionDB = new DBConnection();
         $conn = $connectionDB->getConnection();
-        try {/*
+        try {
             $conn->beginTransaction();
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_curso);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
-            $stmt->execute();*/
+            $stmt->execute();
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();
@@ -153,6 +149,12 @@ class crudAsignaturas {
         $conn = $connectionDB->getConnection();
         try {
             $conn->beginTransaction();
+            $stmt = $conn->prepare(ConstantesBD::get_unidades_asignatura_id);
+            $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
+            $unidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $conn->prepare(ConstantesBD::borrar_unidades_trabajo);
+            $stmt->bindParam(1, $unidades);
+            $stmt->execute();
             $stmt = $conn->prepare(ConstantesBD::borrar_asignatura_unidad);
             $stmt->bindParam(1, $asignatura_borrar->id_asignatura);
             $stmt->execute();
@@ -165,7 +167,6 @@ class crudAsignaturas {
             $conn->commit();
             $mensaje->exito = constantesMensajes::BORRADO_HECHO;
         } catch (\Exception $ex) {
-            echo $ex->getMessage();
             $mensaje->error = constantesMensajes::ERROR_GENERAL;
         } finally {
             $connectionDB->disconnect();

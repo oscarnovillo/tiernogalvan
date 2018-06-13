@@ -26,7 +26,8 @@ class SeguimientoProgramaciones {
     public function seguimientoProgramacionesPrincipal() {
         $errController = new ErrorController();
         $parametros = array();
-        $id_rol = $_SESSION[Constantes::SESS_USER]->id_rol;
+        //$id_rol = $_SESSION[Constantes::SESS_USER]->id_rol;
+        $id_rol = "2";
         if ($id_rol == Constantes::ID_ROL_PROFESOR || $id_rol == Constantes::ID_ROL_ADMIN){
             if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION]) && $_REQUEST[seguiminetoConstantes::DESTINO]) {
                 $accion = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
@@ -82,7 +83,7 @@ class SeguimientoProgramaciones {
                                 $json_unidad = $_REQUEST[seguiminetoConstantes::OBJETO_UNIDAD_JSON];
                                 $servicios = new seguimientoServices();
                                 $objetoUnidad = $servicios->parseo_json($json_unidad);
-                                if ($objetoUnidad->id_asignatura != "" && $objetoUnidad->nombre != "") {
+                                if ($objetoUnidad->evaluacion != "" && $objetoUnidad->nombre != "") {
                                     $unidad_actualizada = $servicios->modificar_unidad_trabajo($servicios->parseo_json($json_unidad));
                                     echo $unidad_actualizada;
                                 } else {

@@ -29,9 +29,9 @@
                                         {% for curso in cursos %}
                                             <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
                                         {% endfor %}
-                                     {% else %}
+                                    {% else %}
                                         <option value="">No hay datos</option>
-                                     {% endif %}
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
@@ -243,23 +243,6 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <label for="select_asignaturas_temas_update" class="col-sm-3">Asignatura</label>
-                                <select class = "col-sm-8" name="select_asignaturas_temas_update" id="select_asignaturas_temas_update">
-                                    <option value="">&nbsp;</option>
-                                    <option value="30">Nuevisima</option>
-                                    {% if asignaturas and asignaturas != null %}
-                                        {%for asignatura in asignaturas %}
-                                            <option value="{{ asignatura.ID }} ">{{ asignatura.NOMBRE }} </option>
-                                        {% endfor %}
-                                    {% else %}
-                                        <option value="">No hay datos</option>
-                                    {% endif %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12">
                                 <label for="select_asignaturas_temas_update" class="col-sm-3">Comentario</label>
                                 <textarea rows="4" cols="50" id="comentario_tema" class="col-sm-8">
                                 </textarea>
@@ -277,7 +260,7 @@
                         </div>
                         <div class="accion-borrar">
                             <form>
-                                <input type="button" class="btn btn-primary" id="borrar_unidad" value="Borrar Asignatura">
+                                <input type="button" class="btn btn-primary" id="borrar_unidad" value="Borrar Tema">
                             </form>
                         </div>
                     </div>
@@ -293,14 +276,14 @@
                 </h3>
             </div>
             <div class="row fila-tabs">
-                <button type="button" id="mostrar_contenedor_index" class="btn btn-primary tab btn-seguimiento" data-target="div_contenedor_index">Índex</button>
+                <button type="button" id="mostrar_contenedor_index" class="btn btn-primary tab btn-seguimiento" data-target="div_contenedor_index">Gestión Temas</button>
                 <button type="button" id="mostrar_contenedor_asignaturas" class="btn btn-primary tab btn-seguimiento" data-target="contenedor_gestion_asignaturas">Gestión Asignaturas</button>
             </div>
             <div class="row">
                 <div class="div_contenedor_index col-12">
                     <div class="row">
-                        <div class="title-modales">
-                            <h3>Gestión principal/Temas de las asignatura</h3>
+                        <div class="title-modales-temas">
+                            <h3>Gestión Temas</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -339,8 +322,14 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan = "3" >No hay datos</td>
+                                        <td colspan = "3" >Selecione un curso y una asignatura</td>
                                     </tr>
+                                    <tr>
+                                        <td colspan = "3" >
+                                            <button id="abrir_modal_add_tema" class="btn btn-primary col-sm-12" type="button">Nuevo Tema</button>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -352,11 +341,23 @@
                             <h3>Gestión principal/Temas asignatura</h3>
                         </div>
                     </div>
-                    <div class="row botones_derecha">
-                        <button id="abrir_modal_add_asignatura" class="btn btn-primary" type="button">Nueva Asignatura</button>
-                        <button id="abrir_modal_add_tema" class="btn btn-primary" type="button">Nuevo Tema</button>
+                    <div class="col-sm-8" id="div-selects-ga">
+                        <div class="col-sm-6">
+                            <label for="select_cursos">Listado Cursos</label>
+                            <select class = "col-sm-12" name="" id="select_cursos">
+                                <option value="">&nbsp;</option>
+                                {% if cursos and cursos != null %}
+                                    {% for curso in cursos %}
+                                        <option value="{{curso.id_curso}}">{{curso.nombre_curso}}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="">No hay datos</option>
+                                {% endif %}
+                            </select>
+                        </div>
                     </div>
-                    <table id="tabla_gestion_asignaturas" class="table table-bordered">
+
+                    <table id="tabla_gestion_asignaturas" class="table table-bordered col-sm-12">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -364,17 +365,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% if asignaturas and asignaturas != null %}
-                                {% for asignatura in asignaturas %}
-                                    <tr>
-                                        <td class="name_asignatura puntero" data-id="{{asignatura.ID}}">{{asignatura.NOMBRE}}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td class="name_asignatura puntero" colspan="3">No hay datos</td>
-                                </tr>
-                            {% endif %}
+                            <tr>
+                                <td colspan="3">Seleccione un curso</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <button id="abrir_modal_asignatura_tema" class="btn btn-primary col-sm-12" type="button">Nueva Asignatura</button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -385,13 +383,11 @@
     <script src="js/seguimientoProgramaciones/crudAsignaturas.js"></script>
     <script src="js/seguimientoProgramaciones/crudTemas.js"></script>
     <script src="js/seguimientoProgramaciones/general.js"></script>
-    
-    
+
+
     {% block scripts %}
         <script src="../../bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/seguimientoProgramaciones/general_mio.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     {%endblock%}
 {% endblock %}

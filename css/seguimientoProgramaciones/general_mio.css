@@ -14,6 +14,7 @@ and open the template in the editor.
 .botones_derecha{
     float:right;
     margin-bottom:20px;
+    margin-right:15%;
 }
 .contenedor_global{
     margin-left: 13.65%;
@@ -35,12 +36,17 @@ and open the template in the editor.
 }
 .accion-borrar{
     margin-right:1em;
+}.title-modales-temas{
+    margin-left:37%;
 }
 #mostrar_contenedor_asignaturas{
     float:right;
 }
 #div-selects{
     margin-left: 15%;
+}
+#div-selects-ga{
+    margin-left: 32%;
 }
 .title-modales{
     margin-left:27%;
@@ -56,4 +62,7 @@ td,th{
 }
 .botones_borrado_total{
     float:left !important;
+}
+#select_cursos_asignaturas_gestion{
+    margin-left:15%;
 }

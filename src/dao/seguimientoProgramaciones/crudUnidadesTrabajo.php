@@ -84,10 +84,6 @@ class crudUnidadesTrabajo {
             $stmt->bindParam(3, $unidad_trabajo->comentario);
             $stmt->bindParam(4, $unidad_trabajo->id);
             $stmt->execute();
-            $stmt = $conn->prepare(ConstantesBD::update_unidad_asignatura);
-            $stmt->bindParam(1, $unidad_trabajo->id_asignatura);
-            $stmt->bindParam(2, $unidad_trabajo->id);
-            $stmt->execute();
             $conn->commit();
             $mensaje->exito = constantesMensajes::ACTUALIZACION_HECHA;
         } catch (\Exception $ex) {
