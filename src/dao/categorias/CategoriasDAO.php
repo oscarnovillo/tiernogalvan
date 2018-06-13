@@ -37,13 +37,16 @@ class CategoriasDAO{
             $stmt = $db->prepare($sql);
             $stmt->execute(array( $categoria));
             $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria;
-            
-            if (mkdir($path, 0777, true)){
-                chmod($path,0777);
-                $db->commit();
+            if(!file_exists($path)){
+                  if (mkdir($path, 0777, true)){
+                      chmod($path,0777);
+                      $db->commit();
+                  }else{
+                      $db->rollback();
+                      return -1;
+                  }
             }else{
-                $db->rollback();
-                return -1;
+                  return -1;
             }
             return True;
         }catch(\Exception $exception){
