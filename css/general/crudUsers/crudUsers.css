@@ -80,7 +80,6 @@
     color: red;
 }
 .tabla1{
-   display: table;
    clear: both;
    content: "";
 }
@@ -97,11 +96,6 @@
 
 .next{
     top: auto !important;
-}
-
-.tabla1{
-    clear: both !important;
-    overflow: auto !important;
 }
 
 .dataTables_length{

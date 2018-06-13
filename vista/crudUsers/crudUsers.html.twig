@@ -43,7 +43,7 @@
         </div>
         <div class="tabla1">
             {% if usuarios != null %}
-                <table class="table table-striped table-bordered" id="tabla">
+                <table class="table table-striped table-bordered table-responsive" id="tabla">
                     <thead>
                         <tr>
                             <th><span>Cargar Usuario</span></th>
@@ -65,7 +65,7 @@
                                     onclick="cargarUser({{ user.id }}, '{{ user.nombre }}', 
                                            '{{ user.apellidos }}','{{ user.telefono }}',
                                            '{{ user.email }}',
-                                           '{{ user.nick }}','{{ user.nombre_rol }}')" 
+                                           '{{ user.nick }}','{{ user.id_rol }}')" 
                                     href="#viajarUsuarios">cargar</a></td>
                             <td class="colorTD">{{ user.nombre_rol }}</td>
                             <td class="colorTD">{{ user.nombre }}</td>
@@ -145,16 +145,16 @@
             </div>
             
             <div class="col-12 col-sm-6 col-lg-4 form-group">
-                <label for="pass_user">PASS:</label>
+                <label for="pass_user">CONTRASEÑA:</label>
                 <input type="password" id="pass_user" name="pass" placeholder="pass" class="form-control">
             </div>
             
             <div class="col-12 form-group">
-                <label for="nombre_rol">PERMISO:</label>
-                <select id="nombre_rol" name="nombre_rol" class="form-control" required>
+                <label for="id_rol">PERMISO:</label>
+                <select id="id_rol" name="id_rol" class="form-control" required>
                     <option>Selecciona un permiso...</option>
                     {% for permiso in permisos %}
-                        <option value="{{ permiso.nombre_rol }}">{{ permiso.nombre_rol }}</option>
+                        <option value="{{ permiso.id_rol }}">{{ permiso.nombre_rol }}</option>
                     {% endfor %}
                 </select>
             </div>
