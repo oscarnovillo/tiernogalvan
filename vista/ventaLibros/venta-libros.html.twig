@@ -52,26 +52,28 @@
                 </div>
                 <br>
                 {% if allVentas != null %}
-                    <table class="table table-striped">
-                        <tr>
-                            <th><span>Titulo</span></th>
-                            <th><span>ISBN</span></th>
-                            <th><span>Precio</span></th>
-                            <th><span>Asignatura</span></th>
-                            <th><span>Curso</span></th>
-                            <th><span>Reservar</span></th>
-                        </tr>
-                        {% for venta in allVentas %}
+                    <div style="overflow-x:auto;">
+                        <table class="table table-striped">
                             <tr>
-                                <td>{{ venta.titulo }}</td>
-                                <td>{{ venta.isbn }}</td>
-                                <td>{{ venta.precio }}€</td>
-                                <td>{{ venta.asignatura }}</td>
-                                <td>{{ venta.curso }}</td>
-                                <td><button class="boton-contenido boton" onclick="reservar({{ venta.id }}, '{{ venta.id_vendedor }}', '{{ venta.titulo }}')">Reservar</button></td>
+                                <th><span>Titulo</span></th>
+                                <th><span>ISBN</span></th>
+                                <th><span>Precio</span></th>
+                                <th><span>Asignatura</span></th>
+                                <th><span>Curso</span></th>
+                                <th><span>Reservar</span></th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            {% for venta in allVentas %}
+                                <tr>
+                                    <td>{{ venta.titulo }}</td>
+                                    <td>{{ venta.isbn }}</td>
+                                    <td>{{ venta.precio }}€</td>
+                                    <td>{{ venta.asignatura }}</td>
+                                    <td>{{ venta.curso }}</td>
+                                    <td><button class="boton-contenido boton" onclick="reservar({{ venta.id }}, '{{ venta.id_vendedor }}', '{{ venta.titulo }}')">Reservar</button></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                     
                     <ul id="numPags"></ul>
                     
