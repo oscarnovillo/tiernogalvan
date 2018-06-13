@@ -41,7 +41,7 @@
 
                 <div id="Documentos" class="tabcontent col-12">
                     <form name="subir-documento" id="subir-documento" class="form-administracion" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                      {% if categorias != null %}
+                      {% if categorias != null and categorias %}
                           <select class="col-6 input-subir-doc" id="select-categorias" name="idcategoria">
                               <option  value="">--Seleccione una categoria--</option>
                               {% for categoria in categorias%}
@@ -62,7 +62,7 @@
             </div>
                  {% endif %}     
             <div class="col-12">
-            {% if documentos_categoria != null %}
+            {% if documentos_categoria != null and documentos_categoria %}
                 <ul id="lista-categorias">
                 {% for documento_categoria in documentos_categoria %}
                     <li><a><h2 class="titulo-categoria" data-category-name="{{ documento_categoria.0.Categoria }}" id="{{ documento_categoria.0.idCategorias }}"><i class="fa fa-folder-open"></i>{{ documento_categoria.0.Categoria }}</h2></a>
@@ -98,7 +98,7 @@
                     </div>
                     <div id="modificar-category" class="tabcontent col-12" >
                         <form name="update-categoria"  id="update-categoria"  action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                            {% if categorias != null %}
+                            {% if categorias != null and categorias %}
                                 <select class="col-5 input-modificar-category" id="categoria-modificar"  name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
@@ -117,7 +117,7 @@
                     </div>
                     <div id="borrar-category" class="tabcontent col-12" >
                         <form name="borrar-categoria" id="borrar-categoria" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                            {% if categorias != null %}
+                            {% if categorias != null and categorias %}
                                 <select class="col-5 input-borrar-category"  id="select-borrar-categoria" name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
@@ -150,7 +150,7 @@
                     </div>
                     <div id="modificar-document" class="tabcontent col-12" >
                         <form name="modificar-documento" id="modificar-documento" action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                            {% if categorias != null %}
+                            {% if categorias != null and categorias %}
                                 <select class="col-5 input-actualizar-doc" id="select-categoria-doc-modificar" name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
@@ -176,7 +176,7 @@
                     </div>
                     <div id="borrar-document" name="borrar-document" class="tabcontent col-12" >
                         <form name="borrar-documento" id="borrar-documento"  action="/index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}" method="post" enctype="multipart/form-data" class="col-12">
-                            {% if categorias != null %}
+                            {% if categorias != null and categorias %}
                                 <select class="col-5 select-categoria-doc input-delete-doc" id="select-categoria-doc-borrar" name="idcategoria">
                                     <option value="">--Seleccione una categoria--</option>
                                     {% for categoria in categorias%}
@@ -215,11 +215,11 @@
             </div>
         </div>
                             <form name="hidden-messages" id="hidden-messages">
-                                {% if error != null %}
+                                {% if error != null and error%}
                                     <input type="hidden" id="error-message" value="{{ error }}" />
                                     
                                 {% endif %}
-                                {% if correcto != null %}
+                                {% if correcto != null and error%}
                                     <input type="hidden" id="success-message" value="{{ correcto }}"/>
                                 {% endif %}
                             </form>
