@@ -75,7 +75,7 @@ function crearNuevaTarea() {
             ajax_crear(id);
         } else {
             mostrar_mensaje("aviso", $("#strCanceladoOperacion").val());
-            restaurar_campo(campo, id)
+            restaurarCampoSiVacio(campo, id)
         }
     }
 }
@@ -96,7 +96,7 @@ function modificar(id) {
             ajax_modificar(id);
         } else {
             mostrar_mensaje("aviso", $("#strCanceladoOperacion").val());
-            restaurar_campo(campo, id)
+            restaurarCampoSiVacio(campo, id)
         }
     }
 }
@@ -111,7 +111,7 @@ function borrar(id) {
 }
 
 
-function restaurar_campo(campo, id) {
+function restaurarCampoSiVacio(campo, id) {
     if ($("#" + campo + id).val() == '') {
         $("#" + campo + id).val($("#" + campo + "_original" + id).val())
         $("#btns_" + campo + id).hide();
