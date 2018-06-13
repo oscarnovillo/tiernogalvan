@@ -23,9 +23,9 @@ class DocumentosService {
         $dao = new DocumentosDAO();
         return $dao->updateDocumentoDAO($id,$documento,$categoria,$old,$idcategoria);
     }
-    public function deleteDocumento($id){
+    public function deleteDocumento($id,$categoria,$documento){
         $dao = new DocumentosDAO();
-        return $dao->deleteDocumentoDAO($id);
+        return $dao->deleteDocumentoDAO($id,$categoria,$documento);
     }
     
   

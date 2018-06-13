@@ -9,7 +9,7 @@ $(document).ready(function(){
    
     $("#defaultModalDocumento").click();
     $("#defaultModalCategoria").click();
-    $("#defaultOpen").click();
+    $("#defaultCatetgoria").click();
 });
 function openAdmin() {
     // Declare all variables

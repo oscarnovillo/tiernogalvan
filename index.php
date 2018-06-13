@@ -79,8 +79,8 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
         case Constantes::DOCUMENTOS_CONTROLLER:
             $controller = new AdministracionDocumentosController();
             /* Requerir login */
-           // !$userSessionValid ? $controller->documentos() : $errController->permissions();
-            $controller->documentos();
+            $userSessionValid ? $controller->documentos() : $errController->permissions();
+           
             break;  
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();

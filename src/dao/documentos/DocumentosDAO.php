@@ -72,28 +72,29 @@ class DocumentosDAO{
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
         $new = "";
-        
+        $olddoc= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$old;
+        if (strpos($documento, '.') !== false){
+            $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+        }else{
+            $pos = strpos($old,".");
+            $extension = substr($old,$pos);
+            $docExt = $documento.$extension;
+            $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$docExt;
+        }
         try{
             $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT; 
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
-            $stmt->execute(array($documento,$id,$idcategoria));
+            $stmt->execute(array($docExt,$id,$idcategoria));
             
-            $old= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$old;
-            if (strpos($documento, '.') !== false){
-                $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
-            }else{
-                $pos = strpos($old,".",0);
-                $extension = substr($old,$pos);
-                $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento.'.'.$extension;
-            }
-            if (rename($old,$new)){
+            
+            if (rename($olddoc,$new)){
                $db->commit();
             }else{
                $db->rollback();
                return -1;
             }
-            return $filas;
+            return True;
         } catch (\Exception $exception) {   
             return -1;
         } finally {  
@@ -110,11 +111,10 @@ class DocumentosDAO{
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
             $stmt->execute(array($id));
-            $filas = $stmt->rowCount();
             $path= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
             if (unlink($path)){
                 $db->commit();
-                return $filas;
+                return True;
             }else{
                 $db->rollback();
                 return -1;

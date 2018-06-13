@@ -30,5 +30,6 @@ class ConstantesPaginas
     const SEGUIMIENTO_PROGRAMACIONES = "seguimientoProgramaciones/seguimiento_programaciones.html";
 
     const ADMINISTRACION_DOCUMENTOS = "administracionDocumentos/adminstracion_documentos.html";
+    const ACCESO_PROHIBIDO = "errors/forbidden-access.html";
 
 }

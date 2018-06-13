@@ -20,12 +20,16 @@ $(document).ready(function(){
     $('.close-modal').on('click', function(){
         var modal = "#"+ $(this).attr('data-modal');
         $(modal).css('display', 'none');
-        $("#defaultOpen").click();
+        if(modal=="#mantener-documentos")
+            $("#defaultDoc").click();
+        else if(modal=="#mantener-categorias")
+            $("#defaultCatetgoria").click();
+                
     });
     $('#cerrar-borrar-categoria').on('click', function(){
         var modal = "#"+ $(this).attr('data-modal');
         $(modal).css('display', 'none');
-        $("#defaultOpen").click();
+        $("#defaultModalCategoria").click();
     });
    
 });
@@ -33,7 +37,8 @@ $(document).ready(function(){
 window.onclick = function(event) {
     if (event.target == modalObject) {
         modalObject.style.display = "none";
-        $("#defaultOpen").click();
+        document.getElementById('defaultCatetgoria').click();
+        document.getElementById('defaultModalCategoria').click();
     }
 }
  
