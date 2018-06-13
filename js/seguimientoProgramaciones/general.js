@@ -7,7 +7,7 @@ var tabla_temas = "";
 var tabla_asignaturas = "";
 var curso = "";
 $(document).ready(function () {
-   // tabla_asignaturas = $("#tabla_gestion_asignaturas").DataTable();
+    tabla_asignaturas = $("#tabla_gestion_asignaturas").DataTable();
     $(".tab").css("border", "0px");
     $("#mostrar_contenedor_index").css("background", "white");
     $("#mostrar_contenedor_index").css("color", "#008cba");
