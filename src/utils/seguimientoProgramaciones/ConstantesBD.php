@@ -21,12 +21,12 @@ class ConstantesBD {
     const insert_unidad = "INSERT INTO ASIGNATURAS (NOMBRE) VALUES(?)";
     const actualizar_unidad = "UPDATE UNIDADES_TRABAJO SET nombre = ? WHERE id = ?";
     const CONTAR_ASIGNATURAS_MISMO_NOMBRE = "SELECT count(*) FROM ASIGNATURAS WHERE NOMBRE = ?";
-    const ID_TEMAS_MISMO_NOMBRE = "SELECT id FROM UNIDADES_TRABAJO WHERE NOMBRE = ?";
+    const ID_TEMAS_MISMO_NOMBRE = "SELECT ID FROM UNIDADES_TRABAJO WHERE NOMBRE = ?";
     const GET_ALL_CURSOS = "SELECT * FROM cursos";
     const insert_curso_asignatura = "INSERT INTO CURSOS_ASIGNATURAS (ID_ASIGNATURA,ID_CURSO) VALUES(?,?)";
     const get_asignaturas_curso = "SELECT * FROM ASIGNATURAS where id IN (SELECT ID_ASIGNATURA FROM cursos_asignaturas where ID_CURSO=?)";
     const comprobar_unidad_asignatura = "SELECT COUNT(*) FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_ASIGNATURA = ? AND ID_UNIDAD_TRABAJO = ?";
-    const get_curso_asignatura = "select id_curso, nombre_curso from cursos where id_curso in (SELECT id_curso from cursos_asignaturas where id_asignatura = ?)";
+    const get_curso_asignatura = "select id_curso, nombre_curso from cursos where id_curso in (SELECT id_curso from CURSOS_ASIGNATURAS where id_asignatura = ?)";
     const update_asignatura_curso = "UPDATE CURSOS_ASIGNATURAS SET ID_CURSO = ? WHERE ID_ASIGNATURA = ?";
     const borrar_asignatura = "DELETE FROM ASIGNATURAS WHERE ID = ?";
     const borrar_asignatura_curso = "DELETE FROM CURSOS_ASIGNATURAS WHERE ID_ASIGNATURA = ?";
@@ -35,6 +35,6 @@ class ConstantesBD {
     const borrar_unidad = "DELETE FROM UNIDADES_TRABAJO WHERE ID = ?";
     const borrar_unidad_asignatura = "DELETE FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_UNIDAD_TRABAJO = ?";
     const borrar_asignatura_unidad = "DELETE FROM ASIGNATURA_UNIDADTRABAJO WHERE ID_ASIGNATURA = ?";
-    const get_unidades_asignatura = "SELECT * FROM unidades_trabajo where unidades_trabajo.ID IN (SELECT ID_UNIDAD_TRABAJO FROM asignatura_unidadtrabajo where ID_ASIGNATURA=?)";
+    const get_unidades_asignatura = "SELECT * FROM UNIDADES_TRABAJO where UNIDADES_TRABAJO.ID IN (SELECT ID_UNIDAD_TRABAJO FROM ASIGNATURA_UNIDADTRABAJO where ID_ASIGNATURA=?)";
     const modificar_estado_tema = "UPDATE UNIDADES_TRABAJO SET UNIDAD_HECHA = ? WHERE ID  = ?";
 }
