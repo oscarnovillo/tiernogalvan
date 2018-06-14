@@ -12,42 +12,9 @@ use utils\TwigViewer;
 class TareasController {
 
     public function tareas() {
-
-        /*
-         * VER TAREAS DE ALUMNOS
-         * 
-         * Objetivos:
-         * 
-         * Si no hay parámetros puestos:
-         * -> Mostrar un listado con todos los cursos disponibles.
-         * 
-         * Al hacer click en un curso si eres alumno
-         * -> Mostrar las tareas de dicho curso
-         * 
-         * Al hacer click en un curso si eres profesor:
-         * -> Opciones de CRUD de las tareas de dicho curso
-         * 
-         * Si eres administrador:
-         * -> Crear curso nuevo. ¿Editar y borrar también?
-         */
-
-
         $parameters = array();
         $tareasTextosServicios = new TareasTextosServicios();
         $tareasServicios = new TareasServicios();
-
-
-
-        /* Cargar textos */
-        /* Pequeño easter egg en el que si pones &idioma=en, sale todo en inglés */
-        if (isset($_REQUEST["idioma"])) {
-            $idioma = $_REQUEST["idioma"];
-        } else {
-            $idioma = "es";
-        }
-
-        $parameters["textos"] = $tareasTextosServicios->getTextos($idioma);
-        /* Fin cargar textos */
 
         /* Comprobar permisos */
         $session = new SessionServicios();
@@ -59,7 +26,7 @@ class TareasController {
         }
         $parameters["permiso_edicion"] = $permiso_edicion;
 
-        
+
         $cargarListaCursos = true;
         if (isset($_REQUEST[Constantes::PARAMETER_NAME_ACTION])) {
             $action = $_REQUEST[Constantes::PARAMETER_NAME_ACTION];
@@ -166,6 +133,20 @@ class TareasController {
                     break;
             }
         }
+
+        /* Cargar textos */
+        /* Pequeño easter egg en el que si pones &idioma=en, sale todo en inglés */
+        if (!isset($_SESSION["idioma"])) {
+            $_SESSION["idioma"] = "es";
+        }
+
+        if (isset($_REQUEST["idioma"])) {
+            $_SESSION["idioma"] = $_REQUEST["idioma"];
+        }
+
+        $parameters["textos"] = $tareasTextosServicios->getTextos($_SESSION["idioma"]);
+        /* Fin cargar textos */
+
 
         if ($cargarListaCursos) {
             //Obtener lista de cursos (opción por defecto si no encuentra los parámetros adecuados)
