@@ -139,7 +139,6 @@
                                id="btn_cancelar{{ tarea.id_tarea }}" 
                                style="display:none"
                                title="{{ textos.Cancelar }}"></i>
-                            </button>
 
                             <i class="fas fa-trash-alt fa-lg" onclick="borrar({{ tarea.id_tarea }});"
                                id="btn_borrar{{ tarea.id_tarea }}" 
@@ -216,7 +215,9 @@
 
             <!-- Botón para añadir filas -->
             <tr id="fila_add">
-                <td colspan="5"><button onclick="mostrarCrearTarea();">{{ textos.Anadir }}</button></td>
+                <td colspan="5">
+                    <button onclick="mostrarCrearTarea();">{{ textos.Anadir }}</button>
+                </td>
             </tr>
 
         {% endif %}
@@ -237,6 +238,7 @@
                            onchange="recargarTabla();"> {{ textos.OcultarTareas }}
                 </label>
 
+                <!-- Paginador-->
                 <label>
                 {% if tareas_count > limit %}
 

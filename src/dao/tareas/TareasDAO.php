@@ -5,27 +5,6 @@ namespace dao\tareas;
 use dao\DBConnection;
 use PDO;
 
-/* Hay que borrar estas dos clases en el futuro cuando tenga las tablas en la BBDD */
-
-class Curso {
-
-    public $id_curso;
-    public $nombre_curso;
-    public $tipo;
-    public $turno;
-
-}
-
-class Tarea {
-
-    public $id_tarea;
-    public $id_curso;
-    public $descripcion;
-    public $asignatura;
-    public $fecha;
-
-}
-
 class TareasDAO {
 
     public function getAllCursos() {

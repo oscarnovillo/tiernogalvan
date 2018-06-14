@@ -75,7 +75,7 @@ function crearNuevaTarea() {
             ajax_crear(id);
         } else {
             mostrar_mensaje("aviso", $("#strCanceladoOperacion").val());
-            restaurarCampoSiVacio(campo, id)
+            /*cancelarNuevaTarea();*/
         }
     }
 }
@@ -96,7 +96,7 @@ function modificar(id) {
             ajax_modificar(id);
         } else {
             mostrar_mensaje("aviso", $("#strCanceladoOperacion").val());
-            restaurarCampoSiVacio(campo, id)
+            /*cancelar(id);*/
         }
     }
 }
@@ -205,6 +205,7 @@ function cancelarNuevaTarea() {
 /* AJAX */
 
 function ajax_crear() {
+    $("#cargando").show();
     $.ajax({
         type: 'post',
         url: 'index.php?c=tareas&a=crear_tarea',
@@ -216,18 +217,21 @@ function ajax_crear() {
             'fecha': $("#fechaNueva").val()
         },
         success: function (response) {
+            $("#cargando").hide();
             mostrar_mensaje("ok", $("#strCrearOK").val());
             $("#fila_tareaNueva").hide();
             $("#fila_add").fadeIn(500);
             recargarTabla()
         },
         error: function (response) {
+            $("#cargando").hide();
             mostrar_mensaje("error", $("#strFalloOperacion").val());
         }
     });
 }
 
 function ajax_modificar(id) {
+    $("#cargando").show();
     $.ajax({
         type: 'post',
         url: 'index.php?c=tareas&a=modificar_tarea',
@@ -239,7 +243,7 @@ function ajax_modificar(id) {
             'fecha': $("#fecha" + id).val(),
         },
         success: function (response) {
-
+            $("#cargando").hide();
             /* Asignar al texto plano de los campos los nuevos valores */
             for (i = 0; i < campos.length; i++) {
 
@@ -256,6 +260,7 @@ function ajax_modificar(id) {
 
         },
         error: function (response) {
+            $("#cargando").hide();
             mostrar_mensaje("error", $("#strFalloOperacion").val());
         }
     });
@@ -263,6 +268,7 @@ function ajax_modificar(id) {
 
 
 function ajax_borrar(id) {
+    $("#cargando").show();
     $.ajax({
         type: 'post',
         url: 'index.php?c=tareas&a=borrar_tarea',
@@ -271,11 +277,13 @@ function ajax_borrar(id) {
             'id': id,
         },
         success: function (response) {
+            $("#cargando").hide();
             $("#fila_tarea" + id).fadeOut(500);
-            mostrar_mensaje("ok", strBorrarOK);
+            mostrar_mensaje("ok", $("#strBorrarOK").val());
             recargarTabla()
         },
         error: function (response) {
+            $("#cargando").hide();
             mostrar_mensaje("error", $("#strFalloOperacion").val());
         }
     });
