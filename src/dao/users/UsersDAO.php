@@ -148,7 +148,6 @@ class UsersDAO {
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
             
         } catch (\Exception $exception) {
-          
         } finally {  
             $dbConnection->disconnect();
         }

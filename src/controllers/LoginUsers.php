@@ -47,7 +47,6 @@ class LoginUsers
                         $userChecked = $usersSevicios->getUserByNick($user);
 
                         if ($userChecked) {
-
                             if ($PasswordStorage->verify_password($user->pass, $userChecked->pass)) {
 
                                 if ($userChecked->activado === "1") {
