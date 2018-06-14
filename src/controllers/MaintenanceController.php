@@ -74,7 +74,7 @@ class MaintenanceController
                     if ($rango === "ADMIN") {
                         $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
                         $usuario = $_SESSION[Constantes::SESS_USER];
-                        $comment = isset($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]) ? $_REQUEST[ConstantesMaintenance::PARAM_COMMENT]:null;
+                        $comment = isset($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]) ? base64_decode($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]):null;
                         if (!$incidencia) {
                             $parameters["alert"]["type"] = "error";
                             $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
@@ -91,7 +91,7 @@ class MaintenanceController
                     }
                     break;
                 case ConstantesMaintenance::ACTION_INSERT:
-                    $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
+                    $incidencia = isset($_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION]) ? $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION]:null;
                     $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
                     /*
                      * Enviar email al usuario actual y a todos los TIC.

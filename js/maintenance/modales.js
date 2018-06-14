@@ -114,7 +114,7 @@ $(".openChat").on("click", function() {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            window.location = addCommentChatUrl.replace("_idIncidencia",idIncidencia).replace("_comment",$('textarea.chatComment').froalaEditor('html.get'));
+            window.location = addCommentChatUrl.replace("_idIncidencia",idIncidencia).replace("_comment",btoa($('textarea.chatComment').froalaEditor('html.get')));
             return false;
         }
     }, true);

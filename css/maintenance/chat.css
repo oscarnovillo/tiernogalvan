@@ -17,7 +17,9 @@
     -moz-border-radius: 30px;
 
 }
-
+#textoIncidenciaChat {
+    text-align: center
+}
 /* Right triangle placed top left flush. */
 .tri-right.border.left-top:before {
     content: ' ';
