@@ -29,10 +29,12 @@ class TwigViewer
     private function __construct()
     {
 
+        $filter = new \Twig_Filter('html_entity_decode', 'html_entity_decode');
         $this->loader = new FilesystemLoader(Constantes::TWIG_FOLDER);
-        $this->twig = new Environment($this->loader, array(//TODO - quitar al finalizar desarrollo
-            'debug' => true
+        $this->twig = new Environment($this->loader, array(
+            'debug' => in_array($_SERVER['REMOTE_ADDR'], ["127.0.0.1", "::1"]) ? true:false
         ));
+        $this->twig->addFilter($filter);
         $this->twig->addExtension(new \Twig_Extension_Debug());
         $this->twig->addGlobal('userOnline', isset($_SESSION[Constantes::SESS_USER]));
         if (isset($_SESSION[Constantes::SESS_USER])){

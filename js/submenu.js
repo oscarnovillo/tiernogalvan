@@ -2,7 +2,6 @@ $(document).ready(function () {
     $("#Incidencias").on("click", changeActiveMenu);
     $("#Departamentos").on("click", changeActiveMenu);
     $("#TIC_USERS").on("click", changeActiveMenu);
-    $('#page-loader').fadeOut(500);
 });
 
 function removeOldActiveMenu() {

@@ -23,6 +23,17 @@ class MaintenanceDAO
         $dbConnection->disconnect();
         return $incidencias;
     }
+    public function getAllComments()
+    {
+        $dbConnection = new DBConnection();
+
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare("SELECT ic.*,u.nombre as username FROM incidencias_chat ic JOIN users u ON ic.user_id=u.id");
+        $stmt->execute();
+        $incidencias = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $dbConnection->disconnect();
+        return $incidencias;
+    }
 
     public function getAllDepartamentos()
     {
@@ -34,6 +45,18 @@ class MaintenanceDAO
         $departamentos = $stmt->fetchAll(PDO::FETCH_OBJ);
         $dbConnection->disconnect();
         return $departamentos;
+    }
+
+    public function delIncidencia($id)
+    {
+        $dbConnection = new DBConnection();
+
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare("DELETE FROM incidencias WHERE id=:id");
+        $stmt->bindParam(":id", $id);
+        $success = $stmt->execute();
+        $dbConnection->disconnect();
+        return $success;
     }
 
     public function getAllTics()
@@ -74,15 +97,29 @@ class MaintenanceDAO
         return $departamento;
     }
 
-    public function addIncidencia($incidencia, $departamento, $usuario)
+    public function addIncidencia($incidencia, $departamento, $usuario, $lugar, $equipo)
     {
         $dbConnection = new DBConnection();
 
         $db = $dbConnection->getConnection();
-        $stmt = $db->prepare("INSERT INTO incidencias (nombre,solicitado_por,departamento,fecha) VALUES (:nombre,:solicitado_por,:departamento,now())");
+        $stmt = $db->prepare("INSERT INTO incidencias (nombre,solicitado_por,departamento,fecha,lugar,equipo) VALUES (:nombre,:solicitado_por,:departamento,now(),:lugar,:equipo)");
         $stmt->bindParam(":nombre", $incidencia);
         $stmt->bindParam(":solicitado_por", $usuario->id);
         $stmt->bindParam(":departamento", $departamento->id);
+        $stmt->bindParam(":lugar", $lugar);
+        $stmt->bindParam(":equipo", $equipo);
+        $success = $stmt->execute();
+        $dbConnection->disconnect();
+        return $success;
+    }
+    public function addCommentChat($incidencia, $usuario, $comment)
+    {
+        $dbConnection = new DBConnection();
+        $db = $dbConnection->getConnection();
+        $stmt = $db->prepare("INSERT INTO incidencias_chat (user_id,incidencia_id,mensaje) VALUES (:userid,:incidenciaid,:mensaje)");
+        $stmt->bindParam(":userid", $usuario);
+        $stmt->bindParam(":incidenciaid",$incidencia );
+        $stmt->bindParam(":mensaje", $comment);
         $success = $stmt->execute();
         $dbConnection->disconnect();
         return $success;

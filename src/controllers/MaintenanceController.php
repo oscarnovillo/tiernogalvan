@@ -37,9 +37,6 @@ class MaintenanceController
                         if (!$incidencia) {
                             $parameters["alert"]["type"] = "error";
                             $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
-                        } else if ($incidencia->estado === "completado") {
-                            $parameters["alert"]["type"] = "error";
-                            $parameters["alert"]["message"] = "La incidencia ya estaba completada y su estado no puede ser cambiado.";
                         } else if (!$utils->isValidStatus($nuevoEstado)) {
                             $parameters["alert"]["type"] = "error";
                             $parameters["alert"]["message"] = "El estado indicado no es válido.";
@@ -55,8 +52,46 @@ class MaintenanceController
                         }
                     }
                     break;
+                case ConstantesMaintenance::ACTION_DELETE:
+                    if ($rango === "ADMIN") {
+                        $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
+                        if (!$incidencia) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
+                        } else {
+                            $success = $maintenanceServicios->delIncidenciaById($incidencia->id);
+                            if (!$success) {
+                                $parameters["alert"]["type"] = "warning";
+                                $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
+                            } else {
+                                $parameters["alert"]["type"] = "success";
+                                $parameters["alert"]["message"] = "Incidencia eliminada correctamente.";
+                            }
+                        }
+                    }
+                    break;
+                case ConstantesMaintenance::ACTION_ADDCOMMENTCHAT:
+                    if ($rango === "ADMIN") {
+                        $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
+                        $usuario = $_SESSION[Constantes::SESS_USER];
+                        $comment = isset($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]) ? base64_decode($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]):null;
+                        if (!$incidencia) {
+                            $parameters["alert"]["type"] = "error";
+                            $parameters["alert"]["message"] = "La incidencia no fue encontrada.";
+                        } else {
+                            $success = $maintenanceServicios->addCommentChat($incidencia->id,$usuario->id,$comment);
+                            if (!$success) {
+                                $parameters["alert"]["type"] = "warning";
+                                $parameters["alert"]["message"] = "Error al agregar comentario.";
+                            } else {
+                                $parameters["alert"]["type"] = "success";
+                                $parameters["alert"]["message"] = "Comentario agregado satisfactoriamente.";
+                            }
+                        }
+                    }
+                    break;
                 case ConstantesMaintenance::ACTION_INSERT:
-                    $incidencia = $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION];
+                    $incidencia = isset($_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION]) ? $_REQUEST[ConstantesMaintenance::PARAM_DESCRIPTION]:null;
                     $departamento = $maintenanceServicios->getDepartamentoById($_REQUEST[ConstantesMaintenance::PARAM_DEPARTAMENTO]);
                     /*
                      * Enviar email al usuario actual y a todos los TIC.
@@ -70,6 +105,8 @@ class MaintenanceController
                         }
                     }
                     $usuario = $_SESSION[Constantes::SESS_USER];
+                    $lugar = isset($_REQUEST[ConstantesMaintenance::PARAM_LUGAR]) ? $_REQUEST[ConstantesMaintenance::PARAM_LUGAR]:null;
+                    $equipo = isset($_REQUEST[ConstantesMaintenance::PARAM_EQUIPO]) ? ConstantesMaintenance::PARAM_EQUIPO:null;
                     if (!$departamento) {
                         $parameters["alert"]["type"] = "error";
                         $parameters["alert"]["message"] = "El departamento indicado no es válido.";
@@ -77,7 +114,7 @@ class MaintenanceController
                         $parameters["alert"]["type"] = "error";
                         $parameters["alert"]["message"] = "Debes indicar una incidencia.";
                     } else {
-                        $success = $maintenanceServicios->addIncidencia($incidencia, $departamento, $usuario);
+                        $success = $maintenanceServicios->addIncidencia($incidencia, $departamento, $usuario, $lugar, $equipo);
                         if (!$success) {
                             $parameters["alert"]["type"] = "warning";
                             $parameters["alert"]["message"] = "Error al actualizar el registro en la base de datos.";
@@ -93,10 +130,15 @@ class MaintenanceController
         /* Ahora pintar la tabla y demás */
         $parameters["incidencias"] = $maintenanceServicios->getAllIncidencias();
         $parameters["departamentos"] = $maintenanceServicios->getAllDepartamentos();
+        $parameters["mensajes"] = $maintenanceServicios->getAllComments();
         $parameters["permiso"] = $rango;
+        $parameters["user"]["id"] = $_SESSION[Constantes::SESS_USER]->id;
         $parameters["param"]["action"] = Constantes::PARAMETER_NAME_ACTION;
         $parameters["param"]["mark_as"] = ConstantesMaintenance::ACTION_MARK;
+        $parameters["param"]["delete"] = ConstantesMaintenance::ACTION_DELETE;
         $parameters["param"]["status"] = ConstantesMaintenance::PARAM_STATUS;
+        $parameters["param"]["addCommentChat"] = ConstantesMaintenance::ACTION_ADDCOMMENTCHAT;
+        $parameters["param"]["comment"] = ConstantesMaintenance::PARAM_COMMENT;
         $parameters["param"]["id"] = ConstantesMaintenance::PARAM_ID;
         TwigViewer::getInstance()->viewPage($page, $parameters);
     }
