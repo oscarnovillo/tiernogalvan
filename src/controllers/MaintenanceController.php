@@ -72,6 +72,7 @@ class MaintenanceController
                     break;
                 case ConstantesMaintenance::ACTION_ADDCOMMENTCHAT:
                     if ($rango === "ADMIN") {
+
                         $incidencia = $maintenanceServicios->getIncidenciaById($_REQUEST[ConstantesMaintenance::PARAM_ID]);
                         $usuario = $_SESSION[Constantes::SESS_USER];
                         $comment = isset($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]) ? base64_decode($_REQUEST[ConstantesMaintenance::PARAM_COMMENT]):null;
@@ -84,6 +85,17 @@ class MaintenanceController
                                 $parameters["alert"]["type"] = "warning";
                                 $parameters["alert"]["message"] = "Error al agregar comentario.";
                             } else {
+                                /*
+                                 * Enviar correo a los usuarios TIC y al usuario que abrió la incidencia.
+                                 */
+                                $actualUser = $session->getActualUser();
+                                $mailer->sendMail($actualUser->email, $actualUser->nombre . " " . $actualUser->apellidos, "Agregado comentario a incidencia", "Comentario (Usuario: " + $actualUser->nombre . " " . $actualUser->apellidos + "): " . $incidencia);
+                                if (Config::SEND_MAIL_ADMIN_ALERT) {
+                                    $tics = $maintenanceServicios->getAllTics();
+                                    foreach ($tics as $tic) {
+                                        $mailer->sendMail($tic->email, $tic->nombre . " " . $tic->apellidos, "Agregado comentario a incidencia", "Comentario (Usuario: " + $tic->nombre . " " . $tic->apellidos + "): "  . $incidencia);
+                                    }
+                                }
                                 $parameters["alert"]["type"] = "success";
                                 $parameters["alert"]["message"] = "Comentario agregado satisfactoriamente.";
                             }
