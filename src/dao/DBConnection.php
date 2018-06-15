@@ -30,8 +30,8 @@ class DBConnection
             $dsn = "mysql:host=" . Config::DB_SERVER_NAME . ";dbname=" . Config::DB_DATABASE . ";charset=utf8";
             $this->db = new PDO($dsn, Config::DB_USER_NAME, Config::DB_PASSWORD);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo $e->getMessage();
+        } catch (\Exception $e) {
+            exit("DATABASE CONNECTION ERROR: " . $e->getMessage());
         }
         return $this->db;
     }
