@@ -40,24 +40,18 @@ class VentasDAO {
         return $insertado;
     }
     
-    public function getAllVentas($filt_asig, $filt_curso, $orden, $numPag){
+    public function getAllVentas($filt_asig, $filt_curso, $orden, $numPag, $numRes){
         $db = new DBConnection();
         $conn = $db->getConnection();
         
-        $sql = "SELECT * FROM venta_libros WHERE estado != 'Reservado'";
+        $offset = ($numPag-1)*$numRes;
         
-        if($filt_asig != "cualquiera"){
-            $sql = $sql . " AND asignatura = '" . $filt_asig . "'";
-        }
-        
-        if($filt_curso != "cualquiera"){
-            $sql = $sql . " AND curso = '" . $filt_curso . "'";
-        }
-        
-        $sql = $sql . " ORDER BY " . $orden . " ASC LIMIT 5 OFFSET " . ($numPag-1)*5;
-        
-        
-        $stmt = $conn->prepare($sql);
+        $stmt = $conn->prepare("SELECT * FROM venta_libros WHERE estado != 'Reservado' AND asignatura LIKE '?' AND curso LIKE '?' ORDER BY ? ASC LIMIT ? OFFSET ?");
+        $stmt->bindParam(1, $filt_asig);
+        $stmt->bindParam(2, $filt_curso);
+        $stmt->bindParam(3, $orden);
+        $stmt->bindParam(4, $numRes);
+        $stmt->bindParam(5, $offset);
         $stmt->execute();
         
         $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -213,17 +207,11 @@ class VentasDAO {
         $db = new DBConnection();
         $conn = $db->getConnection();
         
-        $sql = "SELECT * FROM venta_libros WHERE estado != 'Reservado'";
-        
-        if($filt_asig != "cualquiera"){
-            $sql = $sql . " AND asignatura = '" . $filt_asig . "'";
-        }
-        
-        if($filt_curso != "cualquiera"){
-            $sql = $sql . " AND curso = '" . $filt_curso . "'";
-        }
+        $sql = "SELECT * FROM venta_libros WHERE estado != 'Reservado' AND asignatura LIKE '?' AND curso LIKE '?'";
         
         $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $filt_asig);
+        $stmt->bindParam(2, $filt_curso);
         $stmt->execute();
         
         $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);

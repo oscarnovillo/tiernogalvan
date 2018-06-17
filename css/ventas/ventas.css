@@ -106,3 +106,7 @@ h2{
     background-color: white;
     max-width: 150px !important;
 }
+
+#numRes{
+    width: 30px;
+}

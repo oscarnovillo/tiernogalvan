@@ -23,9 +23,9 @@ class VentasServicios {
         return $dao->addVenta($venta);
     }
     
-    public function getAllVentas($filt_asig, $filt_curso, $orden, $numPag){
+    public function getAllVentas($filt_asig, $filt_curso, $orden, $numPag, $numRes){
         $dao = new VentasDAO();
-        return $dao->getAllVentas($filt_asig, $filt_curso, $orden, $numPag);
+        return $dao->getAllVentas($filt_asig, $filt_curso, $orden, $numPag, $numRes);
     }
     
     public function getMisVentas($id){

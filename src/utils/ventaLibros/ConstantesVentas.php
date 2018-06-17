@@ -31,6 +31,7 @@ class ConstantesVentas{
     const PARAM_FILTRO_CURSO = "filtro_curso";
     const PARAM_ORDEN = "orden";
     const PARAM_PAGINA = "page";
+    const PARAM_NUMRES = "numRes";
     
     const EMAIL_SUBJECT = "Han reservado tu libro";
 }

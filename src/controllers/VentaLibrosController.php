@@ -137,13 +137,13 @@ class VentaLibrosController {
         if(isset($_REQUEST[ConstantesVentas::PARAM_FILTRO_ASIG])){
             $filt_asig = $_REQUEST[ConstantesVentas::PARAM_FILTRO_ASIG];
         }else{
-            $filt_asig = "cualquiera";
+            $filt_asig = "%";
         }
         
         if(isset($_REQUEST[ConstantesVentas::PARAM_FILTRO_CURSO])){
             $filt_curso = $_REQUEST[ConstantesVentas::PARAM_FILTRO_CURSO];
         }else{
-            $filt_curso = "cualquiera";
+            $filt_curso = "%";
         }
         
         if(isset($_REQUEST[ConstantesVentas::PARAM_ORDEN])){
@@ -151,9 +151,12 @@ class VentaLibrosController {
         }else{
             $orden = "fecha_publicacion";
         }
-        $parameters['asig'] = $filt_asig;
-        $parameters['curso'] = $filt_curso;
-        $parameters['orden'] = $orden;
+        
+        if(isset($_REQUEST[ConstantesVentas::PARAM_NUMRES])){
+            $numRes = $_REQUEST[ConstantesVentas::PARAM_NUMRES];
+        }else{
+            $numRes = "5";
+        }
         
         if(isset($_REQUEST[ConstantesVentas::PARAM_PAGINA])){
             $numPag = $_REQUEST[ConstantesVentas::PARAM_PAGINA];
@@ -163,11 +166,15 @@ class VentaLibrosController {
         
         $numVentas = count($ventasSevicios->getNumVentas($filt_asig, $filt_curso));
         
-        $allVentas = $ventasSevicios->getAllVentas($filt_asig, $filt_curso, $orden, $numPag);
+        $allVentas = $ventasSevicios->getAllVentas($filt_asig, $filt_curso, $orden, $numPag, $numRes);
         if($allVentas != null){
             $parameters['allVentas'] = $allVentas;
         }
         
+        $parameters['asig'] = $filt_asig;
+        $parameters['curso'] = $filt_curso;
+        $parameters['orden'] = $orden;
+        $parameters['numRes'] = $numRes;
         $parameters['numVentas'] = $numVentas;
         $parameters['pageActu'] = $numPag;
         

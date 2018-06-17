@@ -20,7 +20,7 @@
                     
                         <span>Asignatura</span>
                         <select id="asignatura_filtro" name="filtro_asig" onchange="parametrosPag('{{ numVentas }}')">
-                            <option value="cualquiera">Cualquiera</option>
+                            <option value="%">Cualquiera</option>
                             <option value="Matemáticas">Matemáticas</option>
                             <option value="Lengua">Lengua</option>
                             <option value="FOL">FOL</option>
@@ -29,7 +29,7 @@
 
                         <span>Curso</span>
                         <select id="curso_filtro" name="filtro_curso" onchange="parametrosPag('{{ numVentas }}')">
-                            <option value="cualquiera">Cualquiera</option>
+                            <option value="%">Cualquiera</option>
                             <option value="4 ESO">4º ESO</option>
                             <option value="1 BACH">1º BACH</option>
                             <option value="2 BACH">2º BACH</option>
@@ -45,6 +45,9 @@
                             <option value="asignatura">Asignatura</option>
                             <option value="curso">Curso</option>
                         </select>
+                        
+                        <span>Nº resultados/Pág.</span>
+                        <input type="text" value="5" name="numRes" id="numRes">
 
                         <input type="submit" value="Buscar" class="boton-contenido boton buscar">
                         <input type="button" value="Limpiar" class="boton-contenido boton buscar" onclick="resetFiltro()">
@@ -86,7 +89,7 @@
                     </form>
                     <script>
                         $(document).ready(function(){
-                            cargarFiltro('{{ asig }}', '{{ curso }}', '{{ orden }}');
+                            cargarFiltro('{{ asig }}', '{{ curso }}', '{{ orden }}', '{{ numRes }}');
                             parametrosPag('{{ numVentas }}');
                             cambiarPag('{{ pageActu }}');
                         });

@@ -112,16 +112,18 @@ function eliminar(id){
     }
 }
 
-function cargarFiltro(asig, curso, orden){
+function cargarFiltro(asig, curso, orden, numRes){
     document.getElementById("asignatura_filtro").value = asig;
     document.getElementById("curso_filtro").value = curso;
     document.getElementById("orden_filtro").value = orden;
+    document.getElementById("numRes").value = numRes;
 }
 
 function resetFiltro(){
     document.getElementById("asignatura_filtro").value = 'cualquiera';
     document.getElementById("curso_filtro").value = 'cualquiera';
     document.getElementById("orden_filtro").value = 'fecha_publicacion';
+    document.getElementById("numRes").value = '5';
 }
 
 function parametrosPag (numVentas) {
