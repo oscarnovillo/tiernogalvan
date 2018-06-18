@@ -1,23 +1,23 @@
-header{
+nav{
     height: 65px;
     width: 100%;
     background: #008cba;
     color: #fff;
 
-    position: fixed;/*fija a la pantalla*/
+    /*position: fixed;/*fija a la pantalla*/
     top: 0;
     left: 0;
-    z-index: 100;/*por encima del resto*/
+    /* z-index: 100;/*por encima del resto*/
 }
 
-header label{
-	float: right;
+nav label{
+    float: right;
     font-size: 40px;
     margin: 0px 10px 6px 0;
     cursor: pointer;/*cuando pase el mouse aparezca una mano*/
 }
 
-header img{
+nav img{
     float: right;
     width: 30px;
     height: 25px;
@@ -25,11 +25,11 @@ header img{
 }
 
 
-header form{
+nav form{
     float:left;
 }
 
-header .contenedor{
+nav .contenedor{
     display: table; /*para limpiar la flotacion del h1 y el label y el contenedor abarque todo*/
 }
 

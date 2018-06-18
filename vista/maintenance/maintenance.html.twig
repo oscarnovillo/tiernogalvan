@@ -1,105 +1,307 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-    {% if alert %}
-        <div class="alert {{ alert.type }}">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{ alert.message }}
-        </div>
-    {% endif %}
-    <button id="btnAgregarIncidencia" type="button" class="center-button boton-contenido col-4">Agregar incidencia
-    </button>
-    <table id="incidencias" class="display" data-stripe-classes="[]">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Incidencia</th>
-            <th>Solicitado por</th>
-            <th>Estado</th>
-            <th>Departamento</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for incidencia in incidencias %}
-            <tr class="estado-{{ incidencia.estado }}">
-                <td>{{ incidencia.fecha }}</td>
-                <td>{{ incidencia.nombre }}</td>
-                <td>{{ incidencia.solicitado_por }}</td>
-                <td data-order="{{ incidencia.estado }}">
-                    {% if incidencia.estado == "proceso" %}
-                        <img alt="En proceso." src="/img/maintenance/process.png"/> En proceso.
-                    {% elseif incidencia.estado == "completado" %}
-                        <img alt="Completado." src="/img/maintenance/complete.png"/> Completado.
-                    {% elseif incidencia.estado == "sinempezar" %}
-                        <img alt="Sin empezar." src="/img/maintenance/alarm.png"/> Sin empezar.
-                    {% else %}
-                        <img alt="Desconocido." src="/img/maintenance/unknown.png"/> Desconocido.
+    <div id="sending-form" class="page-loader"><span class="loader-text">Cargando...</span><span
+                class="preloader-interior"></span></div>
+    <div class="page-loader loader-start"><span class="preloader-interior"></span></div>
+    <section id="contenido" class="col-12">
+        <div class="contenedor">
+            {% if alert %}
+                <div class="alert {{ alert.type }}">
+                    <span class="closebtn">&times;</span>
+                    {{ alert.message }}
+                </div>
+            {% endif %}
+
+            <div class="submenu col-sm-12 col-lg-4">
+                <div class="submenu_wrapper">
+                    <input id="Incidencias" name="radio" type="radio">
+                    <label for="Incidencias">
+                        <i class="material-icons">assignment_late</i>
+                        <span>Incidencias</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&op=add">
+                                    <li>Agregar incidencia</li>
+                                </a>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&op=view">
+                                    <li>Ver incidencias</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id="Departamentos" name="radio" type="radio">
+                    <label for="Departamentos">
+                        <i class="material-icons">video_label</i>
+                        <span>Departamentos</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=add">
+                                    <li>Agregar departamento</li>
+                                </a>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::DEPARTMENTS_CONTROLLER') }}&op=view">
+                                    <li>Ver departamentos</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                    <input id="TIC_USERS" name="radio" type="radio">
+                    <label for="TIC_USERS">
+                        <i class="material-icons">person</i>
+                        <span>Usuarios TIC</span>
+                        <div class="lil_arrow"></div>
+                        <div class="bar"></div>
+                        <div class="submenu_wrapper__content">
+                            <ul>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::CRUD_CONTROLLER') }}">
+                                    <li>Agregar usuarios TIC</li>
+                                </a>
+                                <a href="/index.php?c={{ constant('Utils\\Constantes::TIC_USERS_CONTROLLER') }}&op=view">
+                                    <li>Ver usuarios TIC</li>
+                                </a>
+                            </ul>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <table id="incidencias" class="display mdl-data-table" data-stripe-classes="[]" width="100%">
+                <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Incidencia</th>
+                    <th>Estado</th>
+                    {% if permiso == "ADMIN" %}
+                        <th></th>
                     {% endif %}
-                </td>
-                <td>{{ incidencia.departamento }}</td>
-                {% if permiso == "ADMIN" %}
-                    <td>
-                    {% if incidencia.estado != "completado" and permiso == "ADMIN" %}
-                        <div class="dropdown">
-                            <button class="boton-contenido">Marcar como...</button>
-                            <div class="dropdown-content">
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=completado">Completado</a>
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=proceso">En
-                                    proceso</a>
-                                <a href="/index.php?c=maintenance&{{ param.action }}={{ param.mark_as }}&{{ param.id }}={{ incidencia.id }}&{{ param.status }}=sinempezar">Sin
-                                    empezar</a>
+                </tr>
+                </thead>
+                <tbody>
+                {% for incidencia in incidencias %}
+                    <tr class="estado-{{ incidencia.estado }}">
+                        <td data-order="{{ incidencia.fecha }}">{{ incidencia.fecha|date("d/m/Y") }}</td>
+                        <td>{{ incidencia.nombree|striptags|html_entity_decode|length > 50 ? incidencia.nombre|striptags|html_entity_decode|slice(0,50) ~ '...' : incidencia.nombre|html_entity_decode|striptags }}</td>
+                        <td data-order="{{ incidencia.estado }}">
+                            {% if incidencia.estado == "proceso" %}
+                                <i class="material-icons center-icon">cloud_upload</i> Procesando.
+                            {% elseif incidencia.estado == "completado" %}
+                                <i class="material-icons center-icon">cloud_done</i> Completado.
+                            {% elseif incidencia.estado == "sinempezar" %}
+                                <i class="material-icons center-icon">cloud_queue</i> Esperando.
+                            {% else %}
+                                <i class="material-icons center-icon">cloud_off</i> Desconocido.
+                            {% endif %}
+                        </td>
+                        {% if permiso == "ADMIN" %}
+                            <td>
+                                {% if permiso == "ADMIN" %}
+
+                                    <div class="dropdown">
+                                        <button class="mdl-button bg-white mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                            Acciones
+                                        </button>
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="openMarkAs" data-inc-id="{{ incidencia.id }}">Marcar como...</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="openChat" data-inc-id="{{ incidencia.id }}" data-inc-texto="{{ incidencia.nombre }}" >Ver chat</a>
+                                            </li>
+                                            <li>
+                                                <a href=#" class="openDetails" data-inc-equipo="{{ incidencia.equipo }}"
+                                                   data-inc-lugar="{{ incidencia.lugar }}" data-inc-texto="{{ incidencia.nombre }}"
+                                                   data-inc-departamento="{{ incidencia.departName }}" data-inc-solicitante="{{ incidencia.solicitante }}">Detalles</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="openDelete" data-inc-id="{{ incidencia.id }}">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% elseif incidencia.estado == "completado" %}
+                                    Completado por: {{ incidencia.completado_por_nombre }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+            <div id="chat" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Chat de la incidencia</h2>
+                    </div>
+                    <div class="modal-body modal-body-chat">
+                        <div class="talk-bubble">
+                            <div class="talktext">
+                                <div id="textoIncidenciaChat"></div>
                             </div>
                         </div>
-                    {% elseif incidencia.estado == "completado" %}
-                        Completado por: {{ incidencia.completado_por }}
-                    {% endif %}
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
+                        <div id="mensajesChat"></div>
 
-        </tbody>
-    </table>
-
-    <div id="agregarIncidencia" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close-modal">&times;</span>
-                <h2>Agregar incidencia</h2>
+                        <div class="col-12">
+                            <textarea class="chatComment" name="comment" rows="4" cols="50"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="index.php">
-                    <input type="hidden" name="c" value="maintenance">
-                    <input type="hidden" name="a" value="insert">
-                    <label for="incidencia">Incidencia</label>
-                    <input type="text" id="incidencia" name="incidencia" placeholder="Describe la incidencia">
-                    <label for="departamento">Departamento</label>
-                    <select id="departamento" name="departamento">
-                        <option disabled selected>Selecciona un departamento...</option>
-                        {% for departamento in departamentos %}
-                            <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Enviar incidencia">
-                </form>
+
+            <div id="details" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Detalles de incidencia</h2>
+                    </div>
+                    <div class="modal-body text-left">
+                        <form action="index.php">
+                            <label for="equipo">Equipo</label>
+                            <input type="text" name="equipo" placeholder="No se ha especificado un equipo para la incidencia.">
+                            <label for="lugar">Lugar</label>
+                            <input type="text" name="lugar" placeholder="No se ha especificado un lugar para la incidencia.">
+                            <label for="lugar">Solicitante</label>
+                            <input type="text" name="solicitante" placeholder="No existe un solicitante (?).">
+                            <label for="incidencia">Incidencia</label>
+                            <textarea class="incidencia readonly" name="texto" rows="4" cols="50"></textarea>
+                            <label for="departamento">Departamento</label>
+                            <select name="departamento">
+                                <option disabled selected>Selecciona un departamento...</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="delete" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Confirmación de eliminado de incidencia</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                        Por favor, confirma que realmente deseas eliminar la incidencia.
+                        </div>
+                        <div class="margin-top-20">
+                            <button id="cancelDelete" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                No, cancelar.
+                            </button>
+                            <button id="goDelete" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                Sí, eliminar.
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="markAs" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Marcar estado de la incidencia</h2>
+                    </div>
+                    <div class="modal-body">
+                        <button id="markAsCompleted" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect modal-option option-completado">
+                            Completado
+                        </button>
+                        <button id="markAsProcess" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect modal-option option-proceso">
+                            En proceso
+                        </button>
+                        <button id="markAsAwaiting"class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect modal-option option-sinempezar">
+                            Sin empezar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="agregarIncidencia" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close-modal">&times;</span>
+                        <h2>Agregar incidencia</h2>
+                    </div>
+                    <div class="modal-body text-left">
+                        <form action="index.php" id="addIncidencia">
+                            <input type="hidden" name="c"
+                                   value="{{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}">
+                            <input type="hidden" name="a" value="insert">
+                            <label for="equipo">Equipo</label>
+                            <input type="text" id="equipo" name="equipo" placeholder="¿De qué equipo se trata? (Opcional)"
+                                   autocomplete="off">
+                            <label for="lugar">Lugar</label>
+                            <input type="text" id="lugar" name="lugar" placeholder="¿Dónde se produjo la incidencia?"
+                                   autocomplete="off">
+                            <label for="incidencia">Incidencia</label>
+                            <textarea class="incidencia" name="incidencia" rows="4" cols="50"></textarea>
+                            <label for="departamento">Departamento</label>
+                            <select id="departamento" name="departamento">
+                                <option disabled selected>Selecciona un departamento...</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id }}">{{ departamento.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Enviar incidencia">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
+    </section>
 {% endblock %}
-<!-- Bloque de estilos, se añadirán al final de los bases -->
 {% block styles %}
+    <!-- Bloque de estilos, se añadirán al final de los bases -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/material/material.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.css"/>
+    <link rel="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+    <link rel="https://cdn.datatables.net/1.10.16/css/dataTables.material.min.css">
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+
+
     <link rel="stylesheet" href="/css/maintenance/crud.css">
     <link rel="stylesheet" href="/css/maintenance/modales.css">
     <link rel="stylesheet" href="/css/maintenance/alerts.css">
+    <link rel="stylesheet" href="/css/maintenance/chat.css">
 {% endblock %}
-<!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
 {% block scripts %}
+    <!-- Bloque de ficheros javascript, se añadirán al final de los bases -->
+    <script>
+        var baseMarkAsUrl = "/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.mark_as }}&{{ param.id }}=_idIncidencia&{{ param.status }}=_processName",
+            deleteUrl = "/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.delete }}&{{ param.id }}=_idIncidencia",
+            addCommentChatUrl = "/index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}&{{ param.action }}={{ param.addCommentChat }}&{{ param.id }}=_idIncidencia&{{ param.comment }}=_comment",
+            mensajes = {{ mensajes|json_encode()|raw }},
+            actualUserId = {{ user.id }};
+    </script>
+    <script src="/js/submenu.js"></script>
+    <script src="/js/material/material.js"></script>
     <script type="text/javascript"
-            src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.16/r-2.2.1/datatables.min.js"></script>
+            src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
+    <!-- Include JS file. -->
+    <!-- Include external JS libs. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+
+    <!-- Include Editor JS files. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.1/js/froala_editor.pkgd.min.js"></script>
+
     <script src="/js/maintenance/crud.js"></script>
     <script src="/js/maintenance/modales.js"></script>
     <script src="/js/maintenance/alerts.js"></script>

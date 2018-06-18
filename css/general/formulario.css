@@ -11,7 +11,7 @@
 
 .form{
     width: 300px;
-    height: 520px;
+    height: auto;
     padding: 15px;
     background: #fff;
     top: 50%;
@@ -53,3 +53,5 @@
     border: none;
     cursor: pointer;
 }
+
+

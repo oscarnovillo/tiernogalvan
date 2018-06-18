@@ -1,0 +1,126 @@
+.navbar{
+    background: #008cba !important;
+}
+
+.nav-link{
+    color: #fff !important;
+}
+
+
+.colorTD{
+    color: black !important;
+}
+
+.colorCrud{
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 15px !important;
+}
+
+.cuerpoCrud{
+    padding-top: 15px;
+}
+
+.listadoIzquierda{
+    float: left;
+}
+
+.modificarDerecha{
+    float: right;
+}
+
+.imgDescarga{
+    width: 35px;
+    height: 20px;
+}
+
+.divDescarga{
+    
+}
+
+#crud_users span{
+    width: 100%;
+}
+
+.modUsers{
+     display: table;
+}
+
+.contForm{
+   clear: both;
+}
+
+#mensaje{
+    color: blue;
+    width: 100%;
+    padding: 5px 0 15px 15px;
+}
+
+#mensajeRegistro{
+    color: blue;
+}
+
+#mensajeRegistroError{
+    
+    color: red;
+}
+
+#mensajeLogin{
+    color: blue;
+}
+
+#mensajeLoginError {
+    color: red;
+    padding: 8px 0 0 12px;
+}
+#mensajeCrud{
+    color: blue;
+}
+#mensajeError{
+    color: red;
+}
+.tabla1{
+   clear: both;
+   content: "";
+}
+
+#tabla td, #tabla th {
+    padding: .50rem;
+    vertical-align: top;
+    border-top: 1px solid #e9ecef;
+}
+
+#tabla_filter{
+    float: right !important;
+}
+
+.next{
+    top: auto !important;
+}
+
+.dataTables_length{
+    float: left !important;
+}
+
+#tabla thead{
+    cursor: pointer;
+}
+
+#tabla a{
+    cursor: pointer;
+    width: 100%;
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+        margin: 6px 0px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+    /* border: 2px solid #008CBA; */
+}

@@ -1,0 +1,24 @@
+.imgSetings{
+    width: 50px !important;
+    height: 35px !important;
+}
+
+.border{
+    border: 1px solid !important;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    color: grey;
+}
+
+
+.contInput{
+    padding: 0px !important;
+}
+.enviarLogin{
+    
+}
+
+.pPass{
+    padding: 5px 20px 5px 20px !important;
+    margin-bottom: 0;
+}

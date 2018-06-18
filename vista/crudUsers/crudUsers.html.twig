@@ -1,0 +1,186 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block content %}
+
+<script>
+    $(document).ready(function() {
+        $('#tabla').DataTable();
+    } );
+        
+</script>
+
+    <div class="cuerpoCrud">
+    <div class="contenedor colorCrud">
+        <div class="listadoIzquierda">  
+            <h1>Listado de Usuarios:</h1>
+            
+                {% if mensaje != null %}
+                    <h2 id="mensajeCrud">{{ mensaje }}</h2>
+                    <script>
+                        $(document).ready(function(){
+                            setTimeout(function(){ $("#mensajeCrud").fadeOut("slow"); }, 5000);
+                        });
+                            
+                    </script>
+                {% endif %}
+                    {% if mensajeError != null %}
+                        <h2 id="mensajeError">{{ mensajeError }}</h2>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){ $("#mensajeError").fadeOut("slow"); }, 5000);
+                            });
+                        </script>
+                    {% endif %}
+        </div>
+        
+        <div class="modificarDerecha">
+            <div class="divDescarga">
+
+                <a href="#viajarUsuarios"><img class="imgDescarga" src="/img/crudUsers/descarga.png">modificar usuarios</a>
+            </div>
+            
+        </div>
+        <div class="tabla1">
+            {% if usuarios != null %}
+                <table class="table table-striped table-bordered table-responsive" id="tabla">
+                    <thead>
+                        <tr>
+                            <th><span>Cargar Usuario</span></th>
+                            <th><span>Permiso</span></th>
+                            <th><span>Nombre</span></th>
+                            <th><span>Apellidos</span></th>
+                            <th><span>Teléfono</span></th>
+                            <th><span>Email</span></th>
+                            <th><span>Nick</span></th>
+                            <th><span>Último Acceso</span></th>
+                            <th><span>Activado</span></th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in usuarios %}
+                        <tr>
+                            <td>
+                                <a type="button" value="cargar" 
+                                    onclick="cargarUser({{ user.id }}, '{{ user.nombre }}', 
+                                           '{{ user.apellidos }}','{{ user.telefono }}',
+                                           '{{ user.email }}',
+                                           '{{ user.nick }}','{{ user.id_rol }}')" 
+                                    href="#viajarUsuarios">cargar</a></td>
+                            <td class="colorTD">{{ user.nombre_rol }}</td>
+                            <td class="colorTD">{{ user.nombre }}</td>
+                            <td>{{ user.apellidos }}</td>
+                            <td>{{ user.telefono }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.nick }}</td>
+                            <td>{{ user.ultimo_acceso|date('d-m-Y') }}</td>
+                             
+                            {% set color = (user.activado) > 0 ? 'green' : 'red' %}  
+                            <td style="color: {{ color }};">{{ user.activado }}</td>
+                               
+                           
+                           
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th><span>Cargar Usuario</span></th>
+                            <th><span>Permiso</span></th>
+                            <th><span>Nombre</span></th>
+                            <th><span>Apellidos</span></th>
+                            <th><span>Teléfono</span></th>
+                            <th><span>Email</span></th>
+                            <th><span>Nick</span></th>
+                            <th><span>Último Acceso</span></th>
+                            <th><span>Activado</span></th>   
+                        </tr>
+                    </tfoot>
+                </table>
+            {% else %}
+                <h1>&nbspNo hay usuarios</h1>
+            {% endif %}
+        </div>
+    </div>    
+    <div class="contenedor colorCrud modUsers"> 
+        
+            <div class="listadoIzquierda">
+        <h1>Modificar Usuarios</h1><a name="viajarUsuarios"></a>
+            </div>
+        <div class="modificarDerecha">
+            <div class="divDescarga">
+
+                <a href="#subirMenu"><img class="imgDescarga" src="/img/crudUsers/subir.png">volver a menú</a>
+            </div>
+            
+        </div>
+    <div class="contForm">
+        <form action="index.php" method="post" id="crud_users" name="viajarUsuarios">
+            <input type="hidden" name="c" value="crud_users">
+            <input type="hidden" id="id_user" name="id"> 
+
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="nombre_user">NOMBRE:</label>
+                <input type="text" id="nombre_user" name="nombre" placeholder="nombre" class="form-control" required>
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="apellidos_user">APELLIDOS:</label>
+                <input type="text" id="apellidos_user" name="apellidos" placeholder="apellidos" class="form-control">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="telefono_user">TELEFONO:</label>
+                <input type="text" id="telefono_user" name="telefono" placeholder="telefono" class="form-control">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="email_user">EMAIL:</label>
+                <input type="text" id="email_user" name="email" placeholder="email" class="form-control">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="nick_user">NICK:</label>
+                <input type="text" id="nick_user" name="nick" placeholder="nick" class="form-control">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <label for="pass_user">CONTRASEÑA:</label>
+                <input type="password" id="pass_user" name="pass" placeholder="pass" class="form-control">
+            </div>
+            
+            <div class="col-12 form-group">
+                <label for="id_rol">PERMISO:</label>
+                <select id="id_rol" name="id_rol" class="form-control" required>
+                    <option>Selecciona un permiso...</option>
+                    {% for permiso in permisos %}
+                        <option value="{{ permiso.id_rol }}">{{ permiso.nombre_rol }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <input type="submit" name="a" value="insert" class="boton-contenido">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <input type="submit" name="a" value="update" class="boton-contenido">
+            </div>
+            
+            <div class="col-12 col-sm-6 col-lg-4 form-group">
+                <input type="submit" name="a" value="delete" class="boton-contenido">
+            </div>
+        </form>
+        </div>
+        </div>
+    </div>
+        
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/crudUsers/crud_users.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+{% endblock %}
+

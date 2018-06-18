@@ -4,45 +4,55 @@
     <link rel="stylesheet" href="/css/tareas/tareas.css">
 {% endblock %}
 
+{% block scripts %}
+
+{% endblock %}
+
 {% block content %}
+    <style>
+        tr:hover{
+            background-color:lightcoral !important;
+        }
+    </style>
+
     <div class="cuerpo">
         <div class="contenido">
-            <h1 class="tareas_title">Tareas para alumnos</h1>
-            <p>Seleccione un curso para mostrar las tareas correspondientes.</p>
+            <h1 class="tareas_title">{{ textos.TareasParaAlumnos }}</h1>
+            <p>{{ textos.SeleccioneCursoMostrarTareas }}</p>
 
             {% if cursos %}
 
                 <table class="tareas_table table-striped">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Turno</th>
-                            <th>Ver</th>
-                            <th>Editar</th>
+                            <th>{{ textos.CampoNombre }}</th>
+                            <th>{{ textos.CampoTipo }}</th>
+                            <th>{{ textos.CampoTurno }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for curso in cursos %}
                             {% if curso.nombre_curso %}
                                 <tr>
-                                    <td>{{ curso.nombre_curso }}</td>
                                     <td>
-                                        {% if curso.tipo == "ESO" %}E.S.O.
-                                        {% elseif curso.tipo == "BACH" %}Bachillerato
-                                        {% elseif curso.tipo == "FPB" %}F.P. Básica
-                                        {% elseif curso.tipo == "FPGM" %}F.P. Grado Medio
-                                        {% elseif curso.tipo == "FPGS" %}F.P. Grado Superior
+                                        <a href="/index.php?c=tareas&a={{ action_ver_curso }}&id_curso={{ curso.id_curso }}">
+                                            {{ curso.nombre_curso }}</a>
+                                    </td>
+                                    <td>
+                                        {% if curso.tipo == "ESO" %}{{ textos.ESO }}
+                                        {% elseif curso.tipo == "BACH" %}{{ textos.BACH }}
+                                        {% elseif curso.tipo == "FPB" %}{{ textos.FPB }}
+                                        {% elseif curso.tipo == "FPGM" %}{{ textos.FPGM }}
+                                        {% elseif curso.tipo == "FPGS" %}{{ textos.FPGS }}
                                         {% else %}{{ curso.tipo }}
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if curso.turno == "m" %}Mañana
-                                        {% elseif curso.turno == "t" %}Tarde
+
+                                        {% if curso.turno == "m" %}{{ textos.TurnoManana }}
+                                        {% elseif curso.turno == "t" %}{{ textos.TurnoTarde }}
                                         {% endif %}
                                     </td>
-                                    <td><a href="/index.php?c=tareas&a={{ action_ver_curso }}&id_curso={{ curso.id_curso }}">Ver</a></td>
-                                    <td><a href="/index.php?c=tareas&a={{ action_editar_curso }}&id_curso={{ curso.id_curso }}">Editar</a></td>                                </tr>
                                 </tr>
 
                             {% endif %}
@@ -50,16 +60,8 @@
                     </tbody>
                 </table>
             {% else %}   
-                <p class="no_existe">(No se han encontrado cursos)</p>
+                <p class="cursiva">{{ textos.NoHayCursos }}</p>
             {% endif %}
-
-
-            <hr>
-            <p class="no_existe">(Actualmente estoy usando un DAO simulado, no conecto aún a la BBDD)</p>     
-            <p class="no_existe">(Los únicos cursos de los que he simulado datos es 1º ESO, 1º DAW y 2º DAW)</p>
-            <p class="no_existe">(Por hacer: dependiendo de los permisos que se muestren unas cosas u otras)</p>
-            <p class="no_existe">(Por hacer: que el administrador pueda añadir cursos)</p>
-
         </div>
     </div>
 {% endblock %}

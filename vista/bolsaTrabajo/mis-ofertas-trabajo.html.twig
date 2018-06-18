@@ -3,8 +3,9 @@
 
 {% block content %}
     <div id="build_modal"></div>
+    <div id="build_modal_response"></div>
     <div class="p-1">
-        <div class="container">
+        <div class="contenedor">
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="display-4">Mis Ofertas</h1>
@@ -22,12 +23,12 @@
                         {% for oferta in misOfertas %}
 
                             <tr>
-                                <td class="text-center">{{ oferta.idOferta|escape }}</td>
-                                <td class="text-center">{{ oferta.titulo|e }}</td>
+                                <td class="text-center">  {{ oferta.idOferta|escape }}</td>
+                                <td class="text-center"><a href="index.php?c=bolsa_trabajo&a=ver_oferta&id_oferta={{oferta.idOferta  }}" >{{ oferta.titulo|e }}</a></td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-primary w-100 p-0 m-1"
-                                       data-toggle="modal" onclick="editarOferta('{{ oferta.idOferta|escape }}')">Editar</a>
-                                    <a class="btn w-100 p-0 m-1 btn-block btn-danger" href="#">Borrar </a>
+                                    <a class="btn btn-outline-primary w-100 p-0 m-1"
+                                       data-toggle="modal" id="editar_oferta_button" onclick="editarOferta('{{ oferta.idOferta|escape }}')">Editar</a>
+                                    <a class="btn w-100 p-0 m-1 btn-block btn-danger"  id="borrar_oferta_button" onclick="borrarOferta('{{ oferta.idOferta|escape }}')">Borrar </a>
                                 </td>
                             </tr>
 
@@ -44,17 +45,7 @@
 
 {% block scripts %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          type="text/css">
-    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-
+    {% include 'bolsaTrabajo/scripts-comunes.html.twig' %}
 
 
     <script src="js/bolsaTrabajo/mis_ofertas.js"></script>

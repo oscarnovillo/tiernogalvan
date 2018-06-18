@@ -6,37 +6,125 @@ use controllers\BolsaTrabajoController;
 use controllers\MaintenanceController;
 use controllers\TestController;
 use controllers\VentaLibrosController;
+use controllers\LoginUsers;
+use controllers\CrudUsersController;
+use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
+use controllers\SeguimientoProgramaciones;
 use utils\Constantes;
 use utils\ConstantesPaginas;
+use utils\loginUsers\ConstantesLoginUsers;
 use utils\TwigViewer;
+use servicios\session\SessionServicios;
+use controllers\ErrorController;
+use controllers\LogoutController;
+use controllers\DepartmentsController;
+use controllers\TicUsersController;
 
+/*
+ * Mostrar errores sólo si es en localhost, a modo de debugging.
+ */
+if (in_array($_SERVER['REMOTE_ADDR'], ["127.0.0.1", "::1"])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 
+/*
+ * Inicializar sesión.
+ */
+session_start();
+
+/*
+ * Inicializar session de datos del usuario.
+ * En cada controlador se comprueba si se requiere login o no.
+ */
 if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
 {
     $controller = $_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER];
+    $userSessionValid = (new SessionServicios())->isUserConnected();
+    $errController = new ErrorController();
     switch ($controller)
     {
         case Constantes::TEST_CONTROLLER:
             $controller = new TestController();
-            $controller->index();
+            /* Requerir login */
+            $userSessionValid ? $controller->index() : $errController->permissions();
+
+            /*
+             * ¿No quieres requerir login? Simplemente llama al conmtrolador comentando la línea ternaria $userSessionValid ? [...]
+             * $controller->index();
+             */
             break;
         case Constantes::MAINTENANCE_CONTROLLER:
             $controller = new MaintenanceController();
-            $controller->crud();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::DEPARTMENTS_CONTROLLER:
+            $controller = new DepartmentsController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::TIC_USERS_CONTROLLER:
+            $controller = new TicUsersController();
+            /* Requerir login */
+            $userSessionValid ? $controller->crud() : $errController->permissions();
             break;
         case Constantes::BOLSA_TRABAJO_CONTROLLER:
             $controller = new BolsaTrabajoController();
-            $controller->bolsaTrabajoMain();
+            /* Requerir login */
+            $userSessionValid ? $controller->bolsaTrabajoMain() : $errController->permissions();
             break;
+        case Constantes::DOCUMENTOS_CONTROLLER:
+            $controller = new AdministracionDocumentosController();
+            /* Requerir login */
+            $userSessionValid ? $controller->documentos() : $errController->permissions();
+           
+            break;  
         case Constantes::VENTA_LIBROS_CONTROLLER:
             $controller = new VentaLibrosController();
-            $controller->ventas();
+            /* Requerir login */
+            $userSessionValid ? $controller->ventas() : $errController->permissions();
             break;
         case Constantes::TAREAS_CONTROLLER:
             $controller = new TareasController();
-            $controller->tareas();
+            /* Requerir login */
+            $userSessionValid ? $controller->tareas() : $errController->permissions();
             break;
+        case Constantes::CRUD_CONTROLLER:
+            $controller = new CrudUsersController();
+            /* Requerir login */
+            $controller->crud();
+            //$userSessionValid ? $controller->crud() : $errController->permissions();
+            break;
+        case Constantes::LOGIN_CONTROLLER:
+            $controller = new LoginUsers();
+            /* Requerir login */
+            //$userSessionValid ? $controller->login() : $errController->permissions();
+            $controller->login();
+            break;
+        case Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER:
+            $controller = new SeguimientoProgramaciones();
+            $userSessionValid ? $controller->seguimientoProgramacionesPrincipal() : $errController->permissions();
+            //$controller->seguimientoProgramacionesPrincipal();
+            break;
+        case Constantes::DISCONNECT_CONTROLLER:
+            $controller = new LogoutController();
+            /* Requerir login */
+            $userSessionValid ? $controller->logout() : $errController->permissions();
+            break;
+        default:
+            //TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            if($userSessionValid){
+                $user = $_SESSION[Constantes::SESS_USER];
+                $parameters['mensaje'] = $user->nombre." ".$user->apellidos;
+                TwigViewer::getInstance()->viewPage(ConstantesLoginUsers::LOGIN_PAGE,$parameters);
+            }else{
+                
+                              
+                TwigViewer::getInstance()->viewPage(ConstantesPaginas::INDEX);
+            }    
     }
 }
 else

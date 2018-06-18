@@ -4,28 +4,27 @@ namespace utils;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
+use config\Config;
 class Mailer
 {
 
-    //TODO: poner servidor de email
     public function sendMail($reciperEmail, $reciperName, $subject, $content)
     {
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp1.example.com;smtp2.example.com';
+            $mail->Host = Config::MAIL_SERVER;
             $mail->SMTPAuth = true;
-            $mail->Username = 'user@example.com';
-            $mail->Password = 'secret';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->Username = Config::MAIL_USER;
+            $mail->Password = Config::MAIL_PASSWORD;
+            $mail->Port = Config::MAIL_PORT;
 
-            $mail->setFrom('contacto@iestiernogalvan.es', 'IES Enrique Tierno Galván');
+            $mail->setFrom(Config::MAIL_USER, CONFIG::MAIL_NAME);
             $mail->addAddress($reciperEmail, $reciperName);
-            $mail->addReplyTo('contacto@iestiernogalvan.es', 'Information');
-            $mail->addCC('contacto@iestiernogalvan.es');
-            $mail->addBCC('contacto@iestiernogalvan.es');
+            $mail->addReplyTo(Config::MAIL_USER, CONFIG::MAIL_NAME);
+            $mail->addCC(Config::MAIL_USER);
+            $mail->addBCC(Config::MAIL_USER);
+            $mail->CharSet = 'UTF-8';
 
             //Content
             $mail->isHTML(true);
@@ -35,7 +34,7 @@ class Mailer
 
             $mail->send();
         } catch (Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            //echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
     }
 }

@@ -1,12 +1,20 @@
+/* Preloader siempre primero, para que se visualice antes */
+@import url(preloader.css);
 @import url('https://fonts.googleapis.com/css?family=Crete+Round|Merriweather|Josefin+Sans|Montserrat|Vollkorn');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Righteous');
-@import url(menu.css);
+/*@import url(menu.css);*/
 @import url(banner.css);
 @import url(contenido.css);
 @import url(subcontenido.css);
 @import url(footer.css);
 @import url(blog.css);
 @import url(formulario.css);
+@import url(header.css);
+@import url(settings.css);
+@import url(crudUsers/crudUsers.css);
+@import url(pagInicio/pagInicio.css);
+@import url(pagRecuperarPass/recuperarPass.css);
+@import url(pagError/pagError.css);
 
 * {
     margin:0;
@@ -35,8 +43,11 @@ h2{
 }
 
 h3{
-  font-family: 'Righteous', serif !important;
+    font-family: 'Righteous', serif !important;
+  
 }
+
+
 
 h4{
   font-size: 15px;
@@ -62,7 +73,6 @@ button{
 }
 
 main{ 
-  margin-top: 65px;
   background: #dbe1ea;
 }
 
@@ -123,10 +133,6 @@ main::after {
     }
 }
 
-.table-style .today {background: #2A3F54; color: #ffffff;}
-.table-style th:nth-of-type(7),td:nth-of-type(7) {color: blue;}
-.table-style th:nth-of-type(1),td:nth-of-type(1) {color: red;}
-.table-style tr:first-child th{background-color:#F6F6F6; text-align:center; font-size: 15px;}
 
 
 

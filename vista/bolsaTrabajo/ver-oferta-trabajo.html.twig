@@ -2,39 +2,40 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
-
+    <div id="build_modal_response"></div>
     <div class="p-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 border border-info border border-info rounded">
-                    <h2 id="titulo_oferta" contenteditable="false">{{ titulo }}</h2>
+        <div class="">
+            <div class="row contenedor">
+                <div class="col-md-8 bg-white border border-info border border-info rounded">
+                    <h2 id="titulo_oferta" contenteditable="false">{{ TITULO|escape }}</h2>
                     <h5 class="text-secondary">Descripción</h5>
-                    <p class="border border-info rounded" id="descripcion_oferta">{{ descripcion }}</p>
+                    <p class=" border-info rounded" id="descripcion_oferta">{{ DESCRIPCION|escape|nl2br }}</p>
                     <h5 class="text-secondary">Requisitos</h5>
-                    <p class="border border-info rounded" id="requisitos_oferta">{{ requisitos }}</p>
+                    <p class="border-info rounded" id="requisitos_oferta">{{ REQUISITOS|escape|nl2br }}</p>
                     <h5 class="text-secondary">Ciclos Compatibles con la oferta</h5>
-                    <ul class="">
-                        {% for fp in fpTargets %}
-                            <li class="border border-info rounded" id="fp_oferta"> {{ fp }} </li>
+                    <ul class="list-group">
+                        {% for fp in FPTARGETS %}
+                            <li class="list-group-item" id="fp_oferta"> {{ fp.TITULO }} </li>
                         {% endfor %}
 
                     </ul>
                     <h5 class="text-secondary">Empresa Responsable</h5>
-                    <p class="border border-info rounded" id="empresa_oferta">{{ empresa }}</p>
+                    <p class=" border-info rounded" id="empresa_oferta">{{ EMPRESA|escape }}</p>
                     <h5 class="text-secondary">Web del anunciante/Enlace con información relevante</h5>
-                    <p class="border border-info rounded" id="web_oferta">{{ web }}</p>
+                    <p class=" border-info rounded" id="web_oferta">
+                        <a target="_blank" href="{{ WEB|escape }}">{{ WEB|escape }}</a></p>
                     <h5 class="text-secondary">E-mail de contacto</h5>
-                    <p class="border border-info rounded" id="email_oferta">{{ email }}</p>
+                    <p class=" border-info rounded" id="email_oferta">{{ EMAIL|escape }}</p>
                     <h5 class="text-secondary">Teléfono de contacto</h5>
-                    <p class="border border-info rounded" id="telefono_oferta">{{ telefono }}</p>
+                    <p class=" border-info rounded" id="telefono_oferta">{{ TELEFONO|escape }}</p>
                     <h5 class="text-secondary">Número de Vacantes Disponibles</h5>
-                    <p class="border border-info rounded" id="vacante_oferta">{{ vacantes }}</p>
-                    <h5 class="text-secondary">Salario mensual aproximado [€]</h5>
-                    <p class="border border-info rounded" id="salario_oferta">{{ salario }}</p>
+                    <p class=" border-info rounded" id="vacante_oferta">{{ VACANTES|escape }}</p>
+                    <h5 class="text-secondary">Salario</h5>
+                    <p class=" border-info rounded" id="salario_oferta">{{ SALARIO|escape }}</p>
                     <h5 class="text-secondary">Localización</h5>
-                    <p class="border border-info rounded" id="localizacion_oferta">{{ localizacion }}</p>
+                    <p class=" border-info rounded" id="localizacion_oferta">{{ LOCALIZACION|escape }}</p>
                     <h5 class="text-secondary">Fecha de Creación Oferta</h5>
-                    <p class="border border-info rounded" id="creacion_oferta">{{ creacion }}</p>
+                    <p class=" border-info rounded" id="creacion_oferta">{{ CREACION|date('d-m-Y H:i:s') }}</p>
                 </div>
                 <div class="col-md-4">
                     <h3 class="">Estas Interesad@ en esta Oferta de Trabajo?</h3>
@@ -43,6 +44,9 @@
                         <br>
                         <br>
                     </p>
+                    <input type="hidden" id="id_oferta" value="{{ ID_OFERTA }}"/>
+                    <a class="btn  fa fa-envelope btn-primary text-uppercase d-flex justify-content-center py-2 btn-lg"
+                       href="#" id="id_apuntarse">&nbsp; Apúntame</a>
                 </div>
             </div>
         </div>
@@ -52,18 +56,8 @@
 
 {% block scripts %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          type="text/css">
-    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% include 'bolsaTrabajo/scripts-comunes.html.twig' %}
 
-
-    <script src="js/bolsaTrabajo/crear_oferta.js"></script>
+    <script src="js/bolsaTrabajo/ver_oferta.js"></script>
 
 {% endblock %}

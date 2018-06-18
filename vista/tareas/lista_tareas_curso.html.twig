@@ -1,0 +1,78 @@
+{% extends "index.html.twig" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/tareas/tareas.css">
+    <link rel="stylesheet" href="/css/tareas/loader.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="/js/tareas/tareas.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div id='cargando'>
+        <div id="loader"></div>
+    </div>
+
+    <div class="cuerpo">
+        <div class="contenido">
+
+            <!-- Si es una id de curso válido -->
+            {% if nombre_curso %}
+                <h1 class="tareas_title">{{ textos.TareasParaAlumnosDe }}&nbsp;{{ nombre_curso }}</h1>
+
+                {% if permiso_edicion == 1 %}
+                    <div id="mensaje" style="display:none"></div>
+                {% endif %}
+
+                {% if permiso_edicion == 1 %}
+                    <datalist id="suggestions">
+                        {% for asignatura in asignaturas %}
+                            <option value="{{ asignatura }}">
+                            {% endfor %}
+                    </datalist>
+                {% endif %}
+
+                <div id="tbody_recarga">
+                    {% include "tareas/tabla_tareas.html.twig" %}
+                </div>
+
+            {% else %}
+                <!-- Si no es una id de curso válido, mostrar error -->
+                <h1 class="tareas_title">{{ textos.TareasParaAlumnosNoHayCurso }}</h1>
+                <p class="cursiva">{{ textos.CursoNoExiste }}</p>
+            {% endif %}
+
+            <!-- Botón Volver -->
+            <button onclick="location.href = '/index.php?c=tareas';" type="button" class="boton-contenido">{{ textos.Volver }}</button>
+        </div>
+
+        <!-- Textos pasados del php a Javascript -->
+        <input type="hidden" id="NuevaTareaDefault" value="{{ textos.NuevaTareaDefault }}">
+        <input type="hidden" id="NuevaAsignaturaDefault" value="{{ textos.NuevaAsignaturaDefault }}">
+
+        <input type="hidden" id="strFalloOperacion" value="{{ textos.strFalloOperacion }}">
+        <input type="hidden" id="strCamposNulos" value="{{ textos.strCamposNulos }}">
+        <input type="hidden" id="strCanceladoOperacion" value="{{ textos.strCanceladoOperacion }}">
+
+        <input type="hidden" id="strSeguroCrear" value="{{ textos.strSeguroCrear }}">
+        <input type="hidden" id="strSeguroModificar" value="{{ textos.strSeguroModificar }}">
+        <input type="hidden" id="strSeguroBorrar" value="{{ textos.strSeguroBorrar }}">
+
+        <input type="hidden" id="strCrearOK" value="{{ textos.strCrearOK }}">
+        <input type="hidden" id="strModificarOK" value="{{ textos.strModificarOK }}">
+        <input type="hidden" id="strBorrarOK" value="{{ textos.strBorrarOK }}">
+
+        <input type="hidden" id="strFormatoFecha" value="{{ textos.strFormatoFecha }}">
+        <input type="hidden" id="strTareaPasado" value="{{ textos.strTareaPasado }}">
+        <input type="hidden" id="strTareaFuturo" value="{{ textos.strTareaFuturo }}">
+
+        <input type="hidden" id="param_curso" value="{{ id_curso }}">
+
+
+    </div>
+{% endblock %}

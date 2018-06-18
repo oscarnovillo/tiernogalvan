@@ -2,8 +2,9 @@
 {% extends "index.html.twig" %}
 
 {% block content %}
+    <div id="build_modal_response"></div>
     <div class="py-2">
-        <div class="container">
+        <div class="contenedor">
             <div class="row">
                 <div class="col-md-8">
                     <form class="" id="form_crear_oferta">
@@ -25,19 +26,22 @@
                         <div class="form-group">
                             <label>Requisitos *</label>
                             <small class="form-text text-muted">Cuentanos un poco las habilidades necesarias que
-                                necesita el
-                                futuro candidato
+                                necesita el/la
+                                futur@ candidat@
                             </small>
                             <textarea class="form-control" rows="4" name="requisitos_oferta"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Ciclo de Formación Profesional *</label>
-                            <select class="form-control" multiple="" required="required" name="fp_oferta">
-                                <option></option>
-                                <option>DAW - Desarrollo de Aplicaciones Web</option>
-                                <option>ASIR -</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <select class="form-control" multiple="" size="10" required="required" name="fp_oferta">
+
+
+                                {% for estudios in FP_ESTUDIOS %}
+                                    <option value="{{ estudios.ID_FP }}">{{ estudios.TITULO }}</option>
+
+
+                                {% endfor %}
+
                             </select>
                             <small class="form-text text-muted">Tenemos distintos ciclos, seleciona el que mejor se
                                 ajuste a
@@ -60,10 +64,8 @@
                             <label>E-mail</label>
                             <input type="email" class="form-control" placeholder="contacto@mi-empresa.es"
                                    name="email_oferta">
-                            <small class="form-text text-muted">Nuestros usuari@s estan interesados, escribe un e-mail
-                                donde
-                                contactarte.&nbsp;
-                            </small>
+                            <small class="form-text text-muted" >Nuestros usuari@s estan interesad@s, escribe un e-mail donde contactarte.&nbsp;
+                                <br>Importante: Enviaremos e-mails a esta dirección por cada nuev@ alumn@ que se apunte a la oferta de trabajo</small>
                         </div>
                         <div class="form-group">
                             <label>Teléfono</label>
@@ -79,7 +81,7 @@
                         <div class="form-group">
                             <label>Salario</label>
                             <input type="text" class="form-control" placeholder="1000" name="salario_oferta">
-                            <small class="form-text text-muted">Cuál es el sueldo mensual, que quieres mostrar</small>
+                            <small class="form-text text-muted">Cuál es el sueldo aproximado, que quieres mostrar?</small>
                         </div>
                         <div class="form-group">
                             <label>Localización</label>
@@ -107,7 +109,7 @@
                         requisitos:</p>
                     <ul class="">
                         <li>Todos los campos con ( * ) son obligatorios</li>
-                        <li>El título tiene que mínimo de 10 y un máximo de 200 letras.</li>
+                        <li>El título tiene que mínimo de 5 y un máximo de 200 letras.</li>
                         <li>La Descripción tiene un min. de 10 y un max. de 1000 letras.
                             <br>
                         </li>
@@ -130,7 +132,7 @@
                             <br>
                         </li>
                         <li>Las Vacantes disponibles se defienen con un número</li>
-                        <li>El salario tiene que ser en números y solo se permite el punto como separador decimal.
+                        <li>El salario puede llevar un  texto descriptivo.
                             <br>
                         </li>
                         <li>La fecha de caducidad no puede ser menor a la actual, ni superar los tres meses desde hoy.
@@ -147,17 +149,7 @@
 
 {% block scripts %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          type="text/css">
-    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    {% include 'bolsaTrabajo/scripts-comunes.html.twig' %}
 
     <script src="js/bolsaTrabajo/crear_oferta.js"></script>
 

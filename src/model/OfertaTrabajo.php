@@ -12,224 +12,251 @@ namespace model;
 class OfertaTrabajo
 {
 
-    public $id;
-    public $titulo;
-    public $descripcion;
-    public $requisitos;
-    public $empresa;
-    public $web;
-    public $email;
-    public $telefono;
-    public $vacantes;
-    public $salario;
-    public $localizacion;
-    public $caducidad;
+    public $ID_OFERTA;
+    public $TITULO;
+    public $DESCRIPCION;
+    public $EMPRESA;
+    public $WEB;
+    public $EMAIL;
+    public $TELEFONO;
+    public $REQUISITOS;
+    public $VACANTES;
+    public $SALARIO;
+    public $LOCALIZACION;
+    public $CADUCIDAD;
+    public $CREACION;
+    public $ID_USER;
 
-    function __construct($titulo, $descripcion, $requisitos, $empresa, $web, $email, $telefono, $vacantes, $salario, $localizacion, $caducidad)
+    /**
+     * OfertaTrabajo constructor.
+     */
+    public function __construct()
     {
-        $this->titulo = $titulo;
-        $this->descripcion = $descripcion;
-        $this->requisitos = $requisitos;
-        $this->empresa = $empresa;
-        $this->web = $web;
-        $this->email = $email;
-        $this->telefono = $telefono;
-        $this->vacantes = $vacantes;
-        $this->salario = $salario;
-        $this->localizacion = $localizacion;
-        $this->caducidad = $caducidad;
     }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getIDOFERTA()
     {
-        return $this->id;
+        return $this->ID_OFERTA;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $ID_OFERTA
      */
-    public function setId($id): void
+    public function setIDOFERTA($ID_OFERTA): void
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitulo()
-    {
-        return $this->titulo;
-    }
-
-    /**
-     * @param mixed $titulo
-     */
-    public function setTitulo($titulo): void
-    {
-        $this->titulo = $titulo;
+        $this->ID_OFERTA = $ID_OFERTA;
     }
 
     /**
      * @return mixed
      */
-    public function getDescripcion()
+    public function getTITULO()
     {
-        return $this->descripcion;
+        return $this->TITULO;
     }
 
     /**
-     * @param mixed $descripcion
+     * @param mixed $TITULO
      */
-    public function setDescripcion($descripcion): void
+    public function setTITULO($TITULO): void
     {
-        $this->descripcion = $descripcion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRequisitos()
-    {
-        return $this->requisitos;
-    }
-
-    /**
-     * @param mixed $requisitos
-     */
-    public function setRequisitos($requisitos): void
-    {
-        $this->requisitos = $requisitos;
+        $this->TITULO = $TITULO;
     }
 
     /**
      * @return mixed
      */
-    public function getEmpresa()
+    public function getDESCRIPCION()
     {
-        return $this->empresa;
+        return $this->DESCRIPCION;
     }
 
     /**
-     * @param mixed $empresa
+     * @param mixed $DESCRIPCION
      */
-    public function setEmpresa($empresa): void
+    public function setDESCRIPCION($DESCRIPCION): void
     {
-        $this->empresa = $empresa;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWeb()
-    {
-        return $this->web;
-    }
-
-    /**
-     * @param mixed $web
-     */
-    public function setWeb($web): void
-    {
-        $this->web = $web;
+        $this->DESCRIPCION = $DESCRIPCION;
     }
 
     /**
      * @return mixed
      */
-    public function getEmail()
+    public function getEMPRESA()
     {
-        return $this->email;
+        return $this->EMPRESA;
     }
 
     /**
-     * @param mixed $email
+     * @param mixed $EMPRESA
      */
-    public function setEmail($email): void
+    public function setEMPRESA($EMPRESA): void
     {
-        $this->email = $email;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    /**
-     * @param mixed $telefono
-     */
-    public function setTelefono($telefono): void
-    {
-        $this->telefono = $telefono;
+        $this->EMPRESA = $EMPRESA;
     }
 
     /**
      * @return mixed
      */
-    public function getVacantes()
+    public function getWEB()
     {
-        return $this->vacantes;
+        return $this->WEB;
     }
 
     /**
-     * @param mixed $vacantes
+     * @param mixed $WEB
      */
-    public function setVacantes($vacantes): void
+    public function setWEB($WEB): void
     {
-        $this->vacantes = $vacantes;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSalario()
-    {
-        return $this->salario;
-    }
-
-    /**
-     * @param mixed $salario
-     */
-    public function setSalario($salario): void
-    {
-        $this->salario = $salario;
+        $this->WEB = $WEB;
     }
 
     /**
      * @return mixed
      */
-    public function getLocalizacion()
+    public function getEMAIL()
     {
-        return $this->localizacion;
+        return $this->EMAIL;
     }
 
     /**
-     * @param mixed $localizacion
+     * @param mixed $EMAIL
      */
-    public function setLocalizacion($localizacion): void
+    public function setEMAIL($EMAIL): void
     {
-        $this->localizacion = $localizacion;
+        $this->EMAIL = $EMAIL;
     }
 
     /**
      * @return mixed
      */
-    public function getCaducidad()
+    public function getTELEFONO()
     {
-        return $this->caducidad;
+        return $this->TELEFONO;
     }
 
     /**
-     * @param mixed $caducidad
+     * @param mixed $TELEFONO
      */
-    public function setCaducidad($caducidad): void
+    public function setTELEFONO($TELEFONO): void
     {
-        $this->caducidad = $caducidad;
+        $this->TELEFONO = $TELEFONO;
     }
 
-}
+    /**
+     * @return mixed
+     */
+    public function getREQUISITOS()
+    {
+        return $this->REQUISITOS;
+    }
+
+    /**
+     * @param mixed $REQUISITOS
+     */
+    public function setREQUISITOS($REQUISITOS): void
+    {
+        $this->REQUISITOS = $REQUISITOS;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVACANTES()
+    {
+        return $this->VACANTES;
+    }
+
+    /**
+     * @param mixed $VACANTES
+     */
+    public function setVACANTES($VACANTES): void
+    {
+        $this->VACANTES = $VACANTES;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSALARIO()
+    {
+        return $this->SALARIO;
+    }
+
+    /**
+     * @param mixed $SALARIO
+     */
+    public function setSALARIO($SALARIO): void
+    {
+        $this->SALARIO = $SALARIO;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLOCALIZACION()
+    {
+        return $this->LOCALIZACION;
+    }
+
+    /**
+     * @param mixed $LOCALIZACION
+     */
+    public function setLOCALIZACION($LOCALIZACION): void
+    {
+        $this->LOCALIZACION = $LOCALIZACION;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCADUCIDAD()
+    {
+        return $this->CADUCIDAD;
+    }
+
+    /**
+     * @param mixed $CADUCIDAD
+     */
+    public function setCADUCIDAD($CADUCIDAD): void
+    {
+        $this->CADUCIDAD = $CADUCIDAD;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCREACION()
+    {
+        return $this->CREACION;
+    }
+
+    /**
+     * @param mixed $CREACION
+     */
+    public function setCREACION($CREACION): void
+    {
+        $this->CREACION = $CREACION;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIDUSER()
+    {
+        return $this->ID_USER;
+    }
+
+    /**
+     * @param mixed $ID_USER
+     */
+    public function setIDUSER($ID_USER): void
+    {
+        $this->ID_USER = $ID_USER;
+    }
+
+
+}//fin clase

@@ -1,11 +1,10 @@
 # tiernogalvan
 
 
-**Esto va en negrita**
+**Proyecto fin de curso DAW**
 
-proyecto fin de curso daw
-Commit - Ricardo
-Danigut estuvo aquí
-La magia de Miguel
+Commit - Ricardo<br>
+Dani estuvo aquí<br>
+La magia de Miguel<br>
 Andrei jodió por aqui<br>
 Erasto os saluda<br>

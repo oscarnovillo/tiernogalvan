@@ -1,0 +1,11 @@
+#mensajeRegistro{
+    color:blue;
+}
+
+#mensajeRegistroError{
+    color:red;
+}
+
+#contenido #parrafoRegistro p{
+    padding: 0px !important;
+}

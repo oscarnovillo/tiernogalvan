@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05-jun-2018, 21:16:01
+    Author     : DAW
+*/
+
+#container{
+    background-color: white;
+}
+
+.boton-mantenimiento{
+    
+    background-color: #008cba !important;;
+}
+
+#archivo{
+    margin-left:10px;
+    height:3.4em  ;    
+}
+
+.control-administracion{
+    padding-left: 0px;
+}
+
+/*Organizar lista de documentos y categorias*/
+#lista-categorias{
+  list-style-type: none;
+  margin-left:10px; 
+}
+
+
+#lista-categorias li{   
+  margin:5spx; 
+}
+
+#lista-doc{
+  list-style-type: none;
+  margin-left:3em; 
+}
+

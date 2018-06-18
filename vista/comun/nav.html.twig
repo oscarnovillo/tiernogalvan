@@ -1,0 +1,64 @@
+<div class="contenedor contenedor-documentos">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark colorMenu">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbar3SupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse text-center justify-content-center" id="navbar3SupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::HOME_CONTROLLER') }}">Inicio</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::CONTABILIDAD_CONTROLLER') }}">Contabilidad</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::MAINTENANCE_CONTROLLER') }}">Incidencias
+                            TIC</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::DOCUMENTOS_CONTROLLER') }}">Documentos</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::PROGRAMACIONES_CONTROLLER') }}">Programaciones</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::VENTA_LIBROS_CONTROLLER') }}">Libros
+                            2ª mano</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::TAREAS_CONTROLLER') }}">Tareas
+                            para alumnos</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            href="index.php?c={{ constant('Utils\\Constantes::BOLSA_TRABAJO_CONTROLLER') }}">Bolsa
+                            de Trabajo</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="index.php?c={{ constant('Utils\\Constantes::BOLSA_TRABAJO_CONTROLLER') }}">Ofertas Publicadas</a>
+                            {% if userOnline == true %}
+                                {% if bolsa_permisos == true %}
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=crear_oferta">Crear Oferta de trabajo</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&amp;a=mis_ofertas&amp;id_owner={{ user_keys.id }}">Mis Ofertas</a>
+                                {% endif %}
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            {% if userOnline == true and bolsa_permisos == false %}
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&a=editar_perfil&id_perfil={{ user_keys.id }}">Editar mi perfil</a>
+                            <a class="dropdown-item" href="index.php?c=bolsa_trabajo&a=mi_perfil&id_perfil={{ user_keys.id }}">Ver mi perfil</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::CRUD_CONTROLLER') }}">Crud
+                            Users</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="index.php?c={{ constant('Utils\\Constantes::SEGUIMIENTO_PROGRAMACIONES_CONTROLLER') }}">Seguimiento de Programaciones</a></li>
+                    {% if userOnline == true %}
+                        <li class="nav-item"><a class="nav-link"
+                                                href="index.php?c={{ constant('Utils\\Constantes::DISCONNECT_CONTROLLER') }}">Desconectar</a>
+                        </li>{% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div>
+
