@@ -143,8 +143,6 @@ class AdministracionDocumentosController{
                         }
                     break;
                 }
-            }else{
-                $parameters['error'] = 'No se ha encontrado parametro accion';
             }
         }else{
             $parameters['error'] = 'No tienes permiso para realizar esta accion';

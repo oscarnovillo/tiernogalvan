@@ -35,6 +35,32 @@ $(document).ready(function () {
             
         $('.titulo-categoria').on('click',function(){
             var valor =  '.' + $(this).attr('data-category-name');
+            var estado = $(this).attr('data-category-status');
+            var estadoCarpeta = $(this).attr('data-estado');
+            var folder_id = 'folder-'+$(this).attr('data-category-name');
+            if(estadoCarpeta == 'cerrado'){
+                $('#'+folder_id).removeAttr('class');
+                $('#'+folder_id).attr('class','fa fa-folder-open');
+                $(this).removeAttr('data-estado');
+                $(this).attr('data-estado','abierto');  
+            }else if(estadoCarpeta=='abierto'){
+                $('#'+folder_id).removeAttr('class');
+                $('#'+folder_id).attr('class','fa fa-folder');
+                $(this).removeAttr('data-estado');
+                $(this).attr('data-estado','cerrado');  
+            }
+            if(estado == 'empty'){
+                $.notify({
+                    message:'Esta categoria esta vacia'
+                },{
+                    type: 'info',
+                    placement:{
+                        from: 'bottom',
+                        align: 'right'
+                    },
+                    z_index:2000
+                });
+            }
             $(valor).toggle(); 
         });
         $('#boton-crear-categoria').on('click', function(){
