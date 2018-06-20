@@ -72,9 +72,11 @@ class DocumentosDAO{
         $dbConnection = new DBConnection();
         $db = $dbConnection->getConnection();
         $new = "";
+        $docExt="";
         $olddoc= Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$old;
         if (strpos($documento, '.') !== false){
             $new = Constantes::CARPETA_DOCUMENTOS_DIRECCION.'/'.$categoria.'/'.$documento;
+            $docExt=$documento;
         }else{
             $pos = strpos($old,".");
             $extension = substr($old,$pos);
@@ -85,6 +87,8 @@ class DocumentosDAO{
             $sql = documentos\ConstantesDocumentos::UPDATE_DOCUMENT; 
             $db->beginTransaction();
             $stmt = $db->prepare($sql);
+            
+            
             $stmt->execute(array($docExt,$id,$idcategoria));
             
             

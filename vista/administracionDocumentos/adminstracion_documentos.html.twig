@@ -65,7 +65,12 @@
             {% if documentos_categoria != null and documentos_categoria %}
                 <ul id="lista-categorias">
                 {% for documento_categoria in documentos_categoria %}
-                    <li><a><h2 class="titulo-categoria" data-category-name="{{ documento_categoria.0.Categoria }}" id="{{ documento_categoria.0.idCategorias }}"><i class="fa fa-folder-open"></i>{{ documento_categoria.0.Categoria }}</h2></a>
+                    {% if documento_categoria.1 != null %}
+                        <li><a><h2 class="titulo-categoria" data-category-status="full" data-estado="cerrado" data-category-name="{{ documento_categoria.0.Categoria }}" id="{{ documento_categoria.0.idCategorias }}"><i id="folder-{{ documento_categoria.0.Categoria }}" class="fa fa-folder"></i>{{ documento_categoria.0.Categoria }}</h2></a>
+                    {% else %}
+                         <li><a><h2 class="titulo-categoria" data-category-status="empty" data-estado="cerrado" data-category-name="{{ documento_categoria.0.Categoria }}" id="{{ documento_categoria.0.idCategorias }}"><i id="folder-{{ documento_categoria.0.Categoria }}" class="fa fa-folder"></i>{{ documento_categoria.0.Categoria }}</h2></a>
+                    {% endif %}
+                    
                     {% if documento_categoria.1 != null %}
                         <ul id="lista-doc" class="{{ documento_categoria.0.Categoria }}" style="display:none;">
                             {% for documento in documento_categoria.1 %}
