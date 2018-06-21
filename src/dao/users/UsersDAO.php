@@ -399,7 +399,6 @@ class UsersDAO {
             $stmt->bindParam(":ultimo_acceso", $user->date);
             $stmt->bindParam(":nick", $user->nick);
             $stmt->execute();
-            $stmt->execute();
             $incidencia = $stmt->fetch(PDO::FETCH_OBJ);
             
         } catch (\Exception $exception) {
