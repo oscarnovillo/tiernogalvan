@@ -26,13 +26,17 @@ class Config
      */
     const SEND_MAIL_ADMIN_ALERT = true;
     
-   
+  /* 
     const DB_SERVER_NAME = "db4free.net";
-    const DB_USER_NAME = "appbanco";
-    const DB_PASSWORD = "appbanco";
-    const DB_DATABASE = "appbanco";
-    const DB_PORT = 3307;
-
-    
+    const DB_USER_NAME = "oscarnovillo";
+    const DB_PASSWORD = "clase2018";
+    const DB_DATABASE = "daw2_pruebas";
+    const DB_PORT = 3306;
+*/
+    const DB_SERVER_NAME = "localhost";
+    const DB_USER_NAME = "root";
+    const DB_PASSWORD = "";
+    const DB_DATABASE = "daw2_pruebas";
+    const DB_PORT = 3306;
     
 }

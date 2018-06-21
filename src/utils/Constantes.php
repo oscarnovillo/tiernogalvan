@@ -28,6 +28,7 @@ class Constantes
     const DEPARTMENTS_CONTROLLER = "departments";
     const TIC_USERS_CONTROLLER = "tic_users";
 
+
     /**
      * Variables de sesión.
      */

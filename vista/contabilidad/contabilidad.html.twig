@@ -1,0 +1,62 @@
+{# empty Twig template #}
+{% extends "index.html.twig" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/css/documentos/documentos.css">
+    <link rel="stylesheet" href="/css/documentos/tabsDocumentos.css">   
+    <link rel="stylesheet" href="/css/documentos/modal.css">   
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+    <section id="contenido" class="col-12">
+        <div class="contenedor" id="container" class="col-12">  
+            <table id="incidencias" class="display mdl-data-table" data-stripe-classes="[]" width="100%">
+                <thead>
+                    <tr>
+                        <th>Departamento</th>
+                        <th>Fecha</th>
+                        
+                        {% if permiso == "ADMIN" %}
+                            <th>N Mov</th>
+                            {% endif %}
+                        <th>Importe</th>
+                        <th>Concepto</th>
+                            
+                    </tr>
+                </thead>
+                
+                                <tbody>
+                {% for movimiento in movimientos %}
+                    <tr >
+                        <td data-order="{{ movimiento.departamento }}">{{ movimiento.departamento }}</td>
+                        <td data-order="{{ movimiento.fecha }}">{{ movimiento.fecha|date("d/m/Y") }}</td>
+                        {% if permiso == "ADMIN" %}
+                            
+                                <td data-order="{{ movimiento.numero_movimiento }}">{{ movimiento.numero_movimiento }}</td>
+                            
+                        {% endif %}
+                        <td data-order="{{ movimiento.importe }}">{{ movimiento.importe }}</td>
+                        <td data-order="{{ movimiento.concepto }}">{{ movimiento.concepto }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>   
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+
+    <script type="text/javascript"
+    src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript"
+    src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
+    <script src="../../bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.min.js"></script>
+{% endblock %}  

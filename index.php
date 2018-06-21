@@ -11,6 +11,7 @@ use controllers\CrudUsersController;
 use controllers\AdministracionDocumentosController;
 use controllers\TareasController;
 use controllers\SeguimientoProgramaciones;
+use controllers\ContabilidadController;
 use utils\Constantes;
 use utils\ConstantesPaginas;
 use utils\loginUsers\ConstantesLoginUsers;
@@ -80,6 +81,12 @@ if(isset($_REQUEST[Constantes::PARAMETER_NAME_CONTROLLER]))
             $controller = new AdministracionDocumentosController();
             /* Requerir login */
             $userSessionValid ? $controller->documentos() : $errController->permissions();
+           
+            break;
+        case Constantes::CONTABILIDAD_CONTROLLER:
+            $controller = new ContabilidadController();
+            /* Requerir login */
+            $userSessionValid ? $controller->contabilidad() : $errController->permissions();
            
             break;  
         case Constantes::VENTA_LIBROS_CONTROLLER:
