@@ -11,7 +11,8 @@
 {% block content %}
     <section id="contenido" class="col-12">
         <div class="contenedor" id="container" class="col-12">  
-            <table id="incidencias" class="display mdl-data-table" data-stripe-classes="[]" width="100%">
+            <div id="filtro"> </div>
+            <table id="contabilidad" class="display mdl-data-table" data-stripe-classes="[]" width="100%">
                 <thead>
                     <tr>
                         <th>Departamento</th>
@@ -55,8 +56,9 @@
 
 
     <script type="text/javascript"
-    src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript"
-    src="https://cdn.datatables.net/1.10.16/js/dataTables.material.min.js"></script>
+    src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
     <script src="../../bootstrap-notify-master/bootstrap-notify-master/bootstrap-notify.min.js"></script>
+     <script src="js/contabilidad/contabilidad.js"></script>
 {% endblock %}  

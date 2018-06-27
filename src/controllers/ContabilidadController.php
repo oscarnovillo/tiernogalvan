@@ -31,13 +31,14 @@ class ContabilidadController {
             $id_rol =-1;
         $parameters = array();
         $page = ConstantesPaginas::CONTABILIDAD;
-        if ($id_rol == Constantes::ID_ROL_ADMIN){
+        if ($id_rol == Constantes::ID_ROL_ADMIN || $id_rol == Constantes::ID_ROL_PROFESOR){
             
             $contabilidadServicios = new ContabilidadServicios();
             
             
-            
-            
+            $rango = $id_rol == Constantes::ID_ROL_ADMIN ? "ADMIN" : "USER";
+
+            $parameters["permiso"] = $rango;
             $parameters['movimientos'] = $contabilidadServicios->getAllMovimientos();
             
         }

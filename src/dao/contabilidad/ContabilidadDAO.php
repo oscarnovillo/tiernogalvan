@@ -25,7 +25,7 @@ class ContabilidadDAO {
         try{
             $movimientos = (object)[];
             $db = $dbConnection->getConnection();
-            $sql = "SELECT mo_id id,mo_fecha fecha, mo_concep concepto,mo_import importe,mo_nummov numero_movimiento,d.de_descri_es departamento FROM movimientos INNER JOIN departamentos_contabilidad d ON movimientos.mo_coddep = d.de_codigo";
+            $sql = "SELECT mo_id id,mo_fecha fecha, mo_concep concepto,mo_import importe,mo_nummov numero_movimiento,d.de_descri_es departamento FROM movimientos INNER JOIN departamentos_contabilidad d ON movimientos.mo_coddep = d.de_codigo order by mo_fecha";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $movimientos = $stmt->fetchAll(PDO::FETCH_OBJ);  
