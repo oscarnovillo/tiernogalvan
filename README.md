@@ -8,3 +8,5 @@ Dani estuvo aquí<br>
 La magia de Miguel<br>
 Andrei jodió por aqui<br>
 Erasto os saluda<br>
+
+y las cosas a medias que? quien las hace?
