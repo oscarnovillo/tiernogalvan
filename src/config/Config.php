@@ -35,7 +35,7 @@ class Config
 */
     const DB_SERVER_NAME = "localhost";
     const DB_USER_NAME = "root";
-    const DB_PASSWORD = "";
+    const DB_PASSWORD = "root";
     const DB_DATABASE = "daw2_pruebas";
     const DB_PORT = 3306;
     

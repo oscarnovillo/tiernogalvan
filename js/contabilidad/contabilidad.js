@@ -5,7 +5,11 @@
  */
 
 var maintenanceTable;
+
 $(document).ready(function () {
+
+
+
     maintenanceTable = $('#contabilidad').DataTable({
         
         "language": {
